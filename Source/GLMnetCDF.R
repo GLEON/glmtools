@@ -26,6 +26,34 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 			ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
 			wtrOut[tme,1:length(ap$y)]	<- ap$y}
 	}
-	GLM	<- list(Time=dates,Elevation=elevOut,Temperature=wtrOut)
+	GLM	<- list("Time"=dates,"Elevation"=elevOut,"Temperature"=wtrOut)
 	return(GLM)
+}
+
+getTxtUntil <- function(readText,openStr,closeStr){
+  # get text between FIRST startStr and the FIRST occurance of endStr
+  openI <- head(grep(openStr,readText),n=1)
+  closeBlck <-  grep(closeStr,readText)
+  closeI  <-  head(closeBlck[closeBlck > openI], n=1)
+  return(readText[(openI+1):(closeI-1)])
+}
+
+getTimeInfo <- function(fileName){
+  # returns start time and dt as a date from the *.nml file
+  blockOpen   <-  '&time' 
+  blockClose  <-  '/' 
+  # find and read the time block
+  c <- file(fileName,"r") 
+  fileLines <- readLines(c)
+  close(c)
+  openI <- grep(blockOpen,fileLines)
+  closeBlck <-  grep(blockClose, fileLines)
+  closeI  <-  head(closeBlck[closeBlck > openI], n=1)
+  timeTxt <-  paste(fileLines[(openI+1):(closeI-1)],collapse = "")
+  timeTxt <-  gsub(" ","",timeTxt)
+  startI  <-  greb(timeTxt,'start=')
+  dtI <-  greb(timeTxt,'dt=')
+  return(timeTxt)
+  
+  
 }

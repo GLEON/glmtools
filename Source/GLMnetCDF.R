@@ -3,7 +3,7 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 	require("ncdf")
 	GLM.nc	<- 	open.ncdf(fileName)
 	elev	<- 	get.var.ncdf(GLM.nc, "z" )
-	dates	<- 	get.var.ncdf(GLM.nc, "time")
+	dateIdx	<- 	get.var.ncdf(GLM.nc, "time")
 	E		<- 	get.var.ncdf(GLM.nc, "evap")
 	wtr		<- 	get.var.ncdf(GLM.nc, "temp")
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
@@ -15,8 +15,8 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 	numStep <-	ncol(wtr)
   timeInfo <- getTimeInfo('../Data/glm.nml')  # should find dir from fileName if possible...
   time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
+  time <- time[dateIdx]
 	numDep	<-	length(elevOut)
-
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
 
 	for (tme in 1:numStep){
@@ -28,7 +28,15 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 			ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
 			wtrOut[tme,1:length(ap$y)]	<- ap$y}
 	}
-	GLM	<- list("Time"=dates,"Elevation"=elevOut,"Temperature"=wtrOut)
+  GLM <- data.frame(time)
+  GLM <- cbind(GLM,wtrOut)
+	frameNms<-letters[seq( from = 1, to = numDep )]
+  frameNms[1] <- "DateTime"
+
+  for (z in 1:numDep){
+    frameNms[z+1]  <- paste(c("wtr_",as.character(elevOut[z])),collapse="")
+  }
+	names(GLM)<- frameNms
 	return(GLM)
 }
 
@@ -58,4 +66,10 @@ getTimeInfo <- function(fileName){
   timeInfo  <-  cbind(timeInfo,"startDate"=as.Date(getTextUntil(timeText,"start='","'")))
   timeInfo  <-  cbind(timeInfo,"stopDate"=as.Date(getTextUntil(timeText,"stop='","'")))
   return(timeInfo)
+}
+
+writeGLM  <- function(GLM,folder=""){
+  # writes GLM file to directory
+  fileOut <- paste(c(folder,"GLMout.txt"),collapse="")
+  write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }

@@ -16,7 +16,7 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
   timeInfo <- getTimeInfo('../Data/glm.nml')  # should find dir from fileName if possible...
   time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
   time <- time[dateIdx]
-	numDep	<-	length(elevOut)
+  numDep	<-  length(elevOut)
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
 
 	for (tme in 1:numStep){
@@ -61,7 +61,7 @@ getTimeInfo <- function(fileName){
   close(c)
   timeText <-  paste(getTextUntil(fileLines,blockOpen,blockClose),collapse='')
   timeText <-  gsub(" ","",timeText)
-  dt<-  as.numeric(getTextUntil(timeText,'dt='))/daySecs
+  dt  <-  as.numeric(getTextUntil(timeText,'dt='))/daySecs
   timeInfo  <-  data.frame("dt"=dt)
   timeInfo  <-  cbind(timeInfo,"startDate"=as.Date(getTextUntil(timeText,"start='","'")))
   timeInfo  <-  cbind(timeInfo,"stopDate"=as.Date(getTextUntil(timeText,"stop='","'")))
@@ -72,4 +72,38 @@ writeGLM  <- function(GLM,folder=""){
   # writes GLM file to directory
   fileOut <- paste(c(folder,"GLMout.txt"),collapse="")
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}
+
+getElevGLM <- function(GLM){
+  colNames <- names(GLM)
+  elevs <- gsub("wtr_","",colNames[2:length(colNames)])
+  return(as.numeric(elevs))
+}
+  
+plotGLM  <- function(GLM,folder="",lakeName="Lake",cLim=c(0,30)){
+  # saves GLM plot to directory
+  
+  figName<- "glmPlot"
+  elevs <-  getElevGLM(GLM)
+  lvls  <-  seq(cLim[1],cLim[2])
+  figW  <-  8
+  figH  <-  3.5
+  lM    <-  .95
+  bM    <-  .55
+  rM    <-  .15
+  tM    <-  0.25
+  fRes  <-  200
+  fontN <-  11
+  xL    <-  c(as.numeric(min(GLM$DateTime)),as.numeric(max(GLM$DateTime)))
+  yL    <-  c(min(elevs,na.rm=TRUE),max(elevs,na.rm=TRUE))
+  cMap  <-  rev(rainbow(length(lvls),s=1,v=1,start=0,end=4/6))
+  
+  output = paste(folder,lakeName,figName,".png", sep = "")
+  png(output, width=figW, height=figH, units="in",res=fRes)
+  par(mai=c(bM,lM,rM,tM),usr=c(xL[1],xL[2],yL[1],yL[2]))
+  wtr <- GLM[,2:(length(elevs)+1)]
+  filled.contour(x=GLM$DateTime,y=elevs,z=wtr,col = cMap,
+    levels=lvls,xaxs = "i",plot.title = title(ylab = "Elevation from bottom (m)"),
+    xlim=xL, ylim=yL, xaxp = c(xL[1],xL[2],50))
+  dev.off()
 }

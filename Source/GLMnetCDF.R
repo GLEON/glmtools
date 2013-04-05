@@ -13,6 +13,8 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
 	numStep <-	ncol(wtr)
+  timeInfo <- getTimeInfo('../Data/glm.nml')  # should find dir from fileName if possible...
+  time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
 	numDep	<-	length(elevOut)
 
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
@@ -30,30 +32,30 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 	return(GLM)
 }
 
-getTxtUntil <- function(readText,openStr,closeStr){
+getTextUntil <- function(readText,openStr,closeStr=FALSE){
   # get text between FIRST startStr and the FIRST occurance of endStr
-  openI <- head(grep(openStr,readText),n=1)
-  closeBlck <-  grep(closeStr,readText)
-  closeI  <-  head(closeBlck[closeBlck > openI], n=1)
-  return(readText[(openI+1):(closeI-1)])
+  openI <- head(unlist(gregexpr(openStr,readText)),n=1)+nchar(openStr)
+  if(closeStr!=FALSE) {
+    closeBlck <-  unlist(gregexpr(closeStr,readText))
+    closeI  <-  head(closeBlck[closeBlck > openI], n=1)-nchar(closeStr)}
+  else {closeI <- nchar(readText)+1}
+  return(substring(readText,openI,closeI))
 }
 
 getTimeInfo <- function(fileName){
+  daySecs <- 86400
   # returns start time and dt as a date from the *.nml file
   blockOpen   <-  '&time' 
   blockClose  <-  '/' 
   # find and read the time block
   c <- file(fileName,"r") 
-  fileLines <- readLines(c)
+  fileLines <- paste(readLines(c),collapse='')
   close(c)
-  openI <- grep(blockOpen,fileLines)
-  closeBlck <-  grep(blockClose, fileLines)
-  closeI  <-  head(closeBlck[closeBlck > openI], n=1)
-  timeTxt <-  paste(fileLines[(openI+1):(closeI-1)],collapse = "")
-  timeTxt <-  gsub(" ","",timeTxt)
-  startI  <-  greb(timeTxt,'start=')
-  dtI <-  greb(timeTxt,'dt=')
-  return(timeTxt)
-  
-  
+  timeText <-  paste(getTextUntil(fileLines,blockOpen,blockClose),collapse='')
+  timeText <-  gsub(" ","",timeText)
+  dt<-  as.numeric(getTextUntil(timeText,'dt='))/daySecs
+  timeInfo  <-  data.frame("dt"=dt)
+  timeInfo  <-  cbind(timeInfo,"startDate"=as.Date(getTextUntil(timeText,"start='","'")))
+  timeInfo  <-  cbind(timeInfo,"stopDate"=as.Date(getTextUntil(timeText,"stop='","'")))
+  return(timeInfo)
 }

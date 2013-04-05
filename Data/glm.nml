@@ -1,0 +1,215 @@
+!-------------------------------------------------------------------------------
+! general model setup
+!-------------------------------------------------------------------------------
+!
+! sim_name  [string]
+!               title of simulation
+! nlev      [integer, minimum = 1, maximum = 1000]
+!               Number of depth levels used to describe the water column
+!
+! wq_sw     WQ modelling sw (.FALSE.=off,.TRUE.=on)
+! Kw        background light attenuation (m**-1)
+!
+!-------------------------------------------------------------------------------
+&glm_setup
+   sim_name = 'Simulation name'
+   max_layers = 1000
+   min_layer_vol = 0.5
+   min_layer_thick = 0.25
+   max_layer_thick = 1
+   Kw = 0.32
+   coef_inf_entrain = 0
+   coef_mix_kinetic = 0.125
+   coef_mix_eta = 1.23
+   coef_mix_ct = 0.21
+   coef_mix_cs = 0.5
+   coef_mix_kh = 0.5
+/
+
+!-------------------------------------------------------------------------------
+! lake details
+!-------------------------------------------------------------------------------
+!
+! name      [string]
+!             name of the station
+! latitude  [float, minimum = -90, maximum = 90, unit = deg North]
+!             latitude
+! longitude [float, minimum = -360, maximum = 360, unit = deg East]
+!             longitude
+! base_elev base elevation (m)
+! crest_elev          crest elevation (m)
+!  bsn_len        basin length at crest (m)
+!  bsn_wid         basin width at crest (m)
+! H elevations
+! A Area (m2 * 1000)
+! V Volume V(m3 * 1000)
+!
+!-------------------------------------------------------------------------------
+&morphometry
+   lake_name  = 'Sparkling'
+   latitude   = 46
+   longitude  = -89
+   base_elev  = 480
+   crest_elev = 505
+   bsn_len    = 64000
+   bsn_wid    = 32000
+   bsn_vals   = 26
+   !   H(m)  A(m2 * 1000) V(m3 * 1000)
+   H = 480.00000,481.00000,482.00000,483.00000,484.00000,485.00000,486.00000,487.00000,488.00000,489.00000,490.00000,491.00000,492.00000,493.00000,494.00000,495.00000,496.00000,497.00000,498.00000,499.00000,500.00000,501.00000,502.00000,503.00000,504.00000,505.00000,
+   A = 2.00000,27.52000,53.04000,78.56000,104.08000,129.60000,155.12000,180.64000,206.16000,231.68000,257.20000,282.72000,308.24000,333.76000,359.28000,384.80000,410.32000,435.84000,461.36000,486.88000,512.40000,537.92000,563.44000,588.96000,614.48000,640.00000,
+/
+
+!-------------------------------------------------------------------------------
+! duration of run
+!-------------------------------------------------------------------------------
+!
+! timefmt [integer]
+!           method to specify start and duration of model run
+!           1: duration computed from number of time steps, MaxN (bogus start
+!             date used) [no longer implemented!!]
+!           2: duration computed from given start and stop dates (number of time
+!             steps MaxN computed)
+!           3: duration computed from number of time steps, MaxN (start date as
+!             specified, stop date computed)
+! start   [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal start date
+!           This variable is used only if timefmt != 1
+! stop    [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal stop date
+!           This variable is used only if timefmt = 2
+! dt        [float, minimum = 0.001, maximum = 86400, unit = s]
+!               Time step for integration
+! numb_days [number of days to run the simulation ]
+!           This variable is used only if timefmt != 2
+! #MaxN    [integer]
+!           nominal number of time steps
+!           maxN is now obsolete - it is calculated from num_days*(86400 / dt)
+!
+!-------------------------------------------------------------------------------
+&time
+   timefmt = 2
+   start = '1980-01-30 00:00:00'
+   stop  = '2012-06-30 00:00:00'
+   dt = 3600
+
+/
+
+!-------------------------------------------------------------------------------
+! format for output and filename(s)
+!-------------------------------------------------------------------------------
+!
+! out_dir     [string]
+!               path to output directory (set permissions)
+! out_fn      [string]
+!               output string used to generate output file names
+! out_lkn     [logical]  Output Lake Number to a file
+! nsave       [integer, minimum = 1, maximum = 86400]
+!               save results every 'nsave' timesteps
+! csv_at      [real]
+!               height at which to dump a csv file
+! csv_name    [string]
+!               name of csv output file
+! csv_nvars   [integer]
+!               number of variables to output
+! csv_vars    [strings]
+!               list of names of variables to output,order IS important
+!
+!-------------------------------------------------------------------------------
+&output
+   out_dir = '.'
+   out_fn = 'output'
+   out_lkn = .false.
+   nsave = 24
+
+   csv_point_nlevs = 2
+   csv_point_fname = 'tempZ_'
+   csv_point_at = 2., 1.
+   csv_point_nvars = 1
+   csv_point_vars = 'temp'
+
+
+   csv_lake_fname = 'lake'
+/
+
+!-------------------------------------------------------------------------------
+! initial condition profiles
+!-------------------------------------------------------------------------------
+&init_profiles
+    num_depths = 3
+    the_depths = 1.00000,16.00000,20.00000,
+    the_temps  = 3.00000,4.00000,4.00000,
+    the_sals   = 0.00000,0.00000,0.00000,
+/
+
+!-------------------------------------------------------------------------------
+! meteorology
+!-------------------------------------------------------------------------------
+!
+!   met_sw         Include surface meteorological forcing
+!   lw_type        Type LW measurement (LW_IN/LW_CC/LW_NET)
+!   rain_sw        Rainfall composition
+!   snow_sw        Snowfall
+!   atm_stab       Account for non-neutral atmospheric stability
+!   meteo_fl       Name of meteorology input file
+!
+!-------------------------------------------------------------------------------
+&meteorology
+   met_sw     = .true.
+   lw_type    = 'LW_IN'
+   rain_sw    = .true.
+   snow_sw    = .true.
+   atm_stab   = .true.
+   subdaily   = .true.
+   meteo_fl   = 'Sparkling_hourly.csv'
+   wind_factor = 0.65
+   ce         = 0.0009
+   ch         = 0.0018
+/
+
+!-------------------------------------------------------------------------------
+! inflows 
+!-------------------------------------------------------------------------------
+!
+!  num_inflows       number of inflowing streams
+!  names_of_strms    names of streams
+!  strm_hf_angle     stream half angle (degrees)
+!  strmbd_slope      streambed slope (degrees)
+!  strmbd_drag       streambed drag coefficient
+!  inflow_fl         inflow data filename
+!
+!-------------------------------------------------------------------------------
+&inflow
+   num_inflows    = 1
+   names_of_strms = 'GroundWater'
+   strm_hf_angle  = 65.0
+   strmbd_slope   = 0.11
+   strmbd_drag    = 0.00160
+   inflow_factor = 0.022
+   inflow_fl      = 'Sparkling_inflow.csv'
+   inflow_varnum  = 2
+   inflow_vars    = 'FLOW',
+                    'TEMP'
+/
+
+!-------------------------------------------------------------------------------
+! outflows
+!-------------------------------------------------------------------------------
+!
+!  num_outlet    no. of outlets
+!  flt_off_sw    floating offtake switches
+!  outl_elvs     outlet elevations
+!  bsn_len_outl  basin length at outlets (m)
+!  bsn_wid_outl  basin width at outlets (m)
+!  outflow_fl    outflow data file
+!
+!-------------------------------------------------------------------------------
+&outflow
+   num_outlet   = 0
+   flt_off_sw   = .false.
+   outl_elvs    = 1
+   bsn_len_outl = 799
+   bsn_wid_outl = 399
+   outflow_fl   = 'Sparkling_outflow.csv'
+   outflow_factor = 1.0
+/
+

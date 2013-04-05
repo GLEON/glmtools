@@ -1,10 +1,10 @@
 
-resampleGLM	<-	function(fileName,lyrDz=0.25){
+resampleGLM	<-	function(fileName='output.nc',folder='../Data/',lyrDz=0.25){
 	require("ncdf")
-	GLM.nc	<- 	open.ncdf(fileName)
+  filePath<-  paste(c(folder,fileName),collapse="")
+	GLM.nc	<- 	open.ncdf(filePath)
 	elev	<- 	get.var.ncdf(GLM.nc, "z" )
 	dateIdx	<- 	get.var.ncdf(GLM.nc, "time")
-	E		<- 	get.var.ncdf(GLM.nc, "evap")
 	wtr		<- 	get.var.ncdf(GLM.nc, "temp")
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
 	elev[rmvI]	<- NA
@@ -13,7 +13,7 @@ resampleGLM	<-	function(fileName,lyrDz=0.25){
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
 	numStep <-	ncol(wtr)
-  timeInfo <- getTimeInfo('../Data/glm.nml')  # should find dir from fileName if possible...
+  timeInfo <- getTimeInfo(paste(c(folder,'glm.nml'),collapse=""))  # should find dir from fileName if possible...
   time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
   time <- time[dateIdx]
   numDep	<-  length(elevOut)
@@ -50,13 +50,13 @@ getTextUntil <- function(readText,openStr,closeStr=FALSE){
   return(substring(readText,openI,closeI))
 }
 
-getTimeInfo <- function(fileName){
+getTimeInfo <- function(nmlFileName){
   daySecs <- 86400
   # returns start time and dt as a date from the *.nml file
   blockOpen   <-  '&time' 
   blockClose  <-  '/' 
   # find and read the time block
-  c <- file(fileName,"r") 
+  c <- file(nmlFileName,"r") 
   fileLines <- paste(readLines(c),collapse='')
   close(c)
   timeText <-  paste(getTextUntil(fileLines,blockOpen,blockClose),collapse='')
@@ -68,9 +68,9 @@ getTimeInfo <- function(fileName){
   return(timeInfo)
 }
 
-writeGLM  <- function(GLM,folder=""){
+writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
   # writes GLM file to directory
-  fileOut <- paste(c(folder,"GLMout.txt"),collapse="")
+  fileOut <- paste(c(folder,fileName),collapse="")
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
@@ -80,10 +80,9 @@ getElevGLM <- function(GLM){
   return(as.numeric(elevs))
 }
   
-plotGLM  <- function(GLM,folder="",lakeName="Lake",cLim=c(0,30)){
+plotGLM  <- function(GLM,figName="glmPlot",folder="",cLim=c(0,30)){
   # saves GLM plot to directory
   
-  figName<- "glmPlot"
   elevs <-  getElevGLM(GLM)
   lvls  <-  seq(cLim[1],cLim[2])
   figW  <-  8
@@ -98,10 +97,11 @@ plotGLM  <- function(GLM,folder="",lakeName="Lake",cLim=c(0,30)){
   yL    <-  c(min(elevs,na.rm=TRUE),max(elevs,na.rm=TRUE))
   cMap  <-  rev(rainbow(length(lvls),s=1,v=1,start=0,end=4/6))
   
-  output = paste(folder,lakeName,figName,".png", sep = "")
+  vals <- data.matrix(GLM)
+  output = paste(folder,figName,".png", sep = "")
   png(output, width=figW, height=figH, units="in",res=fRes)
   par(mai=c(bM,lM,rM,tM),usr=c(xL[1],xL[2],yL[1],yL[2]))
-  wtr <- GLM[,2:(length(elevs)+1)]
+  wtr <- vals[,2:(length(elevs)+1)]
   filled.contour(x=GLM$DateTime,y=elevs,z=wtr,col = cMap,
     levels=lvls,xaxs = "i",plot.title = title(ylab = "Elevation from bottom (m)"),
     xlim=xL, ylim=yL, xaxp = c(xL[1],xL[2],50))

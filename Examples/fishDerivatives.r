@@ -26,7 +26,7 @@ getGLMice  <-  function(GLMnc){
 
 subsetTime <- function(GLM,startDate,stopDate){
   # gets rid of GLM simulation results that are < startDate and > stopDate
-  # startDate and stopDate must be of type "Date"
+  # startDate and stopDate must be of type "character"
   dates <-  GLM[timeID]
   useI  <-  (dates >= startDate) & (dates <= stopDate)
   GLM <-  GLM[useI,]

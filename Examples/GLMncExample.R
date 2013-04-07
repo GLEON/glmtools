@@ -6,13 +6,13 @@ lyrDz <-  0.25  # grid vertical thickness for resampling
 GLMfolder <-  '../Data/'
 GLMfile <-  'output.nc'
 GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
-GLM <-  resampleGLM(fileName=GLMfile,folder=GLMfolder,lyrDz=lyrDz)
+GLMwtr <-  resampleGLM(GLMnc,lyrDz=lyrDz)
 
 # 2) write data to a text file
 outFile <- 'GLMout.txt'
 outFolder <-  '../Examples/'
-writeGLM(GLM,fileName=outFile,folder=outFolder)
+writeGLM(GLMwtr,fileName=outFile,folder=outFolder)
 
 # 3) plot a heatmap and save
 figureName <- 'exampleFig'
-plotGLM(GLM,figName=figureName,folder=outFolder)
+plotGLM(GLMwtr,figName=figureName,folder=outFolder)

@@ -13,6 +13,7 @@ getGLMnc  <-  function(folder=folder){
 
 
 getGLMwtr  <-  function(GLMnc){
+  source('../Source/GLMnetCDF.R')
   GLMwtr <-	resampleGLM(GLMnc)
   return(GLMwtr)
 }

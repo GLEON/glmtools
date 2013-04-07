@@ -17,7 +17,7 @@ getGLMwtr  <-  function(GLMnc){
   return(GLMwtr)
 }
 
-getGLMice  <-  function(GLMnc,folder=folder){
+getGLMice  <-  function(GLMnc){
   source('../Source/GLMnetCDF.R')
   GLMice <-  data.frame("DateTime"=getTimeGLMnc(GLMnc,folder=folder),"Ice"=getIceGLMnc(GLMnc))
   return(GLMice)
@@ -160,12 +160,11 @@ getFirstDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
 
 getStratifiedDuration <-  function(GLMwtr,GLMice,minStrat){
   # advised that the input is shortened to the ice-free period,
-  startDate <- getIceOffDate(GLMice,GLMwtr)
-  stopDate <- getIceOnDate(GLMice,GLMwtr)
+  startDate <- as.character(getIceOffDate(GLMice,GLMwtr))
+  stopDate <- as.character(getIceOnDate(GLMice,GLMwtr))
   GLMwtr <- subsetTime(GLMwtr,startDate,stopDate)
   tempMxMn <- cbind(getDailyTempMax(GLMwtr),getDailyTempMin(GLMwtr)) 
-  
-  #sum(apply(temp,1,function(x) all(x>=temperatureLow,na.rm=TRUE)))
+  stratDur  <-  sum(tempMxMn[,1]-tempMxMn[,2]>=minStrat)
   return(stratDur)
 }
 

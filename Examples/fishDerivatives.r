@@ -1,4 +1,5 @@
 # fish code for WiLMA 
+# **jread-usgs 2013-04-07
 
 # -- shared variables --
 timeID  <-  "DateTime"

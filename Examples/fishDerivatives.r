@@ -1,13 +1,26 @@
-# fish code for Gretchen 
-
+# fish code for WiLMA 
 
 # -- shared variables --
 timeID  <-  "DateTime"
+iceID <-  "Ice"
+folder  <-  "../Data/"
 
-getGLM  <-  function(folder){
+getGLMnc  <-  function(folder=folder){
   source('../Source/GLMnetCDF.R')
-  GLM  <-	resampleGLM(fileName='output.nc',folder=folder)
-  return(GLM)
+  GLMnc <- getGLMnc(fileName='output.nc',folder=folder)
+  return(GLMnc)
+}
+
+
+getGLMwtr  <-  function(GLMnc){
+  GLMwtr <-	resampleGLM(GLMnc)
+  return(GLMwtr)
+}
+
+getGLMice  <-  function(GLMnc,folder=folder){
+  source('../Source/GLMnetCDF.R')
+  GLMice <-  data.frame("DateTime"=getTimeGLMnc(GLMnc,folder=folder),"Ice"=getIceGLMnc(GLMnc))
+  return(GLMice)
 }
 
 subsetTime <- function(GLM,startDate,stopDate){
@@ -19,57 +32,58 @@ subsetTime <- function(GLM,startDate,stopDate){
   return(GLM)
 }
 
-getTemp   <- function(GLM){
+getTemp   <- function(GLMwtr){
   drops <- c(timeID)
-  temp <- GLM[,!(names(GLM) %in% drops)]
+  temp <- GLMwtr[,!(names(GLMwtr) %in% drops)]
   return(temp)
 }
 
-getDailyTempMax <- function(GLM){
-  temp <- getTemp(GLM)
+getDailyTempMax <- function(GLMwtr){
+  temp <- getTemp(GLMwtr)
   dailyTempMax <-  apply(temp,1,function(x) max(x,na.rm=TRUE))
   return(dailyTempMax)
 }
 
-getDailyTempMin <- function(GLM){
-  temp <- getTemp(GLM)
+getDailyTempMin <- function(GLMwtr){
+  temp <- getTemp(GLMwtr)
   dailyTempMin <-  apply(temp,1,function(x) min(x,na.rm=TRUE))
   return(dailyTempMin)
 }
 
-getTempMax <- function(GLM){
-  dailyTempMax <-  getDailyTempMax(GLM)
+getTempMax <- function(GLMwtr){
+  dailyTempMax <-  getDailyTempMax(GLMwtr)
   tempMax <-  max(dailyTempMax)
   return(tempMax)
 }
 
-getTempMin <- function(GLM){
-  dailyTempMin <-  getDailyTempMin(GLM)
+getTempMin <- function(GLMwtr){
+  dailyTempMin <-  getDailyTempMin(GLMwtr)
   tempMin <-  min(dailyTempMin)
   return(tempMin)
 }
 
-getDaysAboveT <- function(GLM,temperature,anyDep=TRUE){
+getDaysAboveT <- function(GLMwtr,temperature,anyDep=TRUE){
   # ANY or ALL depths, default is ANY
-  if (anyDep==TRUE){refTemp  <-  getDailyTempMax(GLM)}
-  else {refTemp <-  getDailyTempMin(GLM)}
+  if (anyDep==TRUE){refTemp  <-  getDailyTempMax(GLMwtr)}
+  else {refTemp <-  getDailyTempMin(GLMwtr)}
 
   tempAboveCount  <-  sum(refTemp > temperature,na.rm=TRUE)
   return(tempAboveCount)
 }
 
-getDaysBelowT <- function(GLM,temperature,anyDep=TRUE){
+getDaysBelowT <- function(GLMwtr,temperature,anyDep=TRUE){
   # ANY or ALL depths, default is ANY
-  if (anyDep==TRUE){refTemp  <-  getDailyTempMin(GLM)}
+  temp <- getTemp(GLMwtr)
+  if (anyDep==TRUE){refTemp  <-  getDailyTempMin(GLMwtr)}
   else {refTemp <-  getDailyTempMax(GLM)}
   
   tempBelowCount  <-  sum(refTemp < temperature,na.rm=TRUE)
   return(tempBelowCount)
 }
 
-getDaysBetweenT <-  function(GLM,temperatureLow,temperatureHigh,anyDep=TRUE){
+getDaysBetweenT <-  function(GLMwtr,temperatureLow,temperatureHigh,anyDep=TRUE){
   # ANY or ALL depths, default is ANY
-  temp <- getTemp(GLM)
+  temp <- getTemp(GLMwtr)
   if (anyDep==TRUE){
     tempRangeCount  <-  sum(apply(temp,1,function(x) any(x>=temperatureLow) & any(x<=temperatureHigh)))
   }
@@ -80,21 +94,38 @@ getDaysBetweenT <-  function(GLM,temperatureLow,temperatureHigh,anyDep=TRUE){
   return(tempRangeCount)
 }
 
-getSurfaceT <- function(GLM){
+getMaxTempIdx <-  function(GLMwtr){
+  dailyTempMax  <-  getDailyTempMax(GLMwtr)
+  maxTempIdx  <-  which.max(dailyTempMax)
+  return(maxTempIdx)
+}
+getSurfaceT <- function(GLMwtr){
+  temp <- getTemp(GLMwtr)
   surfaceTemp <- apply(temp,1,function(x) x[max(which(!is.na(x)))])
   return(surfaceTemp)
 }
 
-getBottomT <- function(GLM){
+getBottomT <- function(GLMwtr){
+  temp <- getTemp(GLMwtr)
   bottomTemp <- apply(temp,1,function(x) x[min(which(!is.na(x)))])
   return(bottomTemp)
 }
 
-getIceOffDate <- function(GLM){
+getIceOffDate <- function(GLMice,GLMwtr){
+  if(nrow(GLMice[iceID])>366) {stop("GLM ice time series must be equal or shorter than one year")}
+  maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr))
+    # now, look backwards
+  iceOffIdx <-  max(which(GLMice[iceID][1:maxTempIdx,]!=0))+1
+  iceOffDOY <-  GLMice[timeID][iceOffIdx,]
   return(iceOffDOY)
 }
 
 getIceOnDate  <-  function(GLM){
+  if(nrow(GLMice[iceID])>366) {stop("GLM ice time series must be equal or shorter than one year")}
+  maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr))
+    # now, look forwards
+  iceOnIdx <-  min(which(GLMice[iceID][maxTempIdx:nrow(GLMice[iceID]),]!=0))+(maxTempIdx-1)
+  iceOnDOY <-  GLMice[timeID][iceOnIdx,]
   return(iceOnDOY)
 }
 

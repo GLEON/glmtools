@@ -5,6 +5,7 @@ source('../Source/GLMnetCDF.R')
 lyrDz <-  0.25  # grid vertical thickness for resampling
 GLMfolder <-  '../Data/'
 GLMfile <-  'output.nc'
+GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
 GLM <-  resampleGLM(fileName=GLMfile,folder=GLMfolder,lyrDz=lyrDz)
 
 # 2) write data to a text file

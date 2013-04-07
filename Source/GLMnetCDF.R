@@ -1,18 +1,35 @@
 
-resampleGLM	<-	function(fileName='output.nc',folder='../Data/',lyrDz=0.25){
-	require("ncdf")
+getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
+  require("ncdf")
   filePath<-  paste(c(folder,fileName),collapse="")
-	GLM.nc	<- 	open.ncdf(filePath)
-	elev	<- 	get.var.ncdf(GLM.nc, "z" )
-	dateIdx	<- 	get.var.ncdf(GLM.nc, "time")
-	wtr		<- 	get.var.ncdf(GLM.nc, "temp")
+  GLMnc	<- 	open.ncdf(filePath)
+  return(GLMnc)
+}
+
+getTimeGLMnc  <-  function(GLMnc,folder='../Data/'){
+  dateIdx  <-   get.var.ncdf(GLMnc, "time")
+  timeInfo <- getTimeInfo(paste(c(folder,'glm.nml'),collapse=""))  # should find dir from fileName if possible...
+  time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
+  return(time[dateIdx])
+}
+
+getIceGLMnc <-  function(GLMnc,folder='../Data/'){
+  ice  	<- 	get.var.ncdf(GLMnc, "hice")+get.var.ncdf(GLMnc, "hwice")+get.var.ncdf(GLMnc, "hsnow")
+  return(ice)
+}
+
+resampleGLM	<-	function(GLMnc,folder='../Data/',lyrDz=0.25){
+	
+	elev	<- 	get.var.ncdf(GLMnc, "z" )
+	dateIdx	<- 	get.var.ncdf(GLMnc, "time")
+	wtr		<- 	get.var.ncdf(GLMnc, "temp")
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
 	elev[rmvI]	<- NA
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
-	numStep <-	ncol(wtr)
+	numStep <-	length(dateIdx)
   timeInfo <- getTimeInfo(paste(c(folder,'glm.nml'),collapse=""))  # should find dir from fileName if possible...
   time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
   time <- time[dateIdx]

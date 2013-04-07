@@ -120,27 +120,52 @@ getIceOffDate <- function(GLMice,GLMwtr){
   return(iceOffDOY)
 }
 
-getIceOnDate  <-  function(GLM){
+getIceOnDate  <-  function(GLMice,GLMwtr){
   if(nrow(GLMice[iceID])>366) {stop("GLM ice time series must be equal or shorter than one year")}
+  else{
   maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr))
     # now, look forwards
   iceOnIdx <-  min(which(GLMice[iceID][maxTempIdx:nrow(GLMice[iceID]),]!=0))+(maxTempIdx-1)
   iceOnDOY <-  GLMice[timeID][iceOnIdx,]
+  }
   return(iceOnDOY)
 }
 
-getLastDayAboveT <-  function(GLM,temperature,anyDep=TRUE){
+getLastDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
+  if (anyDep==TRUE){
+    tempRef <-  getDailyTempMax(GLMwtr)
+    lastIdx <-  max(which(tempRef>temperature))
+  }
+  else{
+    tempRef <-  getDailyTempMin(GLMwtr)
+    lastIdx <-  max(which(tempRef>temperature))
+  }
+  lastDOYabove  <-  GLMwtr[timeID][lastIdx,]
   return(lastDOYabove)
 }
 
-getFirstDayAboveT <-  function(GLM){
+getFirstDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
+  if (anyDep==TRUE){
+    tempRef <-  getDailyTempMax(GLMwtr)
+    lastIdx <-  min(which(tempRef>temperature))
+  }
+  else{
+    tempRef <-  getDailyTempMin(GLMwtr)
+    lastIdx <-  min(which(tempRef>temperature))
+  }
+  firstDOYabove  <-  GLMwtr[timeID][lastIdx,]
   return(firstDOYabove)
 }
 
-getStratifiedDuration <-  function(GLM){
+
+getStratifiedDuration <-  function(GLMwtr,GLMice,minStrat){
+  # advised that the input is shortened to the ice-free period,
+  startDate <- getIceOffDate(GLMice,GLMwtr)
+  stopDate <- getIceOnDate(GLMice,GLMwtr)
+  GLMwtr <- subsetTime(GLMwtr,startDate,stopDate)
+  tempMxMn <- cbind(getDailyTempMax(GLMwtr),getDailyTempMin(GLMwtr)) 
+  
+  #sum(apply(temp,1,function(x) all(x>=temperatureLow,na.rm=TRUE)))
   return(stratDur)
 }
 
-isStratified <- function(GLM){
-  return(stratified)
-}

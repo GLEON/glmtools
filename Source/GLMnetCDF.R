@@ -6,22 +6,24 @@ getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
   return(GLMnc)
 }
 
-getTimeGLMnc  <-  function(GLMnc,folder='../Data/'){
-  dateIdx  <-   get.var.ncdf(GLMnc, "time")
-  timeInfo <- getTimeInfo(paste(c(folder,'glm.nml'),collapse=""))  # should find dir from fileName if possible...
-  time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
-  return(time[dateIdx])
+getTimeGLMnc  <-  function(GLMnc){
+  hoursSince  <-   get.var.ncdf(GLMnc, "time")
+  timeInfo <- getTimeInfo(GLMnc)
+  
+  time <- timeInfo$startDate + timeInfo$dt * hoursSince * 60*60*24
+    
+  return(time)
 }
 
-getIceGLMnc <-  function(GLMnc,folder='../Data/'){
+getIceGLMnc <-  function(GLMnc){
   ice  	<- 	get.var.ncdf(GLMnc, "hice")+get.var.ncdf(GLMnc, "hwice")+get.var.ncdf(GLMnc, "hsnow")
   return(ice)
 }
 
-resampleGLM	<-	function(GLMnc,folder='../Data/',lyrDz=0.25){
+resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	
 	elev	<- 	get.var.ncdf(GLMnc, "z" )
-	dateIdx	<- 	get.var.ncdf(GLMnc, "time")
+	
 	wtr		<- 	get.var.ncdf(GLMnc, "temp")
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
 	elev[rmvI]	<- NA
@@ -29,10 +31,10 @@ resampleGLM	<-	function(GLMnc,folder='../Data/',lyrDz=0.25){
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
-	numStep <-	length(dateIdx)
-  timeInfo <- getTimeInfo(paste(c(folder,'glm.nml'),collapse=""))  # should find dir from fileName if possible...
-  time <- seq(timeInfo$startDate,timeInfo$stopDate,timeInfo$dt)
-  time <- time[dateIdx]
+	
+  time <- getTimeGLMnc(GLMnc)
+  numStep = length(time)
+  
   numDep	<-  length(elevOut)
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
 
@@ -67,21 +69,35 @@ getTextUntil <- function(readText,openStr,closeStr=FALSE){
   return(substring(readText,openI,closeI))
 }
 
-getTimeInfo <- function(nmlFileName){
-  daySecs <- 86400
-  # returns start time and dt as a date from the *.nml file
-  blockOpen   <-  '&time' 
-  blockClose  <-  '/' 
-  # find and read the time block
-  c <- file(nmlFileName,"r") 
-  fileLines <- paste(readLines(c),collapse='')
-  close(c)
-  timeText <-  paste(getTextUntil(fileLines,blockOpen,blockClose),collapse='')
-  timeText <-  gsub(" ","",timeText)
-  dt  <-  as.numeric(getTextUntil(timeText,'dt='))/daySecs
+getTimeInfo <- function(GLMnc){
+  daySecs = 86400
+  
+  #The units attribute on the 
+  timeUnits <- att.get.ncdf(GLMnc,'time','units')$value
+  
+  tiCheck <- regexpr('(hours since) (.*)' ,timeUnits, perl=TRUE)
+  
+  #make sure the unit string is as expected. I think 
+  # the timestep is always in hours
+  if(attr(tiCheck,'capture.start')[1] < 0 || attr(tiCheck,'capture.start')[2] < 0){
+	  stop('Unexpected time unit in NetCDF file')
+  }
+  
+  # Get the epoch from the unit string
+  epoch <- substr(timeUnits, attr(tiCheck,'capture.start')[2], attr(tiCheck,'capture.start')[2] + attr(tiCheck,'capture.length')[2])
+  
+  #get the length of the time data, will use this later
+  tLen <- GLMnc$dim[["time"]][["len"]]
+  
+  # Assume dt is one hour (in fraction of day)
+  dt <- 3600/daySecs
   timeInfo  <-  data.frame("dt"=dt)
-  timeInfo  <-  cbind(timeInfo,"startDate"=as.Date(getTextUntil(timeText,"start='","'")))
-  timeInfo  <-  cbind(timeInfo,"stopDate"=as.Date(getTextUntil(timeText,"stop='","'")))
+  timeInfo  <-  cbind(timeInfo,"startDate"=as.POSIXct(epoch))
+  
+  #End date/time 
+  endT <- timeInfo$startDate + get.var.ncdf(GLMnc,'time',start=tLen, count=1) * dt * daySecs
+  
+  timeInfo  <-  cbind(timeInfo,"stopDate"=endT)
   return(timeInfo)
 }
 

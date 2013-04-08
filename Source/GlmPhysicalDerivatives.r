@@ -1,7 +1,7 @@
 # fish code for WiLMA 
 # **jread-usgs 2013-04-07
 
-source("GLMnetCDF.R")
+#source("GLMnetCDF.R")
 
 # -- shared variables --
 timeID  <-  "DateTime"
@@ -121,7 +121,7 @@ getBottomT <- function(GLMwtr){
 }
 
 getIceOffDate <- function(GLMice,GLMwtr){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr))
@@ -132,7 +132,7 @@ getIceOffDate <- function(GLMice,GLMwtr){
 }
 
 getIceOnDate  <-  function(GLMice,GLMwtr){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr))
@@ -144,7 +144,7 @@ getIceOnDate  <-  function(GLMice,GLMwtr){
 }
 
 getLastDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   if (anyDep==TRUE){
@@ -160,7 +160,7 @@ getLastDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
 }
 
 getFirstDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   if (anyDep==TRUE){
@@ -177,7 +177,7 @@ getFirstDayAboveT <-  function(GLMwtr,temperature,anyDep=TRUE){
 
 
 getStratifiedDuration <-  function(GLMwtr,GLMice,minStrat){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   # advised that the input is shortened to the ice-free period,
@@ -190,7 +190,7 @@ getStratifiedDuration <-  function(GLMwtr,GLMice,minStrat){
 }
 
 getStratifiedStartEnd <-  function(GLMwtr,GLMice,minStrat){
-  if(range(GLMwtr$DateTime) > as.difftime(366,units="days")){
+  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
     stop("GLM ice time series must be equal or shorter than one year")
   }
   # advised that the input is shortened to the ice-free period,

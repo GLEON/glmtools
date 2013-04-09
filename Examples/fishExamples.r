@@ -1,15 +1,19 @@
 # fish derivative examples; 
 # **jread-usgs 2013-04-07
-source('../Examples/fishDerivatives.r')
+source('../Source/GlmPhysicalDerivatives.r')
+library(ncdf)
 
 # set folder for output file (will be WBIC name, but different for examples)
 # choose year for analysis
 lakeFolder  <-  '../Data/'
 year  <-  '1982'
 
+#get GLMnc
+GlmNc <- open.ncdf("../Data/output.nc")
+
 # get water temperature and ice cover ouputs
-GLMwtr  <-  getGLMwtr(getGLMnc(folder=lakeFolder))
-GLMice  <-  getGLMice(getGLMnc(folder=lakeFolder))
+GLMwtr  <-  getGLMwtr(GlmNc)
+GLMice  <-  getGLMice(GlmNc)
 
 # subset datasets to only contain the year of interest
 startTime <-  paste(c(year,'01-01'),collapse='-')
@@ -31,3 +35,5 @@ numBetween18_2_28_2 <-  getDaysBetweenT(GLMwtr,18.2,28.2,anyDep=TRUE)
 numBetween22_23 <-  getDaysBetweenT(GLMwtr,22,23,anyDep=TRUE)
 #---Duration of stratified period  de Stasio et al 1996
 durStrat <- getStratifiedDuration(GLMwtr,GLMice,minStrat=0.5)
+
+

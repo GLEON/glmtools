@@ -1,7 +1,6 @@
 # fish code for WiLMA 
-# **jread-usgs 2013-04-07
+# **jread-usgs, lawinslow 2013-04-07
 
-#source("GLMnetCDF.R")
 
 # -- shared variables --
 timeID  <-  "DateTime"

@@ -4,6 +4,7 @@ GLM-R
 Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output.
 
 In order to contribute to this code, we recommend the following workflow: 
+
 1) "fork" this repository to your own personal github account
 
 2) clone the github repository to your computer:

@@ -2,13 +2,18 @@
 ! general model setup
 !-------------------------------------------------------------------------------
 !
-! sim_name  [string]
-!               title of simulation
-! nlev      [integer, minimum = 1, maximum = 1000]
-!               Number of depth levels used to describe the water column
-!
-! wq_sw     WQ modelling sw (.FALSE.=off,.TRUE.=on)
-! Kw        background light attenuation (m**-1)
+! sim_name         [string]  title of simulation       
+! max_layers       [integer] maximum number of layers  
+! min_layer_vol    [real]    minimum layer volume (m3 * 1000)      
+! min_layer_thick  [real]    minimum thickness of a layer (m)  
+! max_layer_thick  [real]    maximum thickness of a layer (m) 
+! Kw               [real]    background light attenuation (m**-1)
+! coef_inf_entrain [real]    entrainment coefficient inflow
+! coef_mix_conv    [real]    mixing efficiency - convective overturn
+! coef_wind_stir   [real]    mixing efficiency - wind stirring
+! coef_mix_turb    [real]    mixing efficiency - unsteady turbulence effects
+! coef_mix_shear   [real]    mixing efficiency - shear production
+! coef_mix_KH      [real]    mixing efficiency - hypolimnetic Kelvin-Helmholtz turbulent billows
 !
 !-------------------------------------------------------------------------------
 &glm_setup
@@ -19,11 +24,11 @@
    max_layer_thick = max_layer_thick_FLT
    Kw = Kw_FLT
    coef_inf_entrain = coef_inf_entrain_FLT
-   coef_mix_kinetic = coef_mix_kinetic_FLT
-   coef_mix_eta = coef_mix_eta_FLT
-   coef_mix_ct = coef_mix_ct_FLT
-   coef_mix_cs = coef_mix_cs_FLT
-   coef_mix_kh = coef_mix_kh_FLT
+   coef_mix_conv = coef_mix_conv_FLT
+   coef_mix_stir = coef_mix_stir_FLT
+   coef_mix_shear = coef_mix_shear_FLT
+   coef_mix_turb = coef_mix_turb_FLT
+   coef_mix_KH = coef_mix_KH_FLT
 /
 
 !-------------------------------------------------------------------------------
@@ -42,7 +47,6 @@
 !  bsn_wid         basin width at crest (m)
 ! H elevations
 ! A Area (m2 * 1000)
-! V Volume V(m3 * 1000)
 !
 !-------------------------------------------------------------------------------
 &morphometry
@@ -136,6 +140,7 @@
 !-------------------------------------------------------------------------------
 &init_profiles
     num_depths = num_depths_INT
+	lake_depth = lake_depth_FLT
     the_depths = the_depths_csvVEC
     the_temps  = the_temps_csvVEC
     the_sals   = the_sals_csvVEC
@@ -145,12 +150,18 @@
 ! meteorology
 !-------------------------------------------------------------------------------
 !
-!   met_sw         Include surface meteorological forcing
-!   lw_type        Type LW measurement (LW_IN/LW_CC/LW_NET)
-!   rain_sw        Rainfall composition
-!   snow_sw        Snowfall
-!   atm_stab       Account for non-neutral atmospheric stability
-!   meteo_fl       Name of meteorology input file
+!   met_sw        [bool] Include surface meteorological forcing
+!   lw_type       [string] Type LW measurement (LW_IN/LW_CC/LW_NET)
+!   rain_sw       [bool] Rainfall composition
+!   snow_sw       [bool] Snowfall
+!   atm_stab      [bool] Account for non-neutral atmospheric stability
+!   meteo_fl      [string] Name of meteorology input file
+!   wind_factor   [real] factor to increase (> 1) or decrease (< 1) wind
+!   ce            [real] bulk aerodynamic coefficient for latent heat transfer
+!   ch            [real] bulk aerodynamic coefficient for sensible heat transfer
+!   subdaily      [bool] daily meteorological input data (false)
+!                        subdaily meteorological input data (true); 
+!                        in subdaily case: timestep of meteorology data = dt 
 !
 !-------------------------------------------------------------------------------
 &meteorology

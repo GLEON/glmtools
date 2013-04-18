@@ -1,0 +1,226 @@
+!-------------------------------------------------------------------------------
+! general model setup
+!-------------------------------------------------------------------------------
+!
+! sim_name         [string]  title of simulation       
+! max_layers       [integer] maximum number of layers  
+! min_layer_vol    [real]    minimum layer volume (m3 * 1000)      
+! min_layer_thick  [real]    minimum thickness of a layer (m)  
+! max_layer_thick  [real]    maximum thickness of a layer (m) 
+! Kw               [real]    background light attenuation (m**-1)
+! coef_inf_entrain [real]    entrainment coefficient inflow
+! coef_mix_conv    [real]    mixing efficiency - convective overturn
+! coef_wind_stir   [real]    mixing efficiency - wind stirring
+! coef_mix_turb    [real]    mixing efficiency - unsteady turbulence effects
+! coef_mix_shear   [real]    mixing efficiency - shear production
+! coef_mix_KH      [real]    mixing efficiency - hypolimnetic Kelvin-Helmholtz turbulent billows
+!
+!-------------------------------------------------------------------------------
+&glm_setup
+   sim_name = sim_name_STR
+   max_layers = max_layers_INT
+   min_layer_vol = min_layer_vol_FLT
+   min_layer_thick = min_layer_thick_FLT
+   max_layer_thick = max_layer_thick_FLT
+   Kw = Kw_FLT
+   coef_inf_entrain = coef_inf_entrain_FLT
+   coef_mix_conv = coef_mix_conv_FLT
+   coef_mix_stir = coef_mix_stir_FLT
+   coef_mix_shear = coef_mix_shear_FLT
+   coef_mix_turb = coef_mix_turb_FLT
+   coef_mix_KH = coef_mix_KH_FLT
+/
+
+!-------------------------------------------------------------------------------
+! lake details
+!-------------------------------------------------------------------------------
+!
+! name      [string]
+!             name of the station
+! latitude  [float, minimum = -90, maximum = 90, unit = deg North]
+!             latitude
+! longitude [float, minimum = -360, maximum = 360, unit = deg East]
+!             longitude
+! base_elev base elevation (m)
+! crest_elev          crest elevation (m)
+!  bsn_len        basin length at crest (m)
+!  bsn_wid         basin width at crest (m)
+! H elevations
+! A Area (m2 * 1000)
+!
+!-------------------------------------------------------------------------------
+&morphometry
+   lake_name  = lake_name_STR
+   latitude   = latitude_FLT
+   longitude  = longitude_FLT
+   base_elev  = base_elev_FLT
+   crest_elev = crest_elev_FLT
+   bsn_len    = bsn_len_FLT
+   bsn_wid    = bsn_wid_FLT
+   bsn_vals   = bsn_vals_INT
+   !   H(m)  A(m2 * 1000) V(m3 * 1000)
+   H = H_csvVEC
+   A = A_csvVEC
+/
+
+!-------------------------------------------------------------------------------
+! duration of run
+!-------------------------------------------------------------------------------
+!
+! timefmt [integer]
+!           method to specify start and duration of model run
+!           1: duration computed from number of time steps, MaxN (bogus start
+!             date used) [no longer implemented!!]
+!           2: duration computed from given start and stop dates (number of time
+!             steps MaxN computed)
+!           3: duration computed from number of time steps, MaxN (start date as
+!             specified, stop date computed)
+! start   [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal start date
+!           This variable is used only if timefmt != 1
+! stop    [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal stop date
+!           This variable is used only if timefmt = 2
+! dt        [float, minimum = 0.001, maximum = 86400, unit = s]
+!               Time step for integration
+! numb_days [number of days to run the simulation ]
+!           This variable is used only if timefmt != 2
+! #MaxN    [integer]
+!           nominal number of time steps
+!           maxN is now obsolete - it is calculated from num_days*(86400 / dt)
+!
+!-------------------------------------------------------------------------------
+&time
+   timefmt = 2
+   start = start_STR
+   stop  = stop_STR
+   dt = dt_FLT
+
+/
+
+!-------------------------------------------------------------------------------
+! format for output and filename(s)
+!-------------------------------------------------------------------------------
+!
+! out_dir     [string]
+!               path to output directory (set permissions)
+! out_fn      [string]
+!               output string used to generate output file names
+! out_lkn     [logical]  Output Lake Number to a file
+! nsave       [integer, minimum = 1, maximum = 86400]
+!               save results every 'nsave' timesteps
+! csv_at      [real]
+!               height at which to dump a csv file
+! csv_name    [string]
+!               name of csv output file
+! csv_nvars   [integer]
+!               number of variables to output
+! csv_vars    [strings]
+!               list of names of variables to output,order IS important
+!
+!-------------------------------------------------------------------------------
+&output
+   out_dir = '.'
+   out_fn = 'output'
+   out_lkn = .false.
+   nsave = nsave_INT
+
+   csv_point_nlevs = 0
+   csv_point_fname = 'tempZ_'
+   csv_point_at = 2., 1.
+   csv_point_nvars = 1
+   csv_point_vars = 'temp'
+
+
+   csv_lake_fname = 'lake'
+/
+
+!-------------------------------------------------------------------------------
+! initial condition profiles
+!-------------------------------------------------------------------------------
+&init_profiles
+    num_depths = num_depths_INT
+	lake_depth = lake_depth_FLT
+    the_depths = the_depths_csvVEC
+    the_temps  = the_temps_csvVEC
+    the_sals   = the_sals_csvVEC
+/
+
+!-------------------------------------------------------------------------------
+! meteorology
+!-------------------------------------------------------------------------------
+!
+!   met_sw        [bool] Include surface meteorological forcing
+!   lw_type       [string] Type LW measurement (LW_IN/LW_CC/LW_NET)
+!   rain_sw       [bool] Rainfall composition
+!   snow_sw       [bool] Snowfall
+!   atm_stab      [bool] Account for non-neutral atmospheric stability
+!   meteo_fl      [string] Name of meteorology input file
+!   wind_factor   [real] factor to increase (> 1) or decrease (< 1) wind
+!   ce            [real] bulk aerodynamic coefficient for latent heat transfer
+!   ch            [real] bulk aerodynamic coefficient for sensible heat transfer
+!   subdaily      [bool] daily meteorological input data (false)
+!                        subdaily meteorological input data (true); 
+!                        in subdaily case: timestep of meteorology data = dt 
+!
+!-------------------------------------------------------------------------------
+&meteorology
+   met_sw     = .true.
+   lw_type    = 'LW_IN'
+   rain_sw    = rain_sw_BL
+   snow_sw    = snow_sw_BL
+   atm_stab   = .true.
+   subdaily   = subdaily_BL
+   meteo_fl   = meteo_fl_STR
+   wind_factor = wind_factor_FLT
+   ce         = ce_FLT
+   ch         = ch_FLT
+/
+
+!-------------------------------------------------------------------------------
+! inflows 
+!-------------------------------------------------------------------------------
+!
+!  num_inflows       number of inflowing streams
+!  names_of_strms    names of streams
+!  strm_hf_angle     stream half angle (degrees)
+!  strmbd_slope      streambed slope (degrees)
+!  strmbd_drag       streambed drag coefficient
+!  inflow_fl         inflow data filename
+!
+!-------------------------------------------------------------------------------
+&inflow
+   num_inflows    = num_inflows_FLT
+   names_of_strms = 'GroundWater'
+   strm_hf_angle  = 65.0
+   strmbd_slope   = 0.11
+   strmbd_drag    = 0.0160
+   inflow_factor = 0.52
+   inflow_fl      = 'inflow.csv'
+   inflow_varnum  = 2
+   inflow_vars    = 'FLOW',
+                    'TEMP'
+/
+
+!-------------------------------------------------------------------------------
+! outflows
+!-------------------------------------------------------------------------------
+!
+!  num_outlet    no. of outlets
+!  flt_off_sw    floating offtake switches
+!  outl_elvs     outlet elevations
+!  bsn_len_outl  basin length at outlets (m)
+!  bsn_wid_outl  basin width at outlets (m)
+!  outflow_fl    outflow data file
+!
+!-------------------------------------------------------------------------------
+&outflow
+   num_outlet   = num_outlet_FLT
+   flt_off_sw   = .false.
+   outl_elvs    = outl_elvs_FLT
+   bsn_len_outl = 799
+   bsn_wid_outl = 399
+   outflow_fl   = outflow_fl_STR
+   outflow_factor = 1.0
+/
+

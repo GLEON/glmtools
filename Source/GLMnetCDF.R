@@ -27,12 +27,16 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	surfaceElevs <-  getSurfaceElevGLM(GLM)
 	dates	<-	GLM$DateTime
 	time	<-	as.POSIXct(sampleTime)
-	uIndx	<-	which.min(abs(dates-time))	# NEED good way to interpolate temporally to get exact time...
+	diffs	<-	abs(dates-time)
+	uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
 	interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
 	drops <- c(timeID)
 	temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
 	wtr	<-	approx(glmElev,temp,xout=interpElevs)
-	return(wtr$y)
+	if (as.numeric(diffs[uIndx])<24){
+		return(wtr$y)
+	}
+	else{return(NA)}
 }
 
 resampleGLM	<-	function(GLMnc, lyrDz=0.25){

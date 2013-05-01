@@ -1,27 +1,46 @@
-
+timeID	<-	"DateTime"
+wtrID	<-	"wtr_"
 getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
-  require("ncdf")
-  filePath<-  paste(c(folder,fileName),collapse="")
-  GLMnc	<- 	open.ncdf(filePath)
-  return(GLMnc)
+	require("ncdf")
+	filePath<-  paste(c(folder,fileName),collapse="")
+	GLMnc	<- 	open.ncdf(filePath)
+	return(GLMnc)
 }
 
 getTimeGLMnc  <-  function(GLMnc){
-  hoursSince  <-   get.var.ncdf(GLMnc, "time")
-  timeInfo <- getTimeInfo(GLMnc)
+	hoursSince  <-   get.var.ncdf(GLMnc, "time")
+	timeInfo <- getTimeInfo(GLMnc)
   
-  time <- timeInfo$startDate + timeInfo$dt * hoursSince * 60*60*24
+	time <- timeInfo$startDate + timeInfo$dt * hoursSince * 60*60*24
     
-  return(time)
+	return(time)
 }
 
 getIceGLMnc <-  function(GLMnc){
-  ice  	<- 	get.var.ncdf(GLMnc, "hice")+get.var.ncdf(GLMnc, "hwice")+get.var.ncdf(GLMnc, "hsnow")
-  return(ice)
+	ice  	<- 	get.var.ncdf(GLMnc, "hice")+get.var.ncdf(GLMnc, "hwice")+get.var.ncdf(GLMnc, "hsnow")
+	return(ice)
+}
+
+subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
+	# sample at depths of 'sampleElev' at time 'sampleTime'
+	glmElev	<-	getElevGLM(GLM)
+	surfaceElevs <-  getSurfaceElevGLM(GLM)
+	dates	<-	GLM$DateTime
+	time	<-	as.POSIXct(sampleTime)
+	diffs	<-	abs(dates-time)
+	uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
+	interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
+	drops <- c(timeID)
+	temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
+	wtr	<-	approx(glmElev,temp,xout=interpElevs)
+	if (as.numeric(diffs[uIndx])<24){
+		return(wtr$y)
+	}
+	else{return(NA)}
 }
 
 resampleGLM	<-	function(GLMnc, lyrDz=0.25){
-	
+	# uniform grid resampling of GLMnc
 	elev	<- 	get.var.ncdf(GLMnc, "z" )
 	
 	wtr		<- 	get.var.ncdf(GLMnc, "temp")
@@ -32,10 +51,9 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
 	
-  time <- getTimeGLMnc(GLMnc)
-  numStep = length(time)
-  
-  numDep	<-  length(elevOut)
+	time <- getTimeGLMnc(GLMnc)
+	numStep <- length(time)
+  	numDep	<-  length(elevOut)
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
 
 	for (tme in 1:numStep){
@@ -47,15 +65,15 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 			ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
 			wtrOut[tme,1:length(ap$y)]	<- ap$y}
 	}
-  GLM <- data.frame(time)
-  GLM <- cbind(GLM,wtrOut)
-	frameNms<-letters[seq( from = 1, to = numDep )]
-  frameNms[1] <- "DateTime"
+  	GLM <- data.frame(time)
+  	GLM <- cbind(GLM,wtrOut)
+	frameNms<-letters[seq( from = 1, to = numDep+1 )]
+  	frameNms[1] <- timeID
 
-  for (z in 1:numDep){
-    frameNms[z+1]  <- paste(c("wtr_",as.character(elevOut[z])),collapse="")
-  }
-	names(GLM)<- frameNms
+  	for (z in 1:numDep){
+    	frameNms[z+1]  <- paste(c(wtrID,as.character(elevOut[z])),collapse="")
+  	}
+	names(GLM)	<- frameNms
 	return(GLM)
 }
 
@@ -63,8 +81,8 @@ getTextUntil <- function(readText,openStr,closeStr=FALSE){
   # get text between FIRST startStr and the FIRST occurance of endStr
   openI <- head(unlist(gregexpr(openStr,readText)),n=1)+nchar(openStr)
   if(closeStr!=FALSE) {
-    closeBlck <-  unlist(gregexpr(closeStr,readText))
-    closeI  <-  head(closeBlck[closeBlck > openI], n=1)-nchar(closeStr)}
+		closeBlck <-  unlist(gregexpr(closeStr,readText))
+    	closeI  <-  head(closeBlck[closeBlck > openI], n=1)-nchar(closeStr)}
   else {closeI <- nchar(readText)+1}
   return(substring(readText,openI,closeI))
 }
@@ -107,9 +125,18 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
+getSurfaceElevGLM	<-	function(GLM){
+	# returns a vector of elevations that correspond to the water surface
+	elevs	<-	getElevGLM(GLM)
+	drops	<-	c(timeID)
+	temp	<-	GLM[,!(names(GLM) %in% drops)]
+	surface <- apply(temp,1,function(x) elevs[max(which(!is.na(x)))])
+	return(surface)
+}
+
 getElevGLM <- function(GLM){
   colNames <- names(GLM)
-  elevs <- gsub("wtr_","",colNames[2:length(colNames)])
+  elevs <- gsub(wtrID,"",colNames[2:length(colNames)])
   return(as.numeric(elevs))
 }
   
@@ -136,7 +163,7 @@ plotGLM  <- function(GLM,figName="glmPlot",folder="",cLim=c(0,30)){
   par(mai=c(bM,lM,rM,tM),usr=c(xL[1],xL[2],yL[1],yL[2]))
   wtr <- vals[,2:(length(elevs)+1)]
   filled.contour(x=GLM$DateTime,y=elevs,z=wtr,col = cMap,
-    levels=lvls,xaxs = "i",plot.title = title(ylab = "Elevation from bottom (m)"),
-    xlim=xL, ylim=yL, xaxp = c(xL[1],xL[2],50))
+    	levels=lvls,xaxs = "i",plot.title = title(ylab = "Elevation from bottom (m)"),
+    	xlim=xL, ylim=yL, xaxp = c(xL[1],xL[2],50))
   dev.off()
 }

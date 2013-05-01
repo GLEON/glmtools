@@ -118,8 +118,9 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
 getSurfaceElevGLM	<-	function(GLM){
 	# returns a vector of elevations that correspond to the water surface
 	elevs	<-	getElevGLM(GLM)
-	drops <- c(timeID)
-	  temp <- GLMwtr[,!(names(GLMwtr) %in% drops)]
+	drops	<-	c(timeID)
+	temp	<-	GLM[,!(names(GLM) %in% drops)]
+	surface <- apply(temp,1,function(x) x[max(which(!is.na(x)))])
 	return(surface)
 }
 

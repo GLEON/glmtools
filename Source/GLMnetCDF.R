@@ -1,4 +1,5 @@
-
+timeID	<-	"DateTime"
+wtrID	<-	"wtr_"
 getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
 	require("ncdf")
 	filePath<-  paste(c(folder,fileName),collapse="")
@@ -57,10 +58,10 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
   	GLM <- data.frame(time)
   	GLM <- cbind(GLM,wtrOut)
 	frameNms<-letters[seq( from = 1, to = numDep+1 )]
-  	frameNms[1] <- "DateTime"
+  	frameNms[1] <- timeID
 
   	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c("wtr_",as.character(elevOut[z])),collapse="")
+    	frameNms[z+1]  <- paste(c(wtrID,as.character(elevOut[z])),collapse="")
   	}
 	names(GLM)	<- frameNms
 	return(GLM)
@@ -115,13 +116,16 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
 }
 
 getSurfaceElevGLM	<-	function(GLM){
-	
+	# returns a vector of elevations that correspond to the water surface
+	elevs	<-	getElevGLM(GLM)
+	drops <- c(timeID)
+	  temp <- GLMwtr[,!(names(GLMwtr) %in% drops)]
 	return(surface)
 }
 
 getElevGLM <- function(GLM){
   colNames <- names(GLM)
-  elevs <- gsub("wtr_","",colNames[2:length(colNames)])
+  elevs <- gsub(wtrID,"",colNames[2:length(colNames)])
   return(as.numeric(elevs))
 }
   

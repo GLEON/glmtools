@@ -18,6 +18,7 @@ GLMfile <-  'output.nc'
 GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
 GLM	<-  resampleGLM(GLMnc,lyrDz=lyrDz)
 
+# - THIS SHOULD BUILD A VECTOR OF COMPARE VALS, FOR LM()
 # - plot
 
 for (j in length(unDates)){

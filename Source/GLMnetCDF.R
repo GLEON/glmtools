@@ -120,7 +120,7 @@ getSurfaceElevGLM	<-	function(GLM){
 	elevs	<-	getElevGLM(GLM)
 	drops	<-	c(timeID)
 	temp	<-	GLM[,!(names(GLM) %in% drops)]
-	surface <- apply(temp,1,function(x) x[max(which(!is.na(x)))])
+	surface <- apply(temp,1,function(x) elevs[max(which(!is.na(x)))])
 	return(surface)
 }
 

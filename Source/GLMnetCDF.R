@@ -32,10 +32,9 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
 	
-  time <- getTimeGLMnc(GLMnc)
-  numStep = length(time)
-  
-  numDep	<-  length(elevOut)
+	time <- getTimeGLMnc(GLMnc)
+	numStep <- length(time)
+  	numDep	<-  length(elevOut)
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
 
 	for (tme in 1:numStep){

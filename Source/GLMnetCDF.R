@@ -1,5 +1,6 @@
 timeID	<-	"DateTime"
-wtrID	<-	"wtr_"
+elvID	<-	"elv_"
+depID	<-	"wtr_"
 getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
 	require("ncdf")
 	filePath<-  paste(c(folder,fileName),collapse="")
@@ -21,8 +22,13 @@ getIceGLMnc <-  function(GLMnc){
 	return(ice)
 }
 
+getWndGLMnc <-  function(GLMnc){
+	wnd  	<- 	get.var.ncdf(GLMnc, "wind")
+	return(wnd)
+}
+
 subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
-	# sample at depths of 'sampleElev' at time 'sampleTime'
+	# sample at depths of 'sampleElev' at time 'sampleDepths'
 	glmElev	<-	getElevGLM(GLM)
 	surfaceElevs <-  getSurfaceElevGLM(GLM)
 	dates	<-	GLM$DateTime
@@ -36,8 +42,28 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	if (as.numeric(diffs[uIndx])<24){
 		return(wtr$y)
 	}
-	else{return(NA)}
+	else{return(wtr*NA)}
 }
+
+depthsampleGLM	<-	function(GLM, sampleDepths){
+	# sample at depths of 'sampleDepths' at time all sample times
+	GLMnew	<-	GLM$DateTime
+	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
+	frameNms<-letters[seq( from = 1, to = (length(sampleDepths)+1))]
+  	frameNms[1] <- timeID
+	for (z in 2:(length(sampleDepths)+1)){
+    	frameNms[z]  <- paste(c(depID,as.character(sampleDepths[z-1])),collapse="")
+  	}
+	wtrOut <-	data.frame(wtrOut)
+	GLMnew	<-	cbind(GLMnew,wtrOut)
+	for (tme in 1:nrow(GLMnew)){
+		GLMnew[tme,2:(length(sampleDepths)+1)]	<-	subsampleGLM(GLM,GLM$DateTime[tme],sampleDepths)
+	}
+	names(GLMnew)	<-	frameNms
+	GLM	<-	GLMnew
+	return(GLM)
+}
+
 
 resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	# uniform grid resampling of GLMnc
@@ -71,7 +97,7 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
   	frameNms[1] <- timeID
 
   	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c(wtrID,as.character(elevOut[z])),collapse="")
+    	frameNms[z+1]  <- paste(c(elvID,as.character(elevOut[z])),collapse="")
   	}
 	names(GLM)	<- frameNms
 	return(GLM)
@@ -125,6 +151,22 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
+writeWTR  <- function(GLM,fileName="GLM.wtr",folder=""){
+  # writes GLM file to directory
+  fileOut <- paste(c(folder,fileName),collapse="")
+  write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}
+
+writeWND  <- function(GLMnc,fileName="GLM.wnd",folder=""){
+  # writes GLM file to directory
+	GLM	<-	data.frame(getTimeGLMnc(GLMnc))
+	GLM	<-	cbind(GLM,getWndGLMnc(GLMnc))
+	names(GLM)	<-	c(timeID,"wnd")
+	fileOut <- paste(c(folder,fileName),collapse="")
+	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}
+getTimeGLMnc
+
 getSurfaceElevGLM	<-	function(GLM){
 	# returns a vector of elevations that correspond to the water surface
 	elevs	<-	getElevGLM(GLM)
@@ -136,7 +178,7 @@ getSurfaceElevGLM	<-	function(GLM){
 
 getElevGLM <- function(GLM){
   colNames <- names(GLM)
-  elevs <- gsub(wtrID,"",colNames[2:length(colNames)])
+  elevs <- gsub(elvID,"",colNames[2:length(colNames)])
   return(as.numeric(elevs))
 }
   

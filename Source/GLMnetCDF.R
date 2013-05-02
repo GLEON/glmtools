@@ -47,16 +47,18 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 
 depthsampleGLM	<-	function(GLM, sampleDepths){
 	# sample at depths of 'sampleDepths' at time all sample times
-	GLMnew	<-	GLM[,1]
+	GLMnew	<-	GLM$DateTime
+	names(GLMnew)	<-	timeID
 	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
 	frameNms<-letters[seq( from = 1, to = length(sampleDepths) )]
   	frameNms[1] <- timeID
 	for (z in 1:length(sampleDepths)){
     	frameNms[z]  <- paste(c(depID,as.character(sampleDepths[z])),collapse="")
   	}
+	wtrOut <-	data.frame(wtrOut)
 	names(wtrOut)	<-	frameNms
-	GLMnew	<- cbind(GLM,wtrOut)
-	for (tme in 1:ncol(GLMnew)){
+	GLMnew	<-	cbind(GLMnew,wtrOut)
+	for (tme in 1:nrow(GLMnew)){
 		GLMnew[tme,2:(length(sampleDepths)+1)]	<-	subsampleGLM(GLM,GLM$DateTime[tme],sampleDepths)
 	}
 	GLM	<-	GLMnew

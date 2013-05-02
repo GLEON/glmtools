@@ -21,6 +21,11 @@ getIceGLMnc <-  function(GLMnc){
 	return(ice)
 }
 
+getWndGLMnc <-  function(GLMnc){
+	wnd  	<- 	get.var.ncdf(GLMnc, "wind")
+	return(wnd)
+}
+
 subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	# sample at depths of 'sampleElev' at time 'sampleTime'
 	glmElev	<-	getElevGLM(GLM)
@@ -38,6 +43,7 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	}
 	else{return(NA)}
 }
+
 
 resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	# uniform grid resampling of GLMnc

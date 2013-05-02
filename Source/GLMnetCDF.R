@@ -1,5 +1,6 @@
 timeID	<-	"DateTime"
-wtrID	<-	"wtr_"
+elvID	<-	"elv_"
+depID	<-	"wtr_"
 getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
 	require("ncdf")
 	filePath<-  paste(c(folder,fileName),collapse="")
@@ -27,7 +28,7 @@ getWndGLMnc <-  function(GLMnc){
 }
 
 subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
-	# sample at depths of 'sampleElev' at time 'sampleTime'
+	# sample at depths of 'sampleElev' at time 'sampleDepths'
 	glmElev	<-	getElevGLM(GLM)
 	surfaceElevs <-  getSurfaceElevGLM(GLM)
 	dates	<-	GLM$DateTime
@@ -41,7 +42,25 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	if (as.numeric(diffs[uIndx])<24){
 		return(wtr$y)
 	}
-	else{return(NA)}
+	else{return(wtr*NA)}
+}
+
+depthsampleGLM	<-	function(GLM, sampleDepths){
+	# sample at depths of 'sampleDepths' at time all sample times
+	GLMnew	<-	GLM[,1]
+	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
+	frameNms<-letters[seq( from = 1, to = length(sampleDepths) )]
+  	frameNms[1] <- timeID
+	for (z in 1:length(sampleDepths)){
+    	frameNms[z]  <- paste(c(depID,as.character(sampleDepths[z])),collapse="")
+  	}
+	names(wtrOut)	<-	frameNms
+	GLMnew	<- cbind(GLM,wtrOut)
+	for (tme in 1:ncol(GLMnew)){
+		GLMnew[tme,2:(length(sampleDepths)+1)]	<-	subsampleGLM(GLM,GLM$DateTime[tme],sampleDepths)
+	}
+	GLM	<-	GLMnew
+	return(GLM)
 }
 
 
@@ -77,7 +96,7 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
   	frameNms[1] <- timeID
 
   	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c(wtrID,as.character(elevOut[z])),collapse="")
+    	frameNms[z+1]  <- paste(c(elvID,as.character(elevOut[z])),collapse="")
   	}
 	names(GLM)	<- frameNms
 	return(GLM)
@@ -142,7 +161,7 @@ getSurfaceElevGLM	<-	function(GLM){
 
 getElevGLM <- function(GLM){
   colNames <- names(GLM)
-  elevs <- gsub(wtrID,"",colNames[2:length(colNames)])
+  elevs <- gsub(elvID,"",colNames[2:length(colNames)])
   return(as.numeric(elevs))
 }
   

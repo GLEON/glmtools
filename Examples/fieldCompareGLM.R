@@ -10,6 +10,12 @@ dates	<-	as.POSIXct(sampleVals$sampledate)
 depths	<-	sampleVals$depth
 wtrObs	<-	sampleVals$wtemp
 
+# get rid of depths < minZ
+rmvI	<-	depths < minZ
+dates	<-	dates[!rmvI]
+depths	<-	depths[!rmvI]
+wtrObs	<-	wtrObs[!rmvI]
+
 unDates	<-	unique(dates)
 
 lyrDz <-  0.25  # grid vertical thickness for resampling
@@ -21,13 +27,20 @@ GLM	<-  resampleGLM(GLMnc,lyrDz=lyrDz)
 # - THIS SHOULD BUILD A VECTOR OF COMPARE VALS, FOR LM()
 # - plot
 
-for (j in length(unDates)){
+cnt = 0
+wtrMod	<-	wtrObs*NA
+for (j in 1:length(unDates)){
 	dt	<-	unDates[j]
 	useI	<-	which(dates==dt)
-	wtrMod	<-	subsampleGLM(GLM, dt, depths[useI])
-	# if != NA, add comparison to plot..
-	# plot(wtrMod,wtrObs)
+	wtrT	<-	subsampleGLM(GLM, dt, depths[useI])
+	if (!is.na(wtrT[1])){
+		wtrMod[useI]	<-	wtrT
+		cnt = cnt+1
+	}
 }
-
+plot(wtrObs,wtrMod)
+LM	<-	lm(wtrObs~wtrMod)
+m	<-	summary(LM)
+m$sigma
 
 

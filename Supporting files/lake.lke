@@ -1,0 +1,17 @@
+Configuration file for Lake X 
+ 
+metaB, SmetaB, SmetaT, SthermD, SLn, SW, SN2	 	 #outputs 
+86400	 	 #output resolution (s) 
+NA	 	 #total depth (m) 
+2	 	 #height from surface for wind measurement (m) 
+86400	 	 #wind averaging (s) 
+86400	 	 #thermal layer averaging (s) 
+21600	 	 #outlier window (s) 
+40	 	 #max water temp (°C)    inf if none 
+-12	 	 #min water temp (°C)    -inf if none 
+98	 	 #max wind speed (m/s)   inf if none 
+0	 	 #min wind speed (m/s)   -inf if none 
+0.1	 	 #meta min slope (drho/dz per m) 
+0.5	 	 #mixed temp differential (°C) 
+Y	 	 #plot figure (Y/N) 
+Y	 	 #write results to file (Y/N) 

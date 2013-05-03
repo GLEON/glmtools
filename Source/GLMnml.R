@@ -1,7 +1,7 @@
 # ------Helper functions for interacting with glm.nml files-----
 # ------Jordan and Luke 2013
 
-lke	<-	list(LA_out = c('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2'),
+lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',sep=", "),
 	outRes = 86400,
 	totalDep = NA,
 	wndHeight = 2,
@@ -72,8 +72,9 @@ buildNML	<-	function(nml,textLine){
 
 
 
-setLke	<-	function(argName,argVal){
-	# set vals here!
+setLke	<-	function(lke,argName,argVal){
+	lke[argName]	<-	argVal
+	return(lke)
 }
 
 getMaxDepth	<-	function(nml){

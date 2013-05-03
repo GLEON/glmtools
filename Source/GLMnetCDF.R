@@ -260,7 +260,6 @@ writeWND  <- function(GLMnc,fileName="GLM.wnd",folder=""){
 	fileOut <- paste(c(folder,fileName),collapse="")
 	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
-getTimeGLMnc
 
 getSurfaceElevGLM	<-	function(GLM){
 	# returns a vector of elevations that correspond to the water surface

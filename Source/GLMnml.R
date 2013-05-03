@@ -66,7 +66,6 @@ getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 			}
 		}
 	}	
-	
 	return(nml)
 }
 
@@ -96,8 +95,6 @@ buildNML	<-	function(nml,textLine){
 	names(nml)	<-	c(oldNms,parNm)
 	return(nml)
 }
-
-)
 
 setLKE	<-	function(lke,argName,argVal){
 	lke[argName]	<-	argVal

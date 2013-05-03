@@ -3,21 +3,24 @@
 source('GLMnetCDF.R')
 source('GLMnml.R')
 
-lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',sep=", "),
-	outRes = 86400,
-	totalDep = NA,
-	wndHeight = 2,
-	wndAve	= 86400,
-	thermalAve	= 86400,
-	outlierWin	= 21600,
-	maxT	= 40,
-	minT	= -12,
-	maxU	= 98,
-	minU	= 0,
-	metaSlp	= 0.1,
-	mixDif	= 0.5,
-	plotFig = 'Y',
-	writeRes= 'Y')
+getLke	<-	function(){
+	lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',sep=", "),
+		outRes = 86400,
+		totalDep = NA,
+		wndHeight = 2,
+		wndAve	= 86400,
+		thermalAve	= 86400,
+		outlierWin	= 21600,
+		maxT	= 40,
+		minT	= -12,
+		maxU	= 98,
+		minU	= 0,
+		metaSlp	= 0.1,
+		mixDif	= 0.5,
+		plotFig = 'Y',
+		writeRes= 'Y')
+}
+
 	
 getLkeMeta	<-	function(){
 	lkeMeta	<-	list(LA_out = "#outputs",

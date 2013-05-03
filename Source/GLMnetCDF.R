@@ -200,7 +200,7 @@ getTextUntil <- function(readText,openStr,closeStr=FALSE){
 # Summary: Determines the epoch and timestep to properly convert the model date/time
 #
 # Input:
-#	GLMnc:	The ncdf file object reference, from open.ncdf
+#	GLMnc:	The ncdf file object reference, from nc_open
 # 	
 getTimeInfo <- function(GLMnc){
 	daySecs = 86400

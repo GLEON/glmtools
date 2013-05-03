@@ -74,12 +74,13 @@ setLKE	<-	function(lke,argName,argVal){
 	return(lke)
 }
 
-writeLKE	<-	function(lke,folder='../Supporting Files/',fileName='lake.lke'){	
+writeLKE	<-	function(lke,lakeName = 'lake',folder='../Supporting Files/'){	
 	lkeMeta	<-	getLkeMeta()
-	if (any(is.na(lke))){stop("no lke parameters can be NA")}
 	
+	if (any(is.na(lke))){stop("no lke parameters can be NA")}
+	fileName	<-	gsub(" ","",paste(c(lakeName,'.lke'),collapse=""))
 	sink(paste(c(folder,fileName),collapse=""))
-	cat(c("Configuration file for Lake X","\n","\n"))
+	cat(c("Configuration file for",lakeName,"\n","\n"))
 	for (ln in 1:length(lke)){
 		cat(as.character(lke[[ln]]))
 		cat(c("\t","\t",lkeMeta[[names(lke[ln])]],"\n"))

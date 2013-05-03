@@ -78,10 +78,8 @@ buildNML	<-	function(nml,textLine){
 		parVl	<-	FALSE
 	}else if (any(grep(",",parVl))){	# comma-sep-nums
 		parVl	<-	c(as.numeric(unlist(strsplit(parVl,","))))
-		print(parVl)
 	}else {	# test for number
 		parVl	<-	as.numeric(parVl)
-		print(parVl)
 	}
 	addI	<-	length(nml)+1
 	oldNms	<-	names(nml)
@@ -89,6 +87,8 @@ buildNML	<-	function(nml,textLine){
 	names(nml)	<-	c(oldNms,parNm)
 	return(nml)
 }
+
+)
 
 setLKE	<-	function(lke,argName,argVal){
 	lke[argName]	<-	argVal

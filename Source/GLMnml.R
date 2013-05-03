@@ -1,3 +1,6 @@
+# ------Helper functions for interacting with glm.nml files-----
+# ------Jordan and Luke 2013
+
 lke	<-	list(LA_out = c('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2'),
 	outRes = 86400,
 	totalDep = NA,
@@ -14,9 +17,66 @@ lke	<-	list(LA_out = c('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2'),
 	plotFig = 'Y',
 	writeRes= 'Y')
 
+readNML	<-	function(folder='../Data/',fileName='glm.nml'){
+	# skip all commented lines, return all variables and associated values
+	# requires NO return line variables (all variables must be completely defined on a single line)
+	fileN	<-	paste(c(folder,fileName),collapse="")
+	c <- file(fileN,"r") 
+	fileLines <- readLines(c)
+	close(c)
+	ignoreLn	<-	sort(c(grep("!",fileLines),grep("/",fileLines),grep("&",fileLines)))
+	
+	# will still include blank lines
+	nml	<-	list()
+	for (i in 1:length(fileLines)){
+		if (!any(i==ignoreLn)){
+			if (nchar(fileLines[i])>2){	# get rid of blank lines **issue w/ data format!**
+				# replace blanks
+				fileLines[i]	<-	gsub("\t","",gsub(" ","",fileLines[i]))
+				nml	<-	buildNML(nml,fileLines[i])
+				print(fileLines[i])
+			}
+		}
+	}	
+	
+	return(nml)
+}
+
+buildNML	<-	function(nml,textLine){
+	#-----function appends nml list with new values-----
+	if (!any(grep("=",textLine))){stop(c("no hanging lines allowed in .nml, used ",textLine))}
+	params	<-	strsplit(textLine,"=") # break text at "="
+	parNm	<-	params[[1]][1]
+	parVl	<-	params[[1]][2]
+	# figure out what parval is...if string, remove quotes and keep as string
+	# ***for boolean text, use "indentical" so that 0!= FALSE
+	# can be: string, number, comma-sep-numbers, or boolean
+	if (any(grep("'",parVl))){
+		parVl	<-	gsub("'","",parVl)
+		print(parVl)
+	}else if (any(grep(".true.",parVl))){
+		print("boolean TRUE")
+		parVl	<-	TRUE
+	}else if (any(grep(".false.",parVl))){
+		print("boolean FALSE")
+		parVl	<-	FALSE
+	}else if (any(grep(",",parVl))){	# comma-sep-nums
+		print("comma separated")
+		parVl	<-	c(as.numeric(unlist(strsplit(parVl,","))))
+		print(parVl)
+	}else {	# test for number
+		print("number")
+		parVl	<-	as.numeric(parVl)
+		print(parVl)
+	}
+	addI	<-	length(nml)+1
+	oldNms	<-	names(nml)
+	nml[[addI]]	<-	parVl
+	names(nml)	<-	c(oldNms,parNm)
+	return(nml)
+}
 
 
-LA_out	<-	c('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2')
 
 setLke	<-	function(argName,argVal){
 	# set vals here!
@@ -29,5 +89,6 @@ getMaxDepth	<-	function(nml){
 
 writeLKE	<-	function(lke,outputs=stdLA_out)
 {
+	#test for NAs in any of the fields
 	# write the file!
 }

@@ -98,13 +98,13 @@ writeBTH	<-	function(bth,fileName='lake',folder='../Supporting Files/'){
 #
 # Input:
 #	GLM: a GLM water temp dataframe that has been inverted using depthsampleGLM()
-writeWTR  <- function(GLM,fileName="GLM.wtr",folder=""){
-  fileOut <- paste(c(folder,fileName),collapse="")
+writeWTR  <- function(GLM,lakeName='lake',folder='../Supporting Files/'){
+  fileOut <- paste(c(folder,lakeName,'.wtr'),collapse="")
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
-writeLVL  <- function(lvl,fileName="GLM.lvl",folder=""){
-  fileOut <- paste(c(folder,fileName),collapse="")
+writeLVL  <- function(lvl,lakeName='lake',folder='../Supporting Files/'){
+  fileOut <- paste(c(folder,lakeName,'.lvl'),collapse="")
   write.table(lvl,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
@@ -113,11 +113,11 @@ writeLVL  <- function(lvl,fileName="GLM.lvl",folder=""){
 #
 # Input:
 #	GLM: a GLM netCDF object created with getGLMnc()
-writeWND  <- function(GLMnc,fileName="GLM.wnd",folder=""){
+writeWND  <- function(GLMnc,lakeName='lake',folder='../Supporting Files/'){
   # writes GLM file to directory
 	GLM	<-	data.frame(getTimeGLMnc(GLMnc))
 	GLM	<-	cbind(GLM,getWndGLMnc(GLMnc))
 	names(GLM)	<-	c(timeID,"wnd")
-	fileOut <- paste(c(folder,fileName),collapse="")
+	fileOut <- paste(c(folder,lakeName,'.wnd'),collapse="")
 	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }

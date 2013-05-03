@@ -1,7 +1,5 @@
 # ------Helper functions for interacting with GLM for running Lake Analyzer-----
 # ------Jordan and Luke 2013
-source('GLMnetCDF.R')
-source('GLMnml.R')
 
 getLke	<-	function(){
 	lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',sep=", "),
@@ -43,12 +41,13 @@ getLkeMeta	<-	function(){
 
 getLVL	<-	function(GLMnc,nml){
 	DateTime	<-	getTimeGLMnc(GLMnc)
-	GLM	<-	getTempGLMnc(GLMnc)
+	GLM	<-	getTempGLMnc(GLMnc,lyrDz=0.25)
 	surfaceElv	<-	getSurfaceElevGLM(GLM)
-	mxElv	<-	getMaxElevation(nml)
-	
+	mxDep	<-	getMaxDepth(nml)
+	dif	<-	mxDep-surfaceElv
+	dif[dif<0]	<-	0
 	lvl	<-	data.frame(DateTime)
-	lvl	<-	cbind(lvl,(mxElv-surfaceElv))
+	lvl	<-	cbind(lvl,dif)
 	names(lvl)	<-	c("DateTime","level(positive Z down in meters)")
 	return(lvl)
 }
@@ -69,8 +68,9 @@ getBTH	<-	function(nml){
 	return(bth)
 }
 
-getWTR	<-	function(GLMnc,lyrDz=0.25){
-	wtr	<-	getTempGLMnc(GLMnc,lyrDz)
+getWTR	<-	function(GLMnc,depths,lyrDz=0.25){
+	GLMwtr	<-	getTempGLMnc(GLMnc,lyrDz)
+	wtr	<-	depthsampleGLM(GLMwtr, sampleDepths)
 	return(wtr)
 }
 

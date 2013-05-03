@@ -1,6 +1,6 @@
-timeID	<-	"DateTime"
-elvID	<-	"elv_"
-depID	<-	"wtr_"
+timeID	= "DateTime"
+elvID	="elv_"
+depID	="wtr_"
 
 ################################################################################
 #
@@ -125,10 +125,10 @@ getTempGLMnc <-  function(GLMnc,lyrDz=0.5){
   GLM <- data.frame(time)
   GLM <- cbind(GLM,wtrOut)
   frameNms<-letters[seq( from = 1, to = numDep )]
-  frameNms[1] <- "DateTime"
+  frameNms[1] <- timeID
   
   for (z in 1:numDep){
-    frameNms[z+1]  <- paste(c("wtr_",as.character(elevOut[z])),collapse="")
+    frameNms[z+1]  <- paste(c(elvID,as.character(elevOut[z])),collapse="")
   }
   names(GLM)<- frameNms
   return(GLM)

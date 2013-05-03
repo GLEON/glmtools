@@ -70,7 +70,7 @@ getBTH	<-	function(nml){
 
 getWTR	<-	function(GLMnc,depths,lyrDz=0.25){
 	GLMwtr	<-	getTempGLMnc(GLMnc,lyrDz)
-	wtr	<-	depthsampleGLM(GLMwtr, sampleDepths)
+	wtr	<-	depthsampleGLM(GLMwtr, depths)
 	return(wtr)
 }
 
@@ -100,7 +100,7 @@ writeLKE	<-	function(lke,lakeName = 'lake',folder='../Supporting Files/'){
 	sink()
 }
 
-writeBTH	<-	function(bth,fileName='lake',folder='../Supporting Files/'){	
+writeBTH	<-	function(bth,lakeName='lake',folder='../Supporting Files/'){	
 	fileN	<-	paste(c(folder,lakeName,'.bth'),collapse="")
 	write.table(bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
 }

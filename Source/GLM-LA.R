@@ -38,6 +38,18 @@ getLkeMeta	<-	function(){
 	return(lkeMeta)
 }
 
+getLVL	<-	function(GLMnc,nml){
+	DateTime	<-	getTimeGLMnc(GLMnc)
+	GLM	<-	getTempGLMnc(GLMnc)
+	surfaceElv	<-	getSurfaceElevGLM(GLM)
+	mxElv	<-	getMaxElevation(nml)
+	
+	lvl	<-	data.frame(DateTime)
+	lvl	<-	cbind(lvl,(mxElv-surfaceElv))
+	names(lvl)	<-	c("DateTime","level(positive Z down in meters)")
+	return(lvl)
+}
+
 ################################################################################
 # Summary: gets bathymetry formatted as depths and areas
 #

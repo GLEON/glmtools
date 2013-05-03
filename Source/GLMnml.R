@@ -2,7 +2,7 @@
 # ------Jordan and Luke 2013
 
 
-getNML	<-	function(folder='../Data/',fileName='glm.nml'){
+getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 	# skip all commented lines, return all variables and associated values
 	# requires NO return line variables (all variables must be completely defined on a single line)
 	fileN	<-	paste(c(folder,fileName),collapse="")

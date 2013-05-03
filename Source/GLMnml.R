@@ -126,3 +126,8 @@ writeLKE	<-	function(lke,folder='../Supporting Files/',fileName='lake.lke'){
 	}
 	sink()
 }
+
+writeBTH	<-	function(bth,folder='../Supporting Files/',fileName='lake.bth'){	
+	fileN	<-	paste(c(folder,fileName),collapse="")
+	write.table(bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
+}

@@ -99,6 +99,11 @@ writeWTR  <- function(GLM,fileName="GLM.wtr",folder=""){
   write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
+writeLVL  <- function(lvl,fileName="GLM.lvl",folder=""){
+  fileOut <- paste(c(folder,fileName),collapse="")
+  write.table(lvl,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}
+
 ################################################################################
 # Summary: writes GLM wind file to directory
 #

@@ -69,6 +69,18 @@ getBTH	<-	function(nml){
 	return(bth)
 }
 
+getWTR	<-	function(GLMnc,lyrDz=0.25){
+	wtr	<-	getTempGLMnc(GLMnc,lyrDz)
+	return(wtr)
+}
+
+getWND	<-	function(GLMnc){
+	wnd	<-	data.frame(getTimeGLMnc(GLMnc))
+	wnd	<-	cbind(wnd,getWndGLMnc(GLMnc))
+	names(wnd)	<-	c(timeID,"wnd")
+	return(wnd)
+}
+
 setLKE	<-	function(lke,argName,argVal){
 	lke[argName]	<-	argVal
 	return(lke)
@@ -97,10 +109,10 @@ writeBTH	<-	function(bth,fileName='lake',folder='../Supporting Files/'){
 # Summary: writes GLM file that has been inverted using depthsampleGLM to directory
 #
 # Input:
-#	GLM: a GLM water temp dataframe that has been inverted using depthsampleGLM()
-writeWTR  <- function(GLM,lakeName='lake',folder='../Supporting Files/'){
+#	wtr: a GLM wtr data frame (see getWTR)
+writeWTR  <- function(wtr,lakeName='lake',folder='../Supporting Files/'){
   fileOut <- paste(c(folder,lakeName,'.wtr'),collapse="")
-  write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+  write.table(wtr,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
 writeLVL  <- function(lvl,lakeName='lake',folder='../Supporting Files/'){
@@ -112,12 +124,9 @@ writeLVL  <- function(lvl,lakeName='lake',folder='../Supporting Files/'){
 # Summary: writes GLM wind file to directory
 #
 # Input:
-#	GLM: a GLM netCDF object created with getGLMnc()
-writeWND  <- function(GLMnc,lakeName='lake',folder='../Supporting Files/'){
+#	wnd: a GLM wnd data frame (see getWND)
+writeWND  <- function(wnd,lakeName='lake',folder='../Supporting Files/'){
   # writes GLM file to directory
-	GLM	<-	data.frame(getTimeGLMnc(GLMnc))
-	GLM	<-	cbind(GLM,getWndGLMnc(GLMnc))
-	names(GLM)	<-	c(timeID,"wnd")
 	fileOut <- paste(c(folder,lakeName,'.wnd'),collapse="")
-	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+	write.table(wnd,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }

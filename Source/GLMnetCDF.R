@@ -1,6 +1,6 @@
-timeID	<-	"DateTime"
-elvID	<-	"elv_"
-depID	<-	"wtr_"
+timeID	= "DateTime"
+elvID	="elv_"
+depID	="wtr_"
 
 ################################################################################
 #
@@ -35,7 +35,7 @@ getIceGLMnc <-  function(GLMnc){
 }
 
 getWndGLMnc <-  function(GLMnc){
-	wnd  	<- 	get.var.ncdf(GLMnc, "wind")
+	wnd  	<- 	ncvar_get(GLMnc, "wind")
 	return(wnd)
 }
 
@@ -125,10 +125,10 @@ getTempGLMnc <-  function(GLMnc,lyrDz=0.5){
   GLM <- data.frame(time)
   GLM <- cbind(GLM,wtrOut)
   frameNms<-letters[seq( from = 1, to = numDep )]
-  frameNms[1] <- "DateTime"
+  frameNms[1] <- timeID
   
   for (z in 1:numDep){
-    frameNms[z+1]  <- paste(c("wtr_",as.character(elevOut[z])),collapse="")
+    frameNms[z+1]  <- paste(c(elvID,as.character(elevOut[z])),collapse="")
   }
   names(GLM)<- frameNms
   return(GLM)
@@ -177,21 +177,6 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
   	}
 	names(GLM)	<- frameNms
 	return(GLM)
-}
-
-################################################################################
-#
-################################################################################
-getTextUntil <- function(readText,openStr,closeStr=FALSE){
-  # get text between FIRST startStr and the FIRST occurance of endStr
-  openI <- head(unlist(gregexpr(openStr,readText)),n=1)+nchar(openStr)
-  if(closeStr!=FALSE) {
-		closeBlck <-  unlist(gregexpr(closeStr,readText))
-		closeI  <-  head(closeBlck[closeBlck > openI], n=1)-nchar(closeStr)
-	}else {
-		closeI <- nchar(readText)+1
-	}
-	return(substring(readText,openI,closeI))
 }
 
 ################################################################################
@@ -246,21 +231,6 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
 	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
-writeWTR  <- function(GLM,fileName="GLM.wtr",folder=""){
-  # writes GLM file to directory
-  fileOut <- paste(c(folder,fileName),collapse="")
-  write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
-
-writeWND  <- function(GLMnc,fileName="GLM.wnd",folder=""){
-  # writes GLM file to directory
-	GLM	<-	data.frame(getTimeGLMnc(GLMnc))
-	GLM	<-	cbind(GLM,getWndGLMnc(GLMnc))
-	names(GLM)	<-	c(timeID,"wnd")
-	fileOut <- paste(c(folder,fileName),collapse="")
-	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
-getTimeGLMnc
 
 getSurfaceElevGLM	<-	function(GLM){
 	# returns a vector of elevations that correspond to the water surface
@@ -311,7 +281,7 @@ plotGLM  <- function(GLM,figName="glmPlot",folder="./",cLim=c(0,30)){
 	dev.off()
 }
 
-compareTemps <- function(GLMnc1, GLMnc2){
+compareTemps <- function(GLMnc1, GLMnc2,figName="glmPlot",folder="./",cLim=c(0,30)){
   
   
   elevs <-  getElevGLM(GLM)

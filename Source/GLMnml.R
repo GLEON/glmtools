@@ -16,6 +16,26 @@ lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',
 	mixDif	= 0.5,
 	plotFig = 'Y',
 	writeRes= 'Y')
+	
+getLkeMeta	<-	function(){
+	lkeMeta	<-	list(LA_out = "#outputs",
+			outRes = "#output resolution (s)",
+			totalDep = "#total depth (m)",
+			wndHeight = "#height from surface for wind measurement (m)",
+			wndAve	= "#wind averaging (s)",
+			thermalAve	= "#thermal layer averaging (s)",
+			outlierWin	= "#outlier window (s)",
+			maxT	= "#max water temp (°C)    inf if none",
+			minT	= "#min water temp (°C)    -inf if none",
+			maxU	= "#max wind speed (m/s)   inf if none",
+			minU	= "#min wind speed (m/s)   -inf if none",
+			metaSlp	= "#meta min slope (drho/dz per m)",
+			mixDif	= "#mixed temp differential (°C)",
+			plotFig = "#plot figure (Y/N)",
+			writeRes= "#write results to file (Y/N)")
+	return(lkeMeta)
+}
+
 
 getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 	# skip all commented lines, return all variables and associated values
@@ -70,11 +90,14 @@ buildNML	<-	function(nml,textLine){
 	return(nml)
 }
 
-
-
-setLke	<-	function(lke,argName,argVal){
+setLKE	<-	function(lke,argName,argVal){
 	lke[argName]	<-	argVal
 	return(lke)
+}
+
+getLakeName	<-	function(nml){
+	
+	return(lakeName)
 }
 
 getMaxDepth	<-	function(nml){
@@ -82,8 +105,15 @@ getMaxDepth	<-	function(nml){
 	return(maxDepth)
 }
 
-writeLKE	<-	function(lke,outputs=stdLA_out)
-{
-	#test for NAs in any of the fields
-	# write the file!
+writeLKE	<-	function(lke,folder='../Supporting Files/',fileName='lake.lke'){	
+	lkeMeta	<-	getLkeMeta()
+	if (any(is.na(lke))){stop("no lke parameters can be NA")}
+	
+	sink(paste(c(folder,fileName),collapse=""))
+	cat(c("Configuration file for Lake X","\n","\n"))
+	for (ln in 1:length(lke)){
+		cat(as.character(lke[[ln]]))
+		cat(c("\t","\t",lkeMeta[[names(lke[ln])]],"\n"))
+	}
+	sink()
 }

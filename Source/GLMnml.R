@@ -17,7 +17,7 @@ lke	<-	list(LA_out = c('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2'),
 	plotFig = 'Y',
 	writeRes= 'Y')
 
-readNML	<-	function(folder='../Data/',fileName='glm.nml'){
+getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 	# skip all commented lines, return all variables and associated values
 	# requires NO return line variables (all variables must be completely defined on a single line)
 	fileN	<-	paste(c(folder,fileName),collapse="")

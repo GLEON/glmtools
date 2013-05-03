@@ -140,10 +140,10 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	# uniform grid resampling of GLMnc
 	#Get the surface elevation vector from the NetCDF file
 	elev	<- 	ncvar_get(GLMnc, "z" )
-	
+
 	#Grab water temperature from NC file
 	wtr		<- 	ncvar_get(GLMnc, "temp")
-	
+
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
 	elev[rmvI]	<- NA
@@ -151,7 +151,7 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 
 	elevOut	<-	seq(mnElv,mxElv,lyrDz)
-	
+
 	#We want to include time with the output as well
 	time <- getTimeGLMnc(GLMnc)
 	numStep <- length(time)
@@ -200,7 +200,7 @@ getTextUntil <- function(readText,openStr,closeStr=FALSE){
 # Summary: Determines the epoch and timestep to properly convert the model date/time
 #
 # Input:
-#	GLMnc:	The ncdf file object reference, from open.ncdf
+#	GLMnc:	The ncdf file object reference, from nc_open
 # 	
 getTimeInfo <- function(GLMnc){
 	daySecs = 86400

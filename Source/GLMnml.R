@@ -105,7 +105,7 @@ setLKE	<-	function(lke,argName,argVal){
 }
 
 getLakeName	<-	function(nml){
-	
+	lakeName	<-	nml$lake_name
 	return(lakeName)
 }
 

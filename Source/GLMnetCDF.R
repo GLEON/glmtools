@@ -35,7 +35,7 @@ getIceGLMnc <-  function(GLMnc){
 }
 
 getWndGLMnc <-  function(GLMnc){
-	wnd  	<- 	get.var.ncdf(GLMnc, "wind")
+	wnd  	<- 	ncvar_get(GLMnc, "wind")
 	return(wnd)
 }
 

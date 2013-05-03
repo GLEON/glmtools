@@ -1,7 +1,7 @@
 # fish derivative examples; 
 # **jread-usgs 2013-04-07
 source('../Source/GlmPhysicalDerivatives.r')
-library(ncdf)
+library(ncdf4)
 
 # set folder for output file (will be WBIC name, but different for examples)
 # choose year for analysis
@@ -9,7 +9,7 @@ lakeFolder  <-  '../Data/'
 year  <-  '1982'
 
 #get GLMnc
-GlmNc <- open.ncdf("../Data/output.nc")
+GlmNc <- nc_open("../Data/output.nc4")
 
 # get water temperature and ice cover ouputs
 GLMwtr  <-  getGLMwtr(GlmNc)

@@ -4,7 +4,7 @@ source('../Source/GLMnetCDF.R')
 # 1) create data frame for GLM water temperature on a uniform grid:
 lyrDz <-  0.25  # grid vertical thickness for resampling
 GLMfolder <-  '../Data/'
-GLMfile <-  'output.nc'
+GLMfile <-  'output.nc4'
 GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
 GLMwtr <-  resampleGLM(GLMnc,lyrDz=lyrDz)
 

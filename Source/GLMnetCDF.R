@@ -182,21 +182,6 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 ################################################################################
 #
 ################################################################################
-getTextUntil <- function(readText,openStr,closeStr=FALSE){
-  # get text between FIRST startStr and the FIRST occurance of endStr
-  openI <- head(unlist(gregexpr(openStr,readText)),n=1)+nchar(openStr)
-  if(closeStr!=FALSE) {
-		closeBlck <-  unlist(gregexpr(closeStr,readText))
-		closeI  <-  head(closeBlck[closeBlck > openI], n=1)-nchar(closeStr)
-	}else {
-		closeI <- nchar(readText)+1
-	}
-	return(substring(readText,openI,closeI))
-}
-
-################################################################################
-#
-################################################################################
 # Summary: Determines the epoch and timestep to properly convert the model date/time
 #
 # Input:

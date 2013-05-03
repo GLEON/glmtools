@@ -34,7 +34,6 @@ getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 				# replace blanks
 				fileLines[i]	<-	gsub("\t","",gsub(" ","",fileLines[i]))
 				nml	<-	buildNML(nml,fileLines[i])
-				print(fileLines[i])
 			}
 		}
 	}	
@@ -53,19 +52,14 @@ buildNML	<-	function(nml,textLine){
 	# can be: string, number, comma-sep-numbers, or boolean
 	if (any(grep("'",parVl))){
 		parVl	<-	gsub("'","",parVl)
-		print(parVl)
 	}else if (any(grep(".true.",parVl))){
-		print("boolean TRUE")
 		parVl	<-	TRUE
 	}else if (any(grep(".false.",parVl))){
-		print("boolean FALSE")
 		parVl	<-	FALSE
 	}else if (any(grep(",",parVl))){	# comma-sep-nums
-		print("comma separated")
 		parVl	<-	c(as.numeric(unlist(strsplit(parVl,","))))
 		print(parVl)
 	}else {	# test for number
-		print("number")
 		parVl	<-	as.numeric(parVl)
 		print(parVl)
 	}

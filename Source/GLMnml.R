@@ -36,6 +36,15 @@ getLkeMeta	<-	function(){
 	return(lkeMeta)
 }
 
+getBTH	<-	function(nml){
+	mxElv	<-	nml$crest_elev
+	heights	<-	nml$H
+	bthA	<-	rev(nml$A*1000) # now m2
+	bthZ	<-	rev(mxElv-heights)
+	bth	<-	data.frame(bthZ,bthA)
+	colnames(bth)	<-	c("Bathymetry depths (m)","Bathymetry areas (m2)")
+	return(bth)
+}
 
 getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 	# skip all commented lines, return all variables and associated values

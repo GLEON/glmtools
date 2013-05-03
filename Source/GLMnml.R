@@ -1,50 +1,6 @@
 # ------Helper functions for interacting with glm.nml files-----
 # ------Jordan and Luke 2013
 
-lke	<-	list(LA_out = paste('metaB','SmetaB','SmetaT','SthermD','SLn','SW','SN2',sep=", "),
-	outRes = 86400,
-	totalDep = NA,
-	wndHeight = 2,
-	wndAve	= 86400,
-	thermalAve	= 86400,
-	outlierWin	= 21600,
-	maxT	= 40,
-	minT	= -12,
-	maxU	= 98,
-	minU	= 0,
-	metaSlp	= 0.1,
-	mixDif	= 0.5,
-	plotFig = 'Y',
-	writeRes= 'Y')
-	
-getLkeMeta	<-	function(){
-	lkeMeta	<-	list(LA_out = "#outputs",
-			outRes = "#output resolution (s)",
-			totalDep = "#total depth (m)",
-			wndHeight = "#height from surface for wind measurement (m)",
-			wndAve	= "#wind averaging (s)",
-			thermalAve	= "#thermal layer averaging (s)",
-			outlierWin	= "#outlier window (s)",
-			maxT	= "#max water temp (°C)    inf if none",
-			minT	= "#min water temp (°C)    -inf if none",
-			maxU	= "#max wind speed (m/s)   inf if none",
-			minU	= "#min wind speed (m/s)   -inf if none",
-			metaSlp	= "#meta min slope (drho/dz per m)",
-			mixDif	= "#mixed temp differential (°C)",
-			plotFig = "#plot figure (Y/N)",
-			writeRes= "#write results to file (Y/N)")
-	return(lkeMeta)
-}
-
-getBTH	<-	function(nml){
-	mxElv	<-	nml$crest_elev
-	heights	<-	nml$H
-	bthA	<-	rev(nml$A*1000) # now m2
-	bthZ	<-	rev(mxElv-heights)
-	bth	<-	data.frame(bthZ,bthA)
-	colnames(bth)	<-	c("Bathymetry depths (m)","Bathymetry areas (m2)")
-	return(bth)
-}
 
 getNML	<-	function(folder='../Data/',fileName='glm.nml'){
 	# skip all commented lines, return all variables and associated values
@@ -100,10 +56,7 @@ setNML	<-	function(nml,argName,argVal){
 	return(nml)
 }
 
-setLKE	<-	function(lke,argName,argVal){
-	lke[argName]	<-	argVal
-	return(lke)
-}
+
 
 getLakeName	<-	function(nml){
 	lakeName	<-	nml$lake_name
@@ -117,20 +70,3 @@ getMaxDepth	<-	function(nml){
 	return(maxDepth)
 }
 
-writeLKE	<-	function(lke,folder='../Supporting Files/',fileName='lake.lke'){	
-	lkeMeta	<-	getLkeMeta()
-	if (any(is.na(lke))){stop("no lke parameters can be NA")}
-	
-	sink(paste(c(folder,fileName),collapse=""))
-	cat(c("Configuration file for Lake X","\n","\n"))
-	for (ln in 1:length(lke)){
-		cat(as.character(lke[[ln]]))
-		cat(c("\t","\t",lkeMeta[[names(lke[ln])]],"\n"))
-	}
-	sink()
-}
-
-writeBTH	<-	function(bth,folder='../Supporting Files/',fileName='lake.bth'){	
-	fileN	<-	paste(c(folder,fileName),collapse="")
-	write.table(bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
-}

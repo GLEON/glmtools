@@ -231,20 +231,6 @@ writeGLM  <- function(GLM,fileName="GLMout.txt",folder=""){
 	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
-writeWTR  <- function(GLM,fileName="GLM.wtr",folder=""){
-  # writes GLM file to directory
-  fileOut <- paste(c(folder,fileName),collapse="")
-  write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
-
-writeWND  <- function(GLMnc,fileName="GLM.wnd",folder=""){
-  # writes GLM file to directory
-	GLM	<-	data.frame(getTimeGLMnc(GLMnc))
-	GLM	<-	cbind(GLM,getWndGLMnc(GLMnc))
-	names(GLM)	<-	c(timeID,"wnd")
-	fileOut <- paste(c(folder,fileName),collapse="")
-	write.table(GLM,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
 
 getSurfaceElevGLM	<-	function(GLM){
 	# returns a vector of elevations that correspond to the water surface
@@ -295,7 +281,7 @@ plotGLM  <- function(GLM,figName="glmPlot",folder="./",cLim=c(0,30)){
 	dev.off()
 }
 
-compareTemps <- function(GLMnc1, GLMnc2){
+compareTemps <- function(GLMnc1, GLMnc2,figName="glmPlot",folder="./",cLim=c(0,30)){
   
   
   elevs <-  getElevGLM(GLM)

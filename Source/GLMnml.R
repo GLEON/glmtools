@@ -63,6 +63,11 @@ getLakeName	<-	function(nml){
 	return(lakeName)
 }
 
+getMaxElevation	<-	function(nml){
+	maxElevation	<-	nml$crest_elev
+	return(maxElevation)
+}
+
 getMaxDepth	<-	function(nml){
 	mxElv	<-	nml$crest_elev
 	mnElv	<-	nml$base_elev

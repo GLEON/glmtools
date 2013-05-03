@@ -95,6 +95,10 @@ buildNML	<-	function(nml,textLine){
 	names(nml)	<-	c(oldNms,parNm)
 	return(nml)
 }
+setNML	<-	function(nml,argName,argVal){
+	nml[argName]	<-	argVal
+	return(nml)
+}
 
 setLKE	<-	function(lke,argName,argVal){
 	lke[argName]	<-	argVal

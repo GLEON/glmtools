@@ -25,7 +25,8 @@ writeLVL(lvl,lkName)		# write the .lvl file
 bth	<-	getBTH(nml)
 writeBTH(bth,lkName)		# write the .bth file
 
-wtr	<-	getWTR(GLMnc)
+depths	<-	seq(0,mxDep,1)
+wtr	<-	getWTR(GLMnc,depths)
 writeWTR(wtr,lkName)		# write the .wtr file
 
 wnd	<-	getWND(GLMnc)

@@ -1,0 +1,25 @@
+#################
+## GLM-R
+#################
+
+*.docx
+
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+.DS_Store
+.Rhistory
+
+*.png
+*.nc
+*.txt
+*.bth
+*.lke
+*.lvl
+*.wtr
+*.wnd
+*.zip

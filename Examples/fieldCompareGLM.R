@@ -39,7 +39,7 @@ for (j in 1:length(unDates)){
 	}
 }
 plot(wtrObs,wtrMod)
-LM	<-	lm(wtrObs~wtrMod)
+LM	<-	lm(wtrMod~wtrObs)
 m	<-	summary(LM)
 m$sigma
 

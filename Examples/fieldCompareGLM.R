@@ -3,7 +3,7 @@
 source('../Source/GLMnetCDF.R')
 minZ <-	1	# minimum depth for use in regression
 # open field data
-fileN	<-	'../Data/Delevan_field.tsv'
+fileN	<-	'../Data/fieldData.tsv'
 sampleVals <- read.table(fileN,header=TRUE)
 
 dates	<-	as.POSIXct(sampleVals$sampledate)
@@ -20,7 +20,7 @@ unDates	<-	unique(dates)
 
 lyrDz <-  0.25  # grid vertical thickness for resampling
 GLMfolder <-  '../Data/'
-GLMfile <-  'Delevan_output.nc'
+GLMfile <-  'output.nc'
 GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
 GLM	<-  resampleGLM(GLMnc,lyrDz=lyrDz)
 

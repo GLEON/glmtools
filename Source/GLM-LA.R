@@ -130,3 +130,20 @@ writeWND  <- function(wnd,lakeName='lake',folder='../Supporting Files/'){
 	fileOut <- paste(c(folder,lakeName,'.wnd'),collapse="")
 	write.table(wnd,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
+
+zipLA	<-	function(lakeName='lake',folder='../Supporting Files/',destFldr='../Supporting Files/'){
+	# finds all folders in the directory, zips and moves to destFldr. Fails w/o .lke file
+	files	<-	list.files(folder,pattern=lakeName,full.names=TRUE)
+	if !any(files==paste(c(folder,lakeName,'.lke'),collapse='')){stop("need *.lke file for zip")}
+	
+	zipFile	<-	paste(c(destFldr,lakeName),collapse='')
+	zip(zipFile,files)
+	# return success message?
+}
+
+runRemoteLA	<-	function(zipHandle,destFldr='../Supporting Files/'){
+	library(RCurl)
+	file_h	<-	postForm("http://lakeanalyzer.gleon.org/postRunModel.php",
+	          upload = zipHandle)
+	# now move file_h to destFldr
+}

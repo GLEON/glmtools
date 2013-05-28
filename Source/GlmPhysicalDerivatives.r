@@ -268,7 +268,7 @@ getStratifiedStartEnd <-  function(GLMwtr,GLMice,minStrat){
 }
 
 ################################################################################
-# GetEpiMetaHypo.GLME
+# GetEpiMetaHypo.GLM
 #
 # Get EpiMetaHypo layer depths from the water temperature profile.
 # this will probably be slow
@@ -331,4 +331,24 @@ getEpiMetaHypo.GLM <- function(GLMwtr, depths){
 	list(metaTopD = metaTopD, SthermoD = SthermoD, metaBotD = metaBotD)
 }
 
+################################################################################
+# volInTemp.GLM
+#
+# Calculates the total volume within a temperature range.
+#
+################################################################################
+volInTemp.GLM <- function(GLMnc, lowT, highT){
+  
+  layVol = ncvar_get(GLMnc,"V")
+  layTemp = ncvar_get(GLMnc,"temp")
+  
+  volumes = vector(mode="double", length=ncol(layVol))*NaN
+  times = getTimeGLMnc(GLMnc)
+  
+  for(i in 1:length(volumes)){
+    volumes[i] = sum(layVol[layTemp[,i] >= lowT & layTemp[,i] <= highT ,i], na.rm=TRUE)
+  }
+  
+  return(list(times,volumes))
+}
 

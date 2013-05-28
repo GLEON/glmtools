@@ -15,7 +15,7 @@ Desktop.ini
 .Rhistory
 
 *.png
-*.nc
+**/*.nc
 *.txt
 *.bth
 *.lke
@@ -23,4 +23,3 @@ Desktop.ini
 *.wtr
 *.wnd
 *.zip
-*.r

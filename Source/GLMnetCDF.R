@@ -17,6 +17,7 @@ getGLMnc  <-  function(fileName='output.nc',folder='../Data/'){
 ################################################################################
 # Summary: Returns the converted time vector in R format
 getTimeGLMnc  <-  function(GLMnc){
+  require(ncdf4)
 	hoursSince  <-   ncvar_get(GLMnc, "time")
 	timeInfo <- getTimeInfo(GLMnc)
 
@@ -30,31 +31,44 @@ getTimeGLMnc  <-  function(GLMnc){
 #
 ################################################################################
 getIceGLMnc <-  function(GLMnc){
+  require(ncdf4)
 	ice  	<- 	ncvar_get(GLMnc, "hice")+ncvar_get(GLMnc, "hwice")+ncvar_get(GLMnc, "hsnow")
 	return(ice)
 }
 
 getWndGLMnc <-  function(GLMnc){
+  require(ncdf4)
 	wnd  	<- 	ncvar_get(GLMnc, "wind")
 	return(wnd)
 }
 
 subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
+  
 	# sample at depths of 'sampleElev' at time 'sampleDepths'
 	glmElev	<-	getElevGLM(GLM)
 	surfaceElevs <-  getSurfaceElevGLM(GLM)
 	dates	<-	GLM$DateTime
-	time	<-	as.POSIXct(sampleTime)
-	diffs	<-	abs(dates-time)
-	uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
-	interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
-	drops <- c(timeID)
-	temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
-	wtr	<-	approx(glmElev,temp,xout=interpElevs)
-	if (as.numeric(diffs[uIndx])<24){
-		return(wtr$y)
-	}
-	else{return(wtr*NA)}
+	times	<-	as.POSIXct(sampleTime)
+	output = matrix(NaN, nrow=length(sampleTime), ncol=length(sampleDepths))
+  
+  for (i in 1:length(times)){
+    time = times[i]
+	  diffs	<-	abs(dates-time)
+	  uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
+    
+    
+	  interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
+	  drops <- c(timeID)
+	  temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
+	  wtr	<-	approx(glmElev,temp,xout=interpElevs)
+    
+    if (as.numeric(diffs[uIndx])<24){
+      output[i,] = wtr$y
+    }
+    
+  }
+  
+	return(output)
 }
 
 depthsampleGLM	<-	function(GLM, sampleDepths){
@@ -81,6 +95,7 @@ depthsampleGLM	<-	function(GLM, sampleDepths){
 #
 ################################################################################
 getTempGLMnc <-  function(GLMnc,lyrDz=0.5){
+  require(ncdf4)
   
   #The last useful index
   NS	<- 	ncvar_get(GLMnc, "NS")
@@ -137,6 +152,7 @@ getTempGLMnc <-  function(GLMnc,lyrDz=0.5){
 #
 ################################################################################
 resampleGLM	<-	function(GLMnc, lyrDz=0.25){
+  require(ncdf4)
 	# uniform grid resampling of GLMnc
 	#Get the surface elevation vector from the NetCDF file
 	elev	<- 	ncvar_get(GLMnc, "z" )
@@ -157,7 +173,7 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 	numStep <- length(time)
   	numDep	<-  length(elevOut)
 	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
-
+  
 	for (tme in 1:numStep){
 		useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
 		useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
@@ -188,6 +204,7 @@ resampleGLM	<-	function(GLMnc, lyrDz=0.25){
 #	GLMnc:	The ncdf file object reference, from nc_open
 # 	
 getTimeInfo <- function(GLMnc){
+  require(ncdf4)
 	daySecs = 86400
 
 	#The units attribute on the time variable has basically the info we need

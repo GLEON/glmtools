@@ -16,22 +16,6 @@ getGLMnc  <-  function(folder=folder){
   return(GLMnc)
 }
 
-################################################################################
-#
-################################################################################
-getGLMwtr  <-  function(GLMnc){
-  GLMwtr <-	resampleGLM(GLMnc)
-  return(GLMwtr)
-}
-
-################################################################################
-#
-################################################################################
-getGLMice  <-  function(GLMnc){
-  
-  GLMice <-  data.frame("DateTime"=getTimeGLMnc(GLMnc),"Ice"=getIceGLMnc(GLMnc))
-  return(GLMice)
-}
 
 ################################################################################
 #
@@ -148,8 +132,11 @@ getDaysBetweenT <-  function(GLMwtr,temperatureLow,temperatureHigh,anyDep=TRUE){
 #
 ################################################################################
 getMaxTempIdx <-  function(GLMwtr, year){
+  years = as.POSIXlt(GLMwtr$DateTime)$year + 1900
+  if(!any(years==year)){
+    return(NaN)
+  }
   dailyTempMax  <-  getDailyTempMax(GLMwtr)
-  years = as.POSIXlt(glm.wtr$DateTime)$year + 1900
   dailyTempMax[years != year] = NaN
   maxTempIdx  <-  which.max(dailyTempMax)
   return(maxTempIdx)
@@ -177,10 +164,13 @@ getBottomT <- function(GLMwtr){
 #
 ################################################################################
 getIceOffDate <- function(GLMice, GLMwtr, year){
-  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
-    stop("GLM ice time series must be equal or shorter than one year")
-  }
+  #if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
+  #  stop("GLM ice time series must be equal or shorter than one year")
+  #}
   maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr, year))
+  if(is.na(maxTempIdx)){
+    return(NA)
+  }
     # now, look backwards
   iceOffIdx <-  max(which(GLMice[iceID][1:maxTempIdx,]!=0))+1
   iceOffDOY <-  GLMice[timeID][iceOffIdx,]
@@ -191,10 +181,13 @@ getIceOffDate <- function(GLMice, GLMwtr, year){
 #
 ################################################################################
 getIceOnDate  <-  function(GLMice, GLMwtr, year){
-  if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
-    stop("GLM ice time series must be equal or shorter than one year")
-  }
+  #if(diff(range(GLMwtr$DateTime)) > as.difftime(366,units="days")){
+  #  stop("GLM ice time series must be equal or shorter than one year")
+  #}
   maxTempIdx <-  as.numeric(getMaxTempIdx(GLMwtr, year))
+  if(is.na(maxTempIdx)){
+    return(NA)
+  }
     # now, look forwards
   iceOnIdx <-  min(which(GLMice[iceID][maxTempIdx:nrow(GLMice[iceID]),]!=0))+(maxTempIdx-1)
   iceOnDOY <-  GLMice[timeID][iceOnIdx,]

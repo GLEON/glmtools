@@ -56,7 +56,19 @@ setNML	<-	function(nml,argName,argVal){
 	return(nml)
 }
 
-
+writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){
+	sink(paste(c(folder,fileName),collapse=''))
+	for (i in 1:length(names(nml))){
+		cat(names(nml[i]))
+		cat('=')
+		if (length(nml[[i]]>1)){
+			writer	<-	paste(nml[[i]],colapse=',')
+		} else {write	<-	nml[[1]]}
+		cat(nml[[i]])
+		cat('\n')
+	}	
+	sink()
+}
 
 getLakeName	<-	function(nml){
 	lakeName	<-	nml$lake_name

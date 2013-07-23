@@ -73,8 +73,9 @@ buildVal	<-	function(textLine){
 	return(lineVal)
 }
 
-setNML	<-	function(nml,argName,argVal){
-	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
+# private function
+findBlck	<-	function(nml,argName){
+	
 	blockNames	<-	names(nml)
 	blckI	<-	NULL
 	for (i in 1:length(blockNames)){
@@ -84,6 +85,12 @@ setNML	<-	function(nml,argName,argVal){
 		}
 	}
 	if (is.null(blckI)){stop(c("paramter name ",argName," not found in nml"))}
+	return(blckI)
+}
+
+setVal	<-	function(nml,argName,argVal){
+	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
+	blckI	<-	findBlck(nml,argName)
 	
 	currVal	<-	nml[[blckI]][[argName]]
 	typeError	<-	"input must be of same data type as current value"
@@ -97,6 +104,14 @@ setNML	<-	function(nml,argName,argVal){
 	
 	nml[[blckI]][[argName]]	<- argVal
 	return(nml)
+}
+
+getVal	<-	function(nml,argName,argVal){
+
+	blckI	<-	findBlck(nml,argName)
+	
+	val	<-	nml[[blckI]][[argName]]
+	return(val)
 }
 
 writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){

@@ -1,4 +1,4 @@
-GLM-R
+rGLM
 =====
 
 Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output.
@@ -9,15 +9,15 @@ In order to contribute to this code, we recommend the following workflow:
 
 2) clone the github repository to your computer:
 
-	$git clone https://github.com/username/GLM-R.git
+	$git clone https://github.com/username/rGLM.git
 
 3) modify code or add new functionality, save the code
 
 4) add the repository master to a remote master called "upstream"
 
-	$cd GLM-R
+	$cd rGLM
 
-	$git remote add upstream https://github.com/GLEON/GLM-R.git
+	$git remote add upstream https://github.com/GLEON/rGLM.git
 
 5) before pushing your changes to your repository, pull in the current version of the GLEON master:
 
@@ -55,4 +55,4 @@ type
 
     install.packages('%path%/lib/ncdf4_1.4.zip')
 
-where %path% is the location of the GLM-r directory.
+where %path% is the location of the rGLM directory.

@@ -1,6 +1,5 @@
 # ------Helper functions for interacting with glm.nml files-----
 # ------Jordan and Luke 2013
-commentStr	<-	'!'
 
 getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 	# skip all commented lines, return all variables and associated values
@@ -10,7 +9,7 @@ getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 	fileLines <- readLines(c)
 	close(c)
 	lineStart	<-	substr(fileLines,1,1)
-	ignoreLn	<-	lineStart==commentStr | fileLines==""
+	ignoreLn	<-	lineStart=='!' | fileLines==""
 	lineStart	<-	lineStart[!ignoreLn]
 	fileLines	<-	fileLines[!ignoreLn]
 	# find all lines which start with "&" * requires FIRST char to be value
@@ -29,7 +28,7 @@ getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 		names(nml)	<-	c(oldNms,blckName)
 		for (j in (blckOpen[i]+1):(blckClse[i]-1)){
 			textLine	<-	gsub("\t","",gsub(" ","",fileLines[j]))
-			if(substr(textLine,1,1)!=commentStr){ 
+			if(substr(textLine,1,1)!='!'){ 
 				# else, line is commented out
 				lineVal	<-	buildVal(textLine)
 				nml[[i]]	<-	c(nml[[i]],lineVal)
@@ -43,7 +42,7 @@ getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 buildVal	<-	function(textLine){
 	#-----function appends nml list with new values-----
 	# remove all text after comment string
-	textLine	<-	strsplit(textLine,commentStr)[[1]][1]
+	textLine	<-	strsplit(textLine,'!')[[1]][1]
 	
 	if (!any(grep("=",textLine))){stop(c("no hanging lines allowed in .nml, used ",textLine))}
 	params	<-	strsplit(textLine,"=") # break text at "="

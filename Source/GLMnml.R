@@ -88,8 +88,15 @@ writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 			cat('   ')
 			cat(names(blckList)[j])
 			cat(' = ')
-			if (length(blckList[[j]]>1)){
-				writer	<-	paste(blckList[[j]],colapse=',')
+			if (length(blckList[[j]])>1){
+				writer	<-	paste(c(blckList[[j]]),collapse=', ')
+			} else if (is.character(blckList[[j]])) {
+				charText	<-	strsplit(blckList[[j]],',')
+				writer	<-	paste(charText,collapse=',')
+			} else if (is.logical(blckList[[j]]) & blckList[[j]]){
+				writer	<-	".true."
+			} else if (is.logical(blckList[[j]]) & !blckList[[j]]){
+				write	<-	".false."
 			} else {writer	<-	blckList[[j]]}
 			cat(writer)
 			cat('\n')

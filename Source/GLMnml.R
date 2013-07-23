@@ -38,6 +38,8 @@ getNML	<-	function(fileName='glm.nml',folder='../Data/'){
 	}
 	return(nml)
 }
+
+# private function
 buildVal	<-	function(textLine){
 	#-----function appends nml list with new values-----
 	# remove all text after comment string
@@ -72,7 +74,28 @@ buildVal	<-	function(textLine){
 }
 
 setNML	<-	function(nml,argName,argVal){
-	nml[argName]	<-	argVal
+	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
+	blockNames	<-	names(nml)
+	blckI	<-	NULL
+	for (i in 1:length(blockNames)){
+		if (any(argName %in% names(nml[[i]]))){
+			blckI	<- i
+			break
+		}
+	}
+	if (is.null(blckI)){stop(c("paramter name ",argName," not found in nml"))}
+	
+	currVal	<-	nml[[blckI]][[argName]]
+	typeError	<-	"input must be of same data type as current value"
+	if (is.logical(currVal) & !is.logical(argVal)){
+		stop(c(typeError,' (logical)'))
+	} else if (is.character(currVal) & !is.character(argVal)){
+		stop(c(typeError,' (character)'))
+	} else if (is.numeric(currVal) & !is.numeric(argVal)){
+		stop(c(typeError,' (numeric)'))
+	}
+	
+	nml[[blckI]][[argName]]	<- argVal
 	return(nml)
 }
 
@@ -92,7 +115,7 @@ writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 				writer	<-	paste(c(blckList[[j]]),collapse=', ')
 			} else if (is.character(blckList[[j]])) {
 				charText	<-	strsplit(blckList[[j]],',')
-				writer	<-	paste(charText,collapse=',')
+				writer	<-	paste(c("'",paste(c(charText[[1]]),collapse="','"),"'"),collapse='')
 			} else if (is.logical(blckList[[j]]) & blckList[[j]]){
 				writer	<-	".true."
 			} else if (is.logical(blckList[[j]]) & !blckList[[j]]){

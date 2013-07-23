@@ -126,6 +126,7 @@ writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 			cat('   ')
 			cat(names(blckList)[j])
 			cat(' = ')
+			#browser()
 			if (length(blckList[[j]])>1){
 				writer	<-	paste(c(blckList[[j]]),collapse=', ')
 			} else if (is.character(blckList[[j]])) {
@@ -134,8 +135,10 @@ writeNML	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 			} else if (is.logical(blckList[[j]]) & blckList[[j]]){
 				writer	<-	".true."
 			} else if (is.logical(blckList[[j]]) & !blckList[[j]]){
-				write	<-	".false."
-			} else {writer	<-	blckList[[j]]}
+				writer	<-	".false."
+			} else {
+				writer	<-	blckList[[j]]
+			}
 			cat(writer)
 			cat('\n')
 		}

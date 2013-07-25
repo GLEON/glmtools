@@ -26,9 +26,25 @@ read.nml	<-	function(fileName='glm.nml',folder='../Data/'){
 		oldNms	<-	names(nml)
 		nml[[i]]	<-	list()
 		names(nml)	<-	c(oldNms,blckName)
+    
+    carryover = ''
+    
 		for (j in (blckOpen[i]+1):(blckClse[i]-1)){
-			textLine	<-	gsub("\t","",gsub(" ","",fileLines[j]))
-			if(substr(textLine,1,1)!='!'){ 
+      
+			textLine	<-	paste(carryover, gsub("\t","",gsub(" ","",fileLines[j])), sep='')
+      #cat(textLine,'\n')
+      #browser()
+			if(substr(textLine,1,1)!='!'){
+        # Add a check here, sometimes, if there is a hanging comma, 
+        #and only sumtimes that means add next row
+        if(substr(textLine,nchar(textLine), nchar(textLine)) == ',' && 
+             j+1 <= length(fileLines) && !any(grep("=",fileLines[j+1])) && !any(grep("/",fileLines[j+1]))){
+          
+          carryover = textLine
+          next
+        }else{
+          carryover = ''
+        }
 				# else, line is commented out
 				lineVal	<-	buildVal(textLine)
 				nml[[i]]	<-	c(nml[[i]],lineVal)
@@ -43,7 +59,7 @@ buildVal	<-	function(textLine){
 	#-----function appends nml list with new values-----
 	# remove all text after comment string
 	textLine	<-	strsplit(textLine,'!')[[1]][1]
-	
+  
 	if (!any(grep("=",textLine))){stop(c("no hanging lines allowed in .nml, used ",textLine))}
 	params	<-	strsplit(textLine,"=") # break text at "="
 	parNm	<-	params[[1]][1]

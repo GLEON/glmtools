@@ -1,6 +1,7 @@
 timeID	= "DateTime"
 elvID	="elv_"
 depID	="wtr_"
+iceID <-  "Ice"
 
 ################################################################################
 #
@@ -33,6 +34,9 @@ getTimeGLMnc  <-  function(GLMnc){
 getIceGLMnc <-  function(GLMnc){
   require(ncdf4)
 	ice  	<- 	ncvar_get(GLMnc, "hice")+ncvar_get(GLMnc, "hwice")+ncvar_get(GLMnc, "hsnow")
+  dates = getTimeGLMnc(GLMnc)
+  ice = data.frame(dates, ice)
+  names(ice) = c(timeID, iceID)
 	return(ice)
 }
 
@@ -94,36 +98,39 @@ depthsampleGLM	<-	function(GLM, sampleDepths){
 ################################################################################
 #
 ################################################################################
-getTempGLMnc <-  function(GLMnc,lyrDz=0.5){
+getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
   require(ncdf4)
   
-  #The last useful index
-  NS	<- 	ncvar_get(GLMnc, "NS")
+	#The last useful index
+	NS	<- 	ncvar_get(GLMnc, "NS")
+	
+	#The max index of valid data, clip the input matricies
+	maxInd = max(NS)
+	
+	
+	#Get the surface elevation vector from the NetCDF file
+	elev	<- 	ncvar_get(GLMnc, "z" )
+	elev	<-	elev[1:maxInd,]
+	
+	#Grab water temperature from NC file
+	wtr	<- 	ncvar_get(GLMnc, "temp")
+	wtr 	<-	wtr[1:maxInd,]
+	
+	#No temperature or elevation should be > 1e30, should be converted to NA
+	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
+	elev[rmvI]	<- NA
+	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
+	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
+	 
+  if(missing(lyr.elevations)){
+	  elevOut	<-	seq(mnElv,mxElv,lyrDz)
+  }else{
+  	elevOut = lyr.elevations
+  }
   
-  #The max index of valid data, clip the input matricies
-  maxInd = max(NS)
-  
-  
-  #Get the surface elevation vector from the NetCDF file
-  elev	<- 	ncvar_get(GLMnc, "z" )
-  elev	<-	elev[1:maxInd,]
-  
-  #Grab water temperature from NC file
-  wtr	<- 	ncvar_get(GLMnc, "temp")
-  wtr 	<-	wtr[1:maxInd,]
-
   #We want to include time with the output as well
   time <- getTimeGLMnc(GLMnc)
-  numStep = length(time)
-  
-  #No temperature or elevation should be > 1e30, should be converted to NA
-  rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
-  elev[rmvI]	<- NA
-  mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
-  mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
-  
-  elevOut	<-	seq(mnElv,mxElv,lyrDz)
-  
+  numStep = length(time)  
   
   numDep	<-  length(elevOut)
   wtrOut	<-	matrix(nrow=numStep,ncol=numDep)

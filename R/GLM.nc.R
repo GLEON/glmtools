@@ -80,7 +80,7 @@ depthsampleGLM	<-	function(GLM, sampleDepths){
 	GLMnew	<-	GLM$DateTime
 	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
 	frameNms<-letters[seq( from = 1, to = (length(sampleDepths)+1))]
-  	frameNms[1] <- timeID
+  	frameNms[1] <- "DateTime"
 	for (z in 2:(length(sampleDepths)+1)){
     	frameNms[z]  <- paste(c("wtr_",as.character(sampleDepths[z-1])),collapse="")
   	}
@@ -147,10 +147,10 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
   GLM <- data.frame(time)
   GLM <- cbind(GLM,wtrOut)
   frameNms<-letters[seq( from = 1, to = numDep )]
-  frameNms[1] <- timeID
+  frameNms[1] <- "DateTime"
   
   for (z in 1:numDep){
-    frameNms[z+1]  <- paste(c(elvID,as.character(elevOut[z])),collapse="")
+    frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
   }
   names(GLM)<- frameNms
   return(GLM)

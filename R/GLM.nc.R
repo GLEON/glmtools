@@ -62,7 +62,7 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 		if (length(temp[!is.na(temp)])>1){
 			wtr	<-	approx(glmElev,temp,xout=interpElevs)
 		} else {
-			wtr$y	<-	interpElevs*NA
+			wtr	<-	data.frame(y=interpElevs*NA)
 			}
 	  
     

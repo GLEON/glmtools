@@ -58,10 +58,11 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 	  interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
 	  drops <- c("DateTime")
 	  temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
-		if (length(temp)>1){
+	
+		if (length(temp[!is.na(temp)])>1){
 			wtr	<-	approx(glmElev,temp,xout=interpElevs)
 		} else {
-			wtr	<-	interpElevs*NA
+			wtr$y	<-	interpElevs*NA
 			}
 	  
     

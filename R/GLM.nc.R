@@ -45,9 +45,10 @@ getWndGLMnc <-  function(GLMnc){
 ################################################################################
 #
 ################################################################################
-getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
-  require(ncdf4)
-  
+getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
+  	if (ref!='bottom' & ref!='surface'){
+		stop('reference input must be either "surface" or "bottom"')
+	}
 	#The last useful index
 	NS	<- 	ncvar_get(GLMnc, "NS")
 	
@@ -70,12 +71,15 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 	 
-  	if(missing(lyr.elevations)){
+  	if (missing(z.out) & ref=='surface'){
 		elevOut	<-	seq(mnElv,mxElv,lyrDz)
-  	} else {
-		elevOut	<-	lyr.elevations
+		z.out	<-	seq(0,mxElv-mnElv,lyrDz) # not used for ref==bottom
+  	} else if (missing(z.out) & ref=='bottom') {
+		elevOut	<-	seq(mnElv,mxElv,lyrDz)
+	} else {
+		elevOut	<-	z.out
 	}
-  
+  	
   	#We want to include time with the output as well
   	time <- getTimeGLMnc(GLMnc)
 	numStep	<-	length(time)
@@ -111,6 +115,10 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
     	frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
   	}
   	names(GLM)<- frameNms
+
+	if (ref=='surface'){
+		GLM	<-	depthsampleGLM(GLM, sampleDepths=z.out)
+	}
   	return(GLM)
 }
 

@@ -62,7 +62,6 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 	#Grab water temperature from NC file
 	wtr	<- 	ncvar_get(GLMnc, "temp")
 	wtr 	<-	wtr[1:maxInd,]
-	numStep	<-	ncol(wtr)  
 	
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
@@ -79,7 +78,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
   
   	#We want to include time with the output as well
   	time <- getTimeGLMnc(GLMnc)
-  	if (length(time)!=numStep){stop('time and water steps inconsistent in .nc file')}
+	numStep	<-	length(time)
   
   	numDep	<-  length(elevOut)
   	wtrOut	<-	matrix(nrow=numStep,ncol=numDep) # pre-populated w/ NAs

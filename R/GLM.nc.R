@@ -119,6 +119,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
 	elev[rmvI]	<- NA
+	wtr[rmvI]	<- NA
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 	 
@@ -136,10 +137,14 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
   wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
   
   for (tme in 1:numStep){
-    useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
-    useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
-    x		<- elev[useI,tme]
-    y		<- wtr[useI,tme]
+	if (!is.null(ncol(wtr))){	# check that it is not an atomic vector
+		x		<- elev[,tme]
+	    y		<- wtr[,tme]
+	} else {
+		x		<- elev[tme]
+	    y		<- wtr[tme]
+	}
+    
     if (length(y)>0){
       ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
       wtrOut[tme,1:length(ap$y)]	<- ap$y}

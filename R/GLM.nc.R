@@ -74,10 +74,14 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
   	if (missing(z.out) & ref=='surface'){
 		elevOut	<-	seq(mnElv,mxElv,lyrDz)
 		z.out	<-	seq(0,mxElv-mnElv,lyrDz) # not used for ref==bottom
-  	} else if (missing(z.out) & ref=='bottom') {
-		elevOut	<-	seq(mnElv,mxElv,lyrDz)
+  	} else if (ref=='bottom') {
+		if (missing(z.out)){
+			elevOut	<-	seq(mnElv,mxElv,lyrDz)
+		} else {
+			elevOut	<-	z.out
+		}
 	} else {
-		elevOut	<-	z.out
+		elevOut	<-	seq(mnElv,mxElv,lyrDz)
 	}
   	
   	#We want to include time with the output as well

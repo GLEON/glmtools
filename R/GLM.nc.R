@@ -98,16 +98,16 @@ depthsampleGLM	<-	function(GLM, sampleDepths){
 ################################################################################
 #
 ################################################################################
-getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
+getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
   require(ncdf4)
   
 	#The last useful index
 	NS	<- 	ncvar_get(GLMnc, "NS")
 	
 	#The max index of valid data, clip the input matricies
-	maxInd = max(NS)
+	maxInd	<-	max(NS)
 	
-	
+	# rows are layers, columns are time..
 	#Get the surface elevation vector from the NetCDF file
 	elev	<- 	ncvar_get(GLMnc, "z" )
 	elev	<-	elev[1:maxInd,]
@@ -115,6 +115,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
 	#Grab water temperature from NC file
 	wtr	<- 	ncvar_get(GLMnc, "temp")
 	wtr 	<-	wtr[1:maxInd,]
+	numStep	<-	ncol(wtr)  
 	
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
@@ -123,42 +124,48 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 	 
-  if(missing(lyr.elevations)){
-	  elevOut	<-	seq(mnElv,mxElv,lyrDz)
-  }else{
-  	elevOut = lyr.elevations
-  }
-  
-  #We want to include time with the output as well
-  time <- getTimeGLMnc(GLMnc)
-  numStep = length(time)  
-  
-  numDep	<-  length(elevOut)
-  wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
-  
-  for (tme in 1:numStep){
-	if (!is.null(ncol(wtr))){	# check that it is not an atomic vector
-		x		<- elev[,tme]
-	    y		<- wtr[,tme]
-	} else {
-		x		<- elev[tme]
-	    y		<- wtr[tme]
+  	if(missing(lyr.elevations)){
+		elevOut	<-	seq(mnElv,mxElv,lyrDz)
+  	} else {
+		elevOut	<-	lyr.elevations
 	}
-    
-    if (length(y)>0){
-      ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
-      wtrOut[tme,1:length(ap$y)]	<- ap$y}
-  }
-  GLM <- data.frame(time)
-  GLM <- cbind(GLM,wtrOut)
-  frameNms<-letters[seq( from = 1, to = numDep )]
-  frameNms[1] <- "DateTime"
   
-  for (z in 1:numDep){
-    frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
-  }
-  names(GLM)<- frameNms
-  return(GLM)
+  	#We want to include time with the output as well
+  	time <- getTimeGLMnc(GLMnc)
+  	if (length(time)!=numStep){stop('time and water steps inconsistent in .nc file')}
+  
+  	numDep	<-  length(elevOut)
+  	wtrOut	<-	matrix(nrow=numStep,ncol=numDep) # pre-populated w/ NAs
+	if (is.null(ncol(wtr))){ # handle single depth layer of model
+		for (tme in 1:numStep){
+			x		<- elev[tme]
+			y		<- wtr[tme]
+			if (!is.na(y)){
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				wtrOut[tme,1:length(ap$y)]	<- ap$y
+			}
+		}
+	} else { 
+		for (tme in 1:numStep){
+			cleanI	<-	which(!is.na(wtr[,tme]))
+			x		<- elev[cleanI,tme]
+		    y		<- wtr[cleanI,tme]
+			if (length(y)>0){
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				wtrOut[tme,1:length(ap$y)]	<- ap$y
+			}
+		}
+	}
+  	GLM	<-	data.frame(time)
+  	GLM <-	cbind(GLM,wtrOut)
+  	frameNms	<-	letters[seq( from = 1, to = numDep )]
+  	frameNms[1] <- "DateTime"
+  
+  	for (z in 1:numDep){
+    	frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
+  	}
+  	names(GLM)<- frameNms
+  	return(GLM)
 }
 
 

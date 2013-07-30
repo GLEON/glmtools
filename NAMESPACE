@@ -1,4 +1,4 @@
 export(read.nml, set.nml, get.nml, write.nml)
 export(init.lke, init.lkeMeta, get.lvl, get.bth, get.wtr, get.wnd, set.lke, write.lke, write.bth, write.wtr, write.lvl, write.wnd, zipLA, runRemoteLA)
-export(getGLMnc, getTimeGLMnc, getIceGLMnc, getWndGLMnc, subsampleGLM, depthsampleGLM, getTempGLMnc, resampleGLM, getTimeInfo, getSurfaceElevGLM, getElevGLM)
+export(getGLMnc, getTimeGLMnc, getIceGLMnc, getWndGLMnc, subsampleGLM, depthsampleGLM, getTempGLMnc, getTimeInfo, getSurfaceElevGLM, getElevGLM)
 import(ncdf4)

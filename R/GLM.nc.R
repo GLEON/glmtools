@@ -70,32 +70,30 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
 	wtr[rmvI]	<- NA
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
-	 
-  	if (missing(z.out) & ref=='surface'){
-		elevOut	<-	seq(mnElv,mxElv,lyrDz)
-		z.out	<-	seq(0,mxElv-mnElv,lyrDz) # not used for ref==bottom
-  	} else if (ref=='bottom') {
-		if (missing(z.out)){
-			elevOut	<-	seq(mnElv,mxElv,lyrDz)
-		} else {
-			elevOut	<-	z.out
-		}
+	
+	if (missing(z.out)){
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		depth.out	<-	seq(0,mxElv-mnElv,lyrDz)
+	} else if (ref=='surface') {
+		depth.out	<-	z.out
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
 	} else {
-		elevOut	<-	seq(mnElv,mxElv,lyrDz)
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
 	}
+
   	
   	#We want to include time with the output as well
   	time <- getTimeGLMnc(GLMnc)
 	numStep	<-	length(time)
   
-  	numDep	<-  length(elevOut)
+  	numDep	<-  length(elev.out)
   	wtrOut	<-	matrix(nrow=numStep,ncol=numDep) # pre-populated w/ NAs
 	if (is.null(ncol(wtr))){ # handle single depth layer of model
 		for (tme in 1:numStep){
 			x		<- elev[tme]
 			y		<- wtr[tme]
 			if (!is.na(y)){
-				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elev.out)
 				wtrOut[tme,1:length(ap$y)]	<- ap$y
 			}
 		}
@@ -105,7 +103,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
 			x		<- elev[cleanI,tme]
 		    y		<- wtr[cleanI,tme]
 			if (length(y)>0){
-				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elev.out)
 				wtrOut[tme,1:length(ap$y)]	<- ap$y
 			}
 		}
@@ -116,12 +114,12 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
   	frameNms[1] <- "DateTime"
   
   	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
+    	frameNms[z+1]  <- paste(c("elv_",as.character(elev.out[z])),collapse="")
   	}
   	names(GLM)<- frameNms
 
 	if (ref=='surface'){
-		GLM	<-	depthsampleGLM(GLM, sampleDepths=z.out)
+		GLM	<-	depthsampleGLM(GLM, sampleDepths=depth.out)
 	}
   	return(GLM)
 }

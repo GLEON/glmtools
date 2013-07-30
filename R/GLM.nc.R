@@ -155,51 +155,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.5, lyr.elevations){
   names(GLM)<- frameNms
   return(GLM)
 }
-################################################################################
-#
-################################################################################
-resampleGLM	<-	function(GLMnc, lyrDz=0.25){
-  require(ncdf4)
-	# uniform grid resampling of GLMnc
-	#Get the surface elevation vector from the NetCDF file
-	elev	<- 	ncvar_get(GLMnc, "z" )
 
-	#Grab water temperature from NC file
-	wtr		<- 	ncvar_get(GLMnc, "temp")
-
-	#No temperature or elevation should be > 1e30, should be converted to NA
-	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
-	elev[rmvI]	<- NA
-	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
-	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
-
-	elevOut	<-	seq(mnElv,mxElv,lyrDz)
-	#We want to include time with the output as well
-	time <- getTimeGLMnc(GLMnc)
-	numStep <- length(time)
-  	numDep	<-  length(elevOut)
-	wtrOut	<-	matrix(nrow=numStep,ncol=numDep)
-  
-	for (tme in 1:numStep){
-		useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
-		useI	<- which(wtr[,tme]<1e30 & elev[,tme]<1e30)
-		x		<- elev[useI,tme]
-		y		<- wtr[useI,tme]
-		if (length(y)>0){
-			ap		<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
-			wtrOut[tme,1:length(ap$y)]	<- ap$y}
-	}
-  	GLM <- data.frame(time)
-  	GLM <- cbind(GLM,wtrOut)
-	frameNms<-letters[seq( from = 1, to = numDep+1 )]
-  	frameNms[1] <- "DateTime"
-
-  	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
-  	}
-	names(GLM)	<- frameNms
-	return(GLM)
-}
 
 ################################################################################
 #

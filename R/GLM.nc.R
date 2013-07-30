@@ -22,6 +22,7 @@ getTimeGLMnc  <-  function(GLMnc){
 	time <- timeInfo$startDate + timeInfo$dt * hoursSince * 60*60*24
 
 	return(time)
+	
 }
 
 
@@ -38,60 +39,6 @@ getWndGLMnc <-  function(GLMnc){
   require(ncdf4)
 	wnd  	<- 	ncvar_get(GLMnc, "wind")
 	return(wnd)
-}
-
-subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
-  
-	# sample at depths of 'sampleElev' at time 'sampleDepths'
-	glmElev	<-	getElevGLM(GLM)
-	surfaceElevs <-  getSurfaceElevGLM(GLM)
-	dates	<-	GLM$DateTime
-	times	<-	as.POSIXct(sampleTime)
-	output = matrix(NaN, nrow=length(sampleTime), ncol=length(sampleDepths))
-  
-  for (i in 1:length(times)){
-    time = times[i]
-	  diffs	<-	abs(dates-time)
-	  uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
-    
-    
-	  interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
-	  drops <- c("DateTime")
-	  temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
-	
-		if (length(temp[!is.na(temp)])>1){
-			wtr	<-	approx(glmElev,temp,xout=interpElevs)
-		} else {
-			wtr	<-	data.frame(y=interpElevs*NA)
-			}
-	  
-    
-    if (as.numeric(diffs[uIndx])<24){
-      output[i,] = wtr$y
-    }
-    
-  }
-  
-	return(output)
-}
-
-depthsampleGLM	<-	function(GLM, sampleDepths){
-	# sample at depths of 'sampleDepths' at time all sample times
-	GLMnew	<-	GLM$DateTime
-	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
-	frameNms<-letters[seq( from = 1, to = (length(sampleDepths)+1))]
-  	frameNms[1] <- "DateTime"
-	for (z in 2:(length(sampleDepths)+1)){
-    	frameNms[z]  <- paste(c("wtr_",as.character(sampleDepths[z-1])),collapse="")
-  	}
-	wtrOut <-	data.frame(wtrOut)
-	GLMnew	<-	cbind(GLMnew,wtrOut)
-	for (tme in 1:nrow(GLMnew)){
-		GLMnew[tme,2:(length(sampleDepths)+1)]	<-	subsampleGLM(GLM,GLM$DateTime[tme],sampleDepths)
-	}
-	names(GLMnew)	<-	frameNms
-	GLM	<-	GLMnew
-	return(GLM)
 }
 
 
@@ -168,6 +115,60 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
   	return(GLM)
 }
 
+# private?
+subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
+  
+	# sample at depths of 'sampleElev' at time 'sampleDepths'
+	glmElev	<-	getElevGLM(GLM)
+	surfaceElevs <-  getSurfaceElevGLM(GLM)
+	dates	<-	GLM$DateTime
+	times	<-	as.POSIXct(sampleTime)
+	output = matrix(NaN, nrow=length(sampleTime), ncol=length(sampleDepths))
+  
+  for (i in 1:length(times)){
+    time = times[i]
+	  diffs	<-	abs(dates-time)
+	  uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
+    
+    
+	  interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
+	  drops <- c("DateTime")
+	  temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
+	
+		if (length(temp[!is.na(temp)])>1){
+			wtr	<-	approx(glmElev,temp,xout=interpElevs)
+		} else {
+			wtr	<-	data.frame(y=interpElevs*NA)
+			}
+	  
+    
+    if (as.numeric(diffs[uIndx])<24){
+      output[i,] = wtr$y
+    }
+    
+  }
+  
+	return(output)
+}
+# private?
+depthsampleGLM	<-	function(GLM, sampleDepths){
+	# sample at depths of 'sampleDepths' at time all sample times
+	GLMnew	<-	GLM$DateTime
+	wtrOut	<-	matrix(nrow=length(GLMnew),ncol=length(sampleDepths))
+	frameNms<-letters[seq( from = 1, to = (length(sampleDepths)+1))]
+  	frameNms[1] <- "DateTime"
+	for (z in 2:(length(sampleDepths)+1)){
+    	frameNms[z]  <- paste(c("wtr_",as.character(sampleDepths[z-1])),collapse="")
+  	}
+	wtrOut <-	data.frame(wtrOut)
+	GLMnew	<-	cbind(GLMnew,wtrOut)
+	for (tme in 1:nrow(GLMnew)){
+		GLMnew[tme,2:(length(sampleDepths)+1)]	<-	subsampleGLM(GLM,GLM$DateTime[tme],sampleDepths)
+	}
+	names(GLMnew)	<-	frameNms
+	GLM	<-	GLMnew
+	return(GLM)
+}
 
 ################################################################################
 #
@@ -177,6 +178,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 # Input:
 #	GLMnc:	The ncdf file object reference, from nc_open
 # 	
+# private?
 getTimeInfo <- function(GLMnc){
   require(ncdf4)
 	daySecs = 86400

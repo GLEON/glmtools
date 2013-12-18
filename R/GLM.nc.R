@@ -45,9 +45,10 @@ getWndGLMnc <-  function(GLMnc){
 ################################################################################
 #
 ################################################################################
-getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
-  require(ncdf4)
-  
+getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
+  	if (ref!='bottom' & ref!='surface'){
+		stop('reference input must be either "surface" or "bottom"')
+	}
 	#The last useful index
 	NS	<- 	ncvar_get(GLMnc, "NS")
 	
@@ -62,7 +63,6 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 	#Grab water temperature from NC file
 	wtr	<- 	ncvar_get(GLMnc, "temp")
 	wtr 	<-	wtr[1:maxInd,]
-	numStep	<-	ncol(wtr)  
 	
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
@@ -70,25 +70,30 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 	wtr[rmvI]	<- NA
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
-	 
-  	if(missing(lyr.elevations)){
-		elevOut	<-	seq(mnElv,mxElv,lyrDz)
-  	} else {
-		elevOut	<-	lyr.elevations
+	
+	if (missing(z.out)){
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		depth.out	<-	seq(0,mxElv-mnElv,lyrDz)
+	} else if (ref=='surface') {
+		depth.out	<-	z.out
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
+	} else {
+		elev.out	<-	seq(mnElv,mxElv,lyrDz)
 	}
-  
+
+  	
   	#We want to include time with the output as well
   	time <- getTimeGLMnc(GLMnc)
-  	if (length(time)!=numStep){stop('time and water steps inconsistent in .nc file')}
+	numStep	<-	length(time)
   
-  	numDep	<-  length(elevOut)
+  	numDep	<-  length(elev.out)
   	wtrOut	<-	matrix(nrow=numStep,ncol=numDep) # pre-populated w/ NAs
 	if (is.null(ncol(wtr))){ # handle single depth layer of model
 		for (tme in 1:numStep){
 			x		<- elev[tme]
 			y		<- wtr[tme]
 			if (!is.na(y)){
-				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elev.out)
 				wtrOut[tme,1:length(ap$y)]	<- ap$y
 			}
 		}
@@ -98,7 +103,7 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
 			x		<- elev[cleanI,tme]
 		    y		<- wtr[cleanI,tme]
 			if (length(y)>0){
-				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elevOut)
+				ap	<-	approx(c(mnElv,x),c(y[1],y),xout=elev.out)
 				wtrOut[tme,1:length(ap$y)]	<- ap$y
 			}
 		}
@@ -109,9 +114,13 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, lyr.elevations){
   	frameNms[1] <- "DateTime"
   
   	for (z in 1:numDep){
-    	frameNms[z+1]  <- paste(c("elv_",as.character(elevOut[z])),collapse="")
+    	frameNms[z+1]  <- paste(c("elv_",as.character(elev.out[z])),collapse="")
   	}
   	names(GLM)<- frameNms
+
+	if (ref=='surface'){
+		GLM	<-	depthsampleGLM(GLM, sampleDepths=depth.out)
+	}
   	return(GLM)
 }
 

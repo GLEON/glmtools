@@ -58,11 +58,19 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
 	# rows are layers, columns are time..
 	#Get the surface elevation vector from the NetCDF file
 	elev	<- 	ncvar_get(GLMnc, "z" )
-	elev	<-	elev[1:maxInd,]
-	
 	#Grab water temperature from NC file
 	wtr	<- 	ncvar_get(GLMnc, "temp")
-	wtr 	<-	wtr[1:maxInd,]
+	if (length(dim(elev))==2){
+		elev	<-	elev[1:maxInd,] 
+		wtr 	<-	wtr[1:maxInd,]
+	} else {
+		if (dim(elev)==0){stop('empty nc file')}
+		else {
+			elev	<-	elev[1:maxInd]
+			wtr 	<-	wtr[1:maxInd]
+		}
+	}
+	
 	
 	#No temperature or elevation should be > 1e30, should be converted to NA
 	rmvI	<- 	which(wtr>=1e30 | elev>=1e30)

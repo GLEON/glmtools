@@ -79,14 +79,25 @@ getTempGLMnc <-  function(GLMnc, lyrDz=0.25, ref='bottom', z.out){
 	mxElv	<-	max(elev,na.rm = TRUE)+lyrDz
 	mnElv	<-	min(elev,na.rm = TRUE)-lyrDz
 	
+	# this needs to be reworked
+	# if z.out is missing, it is 
 	if (missing(z.out)){
+		if (ref=='surface'){
+			# no z specified, but referenced to surface
+			elev.out	<-	seq(mnElv,mxElv,lyrDz)
+			depth.out	<-	seq(0,mxElv-mnElv,lyrDz)
+		} else {
+			elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		}
 		elev.out	<-	seq(mnElv,mxElv,lyrDz)
-		depth.out	<-	seq(0,mxElv-mnElv,lyrDz)
-	} else if (ref=='surface') {
-		depth.out	<-	z.out
-		elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		
 	} else {
-		elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		if (ref=='surface'){
+			depth.out	<-	z.out
+			elev.out	<-	seq(mnElv,mxElv,lyrDz)
+		} else {
+			elev.out	<-	mnElv+z.out
+		}
 	}
 
   	

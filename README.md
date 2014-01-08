@@ -13,6 +13,7 @@ It is easiest to install rGLM using a tool distributed in the CRAN package 'devt
 you must first install the netcdf R library (see "How do I install ncdf4?" below).
 
 Once you have ncdf4 installed. Install and then source the devtools package.
+
     install.packages('devtools')
     library(devtools)
 
@@ -40,8 +41,7 @@ in the "lib" subdirectory. To install, type
 
     install.packages('%path%/lib/%arch%/ncdf4_1.9.zip')
 
-%path% is the location of the rGLM directory.
-
+%path% is the location of the rGLM directory.  
 %arch% is the architecture (32 or 64 bit) you use to run R. You probably use x64.
 
 

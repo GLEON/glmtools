@@ -52,7 +52,7 @@ On Windows: This is trickier. CRAN does not contain a Windows binary install for
 the ncdf4 library (as of right now, 2013-05-02). I have included a separately distributed version
 in the "lib" subdirectory. To install, type
 
-    install.packages('%path%/lib/%arch%/ncdf4_1.4.zip')
+    install.packages('%path%/lib/%arch%/ncdf4_1.9.zip')
 
 %path% is the location of the rGLM directory.
 %arch% is the architecture (32 or 64 bit) you use to run R. You probably use x64.

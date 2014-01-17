@@ -10,6 +10,8 @@ set.nml(nml,argName))
 \arguments{
   \item{nml}{ an nml list}
   \item{argName}{ a valid nml parameter}
+	\item{argVal}{ a valid nml value}
+	\item{argList}{ a valid list of nml parameter names and their values (optional).}
 }
 \value{
 list of nml parameters

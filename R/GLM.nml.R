@@ -91,6 +91,8 @@ buildVal	<-	function(textLine){
 # private function
 findBlck	<-	function(nml,argName){
 	
+  if (!is.character(argName)){stop(c("parameter name ",argName," must be a string"))}
+  
 	blockNames	<-	names(nml)
 	blckI	<-	NULL
 	for (i in 1:length(blockNames)){
@@ -99,11 +101,15 @@ findBlck	<-	function(nml,argName){
 			break
 		}
 	}
-	if (is.null(blckI)){stop(c("paramter name ",argName," not found in nml"))}
+	if (is.null(blckI)){stop(c("parameter name ",argName," not found in nml"))}
 	return(blckI)
 }
 
 set.nml	<-	function(nml,argName,argVal){
+  # nml is a list (as created by read.nml)
+  # argName is a string
+  # argVal is a numeric vector, character, or logical 
+  
 	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
 	blckI	<-	findBlck(nml,argName)
 	

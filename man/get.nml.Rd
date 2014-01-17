@@ -4,7 +4,7 @@
 \title{gets value in R nml list}
 \description{This function gets the specified value in the nml list for GLM.}
 \usage{
-get.nml(nml,argName))
+get.nml(nml,argName)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -109,14 +109,36 @@ findBlck	<-	function(nml,argName){
 	}
   fault.string <- fault.string[!fault.string==fau] # is empty if found
   # test to see if a block match was made
-	if (is.null(blckI)){stop(c("parameter name ",argName," not found in nml. Possible names:",fault.string))}
+	if (is.null(blckI)){stop(c("parameter name ",argName," not found in nml. Possible names:",paste(fault.string,collapse=', ')))}
 	return(blckI)
 }
 
-set.nml	<-	function(nml,argName,argVal){
+# private function
+setnmlList <- function(nml,argList){
+  if (!is.list(argList)){stop("argList must be a list")}
+  
+  argNames  <-	names(argList)
+  for (i in 1:length(argNames)){
+    nml <- set.nml(nml,argName=argNames[i],argVal=argList[[i]])
+  }
+  return(nml)
+}
+
+set.nml	<-	function(nml,argName,argVal,argList=NULL){
   # nml is a list (as created by read.nml)
   # argName is a string
   # argVal is a numeric vector, character, or logical 
+  # argList is a list with argName(s) and argValue(s)
+  
+  if (missing(argName)){
+    return(setnmlList(nml,argList))
+  }
+  
+  if (!is.null(argList) & argName %in% names(argList)){
+    warning(c("duplicate names given to argName and argList.", 
+            " argName and argVal values will overwrite duplicate argList values."))
+    nml <- setnmlList(nml,argList)
+  }
   
 	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
 	blckI	<-	findBlck(nml,argName)

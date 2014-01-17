@@ -91,19 +91,55 @@ buildVal	<-	function(textLine){
 # private function
 findBlck	<-	function(nml,argName){
 	
+  # test for argName being a string
+  if (!is.character(argName)){stop(c("parameter name must be a string"))}
+  fau <- " "
+  fault.string <- rep(fau,100) # names fault matrix, only returned when empty match
 	blockNames	<-	names(nml)
 	blckI	<-	NULL
 	for (i in 1:length(blockNames)){
 		if (any(argName %in% names(nml[[i]]))){
 			blckI	<- i
 			break
+		} else {
+      one.i <- which(fault.string==fau)[1]
+		  fault.string[one.i:(one.i+length(names(nml[[i]]))-1)]=names(nml[[i]])
 		}
+    
 	}
-	if (is.null(blckI)){stop(c("paramter name ",argName," not found in nml"))}
+  fault.string <- fault.string[!fault.string==fau] # is empty if found
+  # test to see if a block match was made
+	if (is.null(blckI)){stop(c("parameter name ",argName," not found in nml. Possible names:",paste(fault.string,collapse=', ')))}
 	return(blckI)
 }
 
-set.nml	<-	function(nml,argName,argVal){
+# private function
+setnmlList <- function(nml,argList){
+  if (!is.list(argList)){stop("argList must be a list")}
+  
+  argNames  <-	names(argList)
+  for (i in 1:length(argNames)){
+    nml <- set.nml(nml,argName=argNames[i],argVal=argList[[i]])
+  }
+  return(nml)
+}
+
+set.nml	<-	function(nml,argName,argVal,argList=NULL){
+  # nml is a list (as created by read.nml)
+  # argName is a string
+  # argVal is a numeric vector, character, or logical 
+  # argList is a list with argName(s) and argValue(s)
+  
+  if (missing(argName)){
+    return(setnmlList(nml,argList))
+  }
+  
+  if (!is.null(argList) & argName %in% names(argList)){
+    warning(c("duplicate names given to argName and argList.", 
+            " argName and argVal values will overwrite duplicate argList values."))
+    nml <- setnmlList(nml,argList)
+  }
+  
 	# get appropriate block to place val within ** assumes no duplicate param names in other blocks **
 	blckI	<-	findBlck(nml,argName)
 	
@@ -131,33 +167,38 @@ get.nml	<-	function(nml,argName,argVal){
 
 write.nml	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 	sink(paste(c(folder,fileName),collapse=''))
-	for (i in 1:length(names(nml))){ # these are the blocks
-		blckNm	<-	names(nml)[i]
-		cat("&")
-		cat(blckNm)
-		cat('\n')
-		blckList	<-	nml[[i]]
-		for (j in 1:length(names(blckList))){
-			cat('   ')
-			cat(names(blckList)[j])
-			cat(' = ')
-			if (length(blckList[[j]])>1){
-				writer	<-	paste(c(blckList[[j]]),collapse=', ')
-			} else if (is.character(blckList[[j]])) {
-				charText	<-	strsplit(blckList[[j]],',')
-				writer	<-	paste(c("'",paste(c(charText[[1]]),collapse="','"),"'"),collapse='')
-			} else if (is.logical(blckList[[j]]) & blckList[[j]]){
-				writer	<-	".true."
-			} else if (is.logical(blckList[[j]]) & !blckList[[j]]){
-				writer	<-	".false."
-			} else {
-				writer	<-	blckList[[j]]
-			}
-			cat(writer)
-			cat('\n')
-		}
-		cat('/\n')
-	}	
+	
+  pretty.nml(nml)
 	sink()
+}
+
+pretty.nml <- function(nml){
+  for (i in 1:length(names(nml))){ # these are the blocks
+    blckNm	<-	names(nml)[i]
+    cat("&")
+    cat(blckNm)
+    cat('\n')
+    blckList	<-	nml[[i]]
+    for (j in 1:length(names(blckList))){
+      cat('   ')
+      cat(names(blckList)[j])
+      cat(' = ')
+      if (length(blckList[[j]])>1){
+        writer	<-	paste(c(blckList[[j]]),collapse=', ')
+      } else if (is.character(blckList[[j]])) {
+        charText	<-	strsplit(blckList[[j]],',')
+        writer	<-	paste(c("'",paste(c(charText[[1]]),collapse="','"),"'"),collapse='')
+      } else if (is.logical(blckList[[j]]) & blckList[[j]]){
+        writer	<-	".true."
+      } else if (is.logical(blckList[[j]]) & !blckList[[j]]){
+        writer	<-	".false."
+      } else {
+        writer	<-	blckList[[j]]
+      }
+      cat(writer)
+      cat('\n')
+    }
+    cat('/\n')
+  }	
 }
 

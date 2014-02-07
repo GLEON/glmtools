@@ -1,33 +1,31 @@
 # example for writing all Lake Analyzer files from GLM output
 require('rGLM')
 
-# 1) create data frame for GLM water temperature on a uniform grid:
-lyrDz	<-  0.5  # grid vertical thickness for resampling
-lkName	<-	"testLake"
+# 1) open existing gml.nml file
 GLMfolder	<-	'../resources/'
-out.folder	<-	'.'
-GLMfile	<-	'output.nc'
 NMLfile	<-	'glm.nml'
-GLMnc	<-	getGLMnc(fileName=GLMfile,folder=GLMfolder)
 nml	<-	read.nml(folder=GLMfolder,fileName=NMLfile)
-lke	<-	init.lke()	# gets a default list of lke parameters
-pretty.nml(nml) # print the nml list 
 
-bth	<-	get.bth(nml)
-mxDep	<-	max(bth[,1])
+# 2) pretty print the nml list 
+pretty.nml(nml) 
 
-write.bth(bth,lkName,folder=out.folder)		# write the .bth file
+# 3) get existing value from nml for Kw parameter
+get.nml(nml,argName='Kw')
 
-lke	<-	set.lke(lke,'totalDep',mxDep)
-write.lke(lke,lkName,folder=out.folder)		# write the .lke file
+# 4) change Kw value to a new one
+nml	<-	set.nml(nml,argName='Kw',argVal=0.4)
 
-lvl	<-	get.lvl(GLMnc,nml)
-write.lvl(lvl,lkName,folder=out.folder)		# write the .lvl file
+# 5) view the change in the nml
+get.nml(nml,argName='Kw')
 
-depths	<-	seq(0,mxDep,by=lyrDz)
-wtr	<-	get.wtr(GLMnc,ref='surface',z.out=depths)
-write.wtr(wtr,lkName,folder=out.folder)		# write the .wtr file
+# 6) change a list of params
+nml	<-	set.nml(nml,argList=list('Kw'=0.4,'outflow_factor'=0.9))
 
-wnd	<-	get.wnd(GLMnc)
-write.wnd(wnd,lkName,folder=out.folder)		# write the .wtr file
+# 7) try to set a param that doesn't exist (will error). Un-comment this to try:
+#nml	<-	set.nml(nml,argName='donkey',argVal=23)
 
+# 8) pretty print the nml list 
+pretty.nml(nml)
+
+# 9) write it back to glm.nml so it can be used in GLM
+write.nml(nml,folder=GLMfolder,fileName='glm2.nml')

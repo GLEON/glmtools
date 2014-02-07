@@ -44,7 +44,7 @@ get.lvl	<-	function(GLMnc,nml){
 	DateTime	<-	getTimeGLMnc(GLMnc)
 	GLM	<-	getTempGLMnc(GLMnc,lyrDz=0.25)
 	surfaceElv	<-	getSurfaceElevGLM(GLM)
-	mxDep	<-	getMaxDepth(nml)
+	mxDep	<-	max(get.nml(nml,argName="H"))-min(get.nml(nml,argName="H"))
 	dif	<-	mxDep-surfaceElv
 	dif[dif<0]	<-	0
 	lvl	<-	data.frame(DateTime)
@@ -69,16 +69,15 @@ get.bth	<-	function(nml){
 	return(bth)
 }
 
-get.wtr	<-	function(GLMnc,depths,lyrDz=0.25){
-	GLMwtr	<-	getTempGLMnc(GLMnc,lyrDz)
-	wtr	<-	depthsampleGLM(GLMwtr, depths)
+get.wtr	<-	function(GLMnc,ref='surface',z.out){
+	wtr	<-getTempGLMnc(GLMnc,ref=ref,z.out=z.out)
 	return(wtr)
 }
 
 get.wnd	<-	function(GLMnc){
 	wnd	<-	data.frame(getTimeGLMnc(GLMnc))
 	wnd	<-	cbind(wnd,getWndGLMnc(GLMnc))
-	names(wnd)	<-	c(timeID,"wnd")
+	names(wnd)	<-	c("DateTime","wnd")
 	return(wnd)
 }
 
@@ -88,7 +87,7 @@ set.lke	<-	function(lke,argName,argVal){
 }
 
 write.lke	<-	function(lke,lakeName = 'lake',folder='../Supporting Files/'){	
-	lkeMeta	<-	getLkeMeta()
+	lkeMeta	<-	init.lkeMeta()
 	
 	if (any(is.na(lke))){stop("no lke parameters can be NA")}
 	fileName	<-	gsub(" ","",paste(c(lakeName,'.lke'),collapse=""))

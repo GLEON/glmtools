@@ -4,7 +4,7 @@
 \title{sets value in R nml list}
 \description{This function sets the specified value in the nml list for GLM. All data types are converted tested against initial data type formats of logical, numerical, or character arrays}
 \usage{
-set.nml(nml,argName))
+set.nml(nml,argName,argVal,argList)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -1,18 +1,16 @@
 # example usage of GLMnetCDF
+require('rGLM')
 
-source('../Source/GLMnetCDF.R')
+
+
 # 1) create data frame for GLM water temperature on a uniform grid:
-lyrDz <-  0.25  # grid vertical thickness for resampling
-GLMfolder <-  '../Data/'
-GLMfile <-  'output.nc4'
+#lyrDz <-  0.25  # grid vertical thickness for resampling
+out.depths <- c(0,.5,1.5,5,10)
+GLMfolder <-  '../resources/'
+GLMfile <-  'output.nc'
 GLMnc  <- getGLMnc(fileName=GLMfile,folder=GLMfolder)
-GLMwtr <-  resampleGLM(GLMnc,lyrDz=lyrDz)
+GLMwtr <-  getTempGLMnc(GLMnc=GLMnc,ref='surface',z.out=out.depths)
 
 # 2) write data to a text file
-outFile <- 'GLMout.txt'
 outFolder <-  '../Examples/'
-writeGLM(GLMwtr,fileName=outFile,folder=outFolder)
-
-# 3) plot a heatmap and save
-figureName <- 'exampleFig'
-plotGLM(GLMwtr,figName=figureName,folder=outFolder)
+write.wtr(wtr=GLMwtr,lakeName='testLake',folder=outFolder)

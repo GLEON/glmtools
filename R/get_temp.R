@@ -14,6 +14,7 @@
 #'file = '../test/output.nc'
 #'temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))
 #'temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
+#'@export
 get_temp <-  function(file, reference='bottom', z_out){
   
   glm_nc <- get_glm_nc(file)
@@ -32,33 +33,33 @@ get_temp <-  function(file, reference='bottom', z_out){
   # rows are layers, columns are time..  
   if (length(dim(elev))==2){
     elev	<-	elev[1:max_i, ] 
-    wtr 	<-	wtr[1:max_i, ]
+    temp 	<-	temp[1:max_i, ]
   } else {
     if (dim(elev)==0){stop('empty nc file')}
     else {
       elev	<-	elev[1:max_i]
-      wtr 	<-	wtr[1:max_i]
+      temp 	<-	temp[1:max_i]
     }
   }
   
   
   #No temperature or elevation should be > 1e30, should be converted to NA
-  rmvI	<- 	which(wtr>=1e30 | elev>=1e30)
+  rmvI	<- 	which(temp>=1e30 | elev>=1e30)
   elev[rmvI]	<- NA
-  wtr[rmvI]	<- NA
+  temp[rmvI]	<- NA
   num_step	<-	length(time)
   num_dep	<-  length(z_out)
   
   temp_out <- matrix(nrow=num_step,ncol=num_dep) # pre-populated w/ NAs
-  if (is.null(ncol(wtr))){ # handle single depth layer of model
+  if (is.null(nrow(temp))){ # handle single depth layer of model
     for (tme in 1:num_step){
-      if (reference == 'surface') elevs_out <- elev_surf[tme] - z_out
-      temp_out[tme, ] <- depth_resample(elevs=elev[tme], temps=wtr[tme], elevs_out)
+      if (reference == 'surface') elevs_out <- elev_surf[tme, 2] - z_out
+      temp_out[tme, ] <- depth_resample(elevs=elev[tme], temps=temp[tme], elevs_out)
     }
   } else { 
     for (tme in 1:num_step){
-      if (reference == 'surface') elevs_out <- elev_surf[tme] - z_out
-      temp_out[tme, ] <- depth_resample(elevs=elev[tme, ], temps=wtr[tme, ], elevs_out)
+      if (reference == 'surface') elevs_out <- elev_surf[tme, 2] - z_out
+      temp_out[tme, ] <- depth_resample(elevs=elev[, tme], temps=temp[, tme], elevs_out)
     }
   }
   glm_temp <- data.frame(time)
@@ -113,6 +114,10 @@ subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
 
 
 depth_resample <- function(elevs, temps, elevs_out){
+  #strip out NAs
+  rmv_i <- is.na(elevs)
+  elevs <- elevs[!rmv_i]
+  temps <- temps[!rmv_i]
   num_z <- length(elevs)
   layer_mids <- c(elevs[1]/2, elevs[1:num_z-1] + diff(elevs)/2)
   temps_re <- c(temps[1], temps, tail(temps,1))

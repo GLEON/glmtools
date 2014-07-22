@@ -1,0 +1,23 @@
+#'@title write Lake Analyzer *.wtr file from GLM simulation
+#'@description 
+#'Creates a *.wtr file for Lake Analyzer use from GLM simulation.  \cr
+#'
+#'
+#'@param glm_temp a data.frame with DateTime and temperatures from GLM
+#'@param glm_nml a nml (a list) for GLM config
+#'@param lake_name a string for the name of the lake (used in *.lvl file naming)
+#'@param folder_out a boolean for including ice thickness in surface height
+#'@keywords methods
+#'@author
+#'Jordan S. Read
+#'@seealso \link{get_nml}, \link{read_nml}, \link{write_lvl}, \link{get_temp}
+#'@examples 
+#'file = '../test/output.nc'
+#'z_out <- c(0,1,2,3,4,5,6)
+#'glm_temp <- get_temp(file,reference='surface',z_out=z_out)
+#'write_wtr(glm_temp,lake_name='lake',folder_out='../resources/')
+#'@export
+write_wtr  <- function(glm_temp,lake_name='lake',folder_out='../resources/'){
+  file_out <- paste(c(folder_out,lake_name,'.wtr'),collapse="")
+  write.table(glm_temp,file=file_out ,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+}

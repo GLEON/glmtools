@@ -12,13 +12,21 @@ set_nml(glm_nml, arg_name, arg_val, arg_list = NULL)
 
 \item{arg_val}{value for the valid field in glm_nml specified by \code{arg_name}}
 
-\item{arg_list,}{a list made up of valid \code{arg_name}s and \code{arg_val}s}
+\item{arg_list}{a list made up of valid \code{arg_name}s and \code{arg_val}s}
 }
 \value{
 glm_nml a modified nml
 }
 \description{
 This function sets values in nml object for GLM config.
+}
+\examples{
+file = '../resources/glm.nml'
+glm_nml <- read_nml(file)
+get_nml_value(glm_nml,arg_name='Kw')
+glm_nml <- set_nml(glm_nml,arg_name='Kw',arg_val=1.4)
+glm_nml <- set_nml(glm_nml,arg_list=list('Kw'=1.4))
+pretty_nml(glm_nml)
 }
 \author{
 Jordan S. Read

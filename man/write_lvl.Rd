@@ -4,7 +4,7 @@
 \title{write Lake Analyzer *.lvl file from GLM simulation}
 \usage{
 write_lvl(glm_surface, glm_nml, lake_name = "lake",
-  folder_out = "../Supporting Files/")
+  folder_out = "../resources/")
 }
 \arguments{
 \item{glm_surface}{a data.frame with DateTime and surface elevation from from GLM}
@@ -14,9 +14,6 @@ write_lvl(glm_surface, glm_nml, lake_name = "lake",
 \item{lake_name}{a string for the name of the lake (used in *.lvl file naming)}
 
 \item{folder_out}{a boolean for including ice thickness in surface height}
-}
-\value{
-a data.frame with DateTime and surface_height (in meters)
 }
 \description{
 Creates a *.lvl file from GLM simulation.  \cr

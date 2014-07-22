@@ -17,7 +17,7 @@ Collate:
 	'GLM.nml.R'
 	'GLM.nc.R'
 Depends:
-    R (>= 2.15.0)
+    R (>= 2.14.0)
 Imports:
     ncdf4
 LazyLoad: yes

@@ -16,11 +16,11 @@
 #'temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
 #'@export
 get_temp <-  function(file, reference='bottom', z_out){
-  
-  glm_nc <- get_glm_nc(file)
   if (reference!='bottom' & reference!='surface'){
     stop('reference input must be either "surface" or "bottom"')
   }
+  
+  glm_nc <- get_glm_nc(file)
   
   tallest_layer <- ncvar_get(glm_nc, "NS") #The last useful index
   elev <- ncvar_get(glm_nc, "z" )
@@ -47,10 +47,7 @@ get_temp <-  function(file, reference='bottom', z_out){
   }
   
   
-  #No temperature or elevation should be > 1e30, should be converted to NA
-  rmvI	<- 	which(temp>=1e30 | elev>=1e30)
-  elev[rmvI]	<- NA
-  temp[rmvI]	<- NA
+
   num_step	<-	length(time)
   num_dep	<-  length(z_out)
   
@@ -83,7 +80,7 @@ get_temp <-  function(file, reference='bottom', z_out){
 
 depth_resample <- function(elevs, temps, elevs_out){
   #strip out NAs
-  rmv_i <- is.na(elevs)
+  rmv_i <- temps>=1e30 | elevs>=1e30
   elevs <- elevs[!rmv_i]
   temps <- temps[!rmv_i]
   num_z <- length(elevs)

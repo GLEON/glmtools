@@ -57,10 +57,6 @@ get.bth	<-	function(nml){
 	return(bth)
 }
 
-get.wtr	<-	function(GLMnc,ref='surface',z.out){
-	wtr	<-getTempGLMnc(GLMnc,ref=ref,z.out=z.out)
-	return(wtr)
-}
 
 get.wnd	<-	function(GLMnc){
 	wnd	<-	data.frame(getTimeGLMnc(GLMnc))
@@ -93,15 +89,6 @@ write.bth	<-	function(bth,lakeName='lake',folder='../Supporting Files/'){
 	write.table(bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
 }
 
-################################################################################
-# Summary: writes GLM file that has been inverted using depthsampleGLM to directory
-#
-# Input:
-#	wtr: a GLM wtr data frame (see getWTR)
-write.wtr  <- function(wtr,lakeName='lake',folder='../Supporting Files/'){
-  fileOut <- paste(c(folder,lakeName,'.wtr'),collapse="")
-  write.table(wtr,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
 
 
 ################################################################################
@@ -109,11 +96,7 @@ write.wtr  <- function(wtr,lakeName='lake',folder='../Supporting Files/'){
 #
 # Input:
 #	wnd: a GLM wnd data frame (see getWND)
-write.wnd  <- function(wnd,lakeName='lake',folder='../Supporting Files/'){
-  # writes GLM file to directory
-	fileOut <- paste(c(folder,lakeName,'.wnd'),collapse="")
-	write.table(wnd,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
+
 
 zipLA	<-	function(lakeName='lake',folder='../Supporting Files/',destFldr='../Supporting Files/'){
 	# finds all folders in the directory, zips and moves to destFldr. Fails w/o .lke file

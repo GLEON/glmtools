@@ -1,6 +1,6 @@
-#'@title get ice depth from GLM simulation
+#'@title get water temperatures from a GLM simulation
 #'@description 
-#'Creates a data.frame with DateTime and ice.  \cr
+#'Creates a data.frame with DateTime and temperatures (in deg C).  \cr
 #'
 #'
 #'@param file a string with the path to the netcdf output from GLM

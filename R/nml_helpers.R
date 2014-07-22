@@ -71,11 +71,4 @@ setnmlList <- function(nml,argList){
 }
 
 
-write.nml	<-	function(nml,fileName='glm.nml',folder='../Data/'){
-	sink(paste(c(folder,fileName),collapse=''))
-	
-  pretty_nml(nml)
-	sink()
-}
-
 

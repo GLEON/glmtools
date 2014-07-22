@@ -14,10 +14,10 @@
 #'@export
 get_wind <-  function(file){
   glm_nc <- get_glm_nc(file)
-  wind <- ncvar_get(GLMnc, "wind")
+  wind <- ncvar_get(glm_nc, "wind")
   time <- get_time(glm_nc)
   
   glm_wind <- data.frame('DateTime'=time, 'wind'=wind)
   close_glm_nc(glm_nc)
-  return(glm_ice)
+  return(glm_wind)
 }

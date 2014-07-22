@@ -2,4 +2,5 @@
 
 export(get_ice)
 export(get_surface_height)
+export(get_temp)
 export(get_wind)

@@ -9,7 +9,7 @@
 #'@return a data.frame with DateTime and temperature at depth 
 #'@keywords methods
 #'@author
-#'Luke A. Winslow, Jordan S. Read
+#'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'file = '../test/output.nc'
 #'temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))

@@ -40,18 +40,6 @@ init.lkeMeta	<-	function(){
 	return(lkeMeta)
 }
 
-get.lvl	<-	function(GLMnc,nml){
-	DateTime	<-	getTimeGLMnc(GLMnc)
-	GLM	<-	getTempGLMnc(GLMnc,lyrDz=0.25)
-	surfaceElv	<-	getSurfaceElevGLM(GLM)
-	mxDep	<-	max(get.nml(nml,argName="H"))-min(get.nml(nml,argName="H"))
-	dif	<-	mxDep-surfaceElv
-	dif[dif<0]	<-	0
-	lvl	<-	data.frame(DateTime)
-	lvl	<-	cbind(lvl,dif)
-	names(lvl)	<-	c("DateTime","level(positive Z down in meters)")
-	return(lvl)
-}
 
 ################################################################################
 # Summary: gets bathymetry formatted as depths and areas
@@ -115,10 +103,6 @@ write.wtr  <- function(wtr,lakeName='lake',folder='../Supporting Files/'){
   write.table(wtr,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
-write.lvl  <- function(lvl,lakeName='lake',folder='../Supporting Files/'){
-  fileOut <- paste(c(folder,lakeName,'.lvl'),collapse="")
-  write.table(lvl,file=fileOut,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
-}
 
 ################################################################################
 # Summary: writes GLM wind file to directory

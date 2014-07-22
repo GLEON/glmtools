@@ -22,12 +22,6 @@ get_time  <-  function(glm_nc){
 	
 }
 
-
-# Summary: Determines the epoch and timestep to properly convert the model date/time
-#
-# Input:
-#	GLMnc:	The ncdf file object reference, from nc_open
-
 get_time_info <- function(glm_nc){
   require(ncdf4)
 	day_secs = 86400
@@ -57,7 +51,7 @@ get_time_info <- function(glm_nc){
   time_info  <-  cbind(time_info,"startDate"=as.POSIXct(epoch))
 
 	#End date/time 
-	endT <- time_info$startDate + ncvar_get(GLMnc,'time',start=tLen, count=1) * time_unit * day_secs
+	endT <- time_info$startDate + ncvar_get(glm_nc,'time',start=tLen, count=1) * time_unit * day_secs
 
   time_info  <-  cbind(time_info,"stopDate"=endT)
 	return(time_info)

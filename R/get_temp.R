@@ -23,10 +23,14 @@ get_temp <-  function(file, reference='bottom', z_out){
   }
   
   tallest_layer <- ncvar_get(glm_nc, "NS") #The last useful index
-  elev <- ncvar_get(GLMnc, "z" )
-  temp <- ncvar_get(GLMnc, "temp")
+  elev <- ncvar_get(glm_nc, "z" )
+  temp <- ncvar_get(glm_nc, "temp")
   time <- get_time(glm_nc)
-  if (reference=='surface') elev_surf = get_surface_height(file)
+  if (reference=='surface') {
+    elev_surf = get_surface_height(file)
+  } else {
+    elevs_out = z_out
+  }
   nc_close(glm_nc)
   
   max_i <- max(tallest_layer)
@@ -67,49 +71,13 @@ get_temp <-  function(file, reference='bottom', z_out){
   frameNms	<-	letters[seq( from = 1, to = num_dep )]
   frameNms[1] <- "DateTime"
   
-  for (z in 1:numDep){
+  for (z in 1:num_dep){
     out_head <- ifelse(reference=='surface', 'wtr_', 'elv_')
     frameNms[z+1]  <- paste(c(out_head,as.character(z_out[z])),collapse="")
   }
   names(glm_temp)<- frameNms
 
   return(glm_temp)
-}
-
-# private?
-subsampleGLM	<-	function(GLM, sampleTime, sampleDepths){
-  
-  # sample at depths of 'sampleElev' at time 'sampleDepths'
-  glmElev	<-	getElevGLM(GLM)
-  surfaceElevs <-  getSurfaceElevGLM(GLM)
-  dates	<-	GLM$DateTime
-  times	<-	as.POSIXct(sampleTime)
-  output = matrix(NaN, nrow=length(sampleTime), ncol=length(sampleDepths))
-  
-  for (i in 1:length(times)){
-    time = times[i]
-    diffs	<-	abs(dates-time)
-    uIndx	<-	which.min(diffs)	# NEED good way to interpolate temporally to get exact time...
-    
-    
-    interpElevs	<-	surfaceElevs[uIndx]-sampleDepths	# now are elevations
-    drops <- c("DateTime")
-    temp <- as.numeric(GLM[uIndx,!(names(GLM) %in% drops)])
-    
-    if (length(temp[!is.na(temp)])>1){
-      wtr	<-	approx(glmElev,temp,xout=interpElevs)
-    } else {
-      wtr	<-	data.frame(y=interpElevs*NA)
-    }
-    
-    
-    if (as.numeric(diffs[uIndx])<24){
-      output[i,] = wtr$y
-    }
-    
-  }
-  
-  return(output)
 }
 
 

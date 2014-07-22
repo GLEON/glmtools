@@ -26,12 +26,13 @@ get_temp <-  function(file, reference='bottom', z_out){
   elev <- ncvar_get(glm_nc, "z" )
   temp <- ncvar_get(glm_nc, "temp")
   time <- get_time(glm_nc)
+  nc_close(glm_nc)
+  
   if (reference=='surface') {
     elev_surf = get_surface_height(file)
   } else {
     elevs_out = z_out
   }
-  nc_close(glm_nc)
   
   max_i <- max(tallest_layer)
   # rows are layers, columns are time..  
@@ -45,24 +46,22 @@ get_temp <-  function(file, reference='bottom', z_out){
       temp 	<-	temp[1:max_i]
     }
   }
-  
-  
 
   num_step	<-	length(time)
   num_dep	<-  length(z_out)
   
   temp_out <- matrix(nrow=num_step,ncol=num_dep) # pre-populated w/ NAs
-  if (is.null(nrow(temp))){ # handle single depth layer of model
-    for (tme in 1:num_step){
-      if (reference == 'surface') elevs_out <- elev_surf[tme, 2] - z_out
+  
+  for (tme in 1:num_step){
+    if (reference == 'surface') elevs_out <- elev_surf[tme, 2] - z_out
+    if (is.null(nrow(temp))){ # handle single depth layer of model
       temp_out[tme, ] <- depth_resample(elevs=elev[tme], temps=temp[tme], elevs_out)
-    }
-  } else { 
-    for (tme in 1:num_step){
-      if (reference == 'surface') elevs_out <- elev_surf[tme, 2] - z_out
+    } else {
       temp_out[tme, ] <- depth_resample(elevs=elev[, tme], temps=temp[, tme], elevs_out)
     }
+    
   }
+  
   glm_temp <- data.frame(time)
   glm_temp <- cbind(glm_temp,temp_out)
   frameNms	<-	letters[seq( from = 1, to = num_dep )]

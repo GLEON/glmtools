@@ -24,7 +24,7 @@ temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))
 temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
 }
 \author{
-Luke A. Winslow, Jordan S. Read
+Jordan S. Read, Luke A. Winslow
 }
 \keyword{methods}
 

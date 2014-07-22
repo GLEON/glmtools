@@ -13,7 +13,6 @@
 #'ice <- get_ice(file)
 #'@export
 get_ice <-  function(file){
-  require(ncdf4)
   glm_nc <- get_glm_nc(file)
   ice <- ncvar_get(glm_nc, "hice")+ncvar_get(glm_nc, "hwice")+ncvar_get(glm_nc, "hsnow")
   time <- get_time(glm_nc)

@@ -8,9 +8,8 @@ get_glm_nc  <-  function(file){
 close_glm_nc <- function(glm_nc){
   nc_close(glm_nc)
 }
-################################################################################
-#
-################################################################################
+
+
 # Summary: Returns the converted time vector in R format
 get_time  <-  function(glm_nc){
   require(ncdf4)

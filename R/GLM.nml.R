@@ -1,58 +1,4 @@
-# ------Helper functions for interacting with glm.nml files-----
-# ------Jordan and Luke 2013
 
-read.nml	<-	function(fileName='glm.nml',folder='../Data/'){
-	# skip all commented lines, return all variables and associated values
-	# requires NO return line variables (all variables must be completely defined on a single line)
-	fileN	<-	paste(c(folder,fileName),collapse="")
-	c <- file(fileN,"r") 
-	fileLines <- readLines(c)
-	close(c)
-	lineStart	<-	substr(fileLines,1,1)
-	ignoreLn	<-	lineStart=='!' | fileLines==""
-	lineStart	<-	lineStart[!ignoreLn]
-	fileLines	<-	fileLines[!ignoreLn]
-	# find all lines which start with "&" * requires FIRST char to be value
-	
-	
-	lineIdx		<- seq(1,length(lineStart))
-	blckOpen	<-	lineIdx[lineStart=="&"]
-	blckClse	<-	lineIdx[lineStart=="/"]
-	
-	
-	nml <- list()
-	for (i in 1:length(blckOpen)){
-		blckName	<-	substr(fileLines[blckOpen[i]],2,nchar(fileLines[blckOpen[i]]))
-		oldNms	<-	names(nml)
-		nml[[i]]	<-	list()
-		names(nml)	<-	c(oldNms,blckName)
-    
-    carryover = ''
-    
-		for (j in (blckOpen[i]+1):(blckClse[i]-1)){
-      
-			textLine	<-	paste(carryover, gsub("\t","",gsub(" ","",fileLines[j])), sep='')
-      #cat(textLine,'\n')
-      #browser()
-			if(substr(textLine,1,1)!='!'){
-        # Add a check here, sometimes, if there is a hanging comma, 
-        #and only sumtimes that means add next row
-        if(substr(textLine,nchar(textLine), nchar(textLine)) == ',' && 
-             j+1 <= length(fileLines) && !any(grep("=",fileLines[j+1])) && !any(grep("/",fileLines[j+1]))){
-          
-          carryover = textLine
-          next
-        }else{
-          carryover = ''
-        }
-				# else, line is commented out
-				lineVal	<-	buildVal(textLine)
-				nml[[i]]	<-	c(nml[[i]],lineVal)
-				}
-		}
-	}
-	return(nml)
-}
 
 # private function
 buildVal	<-	function(textLine){
@@ -168,37 +114,8 @@ get.nml	<-	function(nml,argName,argVal){
 write.nml	<-	function(nml,fileName='glm.nml',folder='../Data/'){
 	sink(paste(c(folder,fileName),collapse=''))
 	
-  pretty.nml(nml)
+  pretty_nml(nml)
 	sink()
 }
 
-pretty.nml <- function(nml){
-  for (i in 1:length(names(nml))){ # these are the blocks
-    blckNm	<-	names(nml)[i]
-    cat("&")
-    cat(blckNm)
-    cat('\n')
-    blckList	<-	nml[[i]]
-    for (j in 1:length(names(blckList))){
-      cat('   ')
-      cat(names(blckList)[j])
-      cat(' = ')
-      if (length(blckList[[j]])>1){
-        writer	<-	paste(c(blckList[[j]]),collapse=', ')
-      } else if (is.character(blckList[[j]])) {
-        charText	<-	strsplit(blckList[[j]],',')
-        writer	<-	paste(c("'",paste(c(charText[[1]]),collapse="','"),"'"),collapse='')
-      } else if (is.logical(blckList[[j]]) & blckList[[j]]){
-        writer	<-	".true."
-      } else if (is.logical(blckList[[j]]) & !blckList[[j]]){
-        writer	<-	".false."
-      } else {
-        writer	<-	blckList[[j]]
-      }
-      cat(writer)
-      cat('\n')
-    }
-    cat('/\n')
-  }	
-}
 

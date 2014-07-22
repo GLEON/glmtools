@@ -244,18 +244,22 @@ getTimeInfo <- function(GLMnc){
 }
 
 
-getSurfaceElevGLM	<-	function(GLM){
+getSurfaceElevGLMnc	<-	function(GLMnc){
 	# returns a vector of elevations that correspond to the water surface
-	elevs	<-	getElevGLM(GLM)
-	drops	<-	c("DateTime")
-	temp	<-	GLM[,!(names(GLM) %in% drops)]
-	surface <- apply(temp,1,function(x) elevs[max(which(!is.na(x)))])
+  #The last useful index
+  NS	<- 	ncvar_get(GLMnc, "NS")
+  elev <- ncvar_get(GLMnc, "z")
+  surface <- vector(mode = "numeric",length = length(NS))
+  for (j in 1:length(NS)){
+    surface[j] <- elev[NS[j],j]
+  }
 	return(surface)
 }
 
 ################################################################################
 #
 ################################################################################
+
 getElevGLM <- function(GLM){
   colNames <- names(GLM)
   elevs <- gsub("elv_","",colNames[2:length(colNames)])

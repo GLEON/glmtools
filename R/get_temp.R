@@ -14,6 +14,7 @@
 #'file = '../test/output.nc'
 #'temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))
 #'temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
+#'@import ncdf4
 #'@export
 get_temp <-  function(file, reference='bottom', z_out){
   if (reference!='bottom' & reference!='surface'){

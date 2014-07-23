@@ -11,6 +11,7 @@
 #'@examples 
 #'file = '../test/output.nc'
 #'ice <- get_wind(file)
+#'@import ncdf4
 #'@export
 get_wind <-  function(file){
   glm_nc <- get_glm_nc(file)

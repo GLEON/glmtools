@@ -13,6 +13,7 @@
 #'file = '../test/output.nc'
 #'surface <- get_surface_height(file)
 #'surface_w_ice <- get_surface_height(file, ice.rm = FALSE)
+#'@import ncdf4
 #'@export
 get_surface_height  <-	function(file, ice.rm = TRUE){
   glm_nc <- get_glm_nc(file)

@@ -31,4 +31,7 @@ pretty_nml(glm_nml)
 \author{
 Jordan S. Read
 }
+\seealso{
+\link{get_nml_value}, \link{read_nml}
+}
 

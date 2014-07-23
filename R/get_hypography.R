@@ -11,8 +11,10 @@
 #'Jordan S. Read
 #'@seealso \link{write_lvl}, \link{read_nml}, \link{get_nml_value}
 #'@examples 
-#'glm_nml <- read_nml('../resources/glm.nml')
-#'write_bth(glm_nml, lake_name='lake', folder_out='../resources/')
+#'nml_file <- '../resources/glm.nml'
+#'glm_nml <- read_nml(nml_file)
+#'get_hypsography(glm_nml)
+#'get_hypsography(file=nml_file)
 #'@export
 get_hypsography <- function(glm_nml=NULL, file=NULL){
   # if both are passed, glm_nml is used and 'file' is ignored

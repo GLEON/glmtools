@@ -3,7 +3,7 @@
 \alias{write_bth}
 \title{write Lake Analyzer *.bth file from GLM simulation}
 \usage{
-write_bth(glm_nml, lake_name = "lake", folder_out = "../Supporting Files/")
+write_bth(glm_nml, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}
@@ -16,7 +16,7 @@ write_bth(glm_nml, lake_name = "lake", folder_out = "../Supporting Files/")
 Creates a *.bth file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
-glm_nml <- read_nml('../resources/glm.nml')
+glm_nml <- system.file('extdata', 'glm.nml', package = 'rGLM')
 write_bth(glm_nml, lake_name='lake', folder_out='../resources/')
 }
 \author{

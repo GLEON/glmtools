@@ -9,8 +9,8 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'file = '../test/output.nc'
-#'ice <- get_wind(file)
+#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'wind <- get_wind(file)
 #'@import ncdf4
 #'@export
 get_wind <-  function(file){

@@ -12,8 +12,8 @@ pretty_nml(glm_nml)
 This function prints the specified values from the nml list for GLM.
 }
 \examples{
-file = '../resources/glm.nml'
-glm_nml <- read_nml(file)
+nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+glm_nml <- read_nml(nml_file)
 pretty_nml(glm_nml)
 }
 \author{

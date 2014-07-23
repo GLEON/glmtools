@@ -11,7 +11,7 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'file = '../test/output.nc'
+#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
 #'ice <- get_ice(file)
 #'ice_and_snow <- get_ice(file, snow.rm = FALSE)
 #'plot(ice)

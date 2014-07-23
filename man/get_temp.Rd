@@ -17,11 +17,14 @@ a data.frame with DateTime and temperature at depth
 }
 \description{
 Creates a data.frame with DateTime and temperatures (in deg C).  \cr
+Temperatures that are sampled out of the GLM output are taken relative
+to the surface (\code{reference = 'surface'}) or the bottom of the lake
+(\code{reference = 'bottom'}).
 }
 \examples{
-file = '../test/output.nc'
-temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))
-temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
+temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
+temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
 }
 \author{
 Jordan S. Read, Luke A. Winslow

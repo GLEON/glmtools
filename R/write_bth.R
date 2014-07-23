@@ -11,10 +11,11 @@
 #'Jordan S. Read
 #'@seealso \link{write_wtr}, \link{write_lvl}, \link{get_wind}
 #'@examples 
-#'glm_nml <- read_nml('../resources/glm.nml')
+#'glm_nml <- system.file('extdata', 'glm.nml', package = 'rGLM') 
 #'write_bth(glm_nml, lake_name='lake', folder_out='../resources/')
 #'@export
-write_bth  <-	function(glm_nml,lake_name='lake',folder_out='../Supporting Files/'){	
+write_bth  <-	function(glm_nml,lake_name='lake',folder_out){	
+  #file.path("E:", "DATA", "example.csv")
   fileN	<-	paste(c(folder_out,lake_name,'.bth'),collapse="")
   glm_bth <- get_hypsography(glm_nml)
   write.table(glm_bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")

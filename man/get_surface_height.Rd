@@ -19,7 +19,7 @@ a data.frame with DateTime and surface_height (in meters)
 Creates a data.frame with DateTime and surface_height.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 surface <- get_surface_height(file)
 surface_w_ice <- get_surface_height(file, ice.rm = FALSE, snow.rm = FALSE)
 }

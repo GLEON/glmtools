@@ -15,7 +15,7 @@ a data.frame with DateTime and evaporation (in mm/day)
 Creates a data.frame with DateTime and E (mm/day).  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 evap <- get_evaporation(file)
 plot(evap)
 }

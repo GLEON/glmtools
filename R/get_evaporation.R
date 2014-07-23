@@ -8,7 +8,7 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'file = '../test/output.nc'
+#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
 #'evap <- get_evaporation(file)
 #'plot(evap)
 #'@import ncdf4

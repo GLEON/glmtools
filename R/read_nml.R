@@ -10,11 +10,11 @@
 #'Jordan S. Read
 #'@seealso \link{get_nml_value}
 #'@examples 
-#'file = '../resources/glm.nml'
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
 #'glm_nml <- read_nml(file)
 #'pretty_nml(glm_nml)
 #'@export
-read_nml  <-	function(file = '../resources/glm.nml'){
+read_nml  <-	function(file){
   # skip all commented lines, return all variables and associated values
   # requires NO return line variables (all variables must be completely defined on a single line)
   c <- file(file,"r") 

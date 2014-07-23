@@ -27,7 +27,7 @@ file_path <- run_analyzer(lake_name='lake',folder='../resources/',
 Luke A. Winslow, Jordan S. Read
 }
 \seealso{
-\link{write_lke}
+\link{write_lke}, \link{init_lke}, \link{set_lke}
 }
 \keyword{methods}
 

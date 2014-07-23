@@ -10,7 +10,7 @@
 #'@keywords methods
 #'@author
 #'Luke A. Winslow, Jordan S. Read
-#'@seealso \link{write_lke}
+#'@seealso \link{write_lke}, \link{init_lke}, \link{set_lke}
 #'@examples 
 #'file_path <- run_analyzer(lake_name='lake',folder='../resources/', 
 #'                          folder_out='../resources/')

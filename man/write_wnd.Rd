@@ -10,7 +10,7 @@ write_wnd(glm_wind, lake_name = "lake", folder_out = "../Supporting Files/")
 
 \item{lake_name}{a string for the name of the lake (used in *.lvl file naming)}
 
-\item{folder_out}{a boolean for including ice thickness in surface height}
+\item{folder_out}{a string for the output folder for the *.lvl file}
 }
 \description{
 Creates a *.wnd file for Lake Analyzer use from GLM simulation.  \cr

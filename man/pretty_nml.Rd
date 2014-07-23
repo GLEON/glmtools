@@ -3,7 +3,7 @@
 \alias{pretty_nml}
 \title{prints R nml list with pretty formatting}
 \usage{
-pretty_nml(nml)
+pretty_nml(glm_nml)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}

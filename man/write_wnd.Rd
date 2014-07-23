@@ -6,7 +6,7 @@
 write_wnd(glm_wind, lake_name = "lake", folder_out = "../Supporting Files/")
 }
 \arguments{
-\item{glm_wnd}{a data.frame with DateTime and temperatures from GLM}
+\item{glm_wind}{a data.frame with DateTime and temperatures from GLM}
 
 \item{lake_name}{a string for the name of the lake (used in *.lvl file naming)}
 

@@ -8,8 +8,6 @@ write_wtr(glm_temp, lake_name = "lake", folder_out = "../resources/")
 \arguments{
 \item{glm_temp}{a data.frame with DateTime and temperatures from GLM}
 
-\item{glm_nml}{a nml (a list) for GLM config}
-
 \item{lake_name}{a string for the name of the lake (used in *.lvl file naming)}
 
 \item{folder_out}{a boolean for including ice thickness in surface height}
@@ -27,7 +25,7 @@ write_wtr(glm_temp,lake_name='lake',folder_out='../resources/')
 Jordan S. Read
 }
 \seealso{
-\link{get_nml}, \link{read_nml}, \link{write_lvl}, \link{get_temp}
+\link{write_lvl}, \link{get_temp}
 }
 \keyword{methods}
 

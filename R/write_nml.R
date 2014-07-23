@@ -8,7 +8,7 @@
 #'@keywords methods
 #'@author
 #'Jordan S. Read
-#'@seealso \link{get_nml}, \link{read_nml}, \link{pretty_nml}
+#'@seealso \link{get_nml_value}, \link{read_nml}, \link{pretty_nml}
 #'@examples 
 #'file = '../resources/glm_test.nml'
 #'glm_nml <- read_nml('../resources/glm.nml')

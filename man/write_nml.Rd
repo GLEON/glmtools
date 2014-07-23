@@ -22,7 +22,7 @@ write_nml(glm_nml, file= file)
 Jordan S. Read
 }
 \seealso{
-\link{get_nml}, \link{read_nml}, \link{pretty_nml}
+\link{get_nml_value}, \link{read_nml}, \link{pretty_nml}
 }
 \keyword{methods}
 

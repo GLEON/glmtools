@@ -3,7 +3,7 @@
 #'Creates a *.wnd file for Lake Analyzer use from GLM simulation.  \cr
 #'
 #'
-#'@param glm_wnd a data.frame with DateTime and temperatures from GLM
+#'@param glm_wind a data.frame with DateTime and temperatures from GLM
 #'@param lake_name a string for the name of the lake (used in *.lvl file naming)
 #'@param folder_out a string for the output folder for the *.lvl file
 #'@keywords methods

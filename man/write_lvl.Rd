@@ -28,7 +28,7 @@ write_lvl(glm_surface, glm_nml)
 Jordan S. Read
 }
 \seealso{
-\link{get_nml}, \link{read_nml}
+\link{get_nml_value}, \link{read_nml}
 }
 \keyword{methods}
 

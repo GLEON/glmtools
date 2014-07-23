@@ -65,7 +65,7 @@ setnmlList <- function(nml,argList){
   
   argNames  <-	names(argList)
   for (i in 1:length(argNames)){
-    nml <- set.nml(nml,argName=argNames[i],argVal=argList[[i]])
+    nml <- set_nml(nml,argName=argNames[i],argVal=argList[[i]])
   }
   return(nml)
 }

@@ -8,13 +8,13 @@
 #'glm_nml <- read_nml(file)
 #'pretty_nml(glm_nml)
 #'@export
-pretty_nml <- function(nml){
-  for (i in 1:length(names(nml))){ # these are the blocks
-    blckNm  <-	names(nml)[i]
+pretty_nml <- function(glm_nml){
+  for (i in 1:length(names(glm_nml))){ # these are the blocks
+    blckNm  <-	names(glm_nml)[i]
     cat("&")
     cat(blckNm)
     cat('\n')
-    blckList	<-	nml[[i]]
+    blckList	<-	glm_nml[[i]]
     for (j in 1:length(names(blckList))){
       cat('   ')
       cat(names(blckList)[j])

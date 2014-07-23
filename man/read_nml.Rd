@@ -23,7 +23,7 @@ pretty_nml(glm_nml)
 Jordan S. Read
 }
 \seealso{
-\link{get_nml}
+\link{get_nml_value}
 }
 \keyword{methods}
 

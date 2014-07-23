@@ -3,7 +3,7 @@
 \alias{get_hypsography}
 \title{retrieve hypsography information from glm_nml object or file}
 \usage{
-get_hypsography(glm_nml = NULL, file = NULL)
+get_hypsography(glm_nml, file)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}

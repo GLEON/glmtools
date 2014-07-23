@@ -16,11 +16,11 @@
 #'get_hypsography(glm_nml)
 #'get_hypsography(file=nml_file)
 #'@export
-get_hypsography <- function(glm_nml=NULL, file=NULL){
+get_hypsography <- function(glm_nml, file){
   # if both are passed, glm_nml is used and 'file' is ignored
-  if (is.null(file) & is.null(glm_nml)){stop('glm.nml file path OR glm_nml must be specified')}
+  if (missing(file) & missing(glm_nml)){stop('glm.nml file path OR glm_nml must be specified')}
   
-  if (is.null(glm_nml)){
+  if (missing(glm_nml)){
     glm_nml <- read_nml(file)
   }
   

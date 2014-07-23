@@ -15,10 +15,10 @@
 #'write_bth(glm_nml, lake_name='lake', folder_out='../resources/')
 #'@export
 write_bth  <-	function(glm_nml,lake_name='lake',folder_out){	
-  #file.path("E:", "DATA", "example.csv")
-  fileN	<-	paste(c(folder_out,lake_name,'.bth'),collapse="")
+  bth_name <- paste(lake_name, '.bth', sep = '')
+  file_path	<-	file.path(folder_out, bth_name)
   glm_bth <- get_hypsography(glm_nml)
-  write.table(glm_bth,file=fileN,col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
+  write.table(glm_bth, file = file_path, col.names=TRUE, quote=FALSE, row.names=FALSE, sep=",")
 }
 
 

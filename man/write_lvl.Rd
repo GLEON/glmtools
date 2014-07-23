@@ -19,7 +19,7 @@ write_lvl(glm_surface, glm_nml, lake_name = "lake",
 Creates a *.lvl file from GLM simulation.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 glm_surface <- get_surface_height(file, ice.rm = TRUE)
 glm_nml <- read_nml('../resources/glm.nml')
 write_lvl(glm_surface, glm_nml)

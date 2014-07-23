@@ -3,7 +3,7 @@
 \alias{write_lke}
 \title{write Lake Analyzer *.lke file from GLM simulation}
 \usage{
-write_lke(lke, lake_name = "lake", folder_out = "../resources/")
+write_lke(lke, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{lke}{a nml (a list) for GLM config}

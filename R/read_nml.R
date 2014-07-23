@@ -11,7 +11,7 @@
 #'@seealso \link{get_nml_value}
 #'@examples 
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
-#'glm_nml <- read_nml(file)
+#'glm_nml <- read_nml(nml_file)
 #'pretty_nml(glm_nml)
 #'@export
 read_nml  <-	function(file){

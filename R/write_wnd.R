@@ -5,7 +5,7 @@
 #'
 #'@param glm_wnd a data.frame with DateTime and temperatures from GLM
 #'@param lake_name a string for the name of the lake (used in *.lvl file naming)
-#'@param folder_out a boolean for including ice thickness in surface height
+#'@param folder_out a string for the output folder for the *.lvl file
 #'@keywords methods
 #'@author
 #'Jordan S. Read

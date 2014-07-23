@@ -1,7 +1,7 @@
 Package: rGLM
 Type: Package
 Title: rGLM
-Version: 0.1.5
+Version: 0.2.0
 Date: 2013-07-23
 Author: Jordan S Read, Luke A Winslow
 Maintainer: Jordan S Read <jread@usgs.gov>, Luke A Winslow <lawinslow@wisc.edu>
@@ -12,13 +12,10 @@ Copyright: This software is in the public domain because it contains materials
     the United States Department of Interior. For more information, see the
     official USGS copyright policy at
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
-Collate:
-    'GLM.LA.R'
-	'GLM.nml.R'
-	'GLM.nc.R'
 Depends:
-    R (>= 2.15.0)
+    R (>= 2.14.0)
 Imports:
-    ncdf4
+    ncdf4,
+    RCurl
 LazyLoad: yes
 LazyData: yes

@@ -1,7 +1,7 @@
-#'@title retrieve hypsography information from glm_nml object or file
+#'@title retrieve hypsography information
 #'@description 
-#'Retrieves hypsography information from glm_nml object or file  \cr
-#'
+#'Retrieves hypsography information from glm_nml object or file.  \cr
+#'Hypsography is the relationship between depth and area of a lake.
 #'
 #'@param glm_nml a nml (a list) for GLM config
 #'@param file a string with the path to the GLM glm.nml file

@@ -10,7 +10,7 @@
 #'@keywords methods
 #'@author
 #'Jordan S. Read
-#'@seealso \link{get_nml_value}, \link{read_nml}
+#'@seealso \link{get_nml_value}, \link{read_nml}, \link{get_surface_height}
 #'@examples 
 #'file = '../test/output.nc'
 #'glm_surface <- get_surface_height(file, ice.rm = TRUE)

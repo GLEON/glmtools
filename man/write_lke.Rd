@@ -24,7 +24,7 @@ write_lke(lke,lake_name='lake',folder_out='../resources/')
 Jordan S. Read
 }
 \seealso{
-\link{write_wtr}, \link{write_lvl}, \link{get_wind}
+\link{write_wtr}, \link{write_lvl}, \link{init_lke}, \link{set_lke}
 }
 \keyword{methods}
 

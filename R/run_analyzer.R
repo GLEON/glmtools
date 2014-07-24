@@ -34,7 +34,6 @@
 #'@export
 #'@import RCurl
 run_analyzer	<-	function(lake_name='lake', folder='../resources/', folder_out='../Supporting Files'){
-	require(RCurl)
   
   zip_path <- zip_LA(lake_name, folder, folder_out)
 	file_h	<-	postForm("http://lakeanalyzer.gleon.org/postRunModel.php",

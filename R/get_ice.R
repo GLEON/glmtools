@@ -19,7 +19,6 @@
 #'@import ncdf4
 #'@export
 get_ice <-  function(file, snow.rm = TRUE){
-  require(ncdf4)
   glm_nc <- get_glm_nc(file)
   ice <- ncvar_get(glm_nc, "hice") + ncvar_get(glm_nc, "hwice")
   if (!snow.rm){

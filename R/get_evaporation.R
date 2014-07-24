@@ -14,7 +14,6 @@
 #'@import ncdf4
 #'@export
 get_evaporation <-  function(file, snow.rm = TRUE){
-  require(ncdf4)
   day_secs <- 86400
   m_to_mm <- 1000
   glm_nc <- get_glm_nc(file)

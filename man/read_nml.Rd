@@ -16,7 +16,7 @@ read in a GLM simulation *.nml file and create a list.  \cr
 }
 \examples{
 nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
-glm_nml <- read_nml(file)
+glm_nml <- read_nml(nml_file)
 pretty_nml(glm_nml)
 }
 \author{

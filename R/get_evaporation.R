@@ -13,7 +13,7 @@
 #'plot(evap)
 #'@import ncdf4
 #'@export
-get_evaporation <-  function(file, snow.rm = TRUE){
+get_evaporation <-  function(file){
   day_secs <- 86400
   m_to_mm <- 1000
   glm_nc <- get_glm_nc(file)

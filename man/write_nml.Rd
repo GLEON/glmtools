@@ -3,20 +3,23 @@
 \alias{write_nml}
 \title{write GLM *.nml for a GLM simulation}
 \usage{
-write_nml(glm_nml, file = "../resources/glm_test.nml")
+write_nml(glm_nml, file_out)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}
 
-\item{file}{a string with the path to the glm.nml file to write}
+\item{file_out}{a string with the path to the glm.nml file to write}
 }
 \description{
 Creates a *.nml file running a GLM simulation.  \cr
+An existing glm.nml will be overwritten if it shares the same
+path as \code{file_out}
 }
 \examples{
 nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
 glm_nml <- read_nml(nml_file)
-write_nml(glm_nml, file= file)
+file_out <- system.file('extdata', 'glm_test.nml', package = 'rGLM')
+write_nml(glm_nml, file_out = file_out)
 }
 \author{
 Jordan S. Read

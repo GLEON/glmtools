@@ -29,8 +29,10 @@
 #'write_wtr(glm_temp,lake_name = 'lake', folder_out = folder_out)
 #'
 #'# -- run Lake Analyzer on remote server --
+#'\dontrun{
 #'file_path <- run_analyzer(lake_name='lake',folder=folder_out, 
 #'                          folder_out=folder_out)
+#'}
 #'@export
 #'@import RCurl
 run_analyzer	<-	function(lake_name='lake', folder='../resources/', folder_out='../Supporting Files'){

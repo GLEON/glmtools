@@ -17,8 +17,9 @@ Creates a *.wnd file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
 file <- system.file('extdata', 'output.nc', package = 'rGLM')
+folder_out <- system.file('extdata', package = 'rGLM')
 glm_wind <- get_wind(file)
-write_wnd(glm_wind,lake_name='lake',folder_out='../resources/')
+write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
 }
 \author{
 Jordan S. Read

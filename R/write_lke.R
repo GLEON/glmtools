@@ -13,8 +13,9 @@
 #'@seealso \link{write_wtr}, \link{write_lvl}, \link{init_lke}, \link{set_lke}
 #'@examples 
 #'lke <- init_lke()
-#'lke <- set_lke(lke, arg_name='totalDep', arg_val=19.4)
-#'write_lke(lke,lake_name='lake',folder_out='../resources/')
+#'lke <- set_lke(lke, arg_name = 'totalDep', arg_val = 19.4)
+#'folder_out <- system.file('extdata', package = 'rGLM') 
+#'write_lke(lke, lake_name = 'lake', folder_out = folder_out)
 #'@export
 write_lke  <-	function(lke, lake_name = 'lake', folder_out){	
   lke_metadata	<-	init_lke_metadata()

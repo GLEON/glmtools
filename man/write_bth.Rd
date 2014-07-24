@@ -16,8 +16,10 @@ write_bth(glm_nml, lake_name = "lake", folder_out)
 Creates a *.bth file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
-glm_nml <- system.file('extdata', 'glm.nml', package = 'rGLM')
-write_bth(glm_nml, lake_name='lake', folder_out='../resources/')
+nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+folder_out <- system.file('extdata', package = 'rGLM')
+glm_nml <- read_nml(file = nml_file)
+write_bth(glm_nml, lake_name='lake', folder_out = folder_out)
 }
 \author{
 Jordan S. Read

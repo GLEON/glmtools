@@ -37,8 +37,10 @@ glm_temp <- get_temp(file,reference = 'surface',z_out = z_out)
 write_wtr(glm_temp,lake_name = 'lake', folder_out = folder_out)
 
 # -- run Lake Analyzer on remote server --
+\dontrun{
 file_path <- run_analyzer(lake_name='lake',folder=folder_out,
                          folder_out=folder_out)
+}
 }
 \author{
 Luke A. Winslow, Jordan S. Read

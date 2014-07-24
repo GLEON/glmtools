@@ -12,10 +12,11 @@
 #'@seealso \link{write_wtr}, \link{write_lvl}, \link{get_wind}
 #'@examples 
 #'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'folder_out <- system.file('extdata', package = 'rGLM')
 #'glm_wind <- get_wind(file)
-#'write_wnd(glm_wind,lake_name='lake',folder_out='../resources/')
+#'write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
 #'@export
-write_wnd  <- function(glm_wind,lake_name='lake',folder_out){
+write_wnd  <- function(glm_wind, lake_name = 'lake', folder_out){
   wnd_name <- paste(lake_name, '.wnd', sep = '')
   file_path  <-  file.path(folder_out, wnd_name)
   write.table(glm_wind,file=file_path,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")

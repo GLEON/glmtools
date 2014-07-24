@@ -13,11 +13,13 @@
 #'@seealso \link{get_nml_value}, \link{read_nml}, \link{get_surface_height}
 #'@examples 
 #'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM') 
 #'glm_surface <- get_surface_height(file, ice.rm = TRUE)
-#'glm_nml <- read_nml('../resources/glm.nml')
-#'write_lvl(glm_surface, glm_nml)
+#'folder_out <- system.file('extdata', package = 'rGLM') 
+#'glm_nml <- read_nml(nml_file)
+#'write_lvl(glm_surface, glm_nml, lake_name = 'lake', folder_out = folder_out)
 #'@export
-write_lvl  <- function(glm_surface, glm_nml, lake_name='lake',folder_out='../resources/'){
+write_lvl  <- function(glm_surface, glm_nml, lake_name = 'lake', folder_out){
   lvl_name <- paste(lake_name, '.lvl', sep = '')
   file_path  <-	file.path(folder_out, lvl_name)
   lvl <- get_lvl(glm_surface,glm_nml)

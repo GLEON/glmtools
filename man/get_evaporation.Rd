@@ -3,7 +3,7 @@
 \alias{get_evaporation}
 \title{get evaporation from GLM simulation}
 \usage{
-get_evaporation(file, snow.rm = TRUE)
+get_evaporation(file)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

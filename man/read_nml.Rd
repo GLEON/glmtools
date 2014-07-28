@@ -15,7 +15,7 @@ glm_nml a nml (a list) for GLM config
 read in a GLM simulation *.nml file and create a list.  \cr
 }
 \examples{
-nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 glm_nml <- read_nml(nml_file)
 pretty_nml(glm_nml)
 }

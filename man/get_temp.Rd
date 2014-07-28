@@ -22,7 +22,7 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 (\code{reference = 'bottom'}).
 }
 \examples{
-file <- system.file('extdata', 'output.nc', package = 'rGLM')
+file <- system.file('extdata', 'output.nc', package = 'glmtools')
 temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
 }

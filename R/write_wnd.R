@@ -11,8 +11,8 @@
 #'Jordan S. Read
 #'@seealso \link{write_wtr}, \link{write_lvl}, \link{get_wind}
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
-#'folder_out <- system.file('extdata', package = 'rGLM')
+#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
+#'folder_out <- system.file('extdata', package = 'glmtools')
 #'glm_wind <- get_wind(file)
 #'write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
 #'@export

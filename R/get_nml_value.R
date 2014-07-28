@@ -7,7 +7,7 @@
 #'@author
 #'Jordan S. Read
 #'@examples
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'glm_nml <- read_nml(nml_file)
 #'get_nml_value(glm_nml,arg_name = 'Kw')
 #'@export

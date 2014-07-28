@@ -1,6 +1,6 @@
-Package: rGLM
+Package: glmtools
 Type: Package
-Title: rGLM
+Title: glmtools
 Version: 0.2.1
 Date: 2013-07-23
 Author: Jordan S Read, Luke A Winslow

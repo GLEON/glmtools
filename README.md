@@ -41,6 +41,7 @@ in the "lib" subdirectory. To install, type
 
     install.packages('%path%/lib/x64/ncdf4_1.12.zip') # for 64 bit
 OR
+
     install.packages('%path%/lib/i386/ncdf4_1.12.zip') # for 32 bit
 
 %path% is the location of the glmtools directory.  

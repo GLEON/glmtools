@@ -18,7 +18,7 @@ Creates a *.lke file for Lake Analyzer use from GLM simulation.  \cr
 \examples{
 lke <- init_lke()
 lke <- set_lke(lke, arg_name = 'totalDep', arg_val = 19.4)
-folder_out <- system.file('extdata', package = 'rGLM')
+folder_out <- system.file('extdata', package = 'glmtools')
 write_lke(lke, lake_name = 'lake', folder_out = folder_out)
 }
 \author{

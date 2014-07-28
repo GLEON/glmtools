@@ -12,10 +12,10 @@
 #'Jordan S. Read
 #'@seealso \link{get_nml_value}, \link{read_nml}, \link{get_surface_height}
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM') 
+#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools') 
 #'glm_surface <- get_surface_height(file, ice.rm = TRUE)
-#'folder_out <- system.file('extdata', package = 'rGLM') 
+#'folder_out <- system.file('extdata', package = 'glmtools') 
 #'glm_nml <- read_nml(nml_file)
 #'write_lvl(glm_surface, glm_nml, lake_name = 'lake', folder_out = folder_out)
 #'@export

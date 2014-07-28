@@ -1,4 +1,4 @@
-rGLM
+glmtools
 =====
 
 Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output.
@@ -6,10 +6,10 @@ Tools for interacting with the General Lake Model (GLM) in R. Includes some basi
 FAQ
 =====
 
-How do I install rGLM? It isn't on CRAN!
+How do I install glmtools? It isn't on CRAN!
 ===
 
-It is easiest to install rGLM using a tool distributed in the CRAN package 'devtools'. Before you install rGLM,
+It is easiest to install glmtools using a tool distributed in the CRAN package 'devtools'. Before you install glmtools,
 you must first install the netcdf R library (see "How do I install ncdf4?" below).
 
 Once you have ncdf4 installed. Install and then source the devtools package.
@@ -17,9 +17,9 @@ Once you have ncdf4 installed. Install and then source the devtools package.
     install.packages('devtools')
     library(devtools)
 
-Then, you can use the helper function to install rGLM from Github
+Then, you can use the helper function to install glmtools from Github
 
-    install_github("rGLM", "GLEON", args="--no-multiarch")
+    install_github("glmtools", "GLEON", args="--no-multiarch")
 
 Note: The --no-multiarch is there because of a quirk of the ncdf4 library.
 
@@ -41,11 +41,11 @@ in the "lib" subdirectory. To install, type
 
     install.packages('%path%/lib/%arch%/ncdf4_1.9.zip')
 
-%path% is the location of the rGLM directory.  
+%path% is the location of the glmtools directory.  
 %arch% is the architecture (32 or 64 bit) you use to run R. You probably use x64.
 
 
-How do I contribute new code back to the rGLM project?
+How do I contribute new code back to the glmtools project?
 ===
 
 In order to contribute to this code, we recommend the following workflow: 
@@ -54,15 +54,15 @@ In order to contribute to this code, we recommend the following workflow:
 
 2) clone the github repository to your computer:
 
-	$git clone https://github.com/username/rGLM.git
+	$git clone https://github.com/{username}/glmtools.git
 
 3) modify code or add new functionality, save the code
 
 4) add the repository master to a remote master called "upstream"
 
-	$cd rGLM
+	$cd glmtools
 
-	$git remote add upstream https://github.com/GLEON/rGLM.git
+	$git remote add upstream https://github.com/GLEON/glmtools.git
 
 5) before pushing your changes to your repository, pull in the current version of the GLEON master:
 

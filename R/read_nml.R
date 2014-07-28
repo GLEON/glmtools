@@ -10,7 +10,7 @@
 #'Jordan S. Read
 #'@seealso \link{get_nml_value}
 #'@examples 
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'glm_nml <- read_nml(nml_file)
 #'pretty_nml(glm_nml)
 #'@export

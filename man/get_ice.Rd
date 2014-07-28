@@ -19,7 +19,7 @@ This function sums the thickness of the clear ice, white ice,
 and optionally, the thickness of snow for each timestep in the GLM model.
 }
 \examples{
-file <- system.file('extdata', 'output.nc', package = 'rGLM')
+file <- system.file('extdata', 'output.nc', package = 'glmtools')
 ice <- get_ice(file)
 ice_and_snow <- get_ice(file, snow.rm = FALSE)
 plot(ice)

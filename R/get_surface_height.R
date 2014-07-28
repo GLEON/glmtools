@@ -11,7 +11,7 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'surface <- get_surface_height(file)
 #'surface_w_ice <- get_surface_height(file, ice.rm = FALSE, snow.rm = FALSE)
 #'@import ncdf4

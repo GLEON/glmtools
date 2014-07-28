@@ -12,7 +12,7 @@
 #'Jordan S. Read
 #'@seealso \link{write_lvl}, \link{read_nml}, \link{get_nml_value}
 #'@examples 
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'glm_nml <- read_nml(nml_file)
 #'get_hypsography(glm_nml)
 #'get_hypsography(file = nml_file)

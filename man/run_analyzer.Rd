@@ -21,15 +21,15 @@ This function runs Lake Analyzer server according to the files created (e.g., *.
 }
 \examples{
 # -- package up all the files for Lake Analyzer --
-folder_out <- system.file('extdata', package = 'rGLM')
-nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+folder_out <- system.file('extdata', package = 'glmtools')
+nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 glm_nml <- read_nml(nml_file)
 write_bth(glm_nml, lake_name = 'lake', folder_out = folder_out)
 lke <- init_lke()
 lake_depth <- max(get_hypsography(glm_nml)[, 1])
 lke <- set_lke(lke, arg_name = 'totalDep', arg_val = lake_depth)
 write_lke(lke, lake_name = 'lake', folder_out = folder_out)
-file = system.file('extdata', 'output.nc', package = 'rGLM')
+file = system.file('extdata', 'output.nc', package = 'glmtools')
 glm_wind <- get_wind(file)
 write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
 z_out <- seq(0,22,1)

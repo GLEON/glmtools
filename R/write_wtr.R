@@ -11,10 +11,10 @@
 #'Jordan S. Read
 #'@seealso \link{write_lvl}, \link{get_temp}
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'z_out <- c(0,1,2,3,4,5,6)
 #'glm_temp <- get_temp(file,reference='surface',z_out=z_out)
-#'folder_out <- system.file('extdata', package = 'rGLM')
+#'folder_out <- system.file('extdata', package = 'glmtools')
 #'write_wtr(glm_temp, lake_name = 'lake', folder_out = folder_out)
 #'@export
 write_wtr  <- function(glm_temp, lake_name = 'lake', folder_out){

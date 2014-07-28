@@ -9,7 +9,7 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'wind <- get_wind(file)
 #'@import ncdf4
 #'@export

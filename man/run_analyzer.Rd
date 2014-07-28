@@ -20,14 +20,33 @@ path_out a string with the file path to the output results
 This function runs Lake Analyzer server according to the files created (e.g., *.lke, *.wtr, etc).  \cr
 }
 \examples{
-file_path <- run_analyzer(lake_name='lake',folder='../resources/',
-                         folder_out='../resources/')
+# -- package up all the files for Lake Analyzer --
+folder_out <- system.file('extdata', package = 'rGLM')
+nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+glm_nml <- read_nml(nml_file)
+write_bth(glm_nml, lake_name = 'lake', folder_out = folder_out)
+lke <- init_lke()
+lake_depth <- max(get_hypsography(glm_nml)[, 1])
+lke <- set_lke(lke, arg_name = 'totalDep', arg_val = lake_depth)
+write_lke(lke, lake_name = 'lake', folder_out = folder_out)
+file = system.file('extdata', 'output.nc', package = 'rGLM')
+glm_wind <- get_wind(file)
+write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
+z_out <- seq(0,22,1)
+glm_temp <- get_temp(file,reference = 'surface',z_out = z_out)
+write_wtr(glm_temp,lake_name = 'lake', folder_out = folder_out)
+
+# -- run Lake Analyzer on remote server --
+\dontrun{
+file_path <- run_analyzer(lake_name='lake',folder=folder_out,
+                         folder_out=folder_out)
+}
 }
 \author{
 Luke A. Winslow, Jordan S. Read
 }
 \seealso{
-\link{write_lke}
+\link{write_lke}, \link{init_lke}, \link{set_lke}
 }
 \keyword{methods}
 

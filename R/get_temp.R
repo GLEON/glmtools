@@ -1,7 +1,9 @@
 #'@title get water temperatures from a GLM simulation
 #'@description 
 #'Creates a data.frame with DateTime and temperatures (in deg C).  \cr
-#'
+#'Temperatures that are sampled out of the GLM output are taken relative 
+#'to the surface (\code{reference = 'surface'}) or the bottom of the lake 
+#'(\code{reference = 'bottom'}).
 #'
 #'@param file a string with the path to the netcdf output from GLM
 #'@param reference a string which specifies the vertical reference ('surface' or 'bottom')
@@ -11,12 +13,12 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'file = '../test/output.nc'
-#'temp_surf <- get_temp(file,reference='surface',z_out=c(0,1,2))
-#'temp_bot <- get_temp(file,reference='bot',z_out=c(0,1,2))
+#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
+#'temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
 #'@import ncdf4
 #'@export
-get_temp <-  function(file, reference='bottom', z_out){
+get_temp <-  function(file, reference = 'bottom', z_out){
   if (reference!='bottom' & reference!='surface'){
     stop('reference input must be either "surface" or "bottom"')
   }

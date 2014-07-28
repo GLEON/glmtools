@@ -3,8 +3,7 @@
 \alias{write_lvl}
 \title{write Lake Analyzer *.lvl file from GLM simulation}
 \usage{
-write_lvl(glm_surface, glm_nml, lake_name = "lake",
-  folder_out = "../resources/")
+write_lvl(glm_surface, glm_nml, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{glm_surface}{a data.frame with DateTime and surface elevation from from GLM}
@@ -19,16 +18,18 @@ write_lvl(glm_surface, glm_nml, lake_name = "lake",
 Creates a *.lvl file from GLM simulation.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
+nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
 glm_surface <- get_surface_height(file, ice.rm = TRUE)
-glm_nml <- read_nml('../resources/glm.nml')
-write_lvl(glm_surface, glm_nml)
+folder_out <- system.file('extdata', package = 'rGLM')
+glm_nml <- read_nml(nml_file)
+write_lvl(glm_surface, glm_nml, lake_name = 'lake', folder_out = folder_out)
 }
 \author{
 Jordan S. Read
 }
 \seealso{
-\link{get_nml_value}, \link{read_nml}
+\link{get_nml_value}, \link{read_nml}, \link{get_surface_height}
 }
 \keyword{methods}
 

@@ -3,12 +3,14 @@
 \alias{get_surface_height}
 \title{get surface height from GLM simulation}
 \usage{
-get_surface_height(file, ice.rm = TRUE)
+get_surface_height(file, ice.rm = TRUE, snow.rm = TRUE)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
 \item{ice.rm}{a boolean for including ice thickness in surface height}
+
+\item{snow.rm}{a boolean for including snow depth thickness in surface height}
 }
 \value{
 a data.frame with DateTime and surface_height (in meters)
@@ -17,9 +19,9 @@ a data.frame with DateTime and surface_height (in meters)
 Creates a data.frame with DateTime and surface_height.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 surface <- get_surface_height(file)
-surface_w_ice <- get_surface_height(file, ice.rm = FALSE)
+surface_w_ice <- get_surface_height(file, ice.rm = FALSE, snow.rm = FALSE)
 }
 \author{
 Jordan S. Read, Luke A. Winslow

@@ -3,7 +3,7 @@
 \alias{write_wnd}
 \title{write Lake Analyzer *.wnd file from GLM simulation}
 \usage{
-write_wnd(glm_wind, lake_name = "lake", folder_out = "../Supporting Files/")
+write_wnd(glm_wind, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{glm_wind}{a data.frame with DateTime and temperatures from GLM}
@@ -16,9 +16,10 @@ write_wnd(glm_wind, lake_name = "lake", folder_out = "../Supporting Files/")
 Creates a *.wnd file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
+folder_out <- system.file('extdata', package = 'rGLM')
 glm_wind <- get_wind(file)
-write_wnd(glm_wind,lake_name='lake',folder_out='../resources/')
+write_wnd(glm_wind,lake_name='lake',folder_out = folder_out)
 }
 \author{
 Jordan S. Read

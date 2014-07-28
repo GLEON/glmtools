@@ -15,8 +15,8 @@ a data.frame with DateTime and wind
 Creates a data.frame with DateTime and wind.  \cr
 }
 \examples{
-file = '../test/output.nc'
-ice <- get_wind(file)
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
+wind <- get_wind(file)
 }
 \author{
 Luke A. Winslow, Jordan S. Read

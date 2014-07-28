@@ -3,7 +3,7 @@
 \alias{read_nml}
 \title{read in a GLM simulation *.nml file}
 \usage{
-read_nml(file = "../resources/glm.nml")
+read_nml(file)
 }
 \arguments{
 \item{file}{a string with the path to the GLM glm.nml file}
@@ -15,8 +15,8 @@ glm_nml a nml (a list) for GLM config
 read in a GLM simulation *.nml file and create a list.  \cr
 }
 \examples{
-file = '../resources/glm.nml'
-glm_nml <- read_nml(file)
+nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+glm_nml <- read_nml(nml_file)
 pretty_nml(glm_nml)
 }
 \author{

@@ -60,14 +60,14 @@ findBlck	<-	function(nml,argName){
 }
 
 # private function
-setnmlList <- function(nml,argList){
-  if (!is.list(argList)){stop("argList must be a list")}
+setnmlList <- function(glm_nml,arg_list){
+  if (!is.list(arg_list)){stop("argList must be a list")}
   
-  argNames  <-	names(argList)
-  for (i in 1:length(argNames)){
-    nml <- set_nml(nml,argName=argNames[i],argVal=argList[[i]])
+  arg_names  <-	names(arg_list)
+  for (i in 1:length(arg_names)){
+    glm_nml <- set_nml(glm_nml,arg_name=arg_names[i],arg_val=arg_list[[i]])
   }
-  return(nml)
+  return(glm_nml)
 }
 
 

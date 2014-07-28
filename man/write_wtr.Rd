@@ -3,7 +3,7 @@
 \alias{write_wtr}
 \title{write Lake Analyzer *.wtr file from GLM simulation}
 \usage{
-write_wtr(glm_temp, lake_name = "lake", folder_out = "../resources/")
+write_wtr(glm_temp, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{glm_temp}{a data.frame with DateTime and temperatures from GLM}
@@ -16,10 +16,11 @@ write_wtr(glm_temp, lake_name = "lake", folder_out = "../resources/")
 Creates a *.wtr file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 z_out <- c(0,1,2,3,4,5,6)
 glm_temp <- get_temp(file,reference='surface',z_out=z_out)
-write_wtr(glm_temp,lake_name='lake',folder_out='../resources/')
+folder_out <- system.file('extdata', package = 'rGLM')
+write_wtr(glm_temp, lake_name = 'lake', folder_out = folder_out)
 }
 \author{
 Jordan S. Read

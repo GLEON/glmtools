@@ -10,18 +10,20 @@
 #'@keywords methods
 #'@author
 #'Jordan S. Read
-#'@seealso \link{get_nml_value}, \link{read_nml}
+#'@seealso \link{get_nml_value}, \link{read_nml}, \link{get_surface_height}
 #'@examples 
-#'file = '../test/output.nc'
+#'file <- system.file('extdata', 'output.nc', package = 'rGLM')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM') 
 #'glm_surface <- get_surface_height(file, ice.rm = TRUE)
-#'glm_nml <- read_nml('../resources/glm.nml')
-#'write_lvl(glm_surface, glm_nml)
+#'folder_out <- system.file('extdata', package = 'rGLM') 
+#'glm_nml <- read_nml(nml_file)
+#'write_lvl(glm_surface, glm_nml, lake_name = 'lake', folder_out = folder_out)
 #'@export
-write_lvl  <- function(glm_surface, glm_nml, lake_name='lake',folder_out='../resources/'){
-  file_out <- paste(c(folder_out,lake_name,'.lvl'),collapse="")
-  
+write_lvl  <- function(glm_surface, glm_nml, lake_name = 'lake', folder_out){
+  lvl_name <- paste(lake_name, '.lvl', sep = '')
+  file_path  <-	file.path(folder_out, lvl_name)
   lvl <- get_lvl(glm_surface,glm_nml)
-  write.table(lvl,file=file_out,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
+  write.table(lvl,file=file_path,col.names=TRUE, quote=FALSE, row.names=FALSE, sep="\t")
 }
 
 get_lvl  <-	function(glm_surface,glm_nml){

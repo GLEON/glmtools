@@ -1,7 +1,8 @@
-#'@title retrieve hypsography information from glm_nml object or file
+#'@title retrieve hypsography information
 #'@description 
-#'Retrieves hypsography information from glm_nml object or file  \cr
-#'
+#'Retrieves hypsography information from glm_nml object or file.  \cr
+#'Hypsography is the relationship between depth and area of a lake. 
+#''Depth' is referenced from the lake surface and downward values are positive in meters. Areas are in square meters.
 #'
 #'@param glm_nml a nml (a list) for GLM config
 #'@param file a string with the path to the GLM glm.nml file
@@ -11,16 +12,16 @@
 #'Jordan S. Read
 #'@seealso \link{write_lvl}, \link{read_nml}, \link{get_nml_value}
 #'@examples 
-#'nml_file <- '../resources/glm.nml'
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
 #'glm_nml <- read_nml(nml_file)
 #'get_hypsography(glm_nml)
-#'get_hypsography(file=nml_file)
+#'get_hypsography(file = nml_file)
 #'@export
-get_hypsography <- function(glm_nml=NULL, file=NULL){
+get_hypsography <- function(glm_nml, file){
   # if both are passed, glm_nml is used and 'file' is ignored
-  if (is.null(file) & is.null(glm_nml)){stop('glm.nml file path OR glm_nml must be specified')}
+  if (missing(file) & missing(glm_nml)){stop('glm.nml file path OR glm_nml must be specified')}
   
-  if (is.null(glm_nml)){
+  if (missing(glm_nml)){
     glm_nml <- read_nml(file)
   }
   

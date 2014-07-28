@@ -3,20 +3,27 @@
 \alias{get_ice}
 \title{get ice depth from GLM simulation}
 \usage{
-get_ice(file)
+get_ice(file, snow.rm = TRUE)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
+
+\item{snow.rm}{a boolean for ignoring snow depth in the calculation of ice thickness}
 }
 \value{
-a data.frame with DateTime and ice
+a data.frame with DateTime and ice (in meters)
 }
 \description{
 Creates a data.frame with DateTime and ice.  \cr
+This function sums the thickness of the clear ice, white ice,
+and optionally, the thickness of snow for each timestep in the GLM model.
 }
 \examples{
-file = '../test/output.nc'
+file <- system.file('extdata', 'output.nc', package = 'rGLM')
 ice <- get_ice(file)
+ice_and_snow <- get_ice(file, snow.rm = FALSE)
+plot(ice)
+points(ice_and_snow, col = "red")
 }
 \author{
 Luke A. Winslow, Jordan S. Read

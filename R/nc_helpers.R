@@ -1,6 +1,5 @@
 
 get_glm_nc  <-  function(file){
-	require(ncdf4)
 	glm_nc	<- 	nc_open(file)
 	return(glm_nc)
 }
@@ -12,7 +11,6 @@ close_glm_nc <- function(glm_nc){
 
 # Summary: Returns the converted time vector in R format
 get_time  <-  function(glm_nc){
-  require(ncdf4)
 	hours_since  <-   ncvar_get(glm_nc, "time")
 	time_info <- get_time_info(glm_nc)
 
@@ -23,7 +21,6 @@ get_time  <-  function(glm_nc){
 }
 
 get_time_info <- function(glm_nc){
-  require(ncdf4)
 	day_secs = 86400
   time_unit <- 3600/day_secs
 

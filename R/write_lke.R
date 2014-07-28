@@ -13,15 +13,17 @@
 #'@seealso \link{write_wtr}, \link{write_lvl}, \link{init_lke}, \link{set_lke}
 #'@examples 
 #'lke <- init_lke()
-#'lke <- set_lke(lke, arg_name='totalDep', arg_val=19.4)
-#'write_lke(lke,lake_name='lake',folder_out='../resources/')
+#'lke <- set_lke(lke, arg_name = 'totalDep', arg_val = 19.4)
+#'folder_out <- system.file('extdata', package = 'rGLM') 
+#'write_lke(lke, lake_name = 'lake', folder_out = folder_out)
 #'@export
-write_lke  <-	function(lke,lake_name = 'lake',folder_out='../resources/'){	
+write_lke  <-	function(lke, lake_name = 'lake', folder_out){	
   lke_metadata	<-	init_lke_metadata()
   
   if (any(is.na(lke))){stop("no lke parameters can be NA")}
-  file_name	<-	gsub(" ","",paste(c(lake_name,'.lke'),collapse=""))
-  sink(paste(c(folder_out,file_name),collapse=""))
+  lke_name <- paste(lake_name, '.lke', sep = '')
+  file_path  <-	file.path(folder_out, lke_name)
+  sink(file_path)
   cat(c("Configuration file for",lake_name,"\n","\n"))
   for (ln in 1:length(lke)){
     cat(as.character(lke[[ln]]))

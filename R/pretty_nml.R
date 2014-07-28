@@ -4,8 +4,8 @@
 #'@author
 #'Jordan S. Read
 #'@examples
-#'file = '../resources/glm.nml'
-#'glm_nml <- read_nml(file)
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+#'glm_nml <- read_nml(nml_file)
 #'pretty_nml(glm_nml)
 #'@export
 pretty_nml <- function(glm_nml){

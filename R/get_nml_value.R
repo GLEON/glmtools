@@ -7,11 +7,11 @@
 #'@author
 #'Jordan S. Read
 #'@examples
-#'file = '../resources/glm.nml'
-#'glm_nml <- read_nml(file)
-#'get_nml_value(glm_nml,arg_name='Kw')
+#'nml_file <- system.file('extdata', 'glm.nml', package = 'rGLM')
+#'glm_nml <- read_nml(nml_file)
+#'get_nml_value(glm_nml,arg_name = 'Kw')
 #'@export
-get_nml_value  <-	function(glm_nml,arg_name){
+get_nml_value  <-	function(glm_nml, arg_name){
   
   blckI	<-	findBlck(glm_nml,arg_name)
   

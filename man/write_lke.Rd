@@ -3,7 +3,7 @@
 \alias{write_lke}
 \title{write Lake Analyzer *.lke file from GLM simulation}
 \usage{
-write_lke(lke, lake_name = "lake", folder_out = "../resources/")
+write_lke(lke, lake_name = "lake", folder_out)
 }
 \arguments{
 \item{lke}{a nml (a list) for GLM config}
@@ -17,8 +17,9 @@ Creates a *.lke file for Lake Analyzer use from GLM simulation.  \cr
 }
 \examples{
 lke <- init_lke()
-lke <- set_lke(lke, arg_name='totalDep', arg_val=19.4)
-write_lke(lke,lake_name='lake',folder_out='../resources/')
+lke <- set_lke(lke, arg_name = 'totalDep', arg_val = 19.4)
+folder_out <- system.file('extdata', package = 'rGLM')
+write_lke(lke, lake_name = 'lake', folder_out = folder_out)
 }
 \author{
 Jordan S. Read

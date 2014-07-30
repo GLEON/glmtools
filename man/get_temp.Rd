@@ -3,7 +3,7 @@
 \alias{get_temp}
 \title{get water temperatures from a GLM simulation}
 \usage{
-get_temp(file, reference = "bottom", z_out)
+get_temp(file, reference = "bottom", z_out, t_out = NULL)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -11,6 +11,8 @@ get_temp(file, reference = "bottom", z_out)
 \item{reference}{a string which specifies the vertical reference ('surface' or 'bottom')}
 
 \item{z_out}{a vector of depths for temperature output (in meters)}
+
+\item{t_out}{a vector of POSIXct dates for temporal resampling (order is important)}
 }
 \value{
 a data.frame with DateTime and temperature at depth
@@ -25,9 +27,17 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 file <- system.file('extdata', 'output.nc', package = 'glmtools')
 temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
+
+#-- get temporal subset--
+t_out <- seq(as.POSIXct("2008-03-01"), as.POSIXct("2008-06-01"), by = 86400)
+temp_surf <- get_temp(file, reference = 'surface', z_out = 0, t_out = t_out)
+plot(temp_surf)
 }
 \author{
 Jordan S. Read, Luke A. Winslow
+}
+\seealso{
+\link{resample_time}
 }
 \keyword{methods}
 

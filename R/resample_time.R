@@ -43,3 +43,9 @@ resample_time <- function(df, t_out, method = 'match', precision = 'day'){
   return(df)
   
 }
+
+trunc_time <- function(df, start_date, stop_date){
+  idx_out <- df$DateTime >= start_date & df$DateTime <= stop_date
+  df_out <- df[idx_out, ]
+  return(df_out)
+}

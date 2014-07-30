@@ -19,7 +19,7 @@
 read_field_obs <- function(file){
   
   delimiter <- get_delimiter(file)
-  data <- read.delim2(file = file, header = TRUE, sep = delimiter)
+  data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
   
   date_i <- match('datetime',tolower(names(data)))
   depth_i <- match('depth',tolower(names(data)))
@@ -30,7 +30,9 @@ read_field_obs <- function(file){
   
   if (any(is.na(c(date_i, depth_i, wtr_i)))){stop('format for field data not supported. Need DateTime, Depth, and wTemp column names')}
   
-  df <- data.frame("DateTime" = as.POSIXct(data[, date_i]), "Depth" = data[, depth_i], "wTemp" = data[, wtr_i])
+  df <- data.frame("DateTime" = as.POSIXct(data[, date_i]), 
+                   "Depth" = as.numeric(data[, depth_i]), 
+                   "wTemp" = as.numeric(data[, wtr_i]))
   
   return(df)
 }

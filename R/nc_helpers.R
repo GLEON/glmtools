@@ -20,13 +20,18 @@ get_time  <-  function(glm_nc){
 	
 }
 
-get_time_info <- function(glm_nc){
+get_time_info <- function(glm_nc, file = NULL){
+  
 	day_secs = 86400
   time_unit <- 3600/day_secs
 
 	#The units attribute on the time variable has basically the info we need
+  if (missing(glm_nc)){
+    glm_nc <- get_glm_nc(file)
+  }
 	time_units <- ncatt_get(glm_nc,'time','units')$value
 
+	
 	#It is written in prose instead of machine-readable format. Check to makes sure
 	# it says "hours since ", then we know the timestep is hours. As far as I know, 
 	# this never changes
@@ -50,7 +55,10 @@ get_time_info <- function(glm_nc){
 	#End date/time 
 	endT <- time_info$startDate + ncvar_get(glm_nc,'time',start=tLen, count=1) * time_unit * day_secs
 
-  time_info  <-  cbind(time_info,"stopDate"=endT)
+  time_info  <-  cbind(time_info,"stopDate"=endT[1])
+	if (missing(glm_nc)){
+	  close_glm_nc(glm_nc)
+	}
 	return(time_info)
 }
 

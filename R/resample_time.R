@@ -22,7 +22,7 @@
 #'@export
 resample_time <- function(df, t_out, method = 'match', precision = 'day'){
   
-  
+  if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
   if (is.null(t_out)){
     return(df)
   }

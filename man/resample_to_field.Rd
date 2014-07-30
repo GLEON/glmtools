@@ -11,7 +11,7 @@ resample_to_field(nc_file, field_file)
 \item{field_file}{a string with the path to the field observation file}
 }
 \value{
-a data.frame with DateTime and temperature at depth
+validation a data.frame with DateTime and temperature at depth
 }
 \description{
 match GLM water temperatures with field observations

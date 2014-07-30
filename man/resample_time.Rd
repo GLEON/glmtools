@@ -26,7 +26,7 @@ precision of the match is passed in through the \code{precision} argument.
 \examples{
 file <- system.file('extdata', 'output.nc', package = 'glmtools')
 temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
-t_out <- as.POSIXct(c("2008-03-01", "2009-06-14", "2008-03-05", "2008-02-28"))
+t_out <- as.POSIXct(c("2011-04-01", "2011-06-14", "2011-04-05", "2011-07-28"))
 temp_out <- resample_time(df = temp_surf, t_out = t_out, precision = 'day')
 }
 \author{

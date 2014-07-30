@@ -20,7 +20,7 @@
 #'temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
 #'
 #'#-- get temporal subset--
-#'t_out <- seq(as.POSIXct("2008-03-01"), as.POSIXct("2008-06-01"), by = 86400)
+#'t_out <- seq(as.POSIXct("2011-04-04"), as.POSIXct("2011-06-01"), by = 86400)
 #'temp_surf <- get_temp(file, reference = 'surface', z_out = 0, t_out = t_out)
 #'plot(temp_surf)
 #'@import ncdf4

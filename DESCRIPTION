@@ -17,6 +17,7 @@ Depends:
 Imports:
     ncdf4,
     RCurl,
-    tools
+    tools,
+    rLakeAnalyzer
 LazyLoad: yes
 LazyData: yes

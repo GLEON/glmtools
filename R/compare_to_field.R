@@ -8,6 +8,7 @@
 #'@param nml_file a string with the path to the nml file (optional)
 #'@param metric a string representing a physical metric. Should be a rLakeAnalyzer function or other function.
 #'@param as_value a boolean for calculating RMSE (F) or returning all values (T)
+#'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
 #'@return a RMSE (in native units) for the comparison, or all values (if as_values == T)
 #'@keywords methods
 #'@seealso \link{resample_time}, \link{resample_to_field}

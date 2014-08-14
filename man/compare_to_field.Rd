@@ -16,6 +16,8 @@ compare_to_field(nc_file, field_file, nml_file, metric, as_value = FALSE,
 \item{metric}{a string representing a physical metric. Should be a rLakeAnalyzer function or other function.}
 
 \item{as_value}{a boolean for calculating RMSE (F) or returning all values (T)}
+
+\item{na.rm}{a boolean for remove NAs for RMSE calculation (only used if as_values == F)}
 }
 \value{
 a RMSE (in native units) for the comparison, or all values (if as_values == T)

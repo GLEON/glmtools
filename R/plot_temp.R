@@ -36,7 +36,6 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100){
   
   axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
   color_key(levels, colors, subs=seq(4,32,2))
-  dev.off()
 }
 
 plot_layout <- function(xaxis, yaxis){

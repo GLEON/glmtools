@@ -8,7 +8,7 @@ plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{refence}{a string for 'surface' or 'bottom'}
+\item{reference}{a string for 'surface' or 'bottom'}
 
 \item{num_cells}{number of vertical cells to use for heatmap}
 

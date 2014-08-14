@@ -10,9 +10,46 @@
 #'@export
 plot_temp <- function(file){
   
-  get_temp <-  function(file, reference = 'surface', z_out, t_out = NULL)
+  point_size <- 14
+  
+  surface <- get_surface_height(file)
+  max_depth <- max(surface[, 2])
+  min_depth <- 0
+  z_out <- seq(min_depth, max_depth,length.out = 100)
+  temp <- get_temp(file, reference = 'surface', z_out)
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
-  filled.contour(wtr.dates, y, wtr.mat, ylim=c(max(depths),0), nlevels=100,
-                 color.palette= palette, ylab='Depths (m)') #Sets range and value of color hues
+  levels <- seq(0, 36, 1)
+  colors <- palette(n = length(levels)-1)
+  dates <- temp[, 1]
+  wtr_temps <- data.matrix(temp[, -1])
+  xaxis <- get_xaxis(dates)
+  yaxis <- get_yaxis(z_out)
+  
+  panels = matrix(c(rep(1,5),2), nrow = 1)
+  
+  par(ps = point_size)
+  layout(panels)
+  
+  plot(NA, xlim = xaxis$lim,
+       ylim=yaxis$lim,
+       xlab=xaxis$x_lab, ylab='Depth (m)',
+       frame=FALSE,axes=F,xaxs="i",yaxs="i")
+  
+  .filled.contour(x = dates, y = z_out, z = wtr_temps,
+                  levels= levels,
+                  col=colors)
+  
+  # x axis
+  axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
+  axis(side = 3, labels=NA, at = xaxis$lim, tck = 0)
+  axis(side = 2, at = yaxis$ticks, tck = -0.01, pos = xaxis$lim[1])
+  axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
+  
+  plot(NA, xlim = c(0,1),
+       ylim=c(0,1),
+       xlab="", ylab="",
+       frame=FALSE,axes=F,xaxs="i",yaxs="i")
+  
+  color_key(levels, colors, subs=seq(4,32,3), ps = point_size)
 }

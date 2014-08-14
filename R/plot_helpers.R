@@ -21,8 +21,10 @@ get_yaxis <- function(z_out){
   return(yaxis) 
 }
 
-color_key <- function(levels, colors, subs){
+color_key <- function(levels, colors, subs, ps){
   # plotting to a 1 x 1 space
+  if (!all(subs %in% levels)) stop('selected values must be included in levels')
+  
   spc_pol_rat <- 0.1 # ratio between spaces and bars
   num_poly <- length(subs)
   num_spc <- num_poly - 1
@@ -32,7 +34,12 @@ color_key <- function(levels, colors, subs){
   spc_h <- 0.1 * poly_h
   
   for (i in 1:num_poly){
-    polygon(c(0,.8,.8,0),c(0,0,poly_h,poly_h),col = 'red')
+    col <- colors[levels==subs[i]]
+    b <- (i-1)*(poly_h+spc_h)
+    t <- b+poly_h
+    m <- mean(c(b,t))
+    polygon(c(0,.8,.8,0),c(b,b,t,t),col = col)
+    text(.8,m,as.character(subs[i]), ps = ps, pos= 4)
   }
 }
 

@@ -8,9 +8,11 @@ plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{refences}{a string for 'surface' or 'bottom'}
+\item{refence}{a string for 'surface' or 'bottom'}
 
 \item{num_cells}{number of vertical cells to use for heatmap}
+
+\item{fig_path}{F if plot to screen, string path if save plot as .png}
 }
 \description{
 plot water temperatures from a GLM simulation

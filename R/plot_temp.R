@@ -1,7 +1,8 @@
 #'@title plot water temperatures from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
-#'@param refences a string for 'surface' or 'bottom'
+#'@param reference a string for 'surface' or 'bottom'
 #'@param num_cells number of vertical cells to use for heatmap
+#'@param fig_path F if plot to screen, string path if save plot as .png
 #'@keywords methods
 #'@seealso \link{get_temp}
 #'@author

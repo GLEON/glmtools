@@ -8,7 +8,7 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'plot_temp(file = file, fig_path = F)
+#'plot_temp(file = file, fig_path = FALSE)
 #'plot_temp(file = file, fig_path = '../test_figure.png')
 #'@export
 plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F){

@@ -1,5 +1,6 @@
 #'@title plot water temperatures from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
+#'@param refences a string for 'surface' or 'bottom'
 #'@keywords methods
 #'@seealso \link{get_temp}
 #'@author
@@ -8,13 +9,13 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'plot_temp(file = file)
 #'@export
-plot_temp <- function(file){
+plot_temp <- function(file, reference = 'surface'){
 
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
   min_depth <- 0
   z_out <- seq(min_depth, max_depth,length.out = 100)
-  temp <- get_temp(file, reference = 'surface', z_out)
+  temp <- get_temp(file, reference = reference, z_out)
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
   levels <- seq(0, 36, 1)
@@ -22,7 +23,7 @@ plot_temp <- function(file){
   dates <- temp[, 1]
   wtr_temps <- data.matrix(temp[, -1])
   xaxis <- get_xaxis(dates)
-  yaxis <- get_yaxis(z_out)
+  yaxis <- get_yaxis(z_out, reference)
   
   gen_default_fig(file_name = 'figure.png') 
   

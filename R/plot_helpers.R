@@ -17,12 +17,19 @@ gen_default_fig <- function(file_name){
 }
 
 
-get_yaxis <- function(z_out){
+get_yaxis <- function(z_out, reference){
   
+  if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   
-
-  lim <- c(max(z_out), 0)
-  rng <- lim[1]-lim[2]
+  if (reference == 'surface'){
+    lim <- c(max(z_out), 0)
+    title <- 'Depth (m)'
+  } else {
+    lim <- c(0, max(z_out))
+    title <- 'Elevation (m)'
+  }
+  
+  rng <- abs(lim[1]-lim[2])
 
   if (rng < 1){
     spc <- .25
@@ -35,8 +42,8 @@ get_yaxis <- function(z_out){
   } else {
     spc <- 5
   }
-  ticks <- seq(0, lim[1]+spc, spc)
-  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = 'Depth (m)')
+  ticks <- seq(0, max(lim) + spc, spc)
+  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
   return(yaxis) 
 }
 

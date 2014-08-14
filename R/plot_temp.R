@@ -9,9 +9,7 @@
 #'plot_temp(file = file)
 #'@export
 plot_temp <- function(file){
-  
-  
-  
+
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
   min_depth <- 0
@@ -26,20 +24,27 @@ plot_temp <- function(file){
   xaxis <- get_xaxis(dates)
   yaxis <- get_yaxis(z_out)
   
-  panels = matrix(c(rep(1,5),2), nrow = 1)
-  
   gen_default_fig(file_name = 'figure.png') 
+  
+  
+  plot_layout(xaxis, yaxis)
+  .filled.contour(x = dates, y = z_out, z = wtr_temps,
+                  levels= levels,
+                  col=colors)
+  
+  color_key(levels, colors, subs=seq(4,32,2))
+  dev.off()
+}
+
+plot_layout <- function(xaxis, yaxis){
+  panels = matrix(c(rep(1,5),2), nrow = 1)
   
   layout(panels)
   
   plot(NA, xlim = xaxis$lim,
        ylim=yaxis$lim,
-       xlab=xaxis$x_lab, ylab='Depth (m)',
+       xlab=xaxis$x_lab, ylab=' ',
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
-  
-  .filled.contour(x = dates, y = z_out, z = wtr_temps,
-                  levels= levels,
-                  col=colors)
   
   # x axis
   axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
@@ -47,15 +52,10 @@ plot_temp <- function(file){
   axis(side = 2, at = yaxis$ticks, tck = -0.01, pos = xaxis$lim[1])
   ol_par <- par()$mgp
   par(mgp=c(0,1.5,0))
-  axis(side = 2, at = mean(yaxis$lim), tck = 0,  labels='Depth (m)')
+  axis(side = 2, at = mean(yaxis$lim), tck = 0,  labels=yaxis$title)
   par(mgp=ol_par)
   axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
   
-  plot(NA, xlim = c(0,1),
-       ylim=c(0,1),
-       xlab="", ylab="",
-       frame=FALSE,axes=F,xaxs="i",yaxs="i")
   
-  color_key(levels, colors, subs=seq(4,32,2))
-  dev.off()
+  
 }

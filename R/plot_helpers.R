@@ -36,11 +36,17 @@ get_yaxis <- function(z_out){
     spc <- 5
   }
   ticks <- seq(0, lim[1]+spc, spc)
-  yaxis <- list('lim'=lim, 'ticks'=ticks)
+  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = 'Depth (m)')
   return(yaxis) 
 }
 
 color_key <- function(levels, colors, subs, ps){
+  # add feau plot
+  plot(NA, xlim = c(0,1),
+       ylim=c(0,1),
+       xlab="", ylab="",
+       frame=FALSE,axes=F,xaxs="i",yaxs="i")
+  
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   old_mai <- par()$mai
   par(mai=c(old_mai[1],0, old_mai[3],0))

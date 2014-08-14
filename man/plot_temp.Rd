@@ -3,12 +3,14 @@
 \alias{plot_temp}
 \title{plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file, reference = "surface")
+plot_temp(file, reference = "surface", num_cells = 100)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
 \item{refences}{a string for 'surface' or 'bottom'}
+
+\item{num_cells}{number of vertical cells to use for heatmap}
 }
 \description{
 plot water temperatures from a GLM simulation

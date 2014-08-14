@@ -53,12 +53,14 @@ color_key <- function(levels, colors, subs, ps){
        ylim=c(0,1),
        xlab="", ylab="",
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
-  
-  spc_pol_rat <- 0.2 # ratio between spaces and bars
+  old_mgp <- par()$mgp
   old_mai <- par()$mai
-  par(mai=c(old_mai[1],0, old_mai[3],0))
-  p_start <- 0.2
-  p_wid <- 0.5
+  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,0,0))
+  axis(side = 4, at = 0.5, tck = NA, labels='Temperature (°C)', lwd = 0.0)
+  spc_pol_rat <- 0.2 # ratio between spaces and bars
+  
+  p_start <- 0.1
+  p_wid <- 0.35
   if (missing(ps)){
     ps <- round(par()$ps*0.7)
   }
@@ -78,9 +80,10 @@ color_key <- function(levels, colors, subs, ps){
     b <- (i-1)*(poly_h+spc_h)
     t <- b+poly_h
     m <- mean(c(b,t))-0.12*(t-b) # vertical fudge factor for text
-    polygon(c(p_start,p_wid,p_wid,p_start),c(b,b,t,t),col = col)
-    text(p_wid,m,as.character(subs[i]), ps = ps, pos= 4)
+    polygon(c(p_start,p_wid,p_wid,p_start),c(b,b,t,t),col = col, border = NA)
+    text(p_wid-.05,m,as.character(subs[i]), ps = ps, pos= 4)
   }
+  par(mai = old_mai, mgp = old_mgp)
 }
 
 get_xaxis <- function(dates){

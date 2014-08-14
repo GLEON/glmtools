@@ -3,7 +3,7 @@
 \alias{plot_temp}
 \title{plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file, reference = "surface", num_cells = 100)
+plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -17,7 +17,8 @@ plot water temperatures from a GLM simulation
 }
 \examples{
 file <- system.file('extdata', 'output.nc', package = 'glmtools')
-plot_temp(file = file)
+plot_temp(file = file, fig_path = F)
+plot_temp(file = file, fig_path = '../test_figure.png')
 }
 \author{
 Jordan S. Read, Luke A. Winslow

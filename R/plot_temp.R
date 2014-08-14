@@ -8,9 +8,10 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'plot_temp(file = file)
+#'plot_temp(file = file, fig_path = F)
+#'plot_temp(file = file, fig_path = '../test_figure.png')
 #'@export
-plot_temp <- function(file, reference = 'surface', num_cells = 100){
+plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F){
 
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -26,8 +27,10 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100){
   xaxis <- get_xaxis(dates)
   yaxis <- get_yaxis(z_out, reference)
   
-  gen_default_fig(file_name = 'figure.png') 
-  
+  if (is.character(fig_path)){
+    gen_default_fig(file_name = fig_path) 
+  }
+
   
   plot_layout(xaxis, yaxis)
   .filled.contour(x = dates, y = z_out, z = wtr_temps,
@@ -36,6 +39,9 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100){
   
   axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
   color_key(levels, colors, subs=seq(4,32,2))
+  if (is.character(fig_path)){
+    dev.off()
+  }
 }
 
 plot_layout <- function(xaxis, yaxis){

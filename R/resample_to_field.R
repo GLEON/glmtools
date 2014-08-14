@@ -3,7 +3,7 @@
 #'@param field_file a string with the path to the field observation file
 #'@return validation a data.frame with DateTime and temperature at depth 
 #'@keywords methods
-#'@seealso \link{resample_time}, \link{get_temps}
+#'@seealso \link{resample_time}, \link{get_temp}
 #'@author
 #'Jordan S. Read
 #'@examples 

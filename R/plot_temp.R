@@ -10,7 +10,7 @@
 #'@export
 plot_temp <- function(file){
   
-  point_size <- 14
+  
   
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -28,7 +28,8 @@ plot_temp <- function(file){
   
   panels = matrix(c(rep(1,5),2), nrow = 1)
   
-  par(ps = point_size)
+  gen_default_fig(file_name = 'figure.png') 
+  
   layout(panels)
   
   plot(NA, xlim = xaxis$lim,
@@ -44,6 +45,10 @@ plot_temp <- function(file){
   axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
   axis(side = 3, labels=NA, at = xaxis$lim, tck = 0)
   axis(side = 2, at = yaxis$ticks, tck = -0.01, pos = xaxis$lim[1])
+  ol_par <- par()$mgp
+  par(mgp=c(0,1.5,0))
+  axis(side = 2, at = mean(yaxis$lim), tck = 0,  labels='Depth (m)')
+  par(mgp=ol_par)
   axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
   
   plot(NA, xlim = c(0,1),
@@ -51,5 +56,6 @@ plot_temp <- function(file){
        xlab="", ylab="",
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   
-  color_key(levels, colors, subs=seq(4,32,3), ps = point_size)
+  color_key(levels, colors, subs=seq(4,32,2))
+  dev.off()
 }

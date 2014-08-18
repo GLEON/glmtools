@@ -1,36 +1,29 @@
 glmtools
 =====
 
-Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output, and some basic plotting functionality (see example image below).
+Tools for interacting with the General Lake Model (GLM) in R. `glmtools` includes some basic functions for calculating physical derivatives and thermal properties of model output, and some plotting functionality (see example image below).
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 
 FAQ
 =====
 
-How do I install glmtools? It isn't on CRAN!
+How do I install `glmtools`? It isn't on CRAN!
 ===
 
-It is easiest to install glmtools using a tool distributed in the CRAN package 'devtools'. Before you install glmtools,
-you must first install the netcdf R library (see "How do I install ncdf4?" below).
+Before you install `glmtools`,
+you must first install the other required libraries, including the netcdf R library (see "How do I install `ncdf4`?" below).
 
-Once you have ncdf4 installed. Install and then source the devtools package.
+Once you have the other libraries installed, install glmtools from the stable release on gleon.github.io:
 
-    install.packages('devtools')
-    library(devtools)
-
-Then, you can use the helper function to install glmtools from Github
-
-    install_github("glmtools", "GLEON", args="--no-multiarch")
-
-Note: The --no-multiarch is there because of a quirk of the ncdf4 library.
+    install.packages("glmtools", 
+        repos="http://gleon.github.com/", type="source")
 
 What libraries do I need?
 ===
+This version requires the NetCDF version 4 R library (called `ncdf4`), and you may want to install `rLakeAnalyzer`, `RCurl`, and `tools` if you could like to run all examples. Aside from `ncdf4`, all other libraries are on CRAN and can be installed with `install.packages()`.
 
-This version requires the NetCDF version 4 R library (called ncdf4).
-
-How do I install ncdf4? 
+How do I install `ncdf4`? 
 ===
 
 On Mac or Linux: Simply type 

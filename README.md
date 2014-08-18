@@ -21,7 +21,7 @@ Once you have the other libraries installed, install glmtools from the stable re
 
 What libraries do I need?
 ===
-This version requires the NetCDF version 4 R library (called `ncdf4`), and you may want to install `rLakeAnalyzer`, `RCurl`, and `tools` if you could like to run all examples. Aside from `ncdf4`, all other libraries are on CRAN and can be installed with `install.packages()`.
+This version requires the NetCDF version 4 R library (called `ncdf4`), and you may want to install `rLakeAnalyzer`, `RCurl`, and `tools` if you would like to run all examples. Aside from `ncdf4`, all other libraries are on CRAN and can be installed with `install.packages()`.
 
 How do I install `ncdf4`? 
 ===

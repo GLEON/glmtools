@@ -1,7 +1,9 @@
 glmtools
 =====
 
-Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output, and some basic plotting functionality.
+Tools for interacting with the General Lake Model (GLM) in R. Includes some basic functions for calculating physical derivatives and thermal properties of model output, and some basic plotting functionality (see example image below).
+
+![alt tag](http://github.gleon.io/images/test_figure.png)
 
 FAQ
 =====

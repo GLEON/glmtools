@@ -14,7 +14,7 @@ How do I install `glmtools`? It isn't on CRAN!
 Before you install `glmtools`,
 you must first install the other required libraries, including the netcdf R library (see "How do I install `ncdf4`?" below).
 
-Once you have the other libraries installed, install glmtools from the stable release on gleon.github.io:
+Once you have the other libraries installed, install glmtools from the stable release on [gleon.github.io](https://www.gleon.github.io "GLEON's github page"):
 
     install.packages("glmtools", 
         repos="http://gleon.github.com/", type="source")

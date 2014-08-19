@@ -39,13 +39,25 @@ FAQ
 
 How do I install `glmtools`? It isn't on CRAN!
 ===
-`glmtools` can be installed from the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") repository. To install `glmtools` and all dependencies, used the following command in R:
+`glmtools` can be installed from the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") repository. To install `glmtools` and all dependencies, follow the appropriate instructions below:
+
+For **windows**
+use the following command in R:
+
+    install.packages("glmtools", 
+        repos=c("http://gleon.github.com/","http://cran.us.r-project.org"),
+        dependencies=TRUE,
+        type="both",
+        INSTALL_opts = '--no-multiarch')
+
+For **OSX or Linux**
+use the following command in R:
 
     install.packages("glmtools", 
         repos=c("http://gleon.github.com/","http://cran.us.r-project.org"),
         dependencies=TRUE,
         type="both")
-
+        
 What libraries does `glmtools` need?
 ===
 This version requires the NetCDF version 4 R library (called `ncdf4`), and `rLakeAnalyzer`, `RCurl`, and `tools` if you would like to run all examples. 

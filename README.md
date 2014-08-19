@@ -43,20 +43,26 @@ How do I install `glmtools`? It isn't on CRAN!
 
 For **windows**
 use the following command in R:
+    
+    install.packages("ncdf4",
+        repos = "http://gleon.github.com/",
+        type = "win.binary")
 
+then
+    
     install.packages("glmtools", 
-        repos=c("http://gleon.github.com/","http://cran.us.r-project.org"),
-        dependencies=TRUE,
-        type="both",
-        INSTALL_opts = '--no-multiarch')
+        repos = c("http://gleon.github.com/", "http://cran.us.r-project.org"),
+        dependencies = TRUE,
+        type = "both",
+        INSTALL_opts = "--no-multiarch")
 
 For **OSX** or **Linux**
 use the following command in R:
 
     install.packages("glmtools", 
-        repos=c("http://gleon.github.com/","http://cran.us.r-project.org"),
-        dependencies=TRUE,
-        type="both")
+        repos = c("http://gleon.github.com/", "http://cran.us.r-project.org"),
+        dependencies = TRUE,
+        type = "both")
         
 What libraries does `glmtools` need?
 ===

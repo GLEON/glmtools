@@ -50,7 +50,7 @@ use the following command in R:
         type="both",
         INSTALL_opts = '--no-multiarch')
 
-For **OSX or Linux**
+For **OSX** or **Linux**
 use the following command in R:
 
     install.packages("glmtools", 

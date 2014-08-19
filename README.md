@@ -39,31 +39,18 @@ FAQ
 
 How do I install `glmtools`? It isn't on CRAN!
 ===
-
-Before you install `glmtools`,
-you must first install the other required libraries, including the netcdf R library (see "How do I install `ncdf4`?" below).
-
-Once you have the other libraries installed, install glmtools from the stable release on [gleon.github.io](https://www.gleon.github.io "GLEON's github page"):
+`glmtools` can be installed from the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") repository. To install `glmtools` and all dependencies, used the following command in R:
 
     install.packages("glmtools", 
-        repos="http://gleon.github.com/", type="source")
+        repos=c("http://gleon.github.com/","http://cran.us.r-project.org"),
+        dependencies=TRUE,
+        type="both")
 
-What libraries do I need?
+What libraries does `glmtools` need?
 ===
-This version requires the NetCDF version 4 R library (called `ncdf4`), and you may want to install `rLakeAnalyzer`, `RCurl`, and `tools` if you would like to run all examples. Aside from `ncdf4`, all other libraries are on CRAN and can be installed with `install.packages()`.
-
-How do I install `ncdf4`? 
-===
-
-On Mac or Linux: Simply type 
-
-    install.packages('ncdf4')
-
-On Windows: This is trickier. CRAN does not contain a Windows binary install for 
-the ncdf4 library (as of right now, 2014-08-19). We have included a separately distributed version
-on the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") page. Currently, our support for `ncdf4` on windows is limited to **R version 3.0+**. We will continue to update this in the future, but if you have problems, see the [ncdf4 project page](http://cirrus.ucsd.edu/~pierce/ncdf/ "ncdf4 project page"). To install, type
-
-    install.packages('ncdf4',repos='http://gleon.github.com/',type='win.binary')
+This version requires the NetCDF version 4 R library (called `ncdf4`), and `rLakeAnalyzer`, `RCurl`, and `tools` if you would like to run all examples. 
+On Windows, `ncdf4` is not included on CRAN (as of right now, 2014-08-19). We have included a separately distributed version
+on the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") page, which will be used with the install directions outlined above. Currently, our support for `ncdf4` on windows is limited to **R version 3.0+**, so if you are using a version of R below 3.0 on **windows**, you will get an installation error. We will continue to update this in the future, but if you have problems, see the [ncdf4 project page](http://cirrus.ucsd.edu/~pierce/ncdf/ "ncdf4 project page"). 
 
 How do I contribute new code back to the glmtools project?
 ===

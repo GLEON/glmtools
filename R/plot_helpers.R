@@ -2,7 +2,7 @@ gen_default_fig <- function(file_name){
   fig_w <- 4
   fig_h <- 2.
   png(filename = file_name,
-      width = fig_w, height = fig_h, units = "in", res=450)
+      width = fig_w, height = fig_h, units = "in", res=200)
   
   l.mar	<-	0.35
   r.mar	<-	0#v.spc

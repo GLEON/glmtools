@@ -2,7 +2,7 @@ Package: glmtools
 Type: Package
 Title: glmtools
 Version: 0.2.3
-Date: 2013-08-14
+Date: 2013-08-19
 Author: Jordan S Read, Luke A Winslow
 Maintainer: Jordan S Read <jread@usgs.gov>
 Description: tools for working with the GLM lake model.
@@ -13,7 +13,7 @@ Copyright: This software is in the public domain because it contains materials
     official USGS copyright policy at
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
-    R (>= 2.14.0)
+    R (>= 3.0)
 Imports:
     ncdf4,
     RCurl,

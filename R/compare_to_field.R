@@ -19,16 +19,20 @@
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #'CB_rmse <- compare_to_field(nc_file, field_file, metric = 'center.buoyancy')
-#'CB_values <- compare_to_field(nc_file, field_file, metric = 'center.buoyancy', as_value = TRUE)
+#'CB_values <- compare_to_field(nc_file, field_file, 
+#'                           metric = 'center.buoyancy', as_value = TRUE)
 #'
-#'thermo_values <- compare_to_field(nc_file, field_file, metric = 'thermo.depth', as_value = TRUE)
+#'thermo_values <- compare_to_field(nc_file, field_file, 
+#'                           metric = 'thermo.depth', as_value = TRUE)
 #'
 #'\dontrun{
 #'# -- an nml file is necessary when functions require hypsographic information
-#'values <- compare_to_field(nc_file, field_file, metric = 'schmidt.stability', as_value = TRUE)
+#'values <- compare_to_field(nc_file, field_file, 
+#'                           metric = 'schmidt.stability', as_value = TRUE)
 #'# -- will fail
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'values <- compare_to_field(nc_file, field_file, nml_file, metric = 'schmidt.stability', as_value = TRUE)
+#'values <- compare_to_field(nc_file, field_file, nml_file, 
+#'                           metric = 'schmidt.stability', as_value = TRUE)
 #'# -- will succeed
 #'
 #'# -- metrics can only be calculated by functions that are available to this environment

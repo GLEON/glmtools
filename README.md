@@ -60,17 +60,10 @@ On Mac or Linux: Simply type
     install.packages('ncdf4')
 
 On Windows: This is trickier. CRAN does not contain a Windows binary install for 
-the ncdf4 library (as of right now, 2013-05-02). I have included a separately distributed version
-in the "lib" subdirectory. To install, type
+the ncdf4 library (as of right now, 2014-08-19). I have included a separately distributed version
+on the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") page. Currently, this will *only work for R 3.0 or 3.1*. We will continue to update this in the future, but if you have problems, see the [ncdf4 project page](http://cirrus.ucsd.edu/~pierce/ncdf/ "ncdf4 project page"). To install, type
 
-    install.packages('%path%/lib/x64/ncdf4_1.12.zip') # for 64 bit
-OR
-
-    install.packages('%path%/lib/i386/ncdf4_1.9.zip') # for 32 bit
-
-%path% is the location of the glmtools directory.  
-%arch% is the architecture (32 or 64 bit) you use to run R. You probably use x64.
-
+    install.packages('ncdf4',repos='http://gleon.github.com/',type='win.binary')
 
 How do I contribute new code back to the glmtools project?
 ===

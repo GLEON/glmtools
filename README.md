@@ -61,7 +61,7 @@ On Mac or Linux: Simply type
 
 On Windows: This is trickier. CRAN does not contain a Windows binary install for 
 the ncdf4 library (as of right now, 2014-08-19). I have included a separately distributed version
-on the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") page. Currently, this will *only work for R 3.0 or 3.1*. We will continue to update this in the future, but if you have problems, see the [ncdf4 project page](http://cirrus.ucsd.edu/~pierce/ncdf/ "ncdf4 project page"). To install, type
+on the [gleon.github.io](https://www.gleon.github.io "GLEON's github page") page. Currently, this will **only work for R version 3.0+**. We will continue to update this in the future, but if you have problems, see the [ncdf4 project page](http://cirrus.ucsd.edu/~pierce/ncdf/ "ncdf4 project page"). To install, type
 
     install.packages('ncdf4',repos='http://gleon.github.com/',type='win.binary')
 

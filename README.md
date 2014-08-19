@@ -1,9 +1,38 @@
 glmtools
 =====
 
-Tools for interacting with the General Lake Model (GLM) in R. `glmtools` includes some basic functions for calculating physical derivatives and thermal properties of model output, and some plotting functionality (see example image below).
+Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu.au/research/models/GLM/ "General Lake Model's website") in R. `glmtools` includes some basic functions for calculating physical derivatives and thermal properties of model output, and some plotting functionality (see example image below).
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
+
+`glmtools` Functions (as of v0.2.3)
+=====
+| Function       | Title           |
+| ------------- |:-------------:|
+| `compare_to_field` | compare metric for GLM vs field observations |
+| `get_evaporation`  | get evaporation from GLM simulation |
+| `get_hypsography` | retrieve hypsography information |
+| `get_ice` | get ice depth from GLM simulation |
+| `get_nml_value` | gets a nml value according to an arg_name |
+| `get_surface_height` | get surface height from GLM simulation |
+| `get_temp` | get water temperatures from a GLM simulation |
+| `get_wind` | get wind speed from GLM simulation |
+| `init_lke` | initializes Lake Analyzer list for .lke file |
+| `plot_temp` | plot water temperatures from a GLM simulation |
+| `pretty_nml` | prints R nml list with pretty formatting |
+| `read_field_obs` | read in field data into a data.frame |
+| `read_nml` | read in a GLM simulation *.nml file |
+| `resample_time` | get subset of time from a generic timeseries data.frame |
+| `resample_to_field` | match GLM water temperatures with field observations |
+| `run_analyzer` | runs Lake Analyzer on remote server for GLM outputs |
+| `set_lke` | sets values in lke object |
+| `set_nml` | sets values in nml object |
+| `write_bth` | write Lake Analyzer *.bth file from GLM simulation |
+| `write_lke` | write Lake Analyzer *.lke file from GLM simulation |
+| `write_lvl` | write Lake Analyzer *.lvl file from GLM simulation |
+| `write_nml` | write GLM *.nml for a GLM simulation |
+| `write_wnd` | write Lake Analyzer *.wnd file from GLM simulation |
+| `write_wtr` | write Lake Analyzer *.wtr file from GLM simulation |
 
 FAQ
 =====

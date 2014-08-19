@@ -8,7 +8,7 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 `glmtools` Functions (as of v0.2.3)
 =====
 | Function       | Title           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | `compare_to_field` | compare metric for GLM vs field observations |
 | `get_evaporation`  | get evaporation from GLM simulation |
 | `get_hypsography` | retrieve hypsography information |

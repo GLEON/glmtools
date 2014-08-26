@@ -24,4 +24,7 @@ get_nml_value(glm_nml,arg_name = 'Kw')
 \author{
 Jordan S. Read
 }
+\seealso{
+\link{read_nml}, \link{set_nml}
+}
 

@@ -35,7 +35,8 @@ fun_from_package <- function(package_name, private = FALSE){
   if (private){
     funs <- as.character(unclass(lsf.str(envir = asNamespace(package_name), all = T)))
   } else {
-    funs <- ls(paste0('package:', package_name))
+    library(rLakeAnalyzer)
+    funs <- ls(paste0('package:', package_name)) # get public functions
   }
   
   return(funs)

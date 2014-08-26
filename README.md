@@ -1,7 +1,7 @@
 glmtools
 =====
 [![Build status](https://ci.appveyor.com/api/projects/status/j5mscylmkssa0esf/branch/master)](https://ci.appveyor.com/project/jread-usgs/glmtools/branch/master)  
-Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu.au/research/models/GLM/ "General Lake Model's website") in R. `glmtools` includes some basic functions for calculating physical derivatives and thermal properties of model output, and some plotting functionality (see example image below). 
+Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu.au/research/models/GLM/ "General Lake Model's website") in R. `glmtools` includes some basic functions for calculating physical derivatives and thermal properties of model output, and some plotting functionality (see example image below).  
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 

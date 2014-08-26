@@ -20,7 +20,7 @@ compare_to_field(nc_file, field_file, nml_file, metric, as_value = FALSE,
 \item{na.rm}{a boolean for remove NAs for RMSE calculation (only used if as_values == F)}
 }
 \value{
-a RMSE (in native units) for the comparison, or all values (if as_values == T)
+a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 }
 \description{
 compare metric for GLM vs field observations, but must have more than 3 matching time points.

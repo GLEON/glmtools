@@ -6,6 +6,7 @@
 #'@return arg_val value for the valid field in glm_nml specified by \code{arg_name}
 #'@author
 #'Jordan S. Read
+#'@seealso \link{read_nml}, \link{set_nml}
 #'@examples
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'glm_nml <- read_nml(nml_file)

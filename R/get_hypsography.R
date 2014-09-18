@@ -25,8 +25,9 @@ get_hypsography <- function(glm_nml, file){
     glm_nml <- read_nml(file)
   }
   
-  max_elev	<-	get_nml_value(glm_nml,'crest_elev')
+  
   heights	<-	get_nml_value(glm_nml,'H')
+  max_elev  <-	max(heights)
   bthA	<-	rev(get_nml_value(glm_nml,'A')*1000) # now m2
   bthZ	<-	rev(max_elev-heights)
   glm_bth	<-	data.frame(bthZ,bthA)

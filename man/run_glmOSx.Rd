@@ -8,8 +8,6 @@ run_glmOSx(sim_folder, verbose = TRUE)
 \arguments{
 \item{sim_folder}{the directory where simulation files are contained}
 
-\item{field_file}{a string with the path to the field observation file}
-
 \item{verbose}{should output of GLM be shown}
 }
 \description{

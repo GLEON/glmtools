@@ -44,11 +44,23 @@ fun_from_package <- function(package_name, private = FALSE){
 
 match_inputs <- function(funs, arg_names){
   
+  ignore_args = c('ts', 'plot')
   
   fun_valid <- vector(length = length(funs))
   for (i in 1:length(funs)){
-    fun_valid[i] = all(arg_names %in% names(formals(funs[i])))
+    all_args <- names(formals(funs[i]))
+    def_args <- names(Filter(function(x) !identical(x, quote(expr = )), formals(funs[i])))
+    req_args <- all_args[!all_args %in% def_args]
+    fun_valid[i] = all(req_args %in% arg_names)
   }
-  return(funs[fun_valid])
+  
+  valid_funs <- funs[fun_valid]
+  rmv_i <- vector(length=length(valid_funs))
+  for (i in 1:length(ignore_args)){
+    rmv_i <- rmv_i | grepl(ignore_args[i],valid_funs)
+  }
+  
+  
+  return(valid_funs[!rmv_i])
 
 }

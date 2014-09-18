@@ -6,7 +6,8 @@
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param nml_file a string with the path to the nml file (optional)
-#'@param metric a string representing a physical metric. Should be a rLakeAnalyzer function or other function.
+#'@param metric a string representing a physical metric. 
+#'Should be a rLakeAnalyzer function or other valid function.
 #'@param as_value a boolean for calculating RMSE (F) or returning all values (T)
 #'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)

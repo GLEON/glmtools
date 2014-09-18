@@ -6,7 +6,7 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 
-`glmtools` Functions (as of v0.2.3)
+`glmtools` Functions (as of v0.2.3.22)
 =====
 | Function       | Title           |
 | ------------- |:-------------|
@@ -20,6 +20,7 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 | `get_temp` | get water temperatures from a GLM simulation |
 | `get_wind` | get wind speed from GLM simulation |
 | `init_lke` | initializes Lake Analyzer list for .lke file |
+| `model_diagnostics` | run diagnostics on model results |
 | `plot_temp` | plot water temperatures from a GLM simulation |
 | `pretty_nml` | prints R nml list with pretty formatting |
 | `read_field_obs` | read in field data into a data.frame |

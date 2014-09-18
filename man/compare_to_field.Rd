@@ -13,7 +13,8 @@ compare_to_field(nc_file, field_file, nml_file, metric, as_value = FALSE,
 
 \item{nml_file}{a string with the path to the nml file (optional)}
 
-\item{metric}{a string representing a physical metric. Should be a rLakeAnalyzer function or other function.}
+\item{metric}{a string representing a physical metric.
+Should be a rLakeAnalyzer function or other valid function.}
 
 \item{as_value}{a boolean for calculating RMSE (F) or returning all values (T)}
 

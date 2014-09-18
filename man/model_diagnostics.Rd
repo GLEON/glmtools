@@ -32,8 +32,10 @@ nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
+# create single metric diagnostic fig within R:
 model_diagnostics(nc_file, field_file,
                           metrics = 'center.buoyancy', fig_path = FALSE)
+#  create a multiple metric diagnostic fig within R:
 model_diagnostics(nc_file, field_file, nml_file = nml_file,
                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'),
                           fig_path = FALSE)

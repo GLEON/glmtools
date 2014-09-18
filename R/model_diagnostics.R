@@ -26,7 +26,11 @@
 #'
 #' # write the fig out to file:
 #'model_diagnostics(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
-#'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))                                                            
+#'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))   
+#'                   
+#' # return the diagnostic info but avoid the plot:                                   
+#'model_diagnostics(nc_file, field_file, nml_file = nml_file, report = TRUE,
+#'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))                                                         
 #'@export
 model_diagnostics <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
   

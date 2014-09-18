@@ -6,7 +6,7 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 
-`glmtools` Functions (as of v0.2.3.22)
+`glmtools` Functions (as of v0.2.4.2)
 =====
 | Function       | Title           |
 | ------------- |:-------------|
@@ -28,6 +28,7 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 | `resample_time` | get subset of time from a generic timeseries data.frame |
 | `resample_to_field` | match GLM water temperatures with field observations |
 | `run_analyzer` | runs Lake Analyzer on remote server for GLM outputs |
+| `run_glmOSx` | run GLM on a mac |
 | `set_lke` | sets values in lke object |
 | `set_nml` | sets values in nml object |
 | `write_bth` | write Lake Analyzer *.bth file from GLM simulation |

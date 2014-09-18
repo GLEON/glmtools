@@ -1,22 +1,22 @@
-gen_default_fig <- function(file_name){
-  fig_w <- 4
-  fig_h <- 2.
+gen_default_fig <- function(file_name, fig_w = 4, fig_h = 2, ps = 12, l.mar = 0.35,
+                            r.mar = 0, t.mar = 0.05, b.mar = 0.2, res = 200){
   png(filename = file_name,
-      width = fig_w, height = fig_h, units = "in", res=200)
+      width = fig_w, height = fig_h, units = "in", res = res)
   
-  l.mar	<-	0.35
-  r.mar	<-	0#v.spc
-  t.mar	<-	0.05
-  b.mar	<-	0.2
   
-  point_size <- 12
-  
-  par(mai=c(b.mar,0, t.mar, 0),omi=c(0, l.mar, 0, r.mar),ps = point_size, mgp = c(1.4,.3,0))
+  par(mai=c(b.mar,0, t.mar, 0),omi=c(0, l.mar, 0, r.mar),ps = ps, mgp = c(1.4,.3,0))
   
   
 }
 
-
+plot_one2one <- function(x, y, ...){
+  
+  min_val <- min(c(x,y), na.rm = TRUE)
+  max_val <- max(c(x,y), na.rm = TRUE)
+  
+  plot(x, y, xlim = c(min_val, max_val), ylim = c(min_val, max_val), ...)
+  abline(0, 1, lty = 2, col = 'black')
+}
 get_yaxis <- function(z_out, reference){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}

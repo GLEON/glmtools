@@ -6,6 +6,10 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 
+`glmtools`, as of v0.2.4, can also call GLM from a mac. Soon we will add windows support for `run_glm` functions (currently only `run_glmOSx` exists, but stay tuned). Shown here running GLM from R with example driver data that is part of the package:
+
+![alt tag](http://github.gleon.io/images/glm-r.png)
+
 `glmtools` Functions (as of v0.2.4.2)
 =====
 | Function       | Title           |

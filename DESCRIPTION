@@ -14,7 +14,7 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
     R (>= 3.0),
-	GLMr
+    GLMr
 Imports:
     ncdf4,
     RCurl,

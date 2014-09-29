@@ -12,7 +12,7 @@ plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
 
 \item{num_cells}{number of vertical cells to use for heatmap}
 
-\item{fig_path}{F if plot to screen, string path if save plot as .png}
+\item{fig_path}{FALSE if plot to screen, string path if save plot as .png}
 }
 \description{
 plot water temperatures from a GLM simulation

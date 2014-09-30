@@ -1,7 +1,7 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.2.4.1
+Version: 0.2.4.2
 Date: 2013-09-18
 Author: Jordan S Read, Luke A Winslow
 Maintainer: Jordan S Read <jread@usgs.gov>
@@ -14,7 +14,7 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
     R (>= 3.0),
-	GLMr
+    GLMr
 Imports:
     ncdf4,
     RCurl,

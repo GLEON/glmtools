@@ -27,7 +27,7 @@ field_data <- read_field_obs(file)
 Jordan S. Read
 }
 \seealso{
-\link{get_temp}, \link{resample_time}
+\link{get_temp}, \link{resample_sim}
 }
 \keyword{methods}
 

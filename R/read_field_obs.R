@@ -3,7 +3,7 @@
 #'@param file a file path for a supported field data format (currently, tsv or csv with Date, depth, wtemp or similar columns)
 #'@return a data.frame with DateTime, Depth, and wTemp columns
 #'@keywords methods
-#'@seealso \link{get_temp}, \link{resample_time}
+#'@seealso \link{get_temp}, \link{resample_sim}
 #'@author
 #'Jordan S. Read
 #'@examples 

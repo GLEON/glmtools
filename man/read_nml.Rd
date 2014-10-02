@@ -17,7 +17,7 @@ read in a GLM simulation *.nml file and create a list.  \cr
 }
 \examples{
 glm_nml <- read_nml()
-pretty_nml(glm_nml)
+print(glm_nml)
 }
 \author{
 Jordan S. Read

@@ -52,7 +52,7 @@ validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
 Jordan S. Read
 }
 \seealso{
-\link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{get_metrics}
+\link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 }
 \keyword{methods}
 

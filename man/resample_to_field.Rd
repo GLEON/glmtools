@@ -26,7 +26,7 @@ temps <- resample_to_field(nc_file, field_file)
 Jordan S. Read
 }
 \seealso{
-\link{resample_time}, \link{get_temp}
+\link{resample_sim}, \link{get_temp}
 }
 \keyword{methods}
 

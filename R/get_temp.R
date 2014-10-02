@@ -12,7 +12,7 @@
 #'@param t_out a vector of POSIXct dates for temporal resampling (order is important)
 #'@return a data.frame with DateTime and temperature at depth 
 #'@keywords methods
-#'@seealso \link{resample_time}
+#'@seealso \link{resample_sim}
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
@@ -86,7 +86,7 @@ get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
   }
   names(glm_temp)<- frameNms
 
-  glm_temp <- resample_time(glm_temp, t_out)
+  glm_temp <- resample_sim(glm_temp, t_out)
   
   return(glm_temp)
 }

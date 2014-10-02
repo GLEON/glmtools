@@ -12,12 +12,11 @@
 #'@seealso \link{get_nml_value}
 #'@examples 
 #'glm_nml <- read_nml()
-#'pretty_nml(glm_nml)
+#'print(glm_nml)
 #'@import GLMr
 #'@export
 read_nml  <-	function(file = 'template'){
   if (file == "template"){
-    library(GLMr)
     file <- nml_template_path()
   }
   # skip all commented lines, return all variables and associated values

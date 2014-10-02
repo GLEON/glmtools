@@ -10,7 +10,7 @@
 #'@param ... additional arguments passed to compare_to_field (such as na.rm or nml_file)
 #'@return a report or figures comparing modeled results to observations
 #'@keywords methods
-#'@seealso \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{get_metrics}
+#'@seealso \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 #'@author
 #'Jordan S. Read
 #'@examples 

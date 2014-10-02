@@ -12,7 +12,7 @@
 #'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 #'@keywords methods
-#'@seealso \link{resample_time}, \link{resample_to_field}
+#'@seealso \link{resample_sim}, \link{resample_to_field}
 #'@author
 #'Jordan S. Read
 #'@examples 

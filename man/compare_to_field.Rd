@@ -58,7 +58,7 @@ values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value =
 Jordan S. Read
 }
 \seealso{
-\link{resample_time}, \link{resample_to_field}
+\link{resample_sim}, \link{resample_to_field}
 }
 \keyword{methods}
 

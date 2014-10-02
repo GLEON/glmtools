@@ -38,7 +38,7 @@ plot(temp_surf)
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\link{resample_time}
+\link{resample_sim}
 }
 \keyword{methods}
 

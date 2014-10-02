@@ -1,13 +1,6 @@
-#'@title prints R nml list with pretty formatting
-#'@description This function prints the specified values from the nml list for GLM.
-#'@param glm_nml a nml (a list) for GLM config
-#'@author
-#'Jordan S. Read
-#'@examples
-#'glm_nml <- read_nml()
-#'print(glm_nml)
 #'@export
-print.nml <- function(glm_nml){
+print.nml <- function(x){
+  glm_nml <- x
   for (i in 1:length(names(glm_nml))){ # these are the blocks
     blckNm  <-	names(glm_nml)[i]
     cat("&")
@@ -37,6 +30,6 @@ print.nml <- function(glm_nml){
   }	
 }
 #'@export
-summary.nml <- function(glm_nml){
-  print(glm_nml)
+summary.nml <- function(object){
+  print(object)
 }

@@ -7,7 +7,8 @@
 #'
 #'@param file a string with the path to the netcdf output from GLM
 #'@param reference a string which specifies the vertical reference ('surface' or 'bottom')
-#'@param z_out a vector of depths for temperature output (in meters)
+#'@param z_out an optional vector of depths for temperature output (in meters). 
+#'If NULL, depths will be determined based on the depth of the lake
 #'@param t_out a vector of POSIXct dates for temporal resampling (order is important)
 #'@return a data.frame with DateTime and temperature at depth 
 #'@keywords methods
@@ -25,7 +26,7 @@
 #'plot(temp_surf)
 #'@import ncdf4
 #'@export
-get_temp <-  function(file, reference = 'bottom', z_out, t_out = NULL){
+get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
   if (reference!='bottom' & reference!='surface'){
     stop('reference input must be either "surface" or "bottom"')
   }

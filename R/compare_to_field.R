@@ -40,6 +40,7 @@
 #'values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
 #'# -- will fail
 #'}
+#'@export
 #'@import ncdf4
 #'@import rLakeAnalyzer
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){

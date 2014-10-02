@@ -3,18 +3,23 @@
 #'read in a GLM simulation *.nml file and create a list.  \cr
 #'
 #'
-#'@param file a string with the path to the GLM glm.nml file
+#'@param file a string with the path to the GLM glm.nml file, or 
+#'\code{'template'} for loading the GLM template nml file with GLMr (default)
 #'@return glm_nml a nml (a list) for GLM config
 #'@keywords methods
 #'@author
 #'Jordan S. Read
 #'@seealso \link{get_nml_value}
 #'@examples 
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'glm_nml <- read_nml(nml_file)
+#'glm_nml <- read_nml()
 #'pretty_nml(glm_nml)
+#'@import GLMr
 #'@export
-read_nml  <-	function(file){
+read_nml  <-	function(file = 'template'){
+  if (file == "template"){
+    library(GLMr)
+    file <- nml_template_path()
+  }
   # skip all commented lines, return all variables and associated values
   # requires NO return line variables (all variables must be completely defined on a single line)
   c <- file(file,"r") 
@@ -63,5 +68,5 @@ read_nml  <-	function(file){
       }
     }
   }
-  return(nml)
+  return(.nml(nml))
 }

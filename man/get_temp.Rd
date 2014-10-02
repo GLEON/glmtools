@@ -28,6 +28,7 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 file <- system.file('extdata', 'output.nc', package = 'glmtools')
 temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
+temp_bot <- get_temp(file)
 
 #-- get temporal subset--
 t_out <- seq(as.POSIXct("2011-04-04"), as.POSIXct("2011-06-01"), by = 86400)

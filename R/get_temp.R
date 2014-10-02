@@ -19,6 +19,7 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 #'temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
+#'temp_bot <- get_temp(file)
 #'
 #'#-- get temporal subset--
 #'t_out <- seq(as.POSIXct("2011-04-04"), as.POSIXct("2011-06-01"), by = 86400)
@@ -31,7 +32,11 @@ get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
     stop('reference input must be either "surface" or "bottom"')
   }
 
-  
+  if (is.null(z_out)){
+    mx_lyrs <- 20
+    z_lyrs <- seq(0,mx_lyrs-1) # default layers
+    z_out = (max(get_surface_height(file)[, 2], na.rm = TRUE)/tail(z_lyrs,1)) * z_lyrs
+  }
   glm_nc <- get_glm_nc(file)
   
   tallest_layer <- ncvar_get(glm_nc, "NS") #The last useful index

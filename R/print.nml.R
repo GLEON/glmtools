@@ -4,11 +4,10 @@
 #'@author
 #'Jordan S. Read
 #'@examples
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'glm_nml <- read_nml(nml_file)
-#'pretty_nml(glm_nml)
+#'glm_nml <- read_nml()
+#'print(glm_nml)
 #'@export
-pretty_nml <- function(glm_nml){
+print.nml <- function(glm_nml){
   for (i in 1:length(names(glm_nml))){ # these are the blocks
     blckNm  <-	names(glm_nml)[i]
     cat("&")
@@ -36,4 +35,8 @@ pretty_nml <- function(glm_nml){
     }
     cat('/\n')
   }	
+}
+#'@export
+summary.nml <- function(glm_nml){
+  print(glm_nml)
 }

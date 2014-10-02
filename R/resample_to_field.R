@@ -3,7 +3,7 @@
 #'@param field_file a string with the path to the field observation file
 #'@return validation a data.frame with DateTime and temperature at depth 
 #'@keywords methods
-#'@seealso \link{resample_time}, \link{get_temp}
+#'@seealso \link{resample_sim}, \link{get_temp}
 #'@author
 #'Jordan S. Read
 #'@examples 
@@ -28,7 +28,7 @@ resample_to_field <- function(nc_file, field_file){
   # build water temp data.frame
   wTemps <- get_temp(file = nc_file, reference = 'surface', z_out = unq_z)
   wTemps <- trunc_time(wTemps, start_date = min(field_obs$DateTime), stop_date = max(field_obs$DateTime))
-  wTemps <- resample_time(df = wTemps, t_out = unique(field_obs$DateTime), method = 'match', precision = 'day')
+  wTemps <- resample_sim(df = wTemps, t_out = unique(field_obs$DateTime), method = 'match', precision = 'day')
   match_vals <- pivot_match(wTemps, time = field_obs$DateTime, depth = field_obs$Depth)
   validation <- data.frame('DateTime' = field_obs$DateTime, 
                            'Depth' = field_obs$Depth, 

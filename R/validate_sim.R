@@ -1,4 +1,4 @@
-#'@title run diagnostics on model results
+#'@title run diagnostics on model results vs observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param metrics a string or vector of strings representing physical metrics. 
@@ -10,7 +10,7 @@
 #'@param ... additional arguments passed to compare_to_field (such as na.rm or nml_file)
 #'@return a report or figures comparing modeled results to observations
 #'@keywords methods
-#'@seealso \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{get_metrics}
+#'@seealso \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 #'@author
 #'Jordan S. Read
 #'@examples 
@@ -19,23 +19,23 @@
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #' # create single metric diagnostic fig within R:
-#'model_diagnostics(nc_file, field_file, 
+#'validate_sim(nc_file, field_file, 
 #'                           metrics = 'center.buoyancy', fig_path = FALSE)
 #
 #' #  create a multiple metric diagnostic fig within R:
-#'model_diagnostics(nc_file, field_file, nml_file = nml_file,
+#'validate_sim(nc_file, field_file, nml_file = nml_file,
 #'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'), 
 #'                           fig_path = FALSE)      
 #'
 #' # write the fig out to file:
-#'model_diagnostics(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
+#'validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
 #'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))   
 #'                   
 #' # return the diagnostic info but avoid the plot:                                   
-#'model_diagnostics(nc_file, field_file, nml_file = nml_file, report = TRUE,
+#'validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
 #'                           metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))                                                         
 #'@export
-model_diagnostics <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
+validate_sim <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
   
   # need to check is.missing for fig_path...
   num_metrics <- length(metrics)

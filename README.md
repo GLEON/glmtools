@@ -6,11 +6,11 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 
 ![alt tag](http://github.gleon.io/images/test_figure.png)
 
-`glmtools`, as of v0.2.4, can also call GLM from a mac. Soon we will add windows support for `run_glm` functions (currently only `run_glmOSx` exists, but stay tuned). Shown here running GLM from R with example driver data that is part of the package:
+`glmtools`, as of v0.2.5, can also call GLM using the `GLMr` package. Shown here running GLM from R with example driver data that is part of the package:
 
 ![alt tag](http://github.gleon.io/images/glm-r.png)
 
-`glmtools` Functions (as of v0.2.4.2)
+`glmtools` Functions (as of v0.2.5.2)
 =====
 | Function       | Title           |
 | ------------- |:-------------|
@@ -18,29 +18,21 @@ Tools for interacting with the [General Lake Model (GLM)](http://aed.see.uwa.edu
 | `get_evaporation`  | get evaporation from GLM simulation |
 | `get_hypsography` | retrieve hypsography information |
 | `get_ice` | get ice depth from GLM simulation |
-| `get_metrics` | get possible metrics for comparing GLM outputs to field |
 | `get_nml_value` | gets a nml value according to an arg_name |
 | `get_surface_height` | get surface height from GLM simulation |
 | `get_temp` | get water temperatures from a GLM simulation |
 | `get_wind` | get wind speed from GLM simulation |
-| `init_lke` | initializes Lake Analyzer list for .lke file |
 | `model_diagnostics` | run diagnostics on model results |
 | `plot_temp` | plot water temperatures from a GLM simulation |
-| `pretty_nml` | prints R nml list with pretty formatting |
 | `read_field_obs` | read in field data into a data.frame |
 | `read_nml` | read in a GLM simulation *.nml file |
-| `resample_time` | get subset of time from a generic timeseries data.frame |
+| `resample_sim` | get subset of time from a generic timeseries data.frame |
 | `resample_to_field` | match GLM water temperatures with field observations |
-| `run_analyzer` | runs Lake Analyzer on remote server for GLM outputs |
-| `run_glmOSx` | run GLM on a mac |
-| `set_lke` | sets values in lke object |
 | `set_nml` | sets values in nml object |
-| `write_bth` | write Lake Analyzer *.bth file from GLM simulation |
-| `write_lke` | write Lake Analyzer *.lke file from GLM simulation |
-| `write_lvl` | write Lake Analyzer *.lvl file from GLM simulation |
+| `sim_metrics` | get possible metrics for comparing GLM outputs to field |
+| `summarize_sim` | creates GLM simulation summary outputs |
+| `validate_sim` | run diagnostics on model results vs observations |
 | `write_nml` | write GLM *.nml for a GLM simulation |
-| `write_wnd` | write Lake Analyzer *.wnd file from GLM simulation |
-| `write_wtr` | write Lake Analyzer *.wtr file from GLM simulation |
 
 FAQ
 =====

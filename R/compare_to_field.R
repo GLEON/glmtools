@@ -12,7 +12,7 @@
 #'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 #'@keywords methods
-#'@seealso \link{resample_time}, \link{resample_to_field}
+#'@seealso \link{resample_sim}, \link{resample_to_field}
 #'@author
 #'Jordan S. Read
 #'@examples 
@@ -40,11 +40,11 @@
 #'values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
 #'# -- will fail
 #'}
+#'@export
 #'@import ncdf4
 #'@import rLakeAnalyzer
-#'@export
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){
-  
+  library(rLakeAnalyzer)
   if (missing(nml_file)){
     bthA <- NA
     bthD <- NA

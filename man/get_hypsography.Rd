@@ -28,7 +28,7 @@ get_hypsography(file = nml_file)
 Jordan S. Read
 }
 \seealso{
-\link{write_lvl}, \link{read_nml}, \link{get_nml_value}
+\link{read_nml}, \link{get_nml_value}
 }
 \keyword{methods}
 

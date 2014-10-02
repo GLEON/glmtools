@@ -10,11 +10,12 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'get_metrics()
-#'get_metrics(with_nml = TRUE)
+#'sim_metrics()
+#'sim_metrics(with_nml = TRUE)
 #'@import rLakeAnalyzer
 #'@export
-get_metrics <- function(with_nml =FALSE){
+sim_metrics <- function(with_nml = FALSE){
+  library(rLakeAnalyzer)
   package_name <- 'rLakeAnalyzer'
   funs <- fun_from_package(package_name)
   

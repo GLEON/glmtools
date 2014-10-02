@@ -1,25 +1,22 @@
-#'@title write GLM *.nml for a GLM simulation
+#'@title write GLM .nml for a GLM simulation
 #'@description 
-#'Creates a *.nml file running a GLM simulation.  \cr
-#'An existing glm.nml will be overwritten if it shares the same 
-#'path as \code{file_out}
+#'Creates a .nml file running a GLM simulation.  \cr
+#'
 #'
 #'@param glm_nml a nml (a list) for GLM config
-#'@param file_out a string with the path to the glm.nml file to write
+#'@param file a string with the path to the glm.nml file to write
 #'@keywords methods
 #'@author
 #'Jordan S. Read
-#'@seealso \link{get_nml_value}, \link{read_nml}, \link{pretty_nml}
+#'@seealso \link{get_nml_value}, \link{read_nml}
 #'@examples 
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'glm_nml <- read_nml(nml_file)
-#'file_out <- system.file('extdata', 'glm_test.nml', package = 'glmtools')
-#'write_nml(glm_nml, file_out = file_out)
+#'glm_nml <- read_nml()
+#'write_nml(glm_nml, file = '../glm_test.nml')
 #'@export
-write_nml  <-	function(glm_nml, file_out){
-  sink(file_out)
+write_nml  <-	function(glm_nml,file){
+  sink(file)
   
-  pretty_nml(glm_nml)
+  print(glm_nml)
   sink()
 }
 

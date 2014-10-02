@@ -1,5 +1,5 @@
 #'@export
-print.nml <- function(x){
+print.nml <- function(x, ...){
   glm_nml <- x
   for (i in 1:length(names(glm_nml))){ # these are the blocks
     blckNm  <-	names(glm_nml)[i]
@@ -30,6 +30,6 @@ print.nml <- function(x){
   }	
 }
 #'@export
-summary.nml <- function(object){
-  print(object)
+summary.nml <- function(object,...){
+  print(object,...)
 }

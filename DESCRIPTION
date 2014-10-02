@@ -17,7 +17,6 @@ Depends:
     GLMr
 Imports:
     ncdf4,
-    RCurl,
     tools,
     rLakeAnalyzer
 LazyLoad: yes

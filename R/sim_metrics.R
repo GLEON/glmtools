@@ -14,7 +14,8 @@
 #'sim_metrics(with_nml = TRUE)
 #'@import rLakeAnalyzer
 #'@export
-sim_metrics <- function(with_nml =FALSE){
+sim_metrics <- function(with_nml = FALSE){
+  library(rLakeAnalyzer)
   package_name <- 'rLakeAnalyzer'
   funs <- fun_from_package(package_name)
   

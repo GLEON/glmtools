@@ -17,7 +17,46 @@ plot_one2one <- function(x, y, ...){
   plot(x, y, xlim = c(min_val, max_val), ylim = c(min_val, max_val), ...)
   abline(0, 1, lty = 2, col = 'black')
 }
-get_yaxis <- function(z_out, reference){
+
+
+axis_layout <- function(xaxis, yaxis){
+  # x axis
+  axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
+  axis(side = 3, labels=NA, at = xaxis$lim, tck = 0)
+  axis(side = 2, at = yaxis$ticks, tck = -0.01, pos = xaxis$lim[1])
+  ol_par <- par()$mgp
+  par(mgp=c(0,1.5,0))
+  axis(side = 2, at = mean(yaxis$lim), tck = 0,  labels=yaxis$title)
+  par(mgp=ol_par)
+  axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
+}
+
+get_yaxis <- function(data, title){
+
+  lim <- c(min(data), max(data)*1.1)
+
+  
+  rng <- abs(lim[1]-lim[2])
+  
+  if (rng < 1){
+    spc <- .25
+  } else if (rng < 2){
+    spc <- .5
+  } else if (rng < 5){
+    spc <- 1
+  } else if (rng < 10){
+    spc <- 2
+  } else {
+    spc <- 5
+  }
+  
+  start_tck <- floor(min(lim)/spc) * spc
+  ticks <- seq(start_tck, max(lim) + spc, spc)
+  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
+  return(yaxis) 
+}
+
+get_yaxis_2D <- function(z_out, reference){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   

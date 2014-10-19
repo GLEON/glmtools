@@ -3,19 +3,30 @@
 \alias{summarize_sim}
 \title{creates GLM simulation summary outputs}
 \usage{
-summarize_sim(file)
+summarize_sim(file, sim_outputs = c("temp"), fig_path = FALSE)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
-}
-\value{
-a data.frame with DateTime and temperature at depth
+
+\item{sim_outputs}{a character vector of outputs.}
+
+\item{fig_path}{FALSE if plot to screen, string path if save plot as .png
+See \code{get_}, timeseries (as in temp, evaporation, etc)}
 }
 \description{
 creates GLM simulation summary outputs
 }
+\examples{
+nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
+summarize_sim(nc_file)
+
+summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
+}
 \author{
 Jordan S. Read, Luke A. Winslow
+}
+\seealso{
+\link{get_temp}, \link{get_surface_height}, \link{get_evaporation}
 }
 \keyword{methods}
 

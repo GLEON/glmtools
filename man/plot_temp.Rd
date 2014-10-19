@@ -3,7 +3,8 @@
 \alias{plot_temp}
 \title{plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
+plot_temp(file, reference = "surface", num_cells = 100, fig_path = F,
+  add = F)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -13,6 +14,8 @@ plot_temp(file, reference = "surface", num_cells = 100, fig_path = F)
 \item{num_cells}{number of vertical cells to use for heatmap}
 
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
+
+\item{add}{F if create new figure, T if add to existing}
 }
 \description{
 plot water temperatures from a GLM simulation

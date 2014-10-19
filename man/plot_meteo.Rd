@@ -3,12 +3,12 @@
 \alias{plot_meteo}
 \title{plot meterological drivers from a csv file}
 \usage{
-plot_meteo(nml_file, fig_path = F)
+plot_meteo(nml_file, fig_path = FALSE)
 }
 \arguments{
 \item{nml_file}{a string with the path to the nml file for the simulation}
 
-\item{fig_path}{F if plot to screen, string path if save plot as .png}
+\item{fig_path}{FALSE if plot to screen, string path if save plot as .png}
 }
 \description{
 plot meterological drivers from a csv file

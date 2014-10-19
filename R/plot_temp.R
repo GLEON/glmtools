@@ -3,6 +3,7 @@
 #'@param reference a string for 'surface' or 'bottom'
 #'@param num_cells number of vertical cells to use for heatmap
 #'@param fig_path F if plot to screen, string path if save plot as .png
+#'@param add F if create new figure, T if add to existing
 #'@keywords methods
 #'@seealso \link{get_temp}
 #'@author
@@ -12,7 +13,7 @@
 #'plot_temp(file = file, fig_path = FALSE)
 #'plot_temp(file = file, fig_path = '../test_figure.png')
 #'@export
-plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F){
+plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F, add = F){
 
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -26,14 +27,14 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F
   dates <- temp[, 1]
   wtr_temps <- data.matrix(temp[, -1])
   xaxis <- get_xaxis(dates)
-  yaxis <- get_yaxis(z_out, reference)
+  yaxis <- get_yaxis_2D(z_out, reference)
   
   if (is.character(fig_path)){
     gen_default_fig(file_name = fig_path) 
   }
 
   
-  plot_layout(xaxis, yaxis)
+  plot_layout(xaxis, yaxis, add)
   .filled.contour(x = dates, y = z_out, z = wtr_temps,
                   levels= levels,
                   col=colors)
@@ -45,27 +46,27 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F
   }
 }
 
-plot_layout <- function(xaxis, yaxis){
-  panels = matrix(c(rep(1,5),2), nrow = 1)
-  
+colbar_layout <- function(nrow = 1){
+  # ensures all colorbar plots use same x scaling for divs
+  mx <- matrix(c(rep(1,5),2),nrow=1)
+  panels <- mx
+  for (i in 2:nrow){
+    panels <- rbind(panels,mx+(i-1)*2)
+  }
   layout(panels)
+}
+
+plot_layout <- function(xaxis, yaxis, add, data = NA){
   
-  plot(NA, xlim = xaxis$lim,
+  if (!add){
+    panels <- colbar_layout()
+  }
+  
+  
+  plot(data, xlim = xaxis$lim,
        ylim=yaxis$lim,
        xlab=xaxis$x_lab, ylab=' ',
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   
   
-}
-
-axis_layout <- function(xaxis, yaxis){
-  # x axis
-  axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
-  axis(side = 3, labels=NA, at = xaxis$lim, tck = 0)
-  axis(side = 2, at = yaxis$ticks, tck = -0.01, pos = xaxis$lim[1])
-  ol_par <- par()$mgp
-  par(mgp=c(0,1.5,0))
-  axis(side = 2, at = mean(yaxis$lim), tck = 0,  labels=yaxis$title)
-  par(mgp=ol_par)
-  axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
 }

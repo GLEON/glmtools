@@ -16,5 +16,7 @@ plot_meteo <- function(nml_file, fig_path = F){
   met_file <- get_nml_value(glm_nml,'meteo_fl') 
   met_path <- file.path(dirname(nml_file),met_file)
   
-  if (!file.exists(met_path)){stop("nml_file points to a meteo file that doesn't exist")}
+  if (!file.exists(met_path)){stop(paste0("nml_file points to a meteo file that doesn't exist:\n",met_path))}
+  
+  
 }

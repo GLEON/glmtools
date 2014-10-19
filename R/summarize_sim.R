@@ -1,8 +1,8 @@
 #'@title creates GLM simulation summary outputs
 #'
 #'@param file a string with the path to the netcdf output from GLM
-#'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'@param sim_outputs a character vector of outputs. 
+#'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'See \code{get_}, timeseries (as in temp, evaporation, etc)
 #'@keywords methods
 #'@author
@@ -12,8 +12,10 @@
 #'@examples
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'summarize_sim(nc_file)
+#'
+#'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 #'@export
-summarize_sim <- function(file, fig_path = FALSE, sim_outputs = c('temp', 'evaporation')){
+summarize_sim <- function(file, sim_outputs = c('temp'), fig_path = FALSE){
   
   if (fig_path){
     stop('figure save not currently supported. Use fig_path = FALSE')

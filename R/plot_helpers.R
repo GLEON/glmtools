@@ -33,7 +33,7 @@ axis_layout <- function(xaxis, yaxis){
 
 get_yaxis <- function(data, title){
 
-  lim <- c(min(data), max(data))
+  lim <- c(min(data), max(data)*1.1)
 
   
   rng <- abs(lim[1]-lim[2])
@@ -49,7 +49,9 @@ get_yaxis <- function(data, title){
   } else {
     spc <- 5
   }
-  ticks <- seq(min(lim), max(lim) + spc, spc)
+  
+  start_tck <- floor(min(lim)/spc) * spc
+  ticks <- seq(start_tck, max(lim) + spc, spc)
   yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
   return(yaxis) 
 }

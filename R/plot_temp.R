@@ -56,14 +56,14 @@ colbar_layout <- function(nrow = 1){
   layout(panels)
 }
 
-plot_layout <- function(xaxis, yaxis, add){
+plot_layout <- function(xaxis, yaxis, add, data = NA){
   
   if (!add){
     panels <- colbar_layout()
   }
   
   
-  plot(NA, xlim = xaxis$lim,
+  plot(data, xlim = xaxis$lim,
        ylim=yaxis$lim,
        xlab=xaxis$x_lab, ylab=' ',
        frame=FALSE,axes=F,xaxs="i",yaxs="i")

@@ -15,6 +15,10 @@
 #'@export
 summarize_sim <- function(file, fig_path = FALSE, sim_outputs = c('temp', 'evaporation')){
   
+  if (fig_path){
+    stop('figure save not currently supported. Use fig_path = FALSE')
+  }
+  
   num_metrics = length(sim_outputs)
   colbar_layout(num_metrics)
   
@@ -29,14 +33,11 @@ summarize_sim <- function(file, fig_path = FALSE, sim_outputs = c('temp', 'evapo
         get_fcn <- paste0('get_', sim_outputs[i])
         ts <- do.call(get(get_fcn), list('file' = file))
         xaxis <- get_xaxis(ts$DateTime)
-        yaxis <- get_yaxis(data = ts[, 2], 'title' = sim_outputs[i])
-        plot_layout(xaxis, yaxis, add = T)
-        plot(ts)
-        #plot_generic(file = file, )
+        yaxis <- get_yaxis(data = ts[, 2], 'title' = names(ts)[2])
+        plot_layout(xaxis, yaxis, add = T, data = ts)
+        axis_layout(xaxis, yaxis)
         plot(0,NA, axes = F, ylim = c(0,1), xlim = c(0,1), ylab='',xlab='') # fill up colorbar null space
       }
     )
   }
-  
-  return(FALSE)
 }

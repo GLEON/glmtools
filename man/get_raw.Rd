@@ -8,13 +8,31 @@ get_raw(file, param_name)
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{param_name}{Name of parameter requested}
+\item{param_name}{Name of parameter requested (see details for list)}
 }
 \value{
 the raw matrix or vector from the NC file
 }
 \description{
 Returns the raw data in a GLM simulation nc file. \cr
+}
+\details{
+NS\cr
+hice\cr
+hsnow\cr
+hwice\cr
+precip\cr
+evap\cr
+I_0\cr
+wind\cr
+Tot_V\cr
+V\cr
+salt\cr
+temp\cr
+rho\cr
+rad\cr
+ext_coef\cr
+z\cr
 }
 \examples{
 file <- system.file('extdata', 'output.nc', package = 'glmtools')

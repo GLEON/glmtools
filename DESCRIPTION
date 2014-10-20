@@ -16,7 +16,7 @@ Depends:
     R (>= 3.0),
     GLMr
 Imports:
-    ncdf4,
+    ncdf,
     tools,
     rLakeAnalyzer
 LazyLoad: yes

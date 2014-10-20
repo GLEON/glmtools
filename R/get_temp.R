@@ -25,7 +25,7 @@
 #'t_out <- seq(as.POSIXct("2011-04-04"), as.POSIXct("2011-06-01"), by = 86400)
 #'temp_surf <- get_temp(file, reference = 'surface', z_out = 0, t_out = t_out)
 #'plot(temp_surf)
-#'@import ncdf4
+#'@import ncdf
 #'@export
 get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
   if (reference!='bottom' & reference!='surface'){
@@ -39,12 +39,12 @@ get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
   }
   glm_nc <- get_glm_nc(file)
   
-  tallest_layer <- ncvar_get(glm_nc, "NS") #The last useful index
-  elev <- ncvar_get(glm_nc, "z" )
-  temp <- ncvar_get(glm_nc, "temp")
+  tallest_layer <- get.var.ncdf(glm_nc, "NS") #The last useful index
+  elev <- get.var.ncdf(glm_nc, "z" )
+  temp <- get.var.ncdf(glm_nc, "temp")
   time <- get_time(glm_nc)
   
-  nc_close(glm_nc)
+  close_glm_nc(glm_nc)
   
   if (reference=='surface') {
     elev_surf = get_surface_height(file)

@@ -16,13 +16,13 @@
 #'ice_and_snow <- get_ice(file, snow.rm = FALSE)
 #'plot(ice)
 #'points(ice_and_snow, col = "red")
-#'@import ncdf4
+#'@import ncdf
 #'@export
 get_ice <-  function(file, snow.rm = TRUE){
   glm_nc <- get_glm_nc(file)
-  ice <- ncvar_get(glm_nc, "hice") + ncvar_get(glm_nc, "hwice")
+  ice <- get.var.ncdf(glm_nc, "hice") + get.var.ncdf(glm_nc, "hwice")
   if (!snow.rm){
-    ice <- ice + ncvar_get(glm_nc, "hsnow")
+    ice <- ice + get.var.ncdf(glm_nc, "hsnow")
   }
   time <- get_time(glm_nc)
   

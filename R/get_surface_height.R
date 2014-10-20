@@ -14,12 +14,12 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'surface <- get_surface_height(file)
 #'surface_w_ice <- get_surface_height(file, ice.rm = FALSE, snow.rm = FALSE)
-#'@import ncdf4
+#'@import ncdf
 #'@export
 get_surface_height  <-	function(file, ice.rm = TRUE, snow.rm = TRUE){
   glm_nc <- get_glm_nc(file)
-  NS	<- 	ncvar_get(glm_nc, "NS")
-  elev <- ncvar_get(glm_nc, "z")
+  NS	<- 	get.var.ncdf(glm_nc, "NS")
+  elev <- get.var.ncdf(glm_nc, "z")
   time <- get_time(glm_nc)
   close_glm_nc(glm_nc)
   

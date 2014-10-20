@@ -11,13 +11,13 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'evap <- get_evaporation(file)
 #'plot(evap)
-#'@import ncdf4
+#'@import ncdf
 #'@export
 get_evaporation <-  function(file){
   day_secs <- 86400
   m_to_mm <- 1000
   glm_nc <- get_glm_nc(file)
-  evaporation <- ncvar_get(glm_nc, "evap")*day_secs*m_to_mm
+  evaporation <- get.var.ncdf(glm_nc, "evap")*day_secs*m_to_mm
   time <- get_time(glm_nc)
   
   glm_evaporation <- data.frame('DateTime'=time, 'evaporation(mm/d)'=evaporation)

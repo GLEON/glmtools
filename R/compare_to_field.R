@@ -19,10 +19,7 @@
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
-#'CB_rmse <- compare_to_field(nc_file, field_file, metric = 'center.buoyancy')
-#'CB_values <- compare_to_field(nc_file, field_file, 
-#'                           metric = 'center.buoyancy', as_value = TRUE)
-#'
+
 #'thermo_values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'thermo.depth', as_value = TRUE)
 #'

@@ -11,11 +11,13 @@
 #'@examples 
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'wind <- get_wind(file)
-#'@import ncdf4
+#'
+#'@import ncdf
+#'
 #'@export
 get_wind <-  function(file){
   glm_nc <- get_glm_nc(file)
-  wind <- ncvar_get(glm_nc, "wind")
+  wind <- get.var.ncdf(glm_nc, "wind")
   time <- get_time(glm_nc)
   
   glm_wind <- data.frame('DateTime'=time, 'wind'=wind)

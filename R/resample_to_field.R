@@ -11,7 +11,6 @@
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #'temps <- resample_to_field(nc_file, field_file)
-#'@import ncdf4
 #'@export
 resample_to_field <- function(nc_file, field_file){
   

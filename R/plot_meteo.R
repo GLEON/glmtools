@@ -9,7 +9,6 @@
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'
 #'plot_meteo(nml_file)
-#'@import ncdf4
 #'@export
 plot_meteo <- function(nml_file, fig_path = FALSE){
   glm_nml <- read_nml(nml_file)
@@ -32,8 +31,8 @@ plot_meteo <- function(nml_file, fig_path = FALSE){
     warning(paste0('time format ', timefmt, ' is not currently supported. 
                    Entire driver dataset will be plotted'))
   } else {
-    start_dt <- get_nml_value(glm_nml, 'start')
-    stop_dt <- get_nml_value(glm_nml, 'stop')
+    start_dt <- as.POSIXct(get_nml_value(glm_nml, 'start'))
+    stop_dt <- as.POSIXct(get_nml_value(glm_nml, 'stop'))
     use_i <- dates >= start_dt & dates <= stop_dt
     dates <- dates[use_i]
     meteo <- meteo[use_i, ]

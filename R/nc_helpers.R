@@ -1,17 +1,17 @@
 
 get_glm_nc  <-  function(file){
-	glm_nc	<- 	nc_open(file)
+	glm_nc	<- 	open.ncdf(file, readunlim=TRUE)
 	return(glm_nc)
 }
 
 close_glm_nc <- function(glm_nc){
-  nc_close(glm_nc)
+  close.ncdf(glm_nc)
 }
 
 
 # Summary: Returns the converted time vector in R format
 get_time  <-  function(glm_nc){
-	hours_since  <-   ncvar_get(glm_nc, "time")
+	hours_since  <-   get.var.ncdf(glm_nc, "time")
 	time_info <- get_time_info(glm_nc)
 
 	time <- time_info$startDate + time_info$time_unit * hours_since * 60*60*24
@@ -29,7 +29,7 @@ get_time_info <- function(glm_nc, file = NULL){
   if (missing(glm_nc)){
     glm_nc <- get_glm_nc(file)
   }
-	time_units <- ncatt_get(glm_nc,'time','units')$value
+	time_units <- att.get.ncdf(glm_nc,'time','units')$value
 
 	
 	#It is written in prose instead of machine-readable format. Check to makes sure
@@ -53,7 +53,7 @@ get_time_info <- function(glm_nc, file = NULL){
   time_info  <-  cbind(time_info,"startDate"=as.POSIXct(epoch))
 
 	#End date/time 
-	endT <- time_info$startDate + ncvar_get(glm_nc,'time',start=tLen, count=1) * time_unit * day_secs
+	endT <- time_info$startDate + get.var.ncdf(glm_nc, 'time', start=tLen, count=1) * time_unit * day_secs
 
   time_info  <-  cbind(time_info,"stopDate"=endT[1])
 	if (missing(glm_nc)){

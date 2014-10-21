@@ -15,7 +15,7 @@
 #'@import rLakeAnalyzer
 #'@export
 sim_metrics <- function(with_nml = FALSE){
-  library(rLakeAnalyzer)
+  #library(rLakeAnalyzer)
   package_name <- 'rLakeAnalyzer'
   funs <- fun_from_package(package_name)
   funs <- c(funs, fun_from_package(getPackageName(), private = TRUE))
@@ -36,7 +36,7 @@ fun_from_package <- function(package_name, private = FALSE){
   if (private){
     funs <- as.character(unclass(lsf.str(envir = asNamespace(package_name), all = T)))
   } else {
-    library(rLakeAnalyzer)
+    #library(rLakeAnalyzer)
     funs <- ls(paste0('package:', package_name)) # get public functions
   }
   

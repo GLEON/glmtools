@@ -18,7 +18,7 @@ sim_metrics <- function(with_nml = FALSE){
   #library(rLakeAnalyzer)
   package_name <- 'rLakeAnalyzer'
   funs <- fun_from_package(package_name)
-  
+  funs <- c(funs, fun_from_package(getPackageName(), private = TRUE))
   arg_names <- c('wtr', 'depths')
   metrics <- match_inputs(funs, arg_names)
   
@@ -52,7 +52,7 @@ match_inputs <- function(funs, arg_names){
     all_args <- names(formals(funs[i]))
     def_args <- names(Filter(function(x) !identical(x, quote(expr = )), formals(funs[i])))
     req_args <- all_args[!all_args %in% def_args]
-    fun_valid[i] = all(req_args %in% arg_names)
+    fun_valid[i] = all(req_args %in% arg_names) & length(req_args) > 0 # case where all are default
   }
   
   valid_funs <- funs[fun_valid]

@@ -15,9 +15,7 @@ install:
   ps: Bootstrap
 
 build_script:
-  - travis-tool.sh r_ext_install ncdf4
   - travis-tool.sh install_github GLEON/GLMr
-  - travis-tool.sh install_github GLEON/rLakeAnalyzer
   - travis-tool.sh install_deps
 
 test_script:

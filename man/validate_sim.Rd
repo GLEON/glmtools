@@ -32,21 +32,18 @@ nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
-# create single metric diagnostic fig within R:
-validate_sim(nc_file, field_file,
-                          metrics = 'center.buoyancy', fig_path = FALSE)
 #  create a multiple metric diagnostic fig within R:
 validate_sim(nc_file, field_file, nml_file = nml_file,
-                          metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'),
+                          metrics = c('thermo.depth', 'schmidt.stability'),
                           fig_path = FALSE)
 
 # write the fig out to file:
 validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
-                          metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))
+                          metrics = c('thermo.depth', 'schmidt.stability'))
 
 # return the diagnostic info but avoid the plot:
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-                          metrics = c('center.buoyancy','thermo.depth', 'schmidt.stability'))
+                          metrics = c('thermo.depth', 'schmidt.stability'))
 }
 \author{
 Jordan S. Read

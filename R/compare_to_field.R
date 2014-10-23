@@ -40,7 +40,6 @@
 #'@export
 #'@import rLakeAnalyzer
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){
-  #library(rLakeAnalyzer)
   if (missing(nml_file)){
     bthA <- NA
     bthD <- NA

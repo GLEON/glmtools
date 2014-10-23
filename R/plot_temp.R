@@ -43,6 +43,8 @@ plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F
   color_key(levels, colors, subs=seq(4,32,2))
   if (is.character(fig_path)){
     dev.off()
+  } else {
+    layout(as.matrix(1))
   }
 }
 
@@ -50,10 +52,14 @@ colbar_layout <- function(nrow = 1){
   # ensures all colorbar plots use same x scaling for divs
   mx <- matrix(c(rep(1,5),2),nrow=1)
   panels <- mx
-  for (i in 2:nrow){
-    panels <- rbind(panels,mx+(i-1)*2)
+  if (nrow > 2){
+    for (i in 2:nrow){
+      panels <- rbind(panels,mx+(i-1)*2)
+    }
   }
+  
   layout(panels)
+  
 }
 
 plot_layout <- function(xaxis, yaxis, add, data = NA){

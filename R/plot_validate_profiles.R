@@ -8,6 +8,7 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
+#'dev.off()
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')

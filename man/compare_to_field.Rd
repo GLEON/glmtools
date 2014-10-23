@@ -34,6 +34,9 @@ field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
 thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
+temp_rmse <- compare_to_field(nc_file, field_file,
+                          metric = 'water.temperature', as_value = FALSE)
+print(paste(temp_rmse,'deg C RMSE'))
 
 \dontrun{
 # -- an nml file is necessary when functions require hypsographic information

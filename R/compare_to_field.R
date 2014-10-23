@@ -22,6 +22,9 @@
 
 #'thermo_values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'thermo.depth', as_value = TRUE)
+#'temp_rmse <- compare_to_field(nc_file, field_file, 
+#'                           metric = 'water.temperature', as_value = FALSE)
+#'print(paste(temp_rmse,'deg C RMSE'))
 #'
 #'\dontrun{
 #'# -- an nml file is necessary when functions require hypsographic information
@@ -40,7 +43,9 @@
 #'@export
 #'@import rLakeAnalyzer
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){
-  #library(rLakeAnalyzer)
+  
+  as_mat = ifelse(output_dim(metric) > 1,TRUE, FALSE)
+  
   if (missing(nml_file)){
     bthA <- NA
     bthD <- NA
@@ -66,8 +71,28 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     mod_list <- list(wtr=temp_mod[!rmv_i], depths = depths[!rmv_i], bthA = bthA, bthD = bthD)
     obs_list <- list(wtr=temp_obs[!rmv_i], depths = depths[!rmv_i], bthA = bthA, bthD = bthD)
     use_names <- names(mod_list) %in% names(formals(metric)) # test to only use list elements that are inluded in the function args
-    mod_metric[j] <- do.call(get(metric), mod_list[use_names]) 
-    obs_metric[j] <- do.call(get(metric), obs_list[use_names]) 
+    mod_num <- do.call(get(metric), mod_list[use_names]) 
+    obs_num <- do.call(get(metric), obs_list[use_names]) 
+    
+    if (as_mat == TRUE) { # ~!!! first date as single value will not be properly handled. !!!
+      if (as_value == TRUE){
+        stop(paste('metric',metric,'is not supported for as_value=TRUE output. 
+                   Only metrics that output a single value per profile are supported. 
+                   Try as_value=FALSE for RMSE.'))
+      }
+      if (j == 1){
+        cnt = 1
+        mod_metric <- vector(length = length(un_dates)*200)*NA
+        obs_metric <- mod_metric
+      } 
+      mod_metric[cnt:(cnt+length(mod_num)-1)] = mod_num
+      obs_metric[cnt:(cnt+length(mod_num)-1)] = obs_num
+      cnt = 1+length(mod_num)
+    } else {
+      mod_metric[j] <- do.call(get(metric), mod_list[use_names]) 
+      obs_metric[j] <- do.call(get(metric), obs_list[use_names]) 
+    }
+    
   }
   
   if (as_value){

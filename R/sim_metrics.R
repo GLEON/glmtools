@@ -15,16 +15,17 @@
 #'@import rLakeAnalyzer
 #'@export
 sim_metrics <- function(with_nml = FALSE){
-  #library(rLakeAnalyzer)
   package_name <- 'rLakeAnalyzer'
   funs <- fun_from_package(package_name)
   funs <- c(funs, fun_from_package(getPackageName(), private = TRUE))
   arg_names <- c('wtr', 'depths')
-  metrics <- match_inputs(funs, arg_names)
+  
   
   if (with_nml){
     arg_names = c('wtr', 'depths', 'bthA', 'bthD')
     metrics <- c(metrics, match_inputs(funs, arg_names))
+  } else {
+    metrics <- match_inputs(funs, arg_names)
   }
   
   
@@ -36,7 +37,6 @@ fun_from_package <- function(package_name, private = FALSE){
   if (private){
     funs <- as.character(unclass(lsf.str(envir = asNamespace(package_name), all = T)))
   } else {
-    #library(rLakeAnalyzer)
     funs <- ls(paste0('package:', package_name)) # get public functions
   }
   
@@ -47,21 +47,45 @@ match_inputs <- function(funs, arg_names){
   
   ignore_args = c('ts', 'plot')
   
+  rmv_i <- vector(length=length(funs))
+  for (i in 1:length(ignore_args)){
+    rmv_i <- rmv_i | grepl(ignore_args[i],funs)
+  }
+  
+  funs <- funs[!rmv_i]
+  
   fun_valid <- vector(length = length(funs))
   for (i in 1:length(funs)){
     all_args <- names(formals(funs[i]))
     def_args <- names(Filter(function(x) !identical(x, quote(expr = )), formals(funs[i])))
     req_args <- all_args[!all_args %in% def_args]
-    fun_valid[i] = all(req_args %in% arg_names) & length(req_args) > 0 # case where all are default
+    
+    fun_valid[i] = all(req_args %in% arg_names) & 
+      length(req_args) > 0 # case where all are default
+    if (fun_valid[i]){
+      o_dim <- output_dim(funs[i])
+      if (o_dim == 2){fun_valid[i]==FALSE} # case where it is a multi-out like metadepths. Could limit this to == 1 and handle temp and density differently
+    }
+      
   }
   
   valid_funs <- funs[fun_valid]
-  rmv_i <- vector(length=length(valid_funs))
-  for (i in 1:length(ignore_args)){
-    rmv_i <- rmv_i | grepl(ignore_args[i],valid_funs)
-  }
-  
-  
-  return(valid_funs[!rmv_i])
 
+  return(valid_funs)
+
+}
+
+output_dim <- function(fun){
+  # probably a better way to test for dimension of output, but this works..
+  bthA  <-	c(1000,900,864,820,200,10)
+  bthD	<-	c(0,2.3,2.5,4.2,5.8,7)
+  
+  wtr	<-	c(28,27,26.4,26,25.4,24,23.3)
+  depths	<-	c(0,1,2,3,4,5,6)
+  
+  arg_list <- list(wtr=wtr, depths = depths, bthA = bthA, bthD = bthD)
+  use_names <- names(arg_list) %in% names(formals(fun))
+  out <- do.call(get(fun), arg_list[use_names])
+  return(length(out))
+  
 }

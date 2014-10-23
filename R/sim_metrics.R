@@ -23,7 +23,7 @@ sim_metrics <- function(with_nml = FALSE){
   
   if (with_nml){
     arg_names = c('wtr', 'depths', 'bthA', 'bthD')
-    metrics <- c(metrics, match_inputs(funs, arg_names))
+    metrics <- match_inputs(funs, arg_names)
   } else {
     metrics <- match_inputs(funs, arg_names)
   }
@@ -64,7 +64,7 @@ match_inputs <- function(funs, arg_names){
       length(req_args) > 0 # case where all are default
     if (fun_valid[i]){
       o_dim <- output_dim(funs[i])
-      if (o_dim == 2){fun_valid[i]==FALSE} # case where it is a multi-out like metadepths. Could limit this to == 1 and handle temp and density differently
+      if (o_dim == 2){fun_valid[i]=FALSE} # case where it is a multi-out like metadepths. Could limit this to == 1 and handle temp and density differently
     }
       
   }

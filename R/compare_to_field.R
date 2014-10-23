@@ -74,7 +74,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     mod_num <- do.call(get(metric), mod_list[use_names]) 
     obs_num <- do.call(get(metric), obs_list[use_names]) 
     if (length(mod_num) > 1 & as_value==TRUE){
-      stop(paste('metric',metric,'is not supported for as_value=TRUE output. Only metrics that can output a single value per profile are supported. Try as_value=FALSE for RMSE.'))
+      stop(paste('metric',metric,'is not supported for as_value=TRUE output. Only metrics that output a single value per profile are supported. Try as_value=FALSE for RMSE.'))
     }
     if (length(mod_num) > 1 | as_mat == TRUE) { # ~!!! first date as single value will not be properly handled. !!!
       as_mat = TRUE

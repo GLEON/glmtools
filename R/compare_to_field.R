@@ -44,7 +44,7 @@
 #'@import rLakeAnalyzer
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){
   
-  as_mat = FALSE # for metric output data type
+  as_mat = ifelse(output_dim(metric) > 1,TRUE, FALSE)
   
   if (missing(nml_file)){
     bthA <- NA
@@ -73,11 +73,13 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     use_names <- names(mod_list) %in% names(formals(metric)) # test to only use list elements that are inluded in the function args
     mod_num <- do.call(get(metric), mod_list[use_names]) 
     obs_num <- do.call(get(metric), obs_list[use_names]) 
-    if (length(mod_num) > 1 & as_value==TRUE){
-      stop(paste('metric',metric,'is not supported for as_value=TRUE output. Only metrics that output a single value per profile are supported. Try as_value=FALSE for RMSE.'))
-    }
-    if (length(mod_num) > 1 | as_mat == TRUE) { # ~!!! first date as single value will not be properly handled. !!!
-      as_mat = TRUE
+    
+    if (as_mat == TRUE) { # ~!!! first date as single value will not be properly handled. !!!
+      if (as_value == TRUE){
+        stop(paste('metric',metric,'is not supported for as_value=TRUE output. 
+                   Only metrics that output a single value per profile are supported. 
+                   Try as_value=FALSE for RMSE.'))
+      }
       if (j == 1){
         cnt = 1
         mod_metric <- vector(length = length(un_dates)*200)*NA

@@ -12,10 +12,10 @@
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
-#
+#'\dontrun{
 #' #  create a multiple metric diagnostic fig within R:
 #'plot_validate_profiles(nc_file, field_file, fig_path = FALSE)
-#'                           
+#'}                           
 #'@export
 plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 	
@@ -54,11 +54,10 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 		val_indx = temp_val$DateTime == u_dates[i]
 		
 		m_i <- !is.na(mod_temp)
-		#plot(mod_temp[m_i], mod_depths[m_i], type='l', 
-		#		 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
-		#		 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
-		print(mod_temp[m_i])
-    print(mod_depths[m_i])
+		plot(mod_temp[m_i], mod_depths[m_i], type='l', 
+				 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
+				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
+		
 		val_indx = temp_val$DateTime == u_dates[i]
 		plot(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
 		

@@ -54,12 +54,12 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 		val_indx = temp_val$DateTime == u_dates[i]
 		
 		m_i <- !is.na(mod_temp)
-		plot(mod_temp[m_i], mod_depths[m_i], type='l', 
-				 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
-				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
+		#plot(mod_temp[m_i], mod_depths[m_i], type='l', 
+		#		 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
+		#		 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
 		
 		val_indx = temp_val$DateTime == u_dates[i]
-		#points(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
+		plot(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
 		
 	}
 }

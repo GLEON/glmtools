@@ -17,12 +17,14 @@ If argument is not used, plotting is skipped}
 Plot validation and model temperature profiles
 }
 \examples{
+\dontrun{
 nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
 #  create a multiple metric diagnostic fig within R:
 plot_validate_profiles(nc_file, field_file, fig_path = FALSE)
+}
 }
 \author{
 Luke A. Winslow, Jordan S. Read

@@ -34,6 +34,8 @@ read_field_obs <- function(file){
                    "Depth" = as.numeric(data[, depth_i]), 
                    "wTemp" = as.numeric(data[, wtr_i]))
   
+  df <- df[order(df$DateTime, df$Depth), ] #sort validation data by datetime, then depth
+  
   return(df)
 }
 

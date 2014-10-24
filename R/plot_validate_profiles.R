@@ -48,7 +48,7 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 			warning('Nearest modeled date > 1 day away for field date: ', u_dates[i])
 		}
 		
-		mod_depths = get.offsets(temp[min.idx,])
+		mod_depths = get.offsets(temp[min.idx, -1])
 		mod_temp = as.numeric(temp[min.idx,-1])
 		
 		val_indx = temp_val$DateTime == u_dates[i]

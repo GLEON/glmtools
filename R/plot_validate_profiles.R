@@ -59,7 +59,7 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
 		
 		val_indx = temp_val$DateTime == u_dates[i]
-		pointst(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
+		points(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
 		
 	}
 }

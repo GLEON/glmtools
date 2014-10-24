@@ -8,14 +8,14 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'\dontrun{
+#'
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #' #  create a multiple metric diagnostic fig within R:
 #'plot_validate_profiles(nc_file, field_file, fig_path = FALSE)
-#'}                           
+#'                          
 #'@export
 plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 	
@@ -59,7 +59,7 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
 		
 		val_indx = temp_val$DateTime == u_dates[i]
-		plot(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
+		pointst(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
 		
 	}
 }

@@ -57,7 +57,8 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 		#plot(mod_temp[m_i], mod_depths[m_i], type='l', 
 		#		 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
 		#		 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0))
-		
+		print(mod_temp[m_i])
+    print(mod_depths[m_i])
 		val_indx = temp_val$DateTime == u_dates[i]
 		plot(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
 		

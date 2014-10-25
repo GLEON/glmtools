@@ -23,7 +23,7 @@
 #'t_out <- as.POSIXct(c("2011-04-01 10:00", "2011-04-05 08:15", 
 #'       "2011-06-14 10:30", "2011-04-05 10:21", 
 #'       "2011-07-28 10:00"))
-#'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'hours')
+#'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'days')
 #'
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'hours')
 #'@export

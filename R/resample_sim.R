@@ -19,6 +19,9 @@
 #'temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 #'t_out <- as.POSIXct(c("2011-04-01", "2011-06-14", "2011-04-05", "2011-07-28"))
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'day')
+#'
+#'t_out <- as.POSIXct(c("2011-04-01 10:00", "2011-06-14 10:30", "2011-04-05 10:21", "2011-07-28 10:00"))
+#'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'hour')
 #'@export
 resample_sim <- function(df, t_out, method = 'match', precision = 'day'){
   
@@ -30,8 +33,8 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'day'){
   if (method != "match"){stop(paste0('method ', method, ' not currently supported'))}
   
   # wish this could be vectorized, but we need to retain the order of *t_out*, not df
-  time <- round(t_out, precision)
-  time_compr <- round(df$DateTime, precision)
+  time <- time_precision(t_out, precision)
+  time_compr <- time_precision(df$DateTime, precision)
   idx_out <- vector(length = length(time))
   for (j in 1:length(time)){
     idx_out[j] = match(time[j], time_compr)
@@ -42,6 +45,19 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'day'){
   df <- df[idx_out, ]
   return(df)
   
+}
+
+time_precision <- function(t_out, precision){
+  un_cnt <- length(unique(t_out))
+  if (!(precision %in% c('secs', 'mins','hours', 'days'))){
+    stop(paste(precision,'not supported for time matching'))
+  }
+  t_out <- round(t_out, precision)
+  
+  if (un_cnt > length(unique(t_out))){
+    warning(paste(precision,'precision resulted in duplicate date values'))
+  }
+  return(t_out)
 }
 
 trunc_time <- function(df, start_date, stop_date){

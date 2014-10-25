@@ -22,10 +22,17 @@ resample_to_field <- function(nc_file, field_file){
   # -- cover case w/ no overlap?
   field_obs <- trunc_time(field_obs, start_date, stop_date)
   
+  if (nrow(field_obs) == 0){stop('no field data overlap with simulation period')}
+  
   unq_z <- unique(field_obs$Depth) # levels?
   
   # build water temp data.frame
   wTemps <- get_temp(file = nc_file, reference = 'surface', z_out = unq_z)
+  
+  model_dt <- as.numeric(difftime(wTemps[2,1], wTemps[1,1], units = 'd'))
+  if (model_dt < 1){stop(paste('subdaily model output not supported for field date matching.', 
+                               "Current output data are every",model_dt,'days.',
+                      '\nSee glm.nml "nsave" and "dt" params'))}
   wTemps <- trunc_time(wTemps, start_date = min(field_obs$DateTime), stop_date = max(field_obs$DateTime))
   wTemps <- resample_sim(df = wTemps, t_out = unique(field_obs$DateTime), method = 'match', precision = 'day')
   match_vals <- pivot_match(wTemps, time = field_obs$DateTime, depth = field_obs$Depth)

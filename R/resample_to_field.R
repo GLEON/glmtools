@@ -22,6 +22,8 @@ resample_to_field <- function(nc_file, field_file){
   # -- cover case w/ no overlap?
   field_obs <- trunc_time(field_obs, start_date, stop_date)
   
+  if (nrow(field_obs) == 0){stop('no field data overlap with simulation period')}
+  
   unq_z <- unique(field_obs$Depth) # levels?
   
   # build water temp data.frame

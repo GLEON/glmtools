@@ -18,12 +18,14 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
 #'t_out <- as.POSIXct(c("2011-04-01", "2011-06-14", "2011-04-05", "2011-07-28"))
-#'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'day')
+#'temp_out <- resample_sim(df = temp_surf, t_out = t_out)
 #'
-#'t_out <- as.POSIXct(c("2011-04-01 10:00", "2011-06-14 10:30", "2011-04-05 10:21", "2011-07-28 10:00"))
+#'t_out <- as.POSIXct(c("2011-04-01 10:00", 
+#'       "2011-06-14 10:30", "2011-04-05 10:21", 
+#'       "2011-07-28 10:00"))
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'hour')
 #'@export
-resample_sim <- function(df, t_out, method = 'match', precision = 'day'){
+resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   
   if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
   if (is.null(t_out)){

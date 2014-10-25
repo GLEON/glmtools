@@ -4,7 +4,7 @@
 \title{compare metric for GLM vs field observations}
 \usage{
 compare_to_field(nc_file, field_file, nml_file, metric, as_value = FALSE,
-  na.rm = TRUE)
+  na.rm = TRUE, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -19,6 +19,8 @@ Should be a rLakeAnalyzer function or other valid function.}
 \item{as_value}{a boolean for calculating RMSE (F) or returning all values (T)}
 
 \item{na.rm}{a boolean for remove NAs for RMSE calculation (only used if as_values == F)}
+
+\item{...}{additional arguments passed to resample_to_field()}
 }
 \value{
 a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
@@ -36,6 +38,11 @@ thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
 temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
+print(paste(temp_rmse,'deg C RMSE'))
+buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
+temp_rmse <- compare_to_field(nc_file, buoy_file,
+                          metric = 'water.temperature', as_value = FALSE,
+                          method = 'interp',precision = 'hours')
 print(paste(temp_rmse,'deg C RMSE'))
 
 \dontrun{

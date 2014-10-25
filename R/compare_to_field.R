@@ -10,6 +10,7 @@
 #'Should be a rLakeAnalyzer function or other valid function.
 #'@param as_value a boolean for calculating RMSE (F) or returning all values (T)
 #'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
+#'@param ... additional arguments passed to resample_to_field()
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 #'@keywords methods
 #'@seealso \link{resample_sim}, \link{resample_to_field}
@@ -24,6 +25,11 @@
 #'                           metric = 'thermo.depth', as_value = TRUE)
 #'temp_rmse <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'water.temperature', as_value = FALSE)
+#'print(paste(temp_rmse,'deg C RMSE'))
+#'buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
+#'temp_rmse <- compare_to_field(nc_file, buoy_file, 
+#'                           metric = 'water.temperature', as_value = FALSE, 
+#'                           method = 'interp',precision = 'hours')
 #'print(paste(temp_rmse,'deg C RMSE'))
 #'
 #'\dontrun{
@@ -42,7 +48,7 @@
 #'}
 #'@export
 #'@import rLakeAnalyzer
-compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE){
+compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE, ...){
   
   as_mat = ifelse(output_dim(metric) > 1,TRUE, FALSE)
   
@@ -54,7 +60,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     bthA <- hypso$Areas
     bthD <- hypso$Depths
   }
-  compare_data <- resample_to_field(nc_file, field_file)
+  compare_data <- resample_to_field(nc_file, field_file, ...)
   
   un_dates <- unique(compare_data$DateTime)
   mod_metric <- vector('numeric', length = length(un_dates))

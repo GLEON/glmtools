@@ -1,6 +1,7 @@
 #'@title match GLM water temperatures with field observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
+#'@param method 'match' for exact match or 'interp' for temporal interpolation
 #'@param precision matching precision (must be 'secs', 'mins','hours', or 'days')
 #'@return validation a data.frame with DateTime and temperature at depth 
 #'@keywords methods
@@ -12,8 +13,10 @@
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #'temps <- resample_to_field(nc_file, field_file)
+#'buoy_file <- system.file('extdata', 'buoy_data.tsv', package = 'glmtools')
+#'temps <- resample_to_field(nc_file, field_file, precision = 'hours')
 #'@export
-resample_to_field <- function(nc_file, field_file, precision = 'days'){
+resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days'){
   
   field_obs <- read_field_obs(field_file)
   time_info <- get_time_info(file = nc_file)
@@ -33,7 +36,7 @@ resample_to_field <- function(nc_file, field_file, precision = 'days'){
   
   
   wTemps <- trunc_time(wTemps, start_date = min(field_obs$DateTime), stop_date = max(field_obs$DateTime))
-  wTemps <- resample_sim(df = wTemps, t_out = unique(field_obs$DateTime), method = 'match', precision)
+  wTemps <- resample_sim(df = wTemps, t_out = unique(field_obs$DateTime), method, precision)
   obs_time <- time_precision(field_obs$DateTime, precision) # apples to apples
    # -- may have time value duplication now --
   match_vals <- pivot_match(wTemps, time = obs_time, depth = field_obs$Depth)
@@ -46,6 +49,7 @@ resample_to_field <- function(nc_file, field_file, precision = 'days'){
 }
 
 pivot_match <- function(df, time, depth){
+  
   
   #time and depth are 1D vectors (long-form tables)
   match_out <- vector(length = length(time))

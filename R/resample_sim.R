@@ -42,28 +42,22 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   time <- time_precision(t_out, precision)
   
   if (method == 'interp'){
-    t_srt <- sort(time) # get it in order for approx
-    n_dep <- ncol(df[, -1])
-    df_out <- matrix(ncol = n_dep, nrow = length(t_srt))
-    for (i in 1:n_dep){
-      df_out[, i] <- approx(x = as.numeric(df$DateTime), 
-                            y = df[,(i+1)], 
-                            xout = as.numeric(t_srt), 
-                            method = 'linear')$y
-    }
-    df_out <- data.frame(t_srt, df_out)
-    names(df_out) <- names(df)
+    
+    df <- df_interp(df, time)
+    time_compr <- df$DateTime
   } else {
     time_compr <- time_precision(df$DateTime, precision)
-    idx_out <- vector(length = length(time))
-    for (j in 1:length(time)){
-      idx_out[j] = match(time[j], time_compr)
-    }
-    
-    idx_out <- idx_out[!is.na(idx_out)]
-    
-    df_out <- df[idx_out, ]
   }
+  
+  idx_out <- vector(length = length(time))
+  for (j in 1:length(time)){
+    m_i <- which(time[j] - time_compr == 0) #funny, match doesn't work (lt vs ct types)
+    idx_out[j] = ifelse(length(m_i)==0,NA,m_i)
+  }
+  
+  idx_out <- idx_out[!is.na(idx_out)]
+  
+  df_out <- df[idx_out, ]
   
   if (nrow(df_out) == 0){
     add_msg = ''
@@ -90,6 +84,20 @@ time_precision <- function(t_out, precision){
   return(t_out)
 }
 
+df_interp <- function(df, t_out){
+  t_srt <- sort(t_out) # get it in order for approx
+  n_dep <- ncol(df[, -1])
+  df_out <- matrix(ncol = n_dep, nrow = length(t_srt))
+  for (i in 1:n_dep){
+    df_out[, i] <- approx(x = as.numeric(df$DateTime), 
+                          y = df[,(i+1)], 
+                          xout = as.numeric(t_srt), 
+                          method = 'linear')$y
+  }
+  df_out <- data.frame(t_srt, df_out)
+  names(df_out) <- names(df)
+  return(df_out)
+}
 trunc_time <- function(df, start_date, stop_date){
   srt_dt <- sort(unique(df[, 1]))
   df_step <- diff(as.numeric(srt_dt[1:2]))

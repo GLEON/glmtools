@@ -3,12 +3,14 @@
 \alias{resample_to_field}
 \title{match GLM water temperatures with field observations}
 \usage{
-resample_to_field(nc_file, field_file, precision = "days")
+resample_to_field(nc_file, field_file, method = "match", precision = "days")
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
 
 \item{field_file}{a string with the path to the field observation file}
+
+\item{method}{'match' for exact match or 'interp' for temporal interpolation}
 
 \item{precision}{matching precision (must be 'secs', 'mins','hours', or 'days')}
 }
@@ -23,6 +25,8 @@ nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
 temps <- resample_to_field(nc_file, field_file)
+buoy_file <- system.file('extdata', 'buoy_data.tsv', package = 'glmtools')
+temps <- resample_to_field(nc_file, field_file, precision = 'hours')
 }
 \author{
 Jordan S. Read

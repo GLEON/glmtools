@@ -14,6 +14,7 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
+#'\dontrun{
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
@@ -30,10 +31,11 @@
 #'                   
 #' # return the diagnostic info but avoid the plot:                                   
 #'validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-#'                           metrics = c('thermo.depth', 'schmidt.stability'))                                                         
+#'                           metrics = c('thermo.depth', 'schmidt.stability'))     
+#'}                                                    
 #'@export
 validate_sim <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
-  
+  warning('function in development')
   # need to check is.missing for fig_path...
   num_metrics <- length(metrics)
   

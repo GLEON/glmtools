@@ -11,7 +11,6 @@
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'evap <- get_evaporation(file)
 #'plot(evap)
-#'@import ncdf
 #'@export
 get_evaporation <-  function(file){
   day_secs <- 86400

@@ -89,10 +89,15 @@ df_interp <- function(df, t_out){
   n_dep <- ncol(df[, -1])
   df_out <- matrix(ncol = n_dep, nrow = length(t_srt))
   for (i in 1:n_dep){
-    df_out[, i] <- approx(x = as.numeric(df$DateTime), 
-                          y = df[,(i+1)], 
-                          xout = as.numeric(t_srt), 
-                          method = 'linear')$y
+    if (sum(!is.na(df[,(i+1)])) >= 2){
+      df_out[, i] <- approx(x = as.numeric(df$DateTime), 
+                            y = df[,(i+1)], 
+                            xout = as.numeric(t_srt), 
+                            method = 'linear')$y
+    } else {
+      df_out[, i] <- NA
+    }
+    
   }
   df_out <- data.frame(t_srt, df_out)
   names(df_out) <- names(df)

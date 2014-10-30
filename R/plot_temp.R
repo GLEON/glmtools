@@ -15,37 +15,9 @@
 #'@export
 plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F, add = F){
 
-  surface <- get_surface_height(file)
-  max_depth <- max(surface[, 2])
-  min_depth <- 0
-  z_out <- seq(min_depth, max_depth,length.out = num_cells)
-  temp <- get_temp(file, reference = reference, z_out)
-  palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
-                              bias = 1, space = "rgb")
-  levels <- seq(0, 36, 1)
-  colors <- palette(n = length(levels)-1)
-  dates <- temp[, 1]
-  wtr_temps <- data.matrix(temp[, -1])
-  xaxis <- get_xaxis(dates)
-  yaxis <- get_yaxis_2D(z_out, reference)
+  plot_var(file, var_name = 'temp', col_lim = c(0,36), 
+           reference, num_cells, fig_path, add, bar_title = 'Temperature (\u00B0C)')
   
-  if (is.character(fig_path)){
-    gen_default_fig(file_name = fig_path) 
-  }
-
-  
-  plot_layout(xaxis, yaxis, add)
-  .filled.contour(x = dates, y = z_out, z = wtr_temps,
-                  levels= levels,
-                  col=colors)
-  
-  axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
-  color_key(levels, colors, subs=seq(4,32,2))
-  if (is.character(fig_path)){
-    dev.off()
-  } else {
-    layout(as.matrix(1))
-  }
 }
 
 colbar_layout <- function(nrow = 1){

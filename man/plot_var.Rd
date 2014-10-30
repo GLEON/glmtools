@@ -4,7 +4,7 @@
 \title{plot water temperatures from a GLM simulation}
 \usage{
 plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
-  fig_path = F, add = F)
+  fig_path = F, add = F, bar_title = NULL)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -20,6 +20,8 @@ plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
 
 \item{add}{F if create new figure, T if add to existing}
+
+\item{bar_title}{NULL if use var_name, or specify as a string to name plot variable}
 }
 \description{
 plot water temperatures from a GLM simulation

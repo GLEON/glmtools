@@ -60,7 +60,8 @@ pivot_match <- function(df, time, depth){
     col_nm <- match(paste0('wtr_', dp_match), names(df)) # this is not a numeric test!!! fix this (wtr_9.340 != 9.34)
     match_val <- df[df$DateTime==dt_match, col_nm]
     if (length(match_val) > 1){stop('duplicate date match')}
-    match_out[j] <- match_val
+    match_out[j] <- ifelse(length(match_val)==0,NA,match_val)
   }
+  if (any(is.nan(match_out))){warning("some values lost in match")}
   return(match_out)
 }

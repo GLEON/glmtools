@@ -50,9 +50,7 @@ resample_depth <- function(elevs, temps, elevs_out){
 
 #'@export
 get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name){
-  if (reference!='bottom' & reference!='surface'){
-    stop('reference input must be either "surface" or "bottom"')
-  }
+
   
   if (is.null(z_out)){
     mx_lyrs <- 20
@@ -65,6 +63,18 @@ get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var
   elev <- get.var.ncdf(glm_nc, "z" )
   temp <- get.var.ncdf(glm_nc, var_name)
   time <- get_time(glm_nc)
+  
+  if (length(dim(temp)) == 1){
+    # is 1D
+    variable_df <- data.frame('DateTime' = time, 'variable' = temp)
+    return(variable_df)
+  }
+  
+  if (reference!='bottom' & reference!='surface'){
+    stop('reference input must be either "surface" or "bottom"')
+  }
+  
+  
   
   close_glm_nc(glm_nc)
   

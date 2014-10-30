@@ -15,7 +15,7 @@ Creates a .nml file running a GLM simulation.  \cr
 }
 \examples{
 glm_nml <- read_nml()
-write_nml(glm_nml, file = '../glm_test.nml')
+write_nml(glm_nml, file = '../glm2_test.nml')
 }
 \author{
 Jordan S. Read

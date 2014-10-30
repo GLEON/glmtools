@@ -86,7 +86,7 @@ get_yaxis_2D <- function(z_out, reference){
   return(yaxis) 
 }
 
-color_key <- function(levels, colors, subs, ps){
+color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0C)'){
   # add feau plot
   plot(NA, xlim = c(0,1),
        ylim=c(0,1),
@@ -95,7 +95,7 @@ color_key <- function(levels, colors, subs, ps){
   old_mgp <- par()$mgp
   old_mai <- par()$mai
   par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,0,0))
-  axis(side = 4, at = 0.5, tck = NA, labels='Temperature (\u00B0C)', lwd = 0.0)#(\xB0 C)
+  axis(side = 4, at = 0.5, tck = NA, labels= col_label, lwd = 0.0)#(\xB0 C)
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   
   p_start <- 0.1

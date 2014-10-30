@@ -34,18 +34,19 @@ An example of this behavior is thermocline depth (but not water density for all 
 nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
+\dontrun{
 thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
 temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
 print(paste(temp_rmse,'deg C RMSE'))
+# function in development
 buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
 temp_rmse <- compare_to_field(nc_file, buoy_file,
                           metric = 'water.temperature', as_value = FALSE,
                           method = 'interp',precision = 'hours')
 print(paste(temp_rmse,'deg C RMSE'))
 
-\dontrun{
 # -- an nml file is necessary when functions require hypsographic information
 values <- compare_to_field(nc_file, field_file,
                           metric = 'schmidt.stability', as_value = TRUE)

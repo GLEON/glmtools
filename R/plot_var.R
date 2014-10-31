@@ -53,7 +53,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
   
   if (is.null(bar_title)){
-    bar_title = var_nam
+    bar_title = var_name
   }
   color_key(levels, colors, subs=col_subs, col_label = bar_title)
   if (is.character(fig_path)){

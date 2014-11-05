@@ -35,7 +35,7 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
   # -- cover case w/ no overlap?
   if (nrow(field_obs) == 0){stop('no field data overlap with simulation period')}
   
-  unq_z <- unique(field_obs$Depth) # levels?
+  unq_z <- sort(unique(field_obs$Depth))
   
   # build water temp data.frame
   wTemps <- get_temp(file = nc_file, reference = 'surface', z_out = unq_z)

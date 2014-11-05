@@ -19,6 +19,12 @@
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days'){
   
   field_obs <- read_field_obs(field_file)
+  dup_rows <- duplicated(field_obs[,1:2])
+  if (any(dup_rows)){
+    mssg <- paste0(' see rows ', paste(which(dup_rows), collapse=','))
+    append_mssg <- ifelse(sum(dup_rows) < 10, mssg, '')
+    stop(paste0('field file has one or more rows with duplicate date and depths.', append_mssg))
+  }
   time_info <- get_time_info(file = nc_file)
   start_date <- time_info$startDate
   stop_date <- time_info$stopDate

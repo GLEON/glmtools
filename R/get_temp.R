@@ -28,7 +28,7 @@
 #'@import ncdf
 #'@export
 get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
-  glm_temp <- get_var(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name = 'temp')
+  glm_temp <- get_var(file, reference, z_out, t_out, var_name = 'temp')
   
   return(glm_temp)
 }

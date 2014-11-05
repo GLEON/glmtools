@@ -9,7 +9,7 @@
 #'@param metric a string representing a physical metric. 
 #'Should be a rLakeAnalyzer function or other valid function.
 #'@param as_value a boolean for calculating RMSE (F) or returning all values (T)
-#'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
+#'@param na.rm a boolean for remove NAs (only used if as_values == F)
 #'@param ... additional arguments passed to resample_to_field()
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 #'@keywords methods
@@ -88,12 +88,14 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
                    Try as_value=FALSE for RMSE.'))
       }
       if (j == 1){
+        # if as_mat, need a much larger matrix to support. Buffer and fil
         cnt = 1
         mod_metric <- vector(length = length(un_dates)*200)*NA
         obs_metric <- mod_metric
       } 
       mod_metric[cnt:(cnt+length(mod_num)-1)] = mod_num
       obs_metric[cnt:(cnt+length(mod_num)-1)] = obs_num
+      cat(j);cat(' of '); cat(length(un_dates))
       cnt = 1+length(mod_num)
     } else {
       mod_metric[j] <- do.call(get(metric), mod_list[use_names]) 
@@ -104,6 +106,10 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
   
   if (as_value){
     compare.df <- data.frame('DateTime' = un_dates, 'obs' = obs_metric, 'mod' = mod_metric)
+    if (na.rm){
+      na_i <- is.na(compare.df[, 2]) | is.na(compare.df[, 3])
+      compare.df <- compare.df[!na_i, ]
+    }
     return(compare.df)
   } else {
     RMSE <- sqrt(mean((mod_metric-obs_metric)^2 , na.rm = na.rm))

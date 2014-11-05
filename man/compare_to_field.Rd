@@ -18,7 +18,7 @@ Should be a rLakeAnalyzer function or other valid function.}
 
 \item{as_value}{a boolean for calculating RMSE (F) or returning all values (T)}
 
-\item{na.rm}{a boolean for remove NAs for RMSE calculation (only used if as_values == F)}
+\item{na.rm}{a boolean for remove NAs (only used if as_values == F)}
 
 \item{...}{additional arguments passed to resample_to_field()}
 }

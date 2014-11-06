@@ -6,7 +6,7 @@ get_UTM_offset <- function(){
   use_i <- which(!dst)[1]
   UTM <- data.frame(NH = as.POSIXct("2011-06-01 12:00:00",tz = "GMT"), SH = as.POSIXct("2011-12-01 12:00:00", tz = "GMT"))
   
-  if (length(use_i) == 0){ return("")}
+  if (length(use_i) == 0 | is.na(use_i)){ return("")}
   UTM_dif <- as.numeric(summer[,use_i] - UTM[,use_i]) # in hours
   sym <- ifelse(UTM_dif < 0, '-','+')
   tz <- paste0("Etc/GMT",sym, as.character(UTM_dif))

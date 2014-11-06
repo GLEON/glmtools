@@ -26,7 +26,7 @@ field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 
 temps <- resample_to_field(nc_file, field_file)
 buoy_file <- system.file('extdata', 'buoy_data.tsv', package = 'glmtools')
-temps <- resample_to_field(nc_file, field_file, precision = 'hours')
+temps <- resample_to_field(nc_file, buoy_file, precision = 'hours')
 }
 \author{
 Jordan S. Read

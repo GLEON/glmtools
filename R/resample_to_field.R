@@ -14,7 +14,7 @@
 #'
 #'temps <- resample_to_field(nc_file, field_file)
 #'buoy_file <- system.file('extdata', 'buoy_data.tsv', package = 'glmtools')
-#'temps <- resample_to_field(nc_file, field_file, precision = 'hours')
+#'temps <- resample_to_field(nc_file, buoy_file, precision = 'hours')
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days'){
   

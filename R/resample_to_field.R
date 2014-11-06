@@ -38,11 +38,9 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
   unq_z <- sort(unique(field_obs$Depth))
   
   # build water temp data.frame
-  wTemps <- get_temp(file = nc_file, reference = 'surface', z_out = unq_z)
-  
-  
-  wTemps <- trunc_time(wTemps, start_date = min(field_obs$DateTime), stop_date = max(field_obs$DateTime))
-  wTemps <- resample_sim(df = wTemps, t_out = unique(field_obs$DateTime), method, precision)
+  wTemps <- get_temp(file = nc_file, reference = 'surface', 
+                     z_out = unq_z, t_out = unique(field_obs$DateTime), method = method, precision = precision)
+
   obs_time <- time_precision(field_obs$DateTime, precision) # apples to apples
    # -- may have time value duplication now --
   match_vals <- pivot_match(wTemps, time = obs_time, depth = field_obs$Depth)

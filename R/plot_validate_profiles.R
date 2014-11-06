@@ -3,8 +3,9 @@
 #'@param field_file a string with the path to the field observation file
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png. 
 #'If argument is not used, plotting is skipped
+#'@param ... optional arguments passed to \code{resample_to_field}
 #'@keywords methods
-#'@seealso \link{validate_sim}
+#'@seealso \link{validate_sim}, \link{resample_to_field}
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
@@ -14,10 +15,10 @@
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #' #  create a multiple metric diagnostic fig within R:
-#'plot_validate_profiles(nc_file, field_file, fig_path = FALSE)
+#'plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')
 #'                          
 #'@export
-plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
+plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
 	
 	if (is.character(fig_path)){
 		#gen_default_fig(file_name = fig_path, fig_w = 2, fig_h = num_metrics*2, ps = 10, 
@@ -25,42 +26,25 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE){
 		stop('Saving figures to file not yet supported in plot_validate_profiles')
 	}
 	
-	#load temperature from nc
-	temp = get_temp(nc_file, reference='surface')
-	mod_dates = range(temp$DateTime)
 	
 	#get validation data
 	temp_val = read_field_obs(field_file)
-	
-	u_dates = unique(temp_val$DateTime)
+  
+	#load temperature from nc
+	mod_and_obs <- resample_to_field(nc_file, field_file, ...)
+  
+	u_dates = unique(mod_and_obs$DateTime)
 	
 	for(i in 1:length(u_dates)){
 		
-		if(u_dates[i] < mod_dates[1] || u_dates[i] > mod_dates[2]){
-			next #Skip val data that aren't within model window
-		}
+		val_indx = mod_and_obs$DateTime == u_dates[i]
 		
-		#grab the nearest water temp for that date/time
-		dt = abs(temp$DateTime - u_dates[i])
-		min.idx = which.min(dt)
+		plot(mod_and_obs$Modeled_wTemp[val_indx], mod_and_obs$Depth[val_indx], type='l', 
+				 xlim=range(c(mod_and_obs$Modeled_wTemp[val_indx], mod_and_obs$Observed_wTemp[val_indx]), na.rm=TRUE),
+				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_and_obs$Depth[val_indx], na.rm = T),0),
+				 main=strptime(u_dates[i], '%Y-%m-%d'))
 		
-		if(as.double(dt[min.idx], units='days') > 1){
-			warning('Nearest modeled date > 1 day away for field date: ', u_dates[i])
-		}
-		
-		mod_depths = get.offsets(temp[min.idx, -1])
-		mod_temp = as.numeric(temp[min.idx,-1])
-		
-		val_indx = temp_val$DateTime == u_dates[i]
-		
-		m_i <- !is.na(mod_temp)
-		plot(mod_temp[m_i], mod_depths[m_i], type='l', 
-				 xlim=range(c(mod_temp[m_i], temp_val[val_indx, 'wTemp']), na.rm=TRUE),
-				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_depths, na.rm = T),0),
-				 main=strptime(Sys.Date(), '%Y-%m-%d'))
-		
-		val_indx = temp_val$DateTime == u_dates[i]
-		points(temp_val[val_indx, 'wTemp'], temp_val[val_indx, 'Depth'], pch=20)
+		points(mod_and_obs$Observed_wTemp[val_indx], mod_and_obs$Depth[val_indx], pch=20)
 		
 	}
 }

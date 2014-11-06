@@ -32,7 +32,7 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
   if (is.null(t_out)){
     return(df)
-  }
+  } 
   
   if (!(method %in% c("match", "interp"))){
     stop(paste0('method ', method, ' not currently supported'))
@@ -81,6 +81,7 @@ time_precision <- function(t_out, precision){
   if (un_cnt > length(unique(t_out))){
     warning(paste(precision,'precision resulted in duplicate date values'))
   }
+  t_out <- as.POSIXct(t_out, tz = get_UTM_offset())
   return(t_out)
 }
 

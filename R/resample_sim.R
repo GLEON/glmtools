@@ -6,7 +6,8 @@
 #'\emph{The order of t_out}, not df$DateTime is retained.
 #'
 #'@param df a data.frame with DateTime and potentially other columns
-#'@param t_out a vector of POSIXct dates for matching to df$DateTime
+#'@param t_out a vector of POSIXct dates (or character array that can be coerced into POSIXct) 
+#'for matching to df$DateTime
 #'@param method 'match' for exact match or 'interp' for temporal interpolation
 #'@param precision matching precision (must be 'secs', 'mins','hours', or 'days')
 #'@return a data.frame with DateTime other original columns, resampled according to t_out
@@ -20,14 +21,16 @@
 #'t_out <- as.POSIXct(c("2011-04-01", "2011-06-14", "2011-04-05", "2011-07-28"))
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out)
 #'
-#'t_out <- as.POSIXct(c("2011-04-01 10:00", "2011-04-05 08:15", 
+#'t_out <- c("2011-04-01 10:00", "2011-04-05 08:15", 
 #'       "2011-06-14 10:30", "2011-04-05 10:21", 
-#'       "2011-07-28 10:00"))
+#'       "2011-07-28 10:00")
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'days')
 #'
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'hours')
 #'@export
 resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
+  
+  t_out <- coerce_date(t_out)
   
   if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
   if (is.null(t_out)){
@@ -47,6 +50,10 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
     time_compr <- df$DateTime
   } else {
     time_compr <- time_precision(df$DateTime, precision)
+  }
+  
+  if (attr(time, 'tzone') != attr(time_compr, 'tzone')){
+    warning('Input data and model output have different time zones')
   }
   
   idx_out <- vector(length = length(time))
@@ -81,7 +88,7 @@ time_precision <- function(t_out, precision){
   if (un_cnt > length(unique(t_out))){
     warning(paste(precision,'precision resulted in duplicate date values'))
   }
-  t_out <- as.POSIXct(t_out, tz = get_UTM_offset())
+  t_out <- as.POSIXct(t_out)
   return(t_out)
 }
 

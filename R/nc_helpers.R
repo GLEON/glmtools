@@ -50,7 +50,7 @@ get_time_info <- function(glm_nc, file = NULL){
 	tLen <- glm_nc$dim[["time"]][["len"]]
 	
   time_info  <-  data.frame("time_unit"=time_unit)
-  start_date <- coerce_date(as.POSIXct(epoch))
+  start_date <- coerce_date(epoch)
   time_info  <-  cbind(time_info,"startDate"=start_date)
 
 	#End date/time 

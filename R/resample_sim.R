@@ -30,12 +30,12 @@
 #'@export
 resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   
-  t_out <- coerce_date(t_out)
-  
   if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
   if (is.null(t_out)){
     return(df)
   } 
+  
+  t_out <- coerce_date(t_out)
   
   if (!(method %in% c("match", "interp"))){
     stop(paste0('method ', method, ' not currently supported'))
@@ -50,10 +50,6 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
     time_compr <- df$DateTime
   } else {
     time_compr <- time_precision(df$DateTime, precision)
-  }
-  
-  if (attr(time, 'tzone') != attr(time_compr, 'tzone')){
-    warning('Input data and model output have different time zones')
   }
   
   idx_out <- vector(length = length(time))
@@ -78,74 +74,3 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   
 }
 
-time_precision <- function(t_out, precision){
-  un_cnt <- length(unique(t_out))
-  if (!(precision %in% c('secs', 'mins','hours', 'days'))){
-    stop(paste(precision,'not supported for time matching'))
-  }
-  t_out <- round(t_out, precision)
-  
-  if (un_cnt > length(unique(t_out))){
-    warning(paste(precision,'precision resulted in duplicate date values'))
-  }
-  t_out <- as.POSIXct(t_out)
-  return(t_out)
-}
-
-df_interp <- function(df, t_out){
-  t_srt <- sort(t_out) # get it in order for approx
-  n_dep <- ncol(df[, -1])
-  df_out <- matrix(ncol = n_dep, nrow = length(t_srt))
-  for (i in 1:n_dep){
-    if (sum(!is.na(df[,(i+1)])) >= 2){
-      df_out[, i] <- approx(x = as.numeric(df$DateTime), 
-                            y = df[,(i+1)], 
-                            xout = as.numeric(t_srt), 
-                            method = 'linear')$y
-    } else {
-      df_out[, i] <- NA
-    }
-    
-  }
-  df_out <- data.frame(t_srt, df_out)
-  names(df_out) <- names(df)
-  return(df_out)
-}
-trunc_time <- function(df, start_date, stop_date){
-  srt_dt <- sort(unique(df[, 1]))
-  df_step <- diff(as.numeric(srt_dt[1:2]))
-  t_unit <- get_prec_time(df_step)
-  unit_s <- get_sec_unit(t_unit)
-  
-  # truncate *inclusive*
-  idx_out <- df$DateTime >= trunc(start_date, t_unit) & df$DateTime <= trunc(stop_date+unit_s, t_unit)
-  df_out <- df[idx_out, ]
-  return(df_out)
-}
-
-get_prec_time <- function(time_secs){
-  if (time_secs >= 3600 & time_secs < 86400){
-    prec = 'hours'
-  } else if (time_secs >= 60 & time_secs < 3600){
-    prec = 'minutes'
-  } else if (time_secs < 60){
-    prec = 'seconds'
-  } else {
-    prec = 'days'
-  }
-  return(prec)
-}
-
-get_sec_unit <- function(unit){
-  # gotta be a POSIXct method for this...
-  if (unit == 'hours'){
-    secs = 3600
-  } else if (unit == 'minutes'){
-    secs = 60
-  } else if (unit == 'seconds'){
-    secs = 1
-  } else if (unit == 'days'){
-    secs = 86400
-  } else {stop(paste(unit, 'not recognized'))}
-  return(secs)
-}

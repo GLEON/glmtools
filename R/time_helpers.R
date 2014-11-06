@@ -15,7 +15,7 @@ get_UTM_offset <- function(){
 
 coerce_date <- function(dates){
   # for non-POSIX dates
-  if (!"POSIXct" %in% class(dates) | attr(dates,'tzone') == ""){
+  if (!"POSIXct" %in% class(dates) || attr(dates,'tzone') == ""){
     # strip off POSIXct zone and replace w/ GMT offset
     dates <- as.POSIXct(as.character(dates), tz = get_UTM_offset())
   }

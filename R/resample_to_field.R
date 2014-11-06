@@ -39,7 +39,8 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
   
   # build water temp data.frame
   wTemps <- get_temp(file = nc_file, reference = 'surface', 
-                     z_out = unq_z, t_out = unique(field_obs$DateTime), method = method, precision = precision)
+                     z_out = unq_z, t_out = unique(field_obs$DateTime), 
+                     method = method, precision = precision)
 
   obs_time <- time_precision(field_obs$DateTime, precision) # apples to apples
    # -- may have time value duplication now --

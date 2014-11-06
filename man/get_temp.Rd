@@ -3,7 +3,7 @@
 \alias{get_temp}
 \title{get water temperatures from a GLM simulation}
 \usage{
-get_temp(file, reference = "bottom", z_out = NULL, t_out = NULL)
+get_temp(file, reference = "bottom", z_out = NULL, t_out = NULL, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -14,6 +14,8 @@ get_temp(file, reference = "bottom", z_out = NULL, t_out = NULL)
 If NULL, depths will be determined based on the depth of the lake}
 
 \item{t_out}{a vector of POSIXct dates for temporal resampling (order is important)}
+
+\item{...}{additional arguments passed to \code{resample_sim()}}
 }
 \value{
 a data.frame with DateTime and temperature at depth

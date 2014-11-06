@@ -1,6 +1,6 @@
 
 #'@export
-get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name){
+get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name, ...){
   
   
   if (is.null(z_out)){
@@ -74,7 +74,7 @@ get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var
   }
   names(glm_temp)<- frameNms
   
-  glm_var <- resample_sim(glm_temp, t_out)
+  glm_var <- resample_sim(glm_temp, t_out, ...)
   
   return(glm_var)
 }

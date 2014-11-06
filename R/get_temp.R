@@ -10,6 +10,7 @@
 #'@param z_out an optional vector of depths for temperature output (in meters). 
 #'If NULL, depths will be determined based on the depth of the lake
 #'@param t_out a vector of POSIXct dates for temporal resampling (order is important)
+#'@param ... additional arguments passed to \code{resample_sim()}
 #'@return a data.frame with DateTime and temperature at depth 
 #'@keywords methods
 #'@seealso \link{resample_sim}
@@ -27,7 +28,7 @@
 #'plot(temp_surf)
 #'@import ncdf
 #'@export
-get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL){
+get_temp <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   glm_temp <- get_var(file, reference, z_out, t_out, var_name = 'temp')
   
   return(glm_temp)

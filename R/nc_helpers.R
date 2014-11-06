@@ -50,7 +50,7 @@ get_time_info <- function(glm_nc, file = NULL){
 	tLen <- glm_nc$dim[["time"]][["len"]]
 	
   time_info  <-  data.frame("time_unit"=time_unit)
-  time_info  <-  cbind(time_info,"startDate"=as.POSIXct(epoch))
+  time_info  <-  cbind(time_info,"startDate"=as.POSIXct(epoch, get_UTM_offset()))
 
 	#End date/time 
 	endT <- time_info$startDate + get.var.ncdf(glm_nc, 'time', start=tLen, count=1) * time_unit * day_secs

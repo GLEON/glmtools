@@ -30,8 +30,8 @@ read_field_obs <- function(file){
   
   if (any(is.na(c(date_i, depth_i, wtr_i)))){stop('format for field data not supported. Need DateTime, Depth, and wTemp column names')}
   
-  tz <- get_UTM_offset()
-  df <- data.frame("DateTime" = as.POSIXct(data[, date_i], tz), 
+
+  df <- data.frame("DateTime" = coerce_date(data[, date_i]), 
                    "Depth" = as.numeric(data[, depth_i]), 
                    "wTemp" = as.numeric(data[, wtr_i]))
   

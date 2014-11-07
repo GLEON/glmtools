@@ -4,7 +4,8 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow, Stuart E. Jones
 #'@examples
-#'sim_vars(file = fabm_sim_nc)
+#'nc_file<-system.file('extdata','output.nc',package='glmtools')
+#'sim_vars(file = nc_file)
 #'@export
 sim_vars <- function(file){
   

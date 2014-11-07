@@ -20,6 +20,11 @@ buildVal	<-	function(textLine){
 		}
 	if (any(grep("'",parVl))){
 		parVl	<-	gsub("'","",parVl)
+	}else if (any(grep("\"",parVl))){
+	  parVl  <-	gsub("\"","",parVl)
+	}else if (any(grep("”",parVl))){
+	  parVl  <-	gsub("”","",parVl)
+	  parVl  <- gsub("“","",parVl)
 	}else if (any(grep(".true.",parVl))){
 		parVl	<-	TRUE
 	}else if (any(grep(".false.",parVl))){

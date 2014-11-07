@@ -9,7 +9,7 @@
 #'@param metric a string representing a physical metric. 
 #'Should be a rLakeAnalyzer function or other valid function.
 #'@param as_value a boolean for calculating RMSE (F) or returning all values (T)
-#'@param na.rm a boolean for remove NAs for RMSE calculation (only used if as_values == F)
+#'@param na.rm a boolean for remove NAs (only used if as_values == F)
 #'@param ... additional arguments passed to resample_to_field()
 #'@return a RMSE (in native units) for the comparison, or DateTime and all values as a data.frame (if as_values == T)
 #'@keywords methods
@@ -20,7 +20,6 @@
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
-#'\dontrun{
 #'thermo_values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'thermo.depth', as_value = TRUE)
 #'temp_rmse <- compare_to_field(nc_file, field_file, 
@@ -33,7 +32,7 @@
 #'                           method = 'interp',precision = 'hours')
 #'print(paste(temp_rmse,'deg C RMSE'))
 #'
-
+#'\dontrun{
 #'# -- an nml file is necessary when functions require hypsographic information
 #'values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'schmidt.stability', as_value = TRUE)
@@ -78,16 +77,18 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     mod_list <- list(wtr=temp_mod[!rmv_i], depths = depths[!rmv_i], bthA = bthA, bthD = bthD)
     obs_list <- list(wtr=temp_obs[!rmv_i], depths = depths[!rmv_i], bthA = bthA, bthD = bthD)
     use_names <- names(mod_list) %in% names(formals(metric)) # test to only use list elements that are inluded in the function args
-    mod_num <- do.call(get(metric), mod_list[use_names]) 
-    obs_num <- do.call(get(metric), obs_list[use_names]) 
+    if (sum(rmv_i) == length(rmv_i)){
+      mod_num <- NA
+      obs_num <- NA
+    } else {
+      mod_num <- do.call(get(metric), mod_list[use_names]) 
+      obs_num <- do.call(get(metric), obs_list[use_names]) 
+    }
+    
     
     if (as_mat == TRUE) { # ~!!! first date as single value will not be properly handled. !!!
-      if (as_value == TRUE){
-        stop(paste('metric',metric,'is not supported for as_value=TRUE output. 
-                   Only metrics that output a single value per profile are supported. 
-                   Try as_value=FALSE for RMSE.'))
-      }
       if (j == 1){
+        # if as_mat, need a much larger matrix to support. Buffer and fill
         cnt = 1
         mod_metric <- vector(length = length(un_dates)*200)*NA
         obs_metric <- mod_metric
@@ -96,14 +97,18 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
       obs_metric[cnt:(cnt+length(mod_num)-1)] = obs_num
       cnt = 1+length(mod_num)
     } else {
-      mod_metric[j] <- do.call(get(metric), mod_list[use_names]) 
-      obs_metric[j] <- do.call(get(metric), obs_list[use_names]) 
+      mod_metric[j] <- mod_num
+      obs_metric[j] <- obs_num
     }
     
   }
   
   if (as_value){
     compare.df <- data.frame('DateTime' = un_dates, 'obs' = obs_metric, 'mod' = mod_metric)
+    if (na.rm){
+      na_i <- is.na(compare.df[, 2]) | is.na(compare.df[, 3])
+      compare.df <- compare.df[!na_i, ]
+    }
     return(compare.df)
   } else {
     RMSE <- sqrt(mean((mod_metric-obs_metric)^2 , na.rm = na.rm))

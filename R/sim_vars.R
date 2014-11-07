@@ -4,12 +4,12 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow, Stuart E. Jones
 #'@examples
-#'get_vars(file = fabm_sim_nc)
+#'sim_vars(file = fabm_sim_nc)
 #'@export
-get_vars <- function(file){
+sim_vars <- function(file){
   
   glm_nc <- get_glm_nc(file)
-  var_list <- unlist(lapply(glm_nc$var,function(x){x$name}))
+  var_list <- sort(unlist(lapply(glm_nc$var,function(x){x$name})))
   names(var_list)=NULL
   
   close_glm_nc(glm_nc)

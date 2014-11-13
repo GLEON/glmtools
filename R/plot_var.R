@@ -20,7 +20,8 @@
 #'fig_path = 'aed_out.png')
 #'}
 #'@export
-plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells = 100, fig_path = F, add = F, bar_title = NULL){
+plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells = 100, 
+										 fig_path = F, add = F, bar_title = NULL){
   
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -32,8 +33,9 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   }
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
-  levels <- seq(col_lim[1], col_lim[2], by = 1)
-  col_subs <- unique(floor(seq(col_lim[1], col_lim[2]-1, length.out = 15)))
+  levels <- seq(col_lim[1], col_lim[2], by = diff(col_lim)/15)
+  #col_subs <- unique(floor(seq(col_lim[1], col_lim[2]-1, length.out = 15)))
+  col_subs <- levels
   colors <- palette(n = length(levels)-1)
   dates <- variable_df[, 1]
   matrix_var <- data.matrix(variable_df[, -1])

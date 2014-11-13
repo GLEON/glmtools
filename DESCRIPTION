@@ -1,7 +1,7 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.3.1.2
+Version: 0.3.2.0
 Date: 2013-09-18
 Author: Jordan S Read, Luke A Winslow
 Maintainer: Jordan S Read <jread@usgs.gov>
@@ -18,6 +18,7 @@ Depends:
     rLakeAnalyzer
 Imports:
     ncdf,
-    tools
+    tools, 
+	akima
 LazyLoad: yes
 LazyData: yes

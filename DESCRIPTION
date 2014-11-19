@@ -18,6 +18,7 @@ Depends:
     rLakeAnalyzer
 Imports:
     ncdf,
-    tools
+    tools,
+    akima
 LazyLoad: yes
 LazyData: yes

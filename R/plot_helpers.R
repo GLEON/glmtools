@@ -170,3 +170,33 @@ get_xaxis <- function(dates){
   
   return(list('time_form' = time_form, 'x_lab' = x_lab, 'lim' = c(start_time, end_time), 'vis_time' = vis_time))
 }
+
+
+colbar_layout <- function(nrow = 1){
+	# ensures all colorbar plots use same x scaling for divs
+	mx <- matrix(c(rep(1,5),2),nrow=1)
+	panels <- mx
+	if (nrow > 2){
+		for (i in 2:nrow){
+			panels <- rbind(panels,mx+(i-1)*2)
+		}
+	}
+	
+	layout(panels)
+	
+}
+
+plot_layout <- function(xaxis, yaxis, add, data = NA){
+	
+	if (!add){
+		panels <- colbar_layout()
+	}
+	
+	
+	plot(data, xlim = xaxis$lim,
+			 ylim=yaxis$lim,
+			 xlab=xaxis$x_lab, ylab=' ',
+			 frame=FALSE,axes=F,xaxs="i",yaxs="i")
+	
+	
+}

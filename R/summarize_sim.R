@@ -26,20 +26,17 @@ summarize_sim <- function(file, sim_outputs = c('temp'), fig_path = FALSE){
   
   for (i in 1:num_metrics){
     plot_fcn <- paste0('plot_', sim_outputs[i])
-    tryCatch(
-      {
-        # if it already has a plot function, use that
-        do.call(get(plot_fcn), list('file' = file, 'add' = TRUE))
-        
-      }, error = function(err) {
-        get_fcn <- paste0('get_', sim_outputs[i])
-        ts <- do.call(get(get_fcn), list('file' = file))
-        xaxis <- get_xaxis(ts$DateTime)
-        yaxis <- get_yaxis(data = ts[, 2], 'title' = names(ts)[2])
-        plot_layout(xaxis, yaxis, add = T, data = ts)
-        axis_layout(xaxis, yaxis)
-        plot(0,NA, axes = F, ylim = c(0,1), xlim = c(0,1), ylab='',xlab='') # fill up colorbar null space
-      }
-    )
+    if(existsFunction(plot_fcn)){
+    	do.call(get(plot_fcn), list('file' = file, 'add' = TRUE))
+    }else{
+    	browser()
+    	get_fcn <- paste0('get_', sim_outputs[i])
+    	ts <- do.call(get(get_fcn), list('file' = file))
+    	xaxis <- get_xaxis(ts$DateTime)
+    	yaxis <- get_yaxis(data = ts[, 2], 'title' = names(ts)[2])
+    	plot_layout(xaxis, yaxis, add = T, data = ts)
+    	axis_layout(xaxis, yaxis)
+    	plot(0,NA, axes = F, ylim = c(0,1), xlim = c(0,1), ylab='',xlab='') # fill up colorbar null space
+    }
   }
 }

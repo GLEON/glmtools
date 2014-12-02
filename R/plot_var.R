@@ -61,7 +61,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   if (is.character(fig_path)){
     dev.off()
   } else {
-    layout(as.matrix(1))
+    #layout(as.matrix(1))
   }
 }
 

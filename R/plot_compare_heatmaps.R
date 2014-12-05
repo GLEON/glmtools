@@ -16,7 +16,7 @@
 #'@export
 plot_temp_compare = function(nc_file, field_file, ...){
 	
-	start_par = par()
+	start_par = par(no.readonly = TRUE)
 	#Create layout
 	
 	mod_temp = get_temp(nc_file, reference='surface')

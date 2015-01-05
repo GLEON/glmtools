@@ -19,6 +19,10 @@ read_nml  <-	function(file = 'template'){
   if (file == "template"){
     file <- nml_template_path()
   }
+  
+  if (!is_nml_file(file)){
+    stop(file, ' is not of file type *.nml')
+  }
   # skip all commented lines, return all variables and associated values
   # requires NO return line variables (all variables must be completely defined on a single line)
   c <- file(file,"r") 

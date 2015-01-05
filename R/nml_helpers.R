@@ -75,5 +75,15 @@ setnmlList <- function(glm_nml,arg_list){
   return(glm_nml)
 }
 
-
+# private function
+is_nml_file <- function(nml_file){
+  
+  is_nml <- FALSE
+  fl_ext <- tail(strsplit(nml_file, "\\.")[[1]],1)
+  
+  if (fl_ext == 'nml'){
+    is_nml <- TRUE
+  }
+  return(is_nml)
+}
 

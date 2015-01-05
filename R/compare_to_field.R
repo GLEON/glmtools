@@ -95,7 +95,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
       } 
       mod_metric[cnt:(cnt+length(mod_num)-1)] = mod_num
       obs_metric[cnt:(cnt+length(mod_num)-1)] = obs_num
-      cnt = 1+length(mod_num)
+      cnt = cnt+length(mod_num)
     } else {
       mod_metric[j] <- mod_num
       obs_metric[j] <- obs_num

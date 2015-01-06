@@ -12,10 +12,12 @@
 #'Jordan S. Read
 #'@seealso \link{read_nml}, \link{get_nml_value}
 #'@examples 
+#'\dontrun{
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
 #'glm_nml <- read_nml(nml_file)
 #'get_hypsography(glm_nml)
 #'get_hypsography(file = nml_file)
+#'}
 #'@export
 get_hypsography <- function(glm_nml, file){
   # if both are passed, glm_nml is used and 'file' is ignored

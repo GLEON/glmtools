@@ -7,11 +7,12 @@
 #'@author Luke Winslow
 #'
 #'@examples
+#'\dontrun{
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #'
 #'plot_temp_compare(nc_file, field_file) ##makes a plot!
-#'
+#'}
 #'@importFrom akima interp
 #'@export
 plot_temp_compare = function(nc_file, field_file, ...){

@@ -11,11 +11,13 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
+#'\dontrun{
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'ice <- get_ice(file)
 #'ice_and_snow <- get_ice(file, snow.rm = FALSE)
 #'plot(ice)
 #'points(ice_and_snow, col = "red")
+#'}
 #'@import ncdf
 #'@export
 get_ice <-  function(file, snow.rm = TRUE){

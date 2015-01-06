@@ -9,9 +9,10 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
+#'\dontrun{
 #'file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'wind <- get_wind(file)
-#'
+#'}
 #'@import ncdf
 #'
 #'@export

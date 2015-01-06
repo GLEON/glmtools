@@ -35,8 +35,10 @@ ext_coef\cr
 z\cr
 }
 \examples{
+\dontrun{
 file <- system.file('extdata', 'output.nc', package = 'glmtools')
 wind <- get_raw(file, 'temp') #raw elevation data
+}
 }
 \author{
 Luke A. Winslow, Jordan S. Read

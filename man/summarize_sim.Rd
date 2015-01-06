@@ -17,10 +17,12 @@ See \code{get_}, timeseries (as in temp, evaporation, etc)}
 creates GLM simulation summary outputs
 }
 \examples{
+\dontrun{
 nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 summarize_sim(nc_file)
 
 summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
+}
 }
 \author{
 Jordan S. Read, Luke A. Winslow

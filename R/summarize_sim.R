@@ -10,10 +10,12 @@
 #'@import rLakeAnalyzer
 #'@seealso \link{get_temp}, \link{get_surface_height}, \link{get_evaporation}
 #'@examples
+#'\dontrun{
 #'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
 #'summarize_sim(nc_file)
 #'
 #'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
+#'}
 #'@export
 summarize_sim <- function(file, sim_outputs = c('temp'), fig_path = FALSE){
   

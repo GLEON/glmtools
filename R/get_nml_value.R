@@ -7,9 +7,10 @@
 #'@author
 #'Jordan S. Read
 #'@seealso \link{read_nml}, \link{set_nml}
+#'@import GLMr
 #'@examples
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'glm_nml <- read_nml(nml_file)
+#'# read in default nml template from GLMr
+#'glm_nml <- read_nml()
 #'get_nml_value(glm_nml,arg_name = 'Kw')
 #'@export
 get_nml_value  <-	function(glm_nml, arg_name){

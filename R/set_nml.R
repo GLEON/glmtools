@@ -8,12 +8,14 @@
 #'@author
 #'Jordan S. Read
 #'@examples
+#'\dontrun{
 #'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools') 
 #'glm_nml <- read_nml(nml_file)
 #'get_nml_value(glm_nml, arg_name = 'Kw')
 #'glm_nml <- set_nml(glm_nml, arg_name = 'Kw', arg_val = 1.4)
 #'glm_nml <- set_nml(glm_nml, arg_list = list('Kw' = 1.4))
 #'print(glm_nml)
+#'}
 #'@seealso \link{get_nml_value}, \link{read_nml}
 #'@export
 set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){

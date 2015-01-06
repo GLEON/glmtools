@@ -8,14 +8,16 @@ write_nml(glm_nml, file)
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}
 
-\item{file}{a string with the path to the glm.nml file to write}
+\item{file}{a string with the path to the glm2.nml file to write}
 }
 \description{
 Creates a .nml file running a GLM simulation.  \cr
 }
 \examples{
 glm_nml <- read_nml()
-write_nml(glm_nml, file = '../glm2_test.nml')
+write_path <- paste0(tempdir(),'glm2.nml')
+write_nml(glm_nml, file = write_path)
+print(read_nml(write_path))
 }
 \author{
 Jordan S. Read

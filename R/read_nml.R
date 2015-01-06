@@ -3,7 +3,7 @@
 #'read in a GLM simulation *.nml file and create a list.  \cr
 #'
 #'
-#'@param file a string with the path to the GLM glm.nml file, or 
+#'@param file a string with the path to the GLM glm2.nml file, or 
 #'\code{'template'} for loading the GLM template nml file with GLMr (default)
 #'@return glm_nml a nml (a list) for GLM config
 #'@keywords methods

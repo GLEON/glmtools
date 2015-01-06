@@ -14,7 +14,7 @@ plot_meteo(nml_file, fig_path = FALSE)
 plot meterological drivers from a csv file
 }
 \examples{
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
+nml_file <- nml_template_path()
 
 plot_meteo(nml_file)
 }

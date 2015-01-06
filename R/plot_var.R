@@ -13,7 +13,8 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples
 #'\dontrun{
-#'plot_var(file = fabm_sim_nc,
+#'# need to specify a valid .nc file here: 
+#'plot_var(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 
 #'col_lim=c(0,400),
 #'bar_title = 'Dissolved Oxygen', 

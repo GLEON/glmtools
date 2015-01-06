@@ -19,7 +19,7 @@ If argument is not used, plotting is skipped}
 Plot validation and model temperature profiles
 }
 \examples{
-sim_folder <- run_example_sim()
+sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 nml_file <- file.path(sim_folder, 'glm2.nml')
 field_file <- file.path(sim_folder, 'field_data.tsv')

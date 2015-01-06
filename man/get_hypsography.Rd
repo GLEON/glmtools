@@ -19,12 +19,11 @@ Hypsography is the relationship between depth and area of a lake.
 'Depth' is referenced from the lake surface and downward values are positive in meters. Areas are in square meters.
 }
 \examples{
-\dontrun{
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nml_file <- file.path(sim_folder, 'glm2.nml')
 glm_nml <- read_nml(nml_file)
 get_hypsography(glm_nml)
 get_hypsography(file = nml_file)
-}
 }
 \author{
 Jordan S. Read

@@ -12,13 +12,12 @@ sim_vars(file)
 get list of variables from a GLM simulation
 }
 \examples{
-\dontrun{
-nc_file<-system.file('extdata','output.nc',package='glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
 sim_vars(file = nc_file)
 }
-}
 \author{
-Jordan S. Read, Luke A. Winslow, Stuart E. Jones
+Stuart E. Jones, Jordan S. Read, Luke A. Winslow
 }
 \keyword{methods}
 

@@ -15,11 +15,10 @@ a data.frame with DateTime and evaporation (in mm/day)
 Creates a data.frame with DateTime and E (mm/day).  \cr
 }
 \examples{
-\dontrun{
-file <- system.file('extdata', 'output.nc', package = 'glmtools')
-evap <- get_evaporation(file)
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+evap <- get_evaporation(nc_file)
 plot(evap)
-}
 }
 \author{
 Jordan S. Read

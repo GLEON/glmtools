@@ -31,9 +31,9 @@ This function is only designed to handle calls to physical metrics that return a
 An example of this behavior is thermocline depth (but not water density for all depth-resolved measurements).
 }
 \examples{
-\dontrun{
-nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
-field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+field_file <- file.path(sim_folder, 'field_data.tsv')
 
 thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
@@ -41,17 +41,17 @@ temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
 print(paste(temp_rmse,'deg C RMSE'))
 # function in development
-buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
+buoy_file <- file.path(sim_folder, 'buoy_data.csv')
 temp_rmse <- compare_to_field(nc_file, buoy_file,
                           metric = 'water.temperature', as_value = FALSE,
                           method = 'interp',precision = 'hours')
 print(paste(temp_rmse,'deg C RMSE'))
-
+\dontrun{
 # -- an nml file is necessary when functions require hypsographic information
 values <- compare_to_field(nc_file, field_file,
                           metric = 'schmidt.stability', as_value = TRUE)
 # -- will fail
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
+nml_file <- file.path(sim_folder, 'glm2.nml')
 values <- compare_to_field(nc_file, field_file, nml_file,
                           metric = 'schmidt.stability', as_value = TRUE)
 # -- will succeed

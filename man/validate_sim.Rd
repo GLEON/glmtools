@@ -28,10 +28,10 @@ a report or figures comparing modeled results to observations
 run diagnostics on model results vs observations
 }
 \examples{
-\dontrun{
-nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+nml_file <- file.path(sim_folder, 'glm2.nml')
+field_file <- file.path(sim_folder, 'field_data.tsv')
 
 #  create a multiple metric diagnostic fig within R:
 validate_sim(nc_file, field_file, nml_file = nml_file,
@@ -45,7 +45,6 @@ validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.p
 # return the diagnostic info but avoid the plot:
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
                           metrics = c('thermo.depth', 'schmidt.stability'))
-}
 }
 \author{
 Jordan S. Read

@@ -5,13 +5,16 @@
 #'@param fig_path F if plot to screen, string path if save plot as .png
 #'@param add F if create new figure, T if add to existing
 #'@keywords methods
-#'@seealso \link{get_temp}
+#'@seealso \code{\link{get_temp}}
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'plot_temp(file = file, fig_path = FALSE)
-#'plot_temp(file = file, fig_path = '../test_figure.png')
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'plot_temp(file = nc_file, fig_path = FALSE)
+#'\dontrun{
+#'plot_temp(file = nc_file, fig_path = '../test_figure.png')
+#'}
 #'@export
 plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F, add = F){
 

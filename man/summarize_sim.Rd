@@ -3,7 +3,7 @@
 \alias{summarize_sim}
 \title{creates GLM simulation summary outputs}
 \usage{
-summarize_sim(file, sim_outputs = c("temp"), fig_path = FALSE)
+summarize_sim(file, sim_outputs = "temp", fig_path = FALSE)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -17,12 +17,11 @@ See \code{get_}, timeseries (as in temp, evaporation, etc)}
 creates GLM simulation summary outputs
 }
 \examples{
-\dontrun{
-nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
 summarize_sim(nc_file)
 
 summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
-}
 }
 \author{
 Jordan S. Read, Luke A. Winslow

@@ -1,3 +1,16 @@
+#'@title Run example simulation 
+#'@param sim_folder the directory where simulation files will be copied/moved to. 
+#'Will use a temporary directory if missing
+#'@param verbose should operations and output of GLM be shown
+#'@keywords methods
+#'@seealso \code{\link[GLMr]{run_glm}}
+#'@author
+#'Jordan S. Read, Luke A. Winslow
+#'@examples 
+#'run_example_sim()
+#'\dontrun{
+#'run_example_sim('~/Desktop/GLM_sims')
+#'}    
 #'@export
 run_example_sim = function(sim_folder, verbose = TRUE){
   
@@ -8,6 +21,9 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   }
   nml_file <- file.path(sim_folder, 'glm2.nml')
   driver_file <- file.path(sim_folder, 'Anvil_driver.csv')
+  calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
+  calibration_csv <- file.path(sim_folder, 'field_data.csv')
+  buoy_csv <- file.path(sim_folder, 'buoy_data.csv')
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
   # move glm2.nml to sim_folder
 
@@ -15,6 +31,9 @@ run_example_sim = function(sim_folder, verbose = TRUE){
             to = driver_file)
   if(verbose){cat('driver data file copied to ', driver_file,'\n')}
   
+  file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
+  file.copy(from = system.file('extdata', 'field_data.csv', package = 'glmtools'), to = calibration_csv)
+  file.copy(from = system.file('extdata', 'buoy_data.csv', package = 'glmtools'), to = buoy_csv)
   nml <- read_nml() # read in default nml from GLMr
   nml <- set_nml(nml, arg_list = list('Kw'=0.55, 'lake_name'='Anvil', 
                                'bsn_vals' = 15,

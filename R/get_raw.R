@@ -28,10 +28,9 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'\dontrun{
-#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'wind <- get_raw(file, 'temp') #raw elevation data
-#'}
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'wind <- get_raw(nc_file, 'wind') #raw wind data
 #'@import ncdf
 #'@export
 get_raw <-  function(file, param_name){

@@ -14,9 +14,10 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-#'field_file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nml_file <- file.path(sim_folder, 'glm2.nml')
+#'field_file <- file.path(sim_folder, 'field_data.tsv')
 #'
 #
 #' #  create a multiple metric diagnostic fig within R:

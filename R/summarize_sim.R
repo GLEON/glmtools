@@ -10,12 +10,13 @@
 #'@import rLakeAnalyzer
 #'@seealso \link{get_temp}, \link{get_surface_height}, \link{get_evaporation}
 #'@examples
-#'nc_file <- system.file('extdata', 'output.nc', package = 'glmtools')
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
 #'summarize_sim(nc_file)
 #'
 #'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 #'@export
-summarize_sim <- function(file, sim_outputs = c('temp'), fig_path = FALSE){
+summarize_sim <- function(file, sim_outputs = 'temp', fig_path = FALSE){
   
   if (fig_path){
     stop('figure save not currently supported. Use fig_path = FALSE')
@@ -29,7 +30,6 @@ summarize_sim <- function(file, sim_outputs = c('temp'), fig_path = FALSE){
     if(existsFunction(plot_fcn)){
     	do.call(get(plot_fcn), list('file' = file, 'add' = TRUE))
     }else{
-    	browser()
     	get_fcn <- paste0('get_', sim_outputs[i])
     	ts <- do.call(get(get_fcn), list('file' = file))
     	xaxis <- get_xaxis(ts$DateTime)

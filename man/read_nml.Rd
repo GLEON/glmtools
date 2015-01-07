@@ -6,7 +6,7 @@
 read_nml(file = "template")
 }
 \arguments{
-\item{file}{a string with the path to the GLM glm.nml file, or
+\item{file}{a string with the path to the GLM glm2.nml file, or
 \code{'template'} for loading the GLM template nml file with GLMr (default)}
 }
 \value{

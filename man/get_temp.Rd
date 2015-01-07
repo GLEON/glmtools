@@ -27,14 +27,15 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 (\code{reference = 'bottom'}).
 }
 \examples{
-file <- system.file('extdata', 'output.nc', package = 'glmtools')
-temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
-temp_bot <- get_temp(file, reference = 'bottom', z_out = c(0,1,2))
-temp_bot <- get_temp(file)
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
+temp_bot <- get_temp(nc_file, reference = 'bottom', z_out = c(0,1,2))
+temp_bot <- get_temp(nc_file)
 
 #-- get temporal subset--
 t_out <- seq(as.POSIXct("2011-04-04"), as.POSIXct("2011-06-01"), by = 86400)
-temp_surf <- get_temp(file, reference = 'surface', z_out = 0, t_out = t_out)
+temp_surf <- get_temp(nc_file, reference = 'surface', z_out = 0, t_out = t_out)
 plot(temp_surf)
 }
 \author{

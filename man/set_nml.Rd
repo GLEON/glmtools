@@ -21,7 +21,8 @@ glm_nml a modified nml
 This function sets values in nml object for GLM config.
 }
 \examples{
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
+sim_folder <- run_example_sim(verbose = FALSE)
+nml_file <- file.path(sim_folder, 'glm2.nml')
 glm_nml <- read_nml(nml_file)
 get_nml_value(glm_nml, arg_name = 'Kw')
 glm_nml <- set_nml(glm_nml, arg_name = 'Kw', arg_val = 1.4)

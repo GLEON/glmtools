@@ -17,8 +17,8 @@ arg_val value for the valid field in glm_nml specified by \code{arg_name}
 This function returns an nml value according to the arg_name nml list for GLM.
 }
 \examples{
-nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
-glm_nml <- read_nml(nml_file)
+# read in default nml template from GLMr
+glm_nml <- read_nml()
 get_nml_value(glm_nml,arg_name = 'Kw')
 }
 \author{

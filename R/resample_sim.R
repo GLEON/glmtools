@@ -16,8 +16,9 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'temp_surf <- get_temp(file, reference = 'surface', z_out = c(0,1,2))
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
 #'t_out <- as.POSIXct(c("2011-04-01", "2011-06-14", "2011-04-05", "2011-07-28"))
 #'temp_out <- resample_sim(df = temp_surf, t_out = t_out)
 #'

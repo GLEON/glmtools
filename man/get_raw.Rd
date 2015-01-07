@@ -35,8 +35,9 @@ ext_coef\cr
 z\cr
 }
 \examples{
-file <- system.file('extdata', 'output.nc', package = 'glmtools')
-wind <- get_raw(file, 'temp') #raw elevation data
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+wind <- get_raw(nc_file, 'wind') #raw wind data
 }
 \author{
 Luke A. Winslow, Jordan S. Read

@@ -21,15 +21,18 @@ plot_temp(file, reference = "surface", num_cells = 100, fig_path = F,
 plot water temperatures from a GLM simulation
 }
 \examples{
-file <- system.file('extdata', 'output.nc', package = 'glmtools')
-plot_temp(file = file, fig_path = FALSE)
-plot_temp(file = file, fig_path = '../test_figure.png')
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+plot_temp(file = nc_file, fig_path = FALSE)
+\dontrun{
+plot_temp(file = nc_file, fig_path = '../test_figure.png')
+}
 }
 \author{
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\link{get_temp}
+\code{\link{get_temp}}
 }
 \keyword{methods}
 

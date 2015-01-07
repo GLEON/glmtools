@@ -12,7 +12,8 @@
 #'Jordan S. Read
 #'@seealso \link{read_nml}, \link{get_nml_value}
 #'@examples 
-#'nml_file <- system.file('extdata', 'glm.nml', package = 'glmtools')
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nml_file <- file.path(sim_folder, 'glm2.nml')
 #'glm_nml <- read_nml(nml_file)
 #'get_hypsography(glm_nml)
 #'get_hypsography(file = nml_file)

@@ -2,9 +2,10 @@
 #'@param file a string with the path to the netcdf output from GLM
 #'@keywords methods
 #'@author
-#'Jordan S. Read, Luke A. Winslow, Stuart E. Jones
+#'Stuart E. Jones, Jordan S. Read, Luke A. Winslow
 #'@examples
-#'nc_file<-system.file('extdata','output.nc',package='glmtools')
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
 #'sim_vars(file = nc_file)
 #'@export
 sim_vars <- function(file){

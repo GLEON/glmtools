@@ -11,9 +11,10 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read
 #'@examples 
-#'file <- system.file('extdata', 'output.nc', package = 'glmtools')
-#'ice <- get_ice(file)
-#'ice_and_snow <- get_ice(file, snow.rm = FALSE)
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'ice <- get_ice(nc_file)
+#'ice_and_snow <- get_ice(nc_file, snow.rm = FALSE)
 #'plot(ice)
 #'points(ice_and_snow, col = "red")
 #'@import ncdf

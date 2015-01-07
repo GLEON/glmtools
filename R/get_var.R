@@ -1,4 +1,31 @@
-
+#'@title get variable from a GLM simulation
+#'@description 
+#'Creates a data.frame with DateTime and variable  \cr
+#'Variable is sampled out of the GLM output and is taken relative 
+#'to the surface (\code{reference = 'surface'}) or the bottom of the lake 
+#'(\code{reference = 'bottom'}).
+#'
+#'@param file a string with the path to the netcdf output from GLM
+#'@param reference a string which specifies the vertical reference ('surface' or 'bottom'). 
+#'(Only used for variables with multiple depths)
+#'@param z_out an optional vector of depths for temperature output (in meters). 
+#'(Only used for variables with multiple depths). 
+#'If NULL, depths will be determined based on the depth of the lake
+#'@param t_out a vector of POSIXct dates for temporal resampling (order is important)
+#'@param var_name a name of a valid variable in the netcdf file specified with \code{file}.
+#'@param ... additional arguments passed to \code{resample_sim()}
+#'@return a data.frame with DateTime and temperature at depth 
+#'@keywords methods
+#'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
+#'@author
+#'Jordan S. Read, Luke A. Winslow
+#'@examples 
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'# list variables in the netcdf output from GLM:
+#'print(sim_vars(nc_file))
+#'evaporation <- get_var(nc_file, var_name = "evap")
+#'plot(evaporation)
 #'@export
 get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name, ...){
   

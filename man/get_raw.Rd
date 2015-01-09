@@ -43,5 +43,8 @@ wind <- get_raw(nc_file, 'wind') #raw wind data
 \author{
 Luke A. Winslow, Jordan S. Read
 }
+\seealso{
+\code{\link{sim_vars}}
+}
 \keyword{methods}
 

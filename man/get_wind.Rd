@@ -4,10 +4,12 @@
 \alias{get_wind}
 \title{get wind speed from GLM simulation}
 \usage{
-get_wind(file)
+get_wind(file, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
+
+\item{...}{additional arguments passed to \code{\link{resample_sim}}}
 }
 \value{
 a data.frame with DateTime and wind

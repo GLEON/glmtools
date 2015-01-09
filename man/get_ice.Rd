@@ -4,12 +4,14 @@
 \alias{get_ice}
 \title{get ice depth from GLM simulation}
 \usage{
-get_ice(file, snow.rm = TRUE)
+get_ice(file, snow.rm = TRUE, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
 \item{snow.rm}{a boolean for ignoring snow depth in the calculation of ice thickness}
+
+\item{...}{additional arguments passed to \code{\link{resample_sim}}}
 }
 \value{
 a data.frame with DateTime and ice (in meters)

@@ -26,7 +26,7 @@ set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
   }
   
   if (!is.character(arg_name)){stop('arg_name should be a character')}
-  if (!is.character(arg_val)){stop('arg_val should be a character')}
+
   if (!is.null(arg_list) & arg_name %in% names(arg_list)){
     warning(c("duplicate names given to arg_name and arg_list.", 
               " arg_name and arg_val values will overwrite duplicate arg_list values."))

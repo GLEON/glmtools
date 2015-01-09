@@ -21,7 +21,6 @@ Imports:
     tools,
     akima
 Suggests:
-    testthat,
-    roxygen
+    testthat
 LazyLoad: yes
 LazyData: yes

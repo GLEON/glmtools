@@ -23,6 +23,10 @@ read_nml  <-	function(file = 'template'){
   if (!is_nml_file(file)){
     stop(file, ' is not of file type *.nml')
   }
+  
+  if (!ascii_only(file)){
+    stop('non-ASCII characters found in nml file on line ', what_ascii(file))
+  }
   # skip all commented lines, return all variables and associated values
   # requires NO return line variables (all variables must be completely defined on a single line)
   c <- file(file,"r") 

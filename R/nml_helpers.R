@@ -22,9 +22,6 @@ buildVal	<-	function(textLine){
 		parVl	<-	gsub("'","",parVl)
 	}else if (any(grep("\"",parVl))){
 	  parVl  <-	gsub("\"","",parVl)
-	}else if (any(grep("”",parVl))){
-	  parVl  <-	gsub("”","",parVl)
-	  parVl  <- gsub("“","",parVl)
 	}else if (any(grep(".true.",parVl))){
 		parVl	<-	TRUE
 	}else if (any(grep(".false.",parVl))){
@@ -88,3 +85,19 @@ is_nml_file <- function(nml_file){
   return(is_nml)
 }
 
+what_ascii <- function(file){
+  response <- capture.output(showNonASCIIfile(file))
+  return(response)
+}
+
+ascii_only <- function(file){
+  response <- what_ascii(file)
+  
+  
+  if (length(response) > 0){
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+  
+}

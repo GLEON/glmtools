@@ -31,10 +31,16 @@
 #'@export
 resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   
-  if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
+  if (missing(t_out)){
+    t_out = NULL
+  }
+  
   if (is.null(t_out)){
     return(df)
   } 
+  
+  if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
+  
   
   t_out <- coerce_date(t_out)
   

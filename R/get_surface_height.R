@@ -6,6 +6,7 @@
 #'@param file a string with the path to the netcdf output from GLM
 #'@param ice.rm a boolean for including ice thickness in surface height
 #'@param snow.rm a boolean for including snow depth thickness in surface height
+#'@param ... additional arguments passed to \code{\link{resample_sim}}
 #'@return a data.frame with DateTime and surface_height (in meters)
 #'@keywords methods
 #'@author
@@ -17,7 +18,7 @@
 #'surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FALSE)
 #'@import ncdf
 #'@export
-get_surface_height  <-	function(file, ice.rm = TRUE, snow.rm = TRUE){
+get_surface_height  <-	function(file, ice.rm = TRUE, snow.rm = TRUE, ...){
   glm_nc <- get_glm_nc(file)
   NS	<- 	get.var.ncdf(glm_nc, "NS")
   elev <- get.var.ncdf(glm_nc, "z")
@@ -37,6 +38,8 @@ get_surface_height  <-	function(file, ice.rm = TRUE, snow.rm = TRUE){
   }
   
   glm_surface <- data.frame('DateTime'=time, 'surface_height'=surface_height)
+  
+  glm_surface <- resample_sim(df = glm_surface, ...)
   
   return(glm_surface)
 }

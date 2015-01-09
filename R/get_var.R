@@ -26,15 +26,12 @@
 #'print(sim_vars(nc_file))
 #'evaporation <- get_var(nc_file, var_name = "evap")
 #'plot(evaporation)
+#'@import ncdf
 #'@export
 get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name, ...){
   
   
-  if (is.null(z_out)){
-    mx_lyrs <- 20
-    z_lyrs <- seq(0,mx_lyrs-1) # default layers
-    z_out = (max(get_surface_height(file)[, 2], na.rm = TRUE)/tail(z_lyrs,1)) * z_lyrs
-  }
+  
   glm_nc <- get_glm_nc(file)
   
   tallest_layer <- get.var.ncdf(glm_nc, "NS") #The last useful index
@@ -45,14 +42,20 @@ get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var
   if (length(dim(temp)) == 1){
     # is 1D
     variable_df <- data.frame('DateTime' = time, 'variable' = temp)
+    colnames(variable_df)[2] <- var_name
+    
+    variable_df <- resample_sim(df = variable_df, t_out = t_out, ...)
     return(variable_df)
   }
-  
   if (reference!='bottom' & reference!='surface'){
     stop('reference input must be either "surface" or "bottom"')
   }
   
-  
+  if (is.null(z_out)){
+    mx_lyrs <- 20
+    z_lyrs <- seq(0,mx_lyrs-1) # default layers
+    z_out = (max(get_surface_height(file)[, 2], na.rm = TRUE)/tail(z_lyrs,1)) * z_lyrs
+  }
   
   close_glm_nc(glm_nc)
   

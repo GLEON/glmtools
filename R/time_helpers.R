@@ -40,7 +40,7 @@ time_precision <- function(t_out, precision){
 
 df_interp <- function(df, t_out){
   t_srt <- sort(t_out) # get it in order for approx
-  n_dep <- ncol(df[, -1])
+  n_dep <- ncol(df) - 1 
   df_out <- matrix(ncol = n_dep, nrow = length(t_srt))
   for (i in 1:n_dep){
     if (sum(!is.na(df[,(i+1)])) >= 2){
@@ -53,9 +53,12 @@ df_interp <- function(df, t_out){
     }
     
   }
+  
+  row_na= function(x){all(is.na(x))}
+  na_i <- apply(df_out, MARGIN = 1, FUN = row_na)
   df_out <- data.frame(t_srt, df_out)
   names(df_out) <- names(df)
-  return(df_out)
+  return(df_out[!na_i, ])
 }
 trunc_time <- function(df, start_date, stop_date){
   

@@ -68,7 +68,7 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
     if (method == 'match'){
       add_msg = ". Try method = 'interp'"
     }
-    stop(paste0("no matches found using method = '",method,"' at ",precision,' precision',add_msg))
+    warning(paste0("no matches found using method = '",method,"' at ",precision,' precision',add_msg))
   }
   
   return(df_out)

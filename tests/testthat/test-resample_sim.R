@@ -5,8 +5,11 @@ test_that("running glm simulation", {
   nc_file <- file.path(sim_folder, 'output.nc')
   temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
   t_out <- as.POSIXct(c("1900-01-01"))
+  
   # date won't be found
-  expect_warning(resample_sim(df = temp_surf, t_out = t_out))
+  expect_warning(df <- resample_sim(df = temp_surf, t_out = t_out))
+  expect_warning(df2 <- resample_sim(df = temp_surf, t_out = '2011-05-01 08:15', method = 'match', precision = 'hours'))
+  expect_equal(df,df2)
   
   # two on the same day w/ precision = 'days'
   t_out <- c("2011-04-01 10:00", "2011-04-05 08:15", 

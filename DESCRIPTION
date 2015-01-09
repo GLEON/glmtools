@@ -20,5 +20,8 @@ Imports:
     ncdf,
     tools,
     akima
+Suggests:
+    testthat,
+    roxygen
 LazyLoad: yes
 LazyData: yes

@@ -8,11 +8,15 @@ test_that("running glm simulation", {
 
 context('resample_sim testing for empty returns and warnings')
 test_that('testing for empty returns and warnings', {
-  t_out <- as.POSIXct(c("1900-01-01"))
+  t_out <- as.POSIXct(c("1900-01-01", "1900-01-02"))
   
   # date won't be found
   expect_warning(df <- resample_sim(df = temp_surf, t_out = t_out))
   expect_warning(df2 <- resample_sim(df = temp_surf, t_out = '2011-05-01 08:15', method = 'match', precision = 'hours'))
+  
+  # dates won't be found. No extrapolation
+  expect_warning(resample_sim(df = temp_surf, t_out = t_out, method = 'interp'))
+  
   expect_equal(df,df2)
   
 })
@@ -39,7 +43,7 @@ test_that('testing unsupported methods', {
 
 context('resample_sim testing interpolation')
 test_that('testing interpolation', { 
-  t_out <- as.POSIXct(c("2011-04-01 10:00", "2011-04-05 08:15", 
+  t_out <- as.POSIXct(c("2011-04-05 08:15", 
              "2011-06-14 10:30", "2011-04-05 10:21", 
              "2011-07-28 10:00"),tz = 'GMT') 
   df <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'exact')
@@ -48,7 +52,7 @@ test_that('testing interpolation', {
   df_min <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'mins')
   expect_true(all(df_min[,1] == df[,1]))
   
-  t_out <- as.POSIXct(c("2011-04-01 10:00:00", "2011-04-05 08:15:00", 
+  t_out <- as.POSIXct(c("2011-04-05 08:15:00", 
                         "2011-06-14 10:30:00", "2011-04-05 08:15:14", 
                         "2011-07-28 10:00:00"),tz = 'GMT') 
   #no error

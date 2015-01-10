@@ -9,7 +9,7 @@
 #'@param t_out a vector of POSIXct dates (or character array that can be coerced into POSIXct) 
 #'for matching to df$DateTime
 #'@param method 'match' for exact match or 'interp' for temporal interpolation
-#'@param precision matching precision (must be 'secs', 'mins','hours', or 'days')
+#'@param precision matching precision (must be 'secs', 'mins','hours', 'days', or 'exact'). 
 #'@return a data.frame with DateTime other original columns, resampled according to t_out
 #'@keywords methods
 #'@seealso \link{get_temp}, \link{get_wind}, \link{get_surface_height}, \link{get_evaporation}, \link{get_ice}
@@ -31,10 +31,16 @@
 #'@export
 resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   
-  if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
+  if (missing(t_out)){
+    t_out = NULL
+  }
+  
   if (is.null(t_out)){
     return(df)
   } 
+  
+  if (length(unique(t_out)) != length(t_out)){stop('t_out values must be unique')}
+  
   
   t_out <- coerce_date(t_out)
   
@@ -43,10 +49,14 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   }
   
   # wish this could be vectorized, but we need to retain the order of *t_out*, not df
-  time <- time_precision(t_out, precision)
+  if (precision != 'exact'){
+    time <- time_precision(t_out, precision)
+  } else {
+    time <- t_out
+  }
+  
   
   if (method == 'interp'){
-    
     df <- df_interp(df, time)
     time_compr <- df$DateTime
   } else {
@@ -68,7 +78,7 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
     if (method == 'match'){
       add_msg = ". Try method = 'interp'"
     }
-    stop(paste0("no matches found using method = '",method,"' at ",precision,' precision',add_msg))
+    warning(paste0("no matches found using method = '",method,"' at ",precision,' precision',add_msg))
   }
   
   return(df_out)

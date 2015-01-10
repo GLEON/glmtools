@@ -6,6 +6,7 @@
 #'
 #'@param file a string with the path to the netcdf output from GLM
 #'@param snow.rm a boolean for ignoring snow depth in the calculation of ice thickness
+#'@param ... additional arguments passed to \code{\link{resample_sim}}
 #'@return a data.frame with DateTime and ice (in meters)
 #'@keywords methods
 #'@author
@@ -17,17 +18,14 @@
 #'ice_and_snow <- get_ice(nc_file, snow.rm = FALSE)
 #'plot(ice)
 #'points(ice_and_snow, col = "red")
-#'@import ncdf
 #'@export
-get_ice <-  function(file, snow.rm = TRUE){
-  glm_nc <- get_glm_nc(file)
-  ice <- get.var.ncdf(glm_nc, "hice") + get.var.ncdf(glm_nc, "hwice")
+get_ice <-  function(file, snow.rm = TRUE, ...){
+  ice <- get_var(file, var_name = "hice", ...)
+  ice[, 2] <- ice[, 2] + get_var(file, var_name = "hwice", ...)[, 2]
   if (!snow.rm){
-    ice <- ice + get.var.ncdf(glm_nc, "hsnow")
+    ice[, 2] <- ice[, 2] + get_var(file, var_name = "hsnow", ...)[, 2]
   }
-  time <- get_time(glm_nc)
-  
-  glm_ice <- data.frame('DateTime'=time, 'ice(m)'=ice)
-  close_glm_nc(glm_nc)
-  return(glm_ice)
+  colnames(ice)[2] <- 'ice(m)'
+
+  return(ice)
 }

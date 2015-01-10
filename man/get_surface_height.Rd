@@ -4,7 +4,7 @@
 \alias{get_surface_height}
 \title{get surface height from GLM simulation}
 \usage{
-get_surface_height(file, ice.rm = TRUE, snow.rm = TRUE)
+get_surface_height(file, ice.rm = TRUE, snow.rm = TRUE, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -12,6 +12,8 @@ get_surface_height(file, ice.rm = TRUE, snow.rm = TRUE)
 \item{ice.rm}{a boolean for including ice thickness in surface height}
 
 \item{snow.rm}{a boolean for including snow depth thickness in surface height}
+
+\item{...}{additional arguments passed to \code{\link{resample_sim}}}
 }
 \value{
 a data.frame with DateTime and surface_height (in meters)

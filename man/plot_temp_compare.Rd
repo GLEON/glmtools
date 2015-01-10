@@ -10,6 +10,8 @@ plot_temp_compare(nc_file, field_file, ...)
 \item{nc_file}{Netcdf model output file}
 
 \item{field_file}{CSV or TSV field data file (see \link{resample_to_field} for format)}
+
+\item{...}{additional arguments passed to \code{\link{resample_to_field}}}
 }
 \description{
 Plot matching heatmaps for modeled and observed temp

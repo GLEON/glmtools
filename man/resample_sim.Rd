@@ -14,7 +14,7 @@ for matching to df$DateTime}
 
 \item{method}{'match' for exact match or 'interp' for temporal interpolation}
 
-\item{precision}{matching precision (must be 'secs', 'mins','hours', or 'days')}
+\item{precision}{matching precision (must be 'secs', 'mins','hours', 'days', or 'exact').}
 }
 \value{
 a data.frame with DateTime other original columns, resampled according to t_out

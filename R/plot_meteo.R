@@ -11,6 +11,10 @@
 #'plot_meteo(nml_file)
 #'@export
 plot_meteo <- function(nml_file, fig_path = FALSE){
+  
+  start_par = par(no.readonly = TRUE)
+  valid_fig_path(fig_path)
+  
   glm_nml <- read_nml(nml_file)
   met_file <- get_nml_value(glm_nml,'meteo_fl') 
   met_path <- file.path(dirname(nml_file),met_file)
@@ -44,6 +48,6 @@ plot_meteo <- function(nml_file, fig_path = FALSE){
   for (i in 1:ncol(meteo)){
     plot(dates, meteo[[i]], xlab = '', ylab = names(meteo[i]))
   }
-  
+  par(start_par)
   
 }

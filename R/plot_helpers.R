@@ -186,6 +186,13 @@ colbar_layout <- function(nrow = 1){
 	
 }
 
+valid_fig_path <- function(fig_path){
+  
+  if (!is.character(fig_path) & !identical(fig_path, FALSE)){
+    stop(fig_path,' is not a valid input for fig_path')
+  }
+  
+}
 plot_layout <- function(xaxis, yaxis, add, data = NA){
 	
 	if (!add){

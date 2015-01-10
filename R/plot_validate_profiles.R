@@ -18,9 +18,10 @@
 #'plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')                        
 #'@export
 plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
+  valid_fig_path(fig_path)
   
-  if (!is.character(fig_path) & !identical(fig_path, FALSE)){stop(fig_path,' is not a valid input for fig_path')}
-	
+  start_par = par(no.readonly = TRUE)
+  
 	if (is.character(fig_path)){
 		#gen_default_fig(file_name = fig_path, fig_w = 2, fig_h = num_metrics*2, ps = 10, 
 		#								l.mar = 0.5, r.mar = 0.1, b.mar = .4, t.mar = .1) 
@@ -47,4 +48,5 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
 		points(mod_and_obs$Observed_wTemp[val_indx], mod_and_obs$Depth[val_indx], pch=20)
 		
 	}
+  par(start_par)
 }

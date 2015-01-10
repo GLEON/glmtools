@@ -43,6 +43,7 @@ read_field_obs <- function(file){
 get_delimiter <- function(file){
   delims <- list('csv'=',','tsv'='\t')
   ext <- file_ext(file)
+  if (!is.character(ext)){stop('could not parse delimeter for file')}
   delim <- delims[[ext]]
   return(delim)
   

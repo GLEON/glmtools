@@ -14,7 +14,8 @@
 #'
 #'@examples
 #'
-#'field_file <- file.path(sim_folder, 'field_stage.csv')
+#'folder_path = system.file('extdata/field_stage.csv', 'glmtools')
+#'field_file <- file.path(folder_path, 'field_stage.csv')
 #'data <- read_field_stage(field_file)
 #'
 #'plot(data)

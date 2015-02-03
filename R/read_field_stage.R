@@ -14,7 +14,8 @@
 #'
 #'@examples
 #'
-#'folder_path = system.file('extdata/field_stage.csv', 'glmtools')
+#'folder_path = system.file('extdata/field_stage.csv', 
+#'                          package='glmtools')
 #'field_file <- file.path(folder_path, 'field_stage.csv')
 #'data <- read_field_stage(field_file)
 #'

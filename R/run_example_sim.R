@@ -23,6 +23,8 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   driver_file <- file.path(sim_folder, 'Anvil_driver.csv')
   calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
   calibration_csv <- file.path(sim_folder, 'field_data.csv')
+  stage_csv <- file.path(sim_folder, 'field_stage.csv')
+  
   buoy_csv <- file.path(sim_folder, 'buoy_data.csv')
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
   # move glm2.nml to sim_folder
@@ -34,6 +36,8 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
   file.copy(from = system.file('extdata', 'field_data.csv', package = 'glmtools'), to = calibration_csv)
   file.copy(from = system.file('extdata', 'buoy_data.csv', package = 'glmtools'), to = buoy_csv)
+  file.copy(from = system.file('extdata', 'field_stage.csv', package = 'glmtools'), to = stage_csv)
+  
   nml <- read_nml() # read in default nml from GLMr
   nml <- set_nml(nml, arg_list = list('Kw'=0.55, 'lake_name'='Anvil', 
                                'bsn_vals' = 15,

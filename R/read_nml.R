@@ -16,13 +16,8 @@
 #'@import GLMr
 #'@export
 read_nml  <-	function(nml_file = 'template'){
-  if (nml_file == "template"){
-    nml_file <- nml_template_path()
-  }
+  nml_file <- nml_path_norm(nml_file)
   
-  if (!is_nml_file(nml_file)){
-    stop(nml_file, ' is not of file type *.nml')
-  }
   
   if (!ascii_only(nml_file)){
     stop('non-ASCII characters found in nml file on line ', what_ascii(nml_file))
@@ -77,4 +72,15 @@ read_nml  <-	function(nml_file = 'template'){
     }
   }
   return(.nml(nml))
+}
+
+nml_path_norm <- function(nml_file){
+  if (nml_file == "template"){
+    nml_file <- nml_template_path()
+  }
+  if (!is_nml_file(nml_file)){
+    stop(nml_file, ' is not of file type *.nml')
+  }
+
+  return(nml_file)
 }

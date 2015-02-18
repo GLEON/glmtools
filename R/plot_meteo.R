@@ -1,8 +1,8 @@
 #'@title plot meterological drivers from a csv file
-#'@param nml_file a string with the path to the nml file for the simulation 
+#'@inheritParams read_nml
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'@keywords methods
-#'@seealso \link{read_nml}
+#'@seealso \code{\link{read_nml}}
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
@@ -11,7 +11,7 @@
 #'plot_meteo(nml_file)
 #'@export
 plot_meteo <- function(nml_file, fig_path = FALSE){
-  
+  nml_file <- nml_path_norm(nml_file)
   start_par = par(no.readonly = TRUE)
   valid_fig_path(fig_path)
   

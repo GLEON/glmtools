@@ -4,10 +4,10 @@
 \alias{read_nml}
 \title{read in a GLM simulation *.nml file}
 \usage{
-read_nml(file = "template")
+read_nml(nml_file = "template")
 }
 \arguments{
-\item{file}{a string with the path to the GLM glm2.nml file, or
+\item{nml_file}{a string with the path to the GLM glm2.nml file, or
 \code{'template'} for loading the GLM template nml file with GLMr (default)}
 }
 \value{

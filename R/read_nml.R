@@ -3,7 +3,7 @@
 #'read in a GLM simulation *.nml file and create a list.  \cr
 #'
 #'
-#'@param file a string with the path to the GLM glm2.nml file, or 
+#'@param nml_file a string with the path to the GLM glm2.nml file, or 
 #'\code{'template'} for loading the GLM template nml file with GLMr (default)
 #'@return glm_nml a nml (a list) for GLM config
 #'@keywords methods
@@ -15,21 +15,16 @@
 #'print(glm_nml)
 #'@import GLMr
 #'@export
-read_nml  <-	function(file = 'template'){
-  if (file == "template"){
-    file <- nml_template_path()
-  }
+read_nml  <-	function(nml_file = 'template'){
+  nml_file <- nml_path_norm(nml_file)
   
-  if (!is_nml_file(file)){
-    stop(file, ' is not of file type *.nml')
-  }
   
-  if (!ascii_only(file)){
-    stop('non-ASCII characters found in nml file on line ', what_ascii(file))
+  if (!ascii_only(nml_file)){
+    stop('non-ASCII characters found in nml file on line ', what_ascii(nml_file))
   }
   # skip all commented lines, return all variables and associated values
   # requires NO return line variables (all variables must be completely defined on a single line)
-  c <- file(file,"r") 
+  c <- file(nml_file,"r") 
   fileLines <- readLines(c)
   close(c)
   lineStart	<-	substr(fileLines,1,1)
@@ -77,4 +72,15 @@ read_nml  <-	function(file = 'template'){
     }
   }
   return(.nml(nml))
+}
+
+nml_path_norm <- function(nml_file){
+  if (nml_file == "template"){
+    nml_file <- nml_template_path()
+  }
+  if (!is_nml_file(nml_file)){
+    stop(nml_file, ' is not of file type *.nml')
+  }
+
+  return(nml_file)
 }

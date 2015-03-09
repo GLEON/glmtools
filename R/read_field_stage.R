@@ -2,16 +2,14 @@
 #'@title Read in a field stage file
 #'
 #'@param file Path to stage TSV or CSV file
-#'
+#'@details
+#'will read file from an assumed standard format.
 #'@description
 #'Reads a field file for stage. Field file must be either
 #'a TSV (tab separated) or CSV (comma separated) file with 
 #'columns named "datetime" and "stage" (in meters). Datetime
 #'format must be yyyy-mm-dd
-#'
-#'
 #'@author Luke Winslow
-#'
 #'@examples
 #'
 #'field_file = system.file('extdata/field_stage.csv', 

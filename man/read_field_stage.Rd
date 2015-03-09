@@ -17,6 +17,8 @@ format must be yyyy-mm-dd
 }
 \details{
 
+
+will read file from an assumed standard format.
 }
 \examples{
 field_file = system.file('extdata/field_stage.csv',

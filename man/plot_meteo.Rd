@@ -24,7 +24,7 @@ plot_meteo(nml_file)
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\link{read_nml}
+\code{\link{read_nml}}
 }
 \keyword{methods}
 

@@ -41,3 +41,14 @@ test_that("get_ice",{
   expect_warning(get_ice(nc_file, t_out = t_out, method = 'interp'))
   expect_warning(get_ice(nc_file, t_out = t_out, method = 'interp', snow.rm = FALSE))
 })
+
+context("sim_vars")
+
+test_that("get variables from sim",{
+  sim_folder <- run_example_sim(verbose = FALSE)
+  nc_file <- file.path(sim_folder, 'output.nc')
+  expect_is(sim_vars(file = nc_file), 'character')
+  expect_is(sim_var_longname(nc_file, 'u_mean'), 'character')
+  expect_is(sim_var_units(nc_file, 'u_mean'), 'character')
+  expect_error(sim_var_units(nc_file, 'u_meanBADNAME'))
+})

@@ -14,6 +14,21 @@ test_that("set_nml() with different datatypes", {
     
 })
 
+context("testing validate nml")
+test_that(".validate nml works",{
+  nml_bad <- nml
+  nml_bad$time <- NULL # remove a required block
+  expect_error(glmtools:::.validate_nml(nml_bad))
+  expect_true(glmtools:::.validate_nml(nml))
+  
+  
+})
+
+context("reading a bad nml file")
+test_that("file errors out",{
+  expect_error(read_nml(system.file('extdata','bad_glm2.nml',package='glmtools')))
+})
+
 context("set_nml() and get_nml_value() with lists and arguments")
 test_that("reading and setting nml works as expected", {
     # set string to a string

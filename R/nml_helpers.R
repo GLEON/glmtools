@@ -1,12 +1,14 @@
 
 
 # private function
-buildVal	<-	function(textLine){
+buildVal	<-	function(textLine, lineNum, blckName){
 	#-----function appends nml list with new values-----
 	# remove all text after comment string
 	textLine	<-	strsplit(textLine,'!')[[1]][1]
   
-	if (!any(grep("=",textLine))){stop(c("no hanging lines allowed in .nml, used ",textLine))}
+	if (!any(grep("=",textLine))){
+    stop(c("no hanging lines allowed in .nml, used ",textLine,'.\nSee line number:',lineNum,' in "&',blckName,'" section.'))
+	}
 	params	<-	strsplit(textLine,"=") # break text at "="
 	parNm	<-	params[[1]][1]
 	parVl	<-	params[[1]][2]
@@ -99,5 +101,16 @@ ascii_only <- function(file){
   } else {
     return(TRUE)
   }
+  
+}
+
+.validate_nml <- function(nml){
+  # test for required blocks:
+  required_blks <- c('outflow', 'inflow', 'meteorology', 'init_profiles', 'output', 'time', 'morphometry', 'glm_setup')
+  blk_match <- required_blks %in% names(nml)
+  if (!all(blk_match)){
+    stop('parsing error in nml file.',required_blks[blk_match],'missing.')
+  }
+  return(TRUE)
   
 }

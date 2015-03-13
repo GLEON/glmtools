@@ -66,7 +66,7 @@ read_nml  <-	function(nml_file = 'template'){
           carryover = ''
         }
         # else, line is commented out
-        lineVal	<-	buildVal(textLine)
+        lineVal	<-	buildVal(textLine, lineNum=j, blckName)
         nml[[i]]	<-	c(nml[[i]],lineVal)
       }
     }

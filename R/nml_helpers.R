@@ -1,12 +1,14 @@
 
 
 # private function
-buildVal	<-	function(textLine){
+buildVal	<-	function(textLine, lineNum, blckName){
 	#-----function appends nml list with new values-----
 	# remove all text after comment string
 	textLine	<-	strsplit(textLine,'!')[[1]][1]
   
-	if (!any(grep("=",textLine))){stop(c("no hanging lines allowed in .nml, used ",textLine))}
+	if (!any(grep("=",textLine))){
+    stop(c("no hanging lines allowed in .nml, used ",textLine,'.\nSee line number:',lineNum,' in "&',blckName,'" section.'))
+	}
 	params	<-	strsplit(textLine,"=") # break text at "="
 	parNm	<-	params[[1]][1]
 	parVl	<-	params[[1]][2]

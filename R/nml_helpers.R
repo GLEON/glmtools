@@ -101,3 +101,14 @@ ascii_only <- function(file){
   }
   
 }
+
+.validate_nml <- function(nml){
+  # test for required blocks:
+  required_blks <- c('outflow', 'inflow', 'meteorology', 'init_profiles', 'output', 'time', 'morphometry', 'glm_setup')
+  blk_match <- required_blks %in% names(nml)
+  if (!all(blk_match)){
+    stop('parsing error in nml file.',required_blks[blk_match],'missing.')
+  }
+  return(TRUE)
+  
+}

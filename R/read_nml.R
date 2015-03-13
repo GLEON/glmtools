@@ -56,7 +56,7 @@ read_nml  <-	function(nml_file = 'template'){
       #browser()
       if(substr(textLine,1,1)!='!'){
         # Add a check here, sometimes, if there is a hanging comma, 
-        #and only sumtimes that means add next row
+        #and only sometimes that means add next row
         if(substr(textLine,nchar(textLine), nchar(textLine)) == ',' && 
              j+1 <= length(fileLines) && !any(grep("=",fileLines[j+1])) && !any(grep("/",fileLines[j+1]))){
           
@@ -71,8 +71,11 @@ read_nml  <-	function(nml_file = 'template'){
       }
     }
   }
-  return(.nml(nml))
+  nml <- .nml(nml)
+  .validate_nml(nml)
+  return(nml)
 }
+
 
 nml_path_norm <- function(nml_file){
   if (nml_file == "template"){

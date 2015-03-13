@@ -56,7 +56,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
   
-
+  if (missing(col_lim)) col_lim <- range(variable_df[, -1], na.rm = TRUE)
   levels <- seq(col_lim[1], col_lim[2], by = diff(col_lim)/15)
   col_subs <- levels
   colors <- palette(n = length(levels)-1)

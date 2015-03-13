@@ -22,7 +22,7 @@ plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
 
 \item{add}{F if create new figure, T if add to existing}
 
-\item{bar_title}{NULL if use var_name, or specify as a string to name plot variable}
+\item{bar_title}{NULL if use \code{\link{sim_var_longname}}, or specify as a string to name plot variable}
 }
 \description{
 plot variable from a GLM simulation
@@ -41,7 +41,7 @@ fig_path = 'aed_out.png')
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\link{get_temp}
+\code{\link{get_temp}}, \code{\link{sim_var_longname}}
 }
 \keyword{methods}
 

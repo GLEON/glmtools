@@ -17,6 +17,8 @@
 #'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 #'@export
 summarize_sim <- function(file, sim_outputs = 'temp', fig_path = FALSE){
+   
+  def.par <- par(no.readonly = TRUE)
   
   if (fig_path){
     stop('figure save not currently supported. Use fig_path = FALSE')
@@ -39,4 +41,5 @@ summarize_sim <- function(file, sim_outputs = 'temp', fig_path = FALSE){
     	plot(0,NA, axes = F, ylim = c(0,1), xlim = c(0,1), ylab='',xlab='') # fill up colorbar null space
     }
   }
+  par(def.par)
 }

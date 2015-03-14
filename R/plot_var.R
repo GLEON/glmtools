@@ -47,7 +47,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
     if (heatmaps[j]){
       .plot_heatmap(file, var_name, col_lim, reference, num_cells)
     } else {
-      .plot_timeseries(file, var_name, bar_title)
+      .plot_timeseries(file, var_name)
     }
   }
 
@@ -92,7 +92,9 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
 }
 
 .plot_timeseries <- function(file, var_name){
-  ylab <- sim_var_longname(file, var_name) 
+  longname <- sim_var_longname(file, var_name) 
+  units <- sim_var_units(file, var_name)
+  ylab <- paste0(longname, "(", units, ")")
   variable_df <- get_var(file, var_name=var_name)
-  plot(variable_df, ylab = bar_title, ylab = ylab)
+  plot(variable_df, ylab = ylab)
 }

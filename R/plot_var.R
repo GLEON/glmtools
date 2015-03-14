@@ -45,9 +45,10 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   # iterate through plots
   for (j in 1:num_divs){
     if (heatmaps[j]){
-      .plot_heatmap(file, var_name, col_lim, reference, num_cells)
+      .plot_heatmap(file, var_name[j], col_lim, reference, num_cells)
     } else {
-      .plot_timeseries(file, var_name)
+      .plot_timeseries(file, var_name[j])
+      if(is_heatmap) .plot_null() # to fill up the colormap div
     }
   }
 
@@ -94,7 +95,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
 .plot_timeseries <- function(file, var_name){
   longname <- sim_var_longname(file, var_name) 
   units <- sim_var_units(file, var_name)
-  ylab <- paste0(longname, "(", units, ")")
+  ylab <- paste0(longname, " (", units, ")")
   variable_df <- get_var(file, var_name=var_name)
   plot(variable_df, ylab = ylab)
 }

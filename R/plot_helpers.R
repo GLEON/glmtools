@@ -172,7 +172,7 @@ get_xaxis <- function(dates){
 }
 
 .simple_layout <- function(nrow = 1){
-  panels  <- matrix(c(1),nrow=nrow)
+  panels  <- matrix(seq_len(nrow),nrow=nrow)
   layout(panels)
 }
 
@@ -221,4 +221,8 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
     .simple_layout(num_divs)
   }
 
+}
+
+.plot_null <- function(){
+  plot(NA, ylim=c(0,1),xlim=c(0,1), axes=F,ylab="",xlab="")
 }

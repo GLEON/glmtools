@@ -12,6 +12,10 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples
+#'sim_folder <- run_example_sim(verbose = FALSE)
+#'nc_file <- file.path(sim_folder, 'output.nc')
+#'vars <- sim_vars(file = nc_file)
+#'plot_var(nc_file, 'u_mean')
 #'\dontrun{
 #'# need to specify a valid .nc file here: 
 #'plot_var(file = fabm_sim_nc.nc,

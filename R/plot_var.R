@@ -26,7 +26,40 @@
 #'}
 #'@export
 plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells = 100, 
-										 fig_path = F, add = F, bar_title = NULL){
+										 fig_path = F, add = F){
+  
+  heatmaps <- .is_heatmap(file, var_name)
+  num_divs <- length(var_name)
+  
+  is_multiplot = ifelse(num_divs > 1, TRUE, FALSE)
+  is_heatmap = any(heatmaps)
+  
+  # -- set up plot layout
+  def.par <- par(no.readonly = TRUE)
+  .stacked_layout(is_heatmap, num_divs)
+  
+  if (is.character(fig_path)){
+    gen_default_fig(file_name = fig_path) 
+  }
+  
+  # iterate through plots
+  for (j in 1:num_divs){
+    if (heatmaps[j]){
+      .plot_heatmap(file, var_name, col_lim, reference, num_cells)
+    } else {
+      .plot_timeseries(file, var_name, bar_title)
+    }
+  }
+
+  if (is.character(fig_path)){
+    dev.off()
+  } 
+  
+  if (!add) par(def.par)
+  
+}
+
+.plot_heatmap <- function(file, var_name, col_lim, reference, num_cells, bar_title){
   
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -34,33 +67,12 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   z_out <- seq(min_depth, max_depth,length.out = num_cells)
   variable_df <- get_var(file, reference = reference, z_out, var_name=var_name)
   
-  if (is.null(bar_title)){ 
-    bar_title <- sim_var_longname(file, var_name) 
-  }
-  
-  if (is.character(fig_path)){
-    gen_default_fig(file_name = fig_path) 
-  }
-  
-  if (ncol(variable_df) == 2){
-    .plot_timeseries(variable_df, add, bar_title)
-  } else {
-    .plot_heatmap(variable_df, col_lim, reference, add, bar_title, z_out)
-  }
-  
-  if (is.character(fig_path)){
-    dev.off()
-  } else {
-    #layout(as.matrix(1))
-  }
-  
-}
-
-.plot_heatmap <- function(variable_df, col_lim, reference, add, bar_title, z_out){
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
   
   if (missing(col_lim)) col_lim <- range(variable_df[, -1], na.rm = TRUE)
+  bar_title <- sim_var_longname(file, var_name) 
+  
   levels <- seq(col_lim[1], col_lim[2], by = diff(col_lim)/15)
   col_subs <- levels
   colors <- palette(n = length(levels)-1)
@@ -68,10 +80,7 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   matrix_var <- data.matrix(variable_df[, -1])
   xaxis <- get_xaxis(dates)
   yaxis <- get_yaxis_2D(z_out, reference)
-  
-
-  
-  plot_layout(xaxis, yaxis, add)
+  plot_layout(xaxis, yaxis, add=T)
   .filled.contour(x = dates, y = z_out, z =matrix_var,
                   levels= levels,
                   col=colors)
@@ -79,10 +88,11 @@ plot_var <- function(file, var_name, col_lim, reference = 'surface', num_cells =
   axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
   
   color_key(levels, colors, subs=col_subs, col_label = bar_title)
-
+  
 }
 
-.plot_timeseries <- function(variable_df, add, bar_title){
-  if (add) par(new=TRUE)
-  plot(variable_df, ylab = bar_title)
+.plot_timeseries <- function(file, var_name){
+  ylab <- sim_var_longname(file, var_name) 
+  variable_df <- get_var(file, var_name=var_name)
+  plot(variable_df, ylab = bar_title, ylab = ylab)
 }

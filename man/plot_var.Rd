@@ -5,7 +5,7 @@
 \title{plot variable from a GLM simulation}
 \usage{
 plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
-  fig_path = F, add = F, bar_title = NULL)
+  fig_path = F, add = F)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

@@ -171,12 +171,16 @@ get_xaxis <- function(dates){
   return(list('time_form' = time_form, 'x_lab' = x_lab, 'lim' = c(start_time, end_time), 'vis_time' = vis_time))
 }
 
+.simple_layout <- function(nrow = 1){
+  panels  <- matrix(c(1),nrow=nrow)
+  layout(panels)
+}
 
 colbar_layout <- function(nrow = 1){
 	# ensures all colorbar plots use same x scaling for divs
 	mx <- matrix(c(rep(1,5),2),nrow=1)
 	panels <- mx
-	if (nrow > 2){
+	if (nrow > 1){
 		for (i in 2:nrow){
 			panels <- rbind(panels,mx+(i-1)*2)
 		}
@@ -193,7 +197,7 @@ valid_fig_path <- function(fig_path){
   }
   
 }
-plot_layout <- function(xaxis, yaxis, add, data = NA){
+plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 	
 	if (!add){
 		panels <- colbar_layout()
@@ -206,4 +210,15 @@ plot_layout <- function(xaxis, yaxis, add, data = NA){
 			 frame=FALSE,axes=F,xaxs="i",yaxs="i")
 	
 	
+}
+
+.stacked_layout <- function(is_heatmap, num_divs){
+  if(num_divs == 1 & !is_heatmap) return()
+  
+  if(is_heatmap){
+    colbar_layout(num_divs)
+  } else {
+    .simple_layout(num_divs)
+  }
+
 }

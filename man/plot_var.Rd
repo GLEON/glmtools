@@ -21,8 +21,6 @@ plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
 
 \item{add}{F if create new figure, T if add to existing}
-
-\item{bar_title}{NULL if use \code{\link{sim_var_longname}}, or specify as a string to name plot variable}
 }
 \description{
 plot variable from a GLM simulation

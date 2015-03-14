@@ -6,7 +6,6 @@
 #'@param num_cells number of vertical cells to use for heatmap
 #'@param fig_path F if plot to screen, string path if save plot as .png
 #'@param add F if create new figure, T if add to existing
-#'@param bar_title NULL if use \code{\link{sim_var_longname}}, or specify as a string to name plot variable
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, \code{\link{sim_vars}}
 #'@author

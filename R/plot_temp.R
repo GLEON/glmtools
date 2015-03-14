@@ -19,6 +19,6 @@
 plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F, add = F){
 
   plot_var(file, var_name = 'temp', col_lim = c(0,36), 
-           reference, num_cells, fig_path, add, bar_title = 'Temperature (\u00B0C)')
+           reference, num_cells, fig_path, add)
   
 }

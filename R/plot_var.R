@@ -1,6 +1,6 @@
 #'@title plot variable from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
-#'@param var_name a string for a valid variable name
+#'@param var_name a string for a valid variable name (see \code{\link{sim_vars}})
 #'@param col_lim a numeric array of length 2 that specifies the min and max value for color bar
 #'@param reference a string for 'surface' or 'bottom'
 #'@param num_cells number of vertical cells to use for heatmap
@@ -8,7 +8,7 @@
 #'@param add F if create new figure, T if add to existing
 #'@param bar_title NULL if use \code{\link{sim_var_longname}}, or specify as a string to name plot variable
 #'@keywords methods
-#'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}
+#'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, \code{\link{sim_vars}}
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples

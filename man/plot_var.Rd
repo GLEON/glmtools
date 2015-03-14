@@ -10,7 +10,7 @@ plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{var_name}{a string for a valid variable name}
+\item{var_name}{a string for a valid variable name (see \code{\link{sim_vars}})}
 
 \item{col_lim}{a numeric array of length 2 that specifies the min and max value for color bar}
 
@@ -41,7 +41,7 @@ fig_path = 'aed_out.png')
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\code{\link{get_temp}}, \code{\link{sim_var_longname}}
+\code{\link{get_temp}}, \code{\link{sim_var_longname}}, \code{\link{sim_vars}}
 }
 \keyword{methods}
 

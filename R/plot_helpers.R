@@ -31,14 +31,20 @@ axis_layout <- function(xaxis, yaxis){
   axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
 }
 
-get_yaxis <- function(data, title){
+get_yaxis <- function(data = NULL, title, lim = NULL){
+  if (is.null(lim)){
+    lim <- c(min(data, na.rm = TRUE), max(data, na.rm = TRUE)*1.1)
+  }
 
-  lim <- c(min(data), max(data)*1.1)
-
+  rng <- abs(diff(lim))
   
-  rng <- abs(lim[1]-lim[2])
-  
-  if (rng < 1){
+  if (rng < .0001){
+    spc <- .000001
+  } else if (rng < .02){
+    spc <- .001
+  } else if (rng < .1){
+    spc <- .01
+  } else if (rng < 1){
     spc <- .25
   } else if (rng < 2){
     spc <- .5
@@ -56,7 +62,7 @@ get_yaxis <- function(data, title){
   return(yaxis) 
 }
 
-get_yaxis_2D <- function(z_out, reference){
+get_yaxis_2D <- function(z_out, reference = formals(get_var)$reference){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   
@@ -68,21 +74,7 @@ get_yaxis_2D <- function(z_out, reference){
     title <- 'Elevation (m)'
   }
   
-  rng <- abs(lim[1]-lim[2])
-
-  if (rng < 1){
-    spc <- .25
-  } else if (rng < 2){
-    spc <- .5
-  } else if (rng < 5){
-    spc <- 1
-  } else if (rng < 10){
-    spc <- 2
-  } else {
-    spc <- 5
-  }
-  ticks <- seq(0, max(lim) + spc, spc)
-  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
+  yaxis <- get_yaxis(title = title, lim = lim)
   return(yaxis) 
 }
 
@@ -225,4 +217,11 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 
 .plot_null <- function(){
   plot(NA, ylim=c(0,1),xlim=c(0,1), axes=F,ylab="",xlab="")
+}
+
+.unit_label <- function(file, var_name){
+  longname <- sim_var_longname(file, var_name) 
+  units <- sim_var_units(file, var_name)
+  unit_label <- paste0(longname, " (", units, ")")
+  return(unit_label)
 }

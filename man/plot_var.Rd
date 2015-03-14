@@ -2,28 +2,19 @@
 % Please edit documentation in R/plot_var.R
 \name{plot_var}
 \alias{plot_var}
-\title{plot variable from a GLM simulation}
+\title{plot variables from a GLM simulation}
 \usage{
-plot_var(file, var_name, col_lim, reference = "surface", num_cells = 100,
-  fig_path = F, add = F)
+plot_var(file, var_name, fig_path = F, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{var_name}{a string for a valid variable name (see \code{\link{sim_vars}})}
-
-\item{col_lim}{a numeric array of length 2 that specifies the min and max value for color bar}
-
-\item{reference}{a string for 'surface' or 'bottom'}
-
-\item{num_cells}{number of vertical cells to use for heatmap}
+\item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
-
-\item{add}{F if create new figure, T if add to existing}
 }
 \description{
-plot variable from a GLM simulation
+plot variables from a GLM simulation
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
@@ -43,7 +34,8 @@ fig_path = 'aed_out.png')
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\code{\link{get_temp}}, \code{\link{sim_var_longname}}, \code{\link{sim_vars}}
+\code{\link{get_temp}}, \code{\link{sim_var_longname}},
+\code{\link{sim_vars}}, \code{\link{plot_temp}},
 }
 \keyword{methods}
 

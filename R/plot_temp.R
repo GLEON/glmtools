@@ -16,9 +16,8 @@
 #'plot_temp(file = nc_file, fig_path = '../test_figure.png')
 #'}
 #'@export
-plot_temp <- function(file, reference = 'surface', num_cells = 100, fig_path = F, add = F){
+plot_temp <- function(file, fig_path = F, ...){
 
-  plot_var(file, var_name = 'temp', col_lim = c(0,36), 
-           reference, num_cells, fig_path, add)
+  plot_var(file, var_name = 'temp', fig_path, ...)
   
 }

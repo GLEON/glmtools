@@ -1,12 +1,17 @@
-gen_default_fig <- function(file_name, fig_w = 4, fig_h = 2, ps = 12, l.mar = 0.35,
-                            r.mar = 0, t.mar = 0.05, b.mar = 0.2, res = 200){
-  png(filename = file_name,
-      width = fig_w, height = fig_h, units = "in", res = res)
+gen_default_fig <- function(filename, width = 4, height, ps = 12, res = 200, units = "in",
+                            mai = c(0.2,0,0.05,0),
+                            omi = c(0, 0.35, 0, 0), 
+                            mgp = c(1.4,.3,0),
+                            num_divs = 1, ...){
   
-  
-  par(mai=c(b.mar,0, t.mar, 0),omi=c(0, l.mar, 0, r.mar),ps = ps, mgp = c(1.4,.3,0))
-  
-  
+  if ((is.character(filename))){
+    valid_fig_path(filename)
+    if (missing(height)){
+      height = 2*num_divs
+    }
+    png(filename, width = width, height = height, units = units, res = res)
+  }
+  par(mai=mai,omi=omi, ps = ps, mgp = mgp, ...)
 }
 
 plot_one2one <- function(x, y, ...){
@@ -31,33 +36,12 @@ axis_layout <- function(xaxis, yaxis){
   axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
 }
 
-get_yaxis <- function(data = NULL, title, lim = NULL){
+get_yaxis <- function(data, title, lim = NULL){
   if (is.null(lim)){
     lim <- c(min(data, na.rm = TRUE), max(data, na.rm = TRUE)*1.1)
   }
 
-  rng <- abs(diff(lim))
-  
-  if (rng < .0001){
-    spc <- .000001
-  } else if (rng < .02){
-    spc <- .001
-  } else if (rng < .1){
-    spc <- .01
-  } else if (rng < 1){
-    spc <- .25
-  } else if (rng < 2){
-    spc <- .5
-  } else if (rng < 5){
-    spc <- 1
-  } else if (rng < 10){
-    spc <- 2
-  } else {
-    spc <- 5
-  }
-  
-  start_tck <- floor(min(lim)/spc) * spc
-  ticks <- seq(start_tck, max(lim) + spc, spc)
+  ticks <- pretty(data)
   yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
   return(yaxis) 
 }
@@ -74,7 +58,7 @@ get_yaxis_2D <- function(z_out, reference = formals(get_var)$reference){
     title <- 'Elevation (m)'
   }
   
-  yaxis <- get_yaxis(title = title, lim = lim)
+  yaxis <- get_yaxis(data = z_out, title = title, lim = lim)
   return(yaxis) 
 }
 

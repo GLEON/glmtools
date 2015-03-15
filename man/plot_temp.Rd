@@ -4,7 +4,7 @@
 \alias{plot_temp}
 \title{plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file, fig_path = F, ...)
+plot_temp(file, fig_path = FALSE, reference = "surface", ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -13,9 +13,7 @@ plot_temp(file, fig_path = F, ...)
 
 \item{reference}{a string for 'surface' or 'bottom'}
 
-\item{num_cells}{number of vertical cells to use for heatmap}
-
-\item{add}{F if create new figure, T if add to existing}
+\item{...}{additional arguments passed to \code{par()}}
 }
 \description{
 plot water temperatures from a GLM simulation
@@ -24,9 +22,7 @@ plot water temperatures from a GLM simulation
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 plot_temp(file = nc_file, fig_path = FALSE)
-\dontrun{
-plot_temp(file = nc_file, fig_path = '../test_figure.png')
-}
+plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }
 \author{
 Jordan S. Read, Luke A. Winslow

@@ -2,9 +2,11 @@
 #'@param file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path F if plot to screen, string path if save plot as .png
+#'@param reference 'surface' or 'bottom'. Only used for heatmap plots.
+#'@param ... additional arguments passed to \code{par()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
-#'\code{\link{sim_vars}}, \code{\link{plot_temp}},
+#'\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}},
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples
@@ -21,7 +23,7 @@
 #'fig_path = 'aed_out.png')
 #'}
 #'@export
-plot_var <- function(file, var_name, fig_path = F, ...){
+plot_var <- function(file, var_name, fig_path = F, reference='surface', ...){
   
   heatmaps <- .is_heatmap(file, var_name)
   num_divs <- length(var_name)
@@ -29,14 +31,8 @@ plot_var <- function(file, var_name, fig_path = F, ...){
   is_multiplot = ifelse(num_divs > 1, TRUE, FALSE)
   is_heatmap = any(heatmaps)
   
-  if (is.character(fig_path)){
-    gen_default_fig(file_name = fig_path) 
-  } else {
-    def.par <- par(no.readonly = TRUE)
-    ps = 12; l.mar = 0.35;
-    r.mar = 0; t.mar = 0.05; b.mar = 0.2; res = 200
-    par(mai=c(b.mar,0, t.mar, 0),omi=c(0, l.mar, 0, r.mar),ps = ps, mgp = c(1.4,.3,0))
-  }
+  def.par <- par(no.readonly = TRUE)
+  gen_default_fig(filename = fig_path, num_divs=num_divs, ...)
   
   # -- set up plot layout
   .stacked_layout(is_heatmap, num_divs)
@@ -44,7 +40,7 @@ plot_var <- function(file, var_name, fig_path = F, ...){
   # iterate through plots
   for (j in 1:num_divs){
     if (heatmaps[j]){
-      .plot_heatmap(file, var_name[j], ...)
+      .plot_heatmap(file, var_name[j], reference)
     } else {
       .plot_timeseries(file, var_name[j])
       if(is_heatmap) .plot_null() # to fill up the colormap div
@@ -60,13 +56,13 @@ plot_var <- function(file, var_name, fig_path = F, ...){
   }
 }
 
-.plot_heatmap <- function(file, var_name, num_cells=100, ...){
+.plot_heatmap <- function(file, var_name, reference, num_cells=100){
   
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
   min_depth <- 0
   z_out <- seq(min_depth, max_depth,length.out = num_cells)
-  variable_df <- get_var(file, z_out = z_out, var_name = var_name, ...)
+  variable_df <- get_var(file, z_out = z_out, var_name = var_name, reference = reference)
   
   palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
                               bias = 1, space = "rgb")
@@ -81,7 +77,7 @@ plot_var <- function(file, var_name, fig_path = F, ...){
   dates <- variable_df[, 1]
   matrix_var <- data.matrix(variable_df[, -1])
   xaxis <- get_xaxis(dates)
-  yaxis <- get_yaxis_2D(z_out, ...)
+  yaxis <- get_yaxis_2D(z_out)
   plot_layout(xaxis, yaxis, add=T)
   .filled.contour(x = dates, y = z_out, z =matrix_var,
                   levels= levels,

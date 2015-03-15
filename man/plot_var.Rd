@@ -4,7 +4,7 @@
 \alias{plot_var}
 \title{plot variables from a GLM simulation}
 \usage{
-plot_var(file, var_name, fig_path = F, ...)
+plot_var(file, var_name, fig_path = F, reference = "surface", ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -12,6 +12,10 @@ plot_var(file, var_name, fig_path = F, ...)
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
+
+\item{reference}{'surface' or 'bottom'. Only used for heatmap plots.}
+
+\item{...}{additional arguments passed to \code{par()}}
 }
 \description{
 plot variables from a GLM simulation
@@ -35,7 +39,7 @@ Jordan S. Read, Luke A. Winslow
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{sim_var_longname}},
-\code{\link{sim_vars}}, \code{\link{plot_temp}},
+\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}},
 }
 \keyword{methods}
 

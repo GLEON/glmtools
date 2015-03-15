@@ -16,7 +16,7 @@
 #'
 #'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 #'@export
-summarize_sim <- function(...){
+summarize_sim <- function(file, sim_outputs, fig_path){
    
   warning('function is deprecated. Use plot_var.')
   return(NULL)

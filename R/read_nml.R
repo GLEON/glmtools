@@ -43,6 +43,7 @@ read_nml  <-	function(nml_file = 'template'){
   nml <- list()
   for (i in 1:length(blckOpen)){
     blckName	<-	substr(fileLines[blckOpen[i]],2,nchar(fileLines[blckOpen[i]]))
+    blckName <- gsub("\\s", "", blckName) 
     oldNms	<-	names(nml)
     nml[[i]]	<-	list()
     names(nml)	<-	c(oldNms,blckName)

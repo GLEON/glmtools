@@ -69,6 +69,6 @@ get_time_info <- function(glm_nc, file = NULL){
   
   close_glm_nc(glm_nc)
   #dim == 4 is heatmap (3D)
-  return(dims==4)
+  return(dims==4 | dims == 0)
 }
 

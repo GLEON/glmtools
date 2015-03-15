@@ -20,6 +20,11 @@ plot_var(file, var_name, fig_path = F, reference = "surface", ...)
 \description{
 plot variables from a GLM simulation
 }
+\note{
+\code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
+When creating a heatmap, the output produced by \code{plot_var} is actually a combination of two plots;
+one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -29,8 +34,6 @@ plot_var(nc_file, 'u_mean')
 # need to specify a valid .nc file here:
 plot_var(file = fabm_sim_nc.nc,
 var_name = 'aed_oxygen_oxy',
-col_lim=c(0,400),
-bar_title = 'Dissolved Oxygen',
 fig_path = 'aed_out.png')
 }
 }
@@ -39,7 +42,7 @@ Jordan S. Read, Luke A. Winslow
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{sim_var_longname}},
-\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}},
+\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
 }
 \keyword{methods}
 

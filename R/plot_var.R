@@ -6,7 +6,11 @@
 #'@param ... additional arguments passed to \code{par()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
-#'\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}},
+#'\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
+#'@note
+#'\code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
+#'When creating a heatmap, the output produced by \code{plot_var} is actually a combination of two plots; 
+#'one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples
@@ -18,8 +22,6 @@
 #'# need to specify a valid .nc file here: 
 #'plot_var(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 
-#'col_lim=c(0,400),
-#'bar_title = 'Dissolved Oxygen', 
 #'fig_path = 'aed_out.png')
 #'}
 #'@export

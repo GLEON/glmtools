@@ -11,7 +11,7 @@ gen_default_fig <- function(filename, width = 4, height, ps = 12, res = 200, uni
     }
     png(filename, width = width, height = height, units = units, res = res)
   }
-  par(mai=mai,omi=omi, ps = ps, mgp = mgp, ...)
+  par(mai = mai,omi = omi, ps = ps, mgp = mgp, ...)
 }
 
 plot_one2one <- function(x, y, ...){

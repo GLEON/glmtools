@@ -4,11 +4,13 @@
 \alias{get_var}
 \title{get variable from a GLM simulation}
 \usage{
-get_var(file, reference = "bottom", z_out = NULL, t_out = NULL, var_name,
+get_var(file, var_name, reference = "bottom", z_out = NULL, t_out = NULL,
   ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
+
+\item{var_name}{a name of a valid variable in the netcdf file specified with \code{file}.}
 
 \item{reference}{a string which specifies the vertical reference ('surface' or 'bottom').
 (Only used for variables with multiple depths)}
@@ -18,8 +20,6 @@ get_var(file, reference = "bottom", z_out = NULL, t_out = NULL, var_name,
 If NULL, depths will be determined based on the depth of the lake}
 
 \item{t_out}{a vector of POSIXct dates for temporal resampling (order is important)}
-
-\item{var_name}{a name of a valid variable in the netcdf file specified with \code{file}.}
 
 \item{...}{additional arguments passed to \code{resample_sim()}}
 }

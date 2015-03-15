@@ -4,7 +4,10 @@
 #'@param fig_path F if plot to screen, string path if save plot as .png
 #'@param ... additional arguments passed to \code{par()}
 #'@keywords methods
-#'@seealso \code{\link{get_temp}}
+#'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
+#'@note
+#'\code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}. 
+#'\code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 

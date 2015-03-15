@@ -18,6 +18,10 @@ plot_temp(file, fig_path = FALSE, reference = "surface", ...)
 \description{
 plot water temperatures from a GLM simulation
 }
+\note{
+\code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}.
+\code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -28,7 +32,7 @@ plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\code{\link{get_temp}}
+\code{\link{get_temp}}, \code{\link{plot_var}}
 }
 \keyword{methods}
 

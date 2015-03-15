@@ -73,13 +73,14 @@ plot_var <- function(file, var_name, fig_path = F, reference='surface', ...){
   
   bar_title <- .unit_label(file, var_name)
   
-  levels <- seq(col_lim[1], col_lim[2], by = diff(col_lim)/15)
-  col_subs <- levels
+  
+  col_subs <- head(pretty(col_lim), -1)
+  levels <- sort(unique(c(col_subs, pretty(col_lim, 15))))
   colors <- palette(n = length(levels)-1)
   dates <- variable_df[, 1]
   matrix_var <- data.matrix(variable_df[, -1])
   xaxis <- get_xaxis(dates)
-  yaxis <- get_yaxis_2D(z_out)
+  yaxis <- get_yaxis_2D(z_out, reference)
   plot_layout(xaxis, yaxis, add=T)
   .filled.contour(x = dates, y = z_out, z =matrix_var,
                   levels= levels,

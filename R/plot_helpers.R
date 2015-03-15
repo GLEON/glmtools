@@ -46,7 +46,7 @@ get_yaxis <- function(data, title, lim = NULL){
   return(yaxis) 
 }
 
-get_yaxis_2D <- function(z_out, reference = formals(get_var)$reference){
+get_yaxis_2D <- function(z_out, reference){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   
@@ -62,7 +62,7 @@ get_yaxis_2D <- function(z_out, reference = formals(get_var)$reference){
   return(yaxis) 
 }
 
-color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0C)'){
+color_key <- function(levels, colors, subs, cex = 0.75, col_label){
   # add feau plot
   plot(NA, xlim = c(0,1),
        ylim=c(0,1),
@@ -76,9 +76,7 @@ color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0
   
   p_start <- 0.1
   p_wid <- 0.35
-  if (missing(ps)){
-    ps <- round(par()$ps*0.7)
-  }
+
   # plotting to a 1 x 1 space
   if (!all(subs %in% levels)) stop('selected values must be included in levels')
   
@@ -94,9 +92,9 @@ color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0
     col <- colors[levels==subs[i]]
     b <- (i-1)*(poly_h+spc_h)
     t <- b+poly_h
-    m <- mean(c(b,t))-0.12*(t-b) # vertical fudge factor for text
+    m <- mean(c(b,t))
     polygon(c(p_start,p_wid,p_wid,p_start),c(b,b,t,t),col = col, border = NA)
-    text(p_wid-.05,m,as.character(subs[i]), ps = ps, pos= 4)
+    text(p_wid+0.025,m,as.character(subs[i]), cex = cex, adj = c(0.5, 1), srt = 90)
   }
   par(mai = old_mai, mgp = old_mgp)
 }

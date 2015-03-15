@@ -70,12 +70,12 @@ color_key <- function(levels, colors, subs, cex = 0.75, col_label){
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   old_mgp <- par()$mgp
   old_mai <- par()$mai
-  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,0,0))
+  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,.25,0))
   axis(side = 4, at = 0.5, tck = NA, labels= col_label, lwd = 0.0)#(\xB0 C)
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   
   p_start <- 0.1
-  p_wid <- 0.35
+  p_wid <- 0.55
 
   # plotting to a 1 x 1 space
   if (!all(subs %in% levels)) stop('selected values must be included in levels')
@@ -105,7 +105,7 @@ get_xaxis <- function(dates){
   start_time = min(dates) #earliest date
   end_time = max(dates) #latest date
   
-  vis_time = pretty(dates) # pretty vector to specify tick mark location 
+  vis_time = c(start_time-86400, pretty(dates), end_time+86400) # pretty vector to specify tick mark location 
   sec.end_time = as.numeric(end_time) # show time as seconds
   sec.start_time = as.numeric(start_time) # show time as seconds
   tt = sec.end_time - sec.start_time # time range of data frame; used to specify time axis
@@ -203,7 +203,8 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 
 .unit_label <- function(file, var_name){
   longname <- sim_var_longname(file, var_name) 
+  titlename <- gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", longname, perl=TRUE)
   units <- sim_var_units(file, var_name)
-  unit_label <- paste0(longname, " (", units, ")")
+  unit_label <- paste0(titlename, " (", units, ")")
   return(unit_label)
 }

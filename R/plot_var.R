@@ -74,7 +74,7 @@ plot_var <- function(file, var_name, fig_path = F, reference='surface', ...){
   bar_title <- .unit_label(file, var_name)
   
   
-  col_subs <- head(pretty(col_lim), -1)
+  col_subs <- head(pretty(col_lim, 6), -1)
   levels <- sort(unique(c(col_subs, pretty(col_lim, 15))))
   colors <- palette(n = length(levels)-1)
   dates <- variable_df[, 1]

@@ -4,36 +4,35 @@
 \alias{plot_temp}
 \title{plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file, reference = "surface", num_cells = 100, fig_path = F,
-  add = F)
+plot_temp(file, fig_path = FALSE, reference = "surface", ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{reference}{a string for 'surface' or 'bottom'}
-
-\item{num_cells}{number of vertical cells to use for heatmap}
-
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
 
-\item{add}{F if create new figure, T if add to existing}
+\item{reference}{a string for 'surface' or 'bottom'}
+
+\item{...}{additional arguments passed to \code{par()}}
 }
 \description{
 plot water temperatures from a GLM simulation
+}
+\note{
+\code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}.
+\code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 plot_temp(file = nc_file, fig_path = FALSE)
-\dontrun{
-plot_temp(file = nc_file, fig_path = '../test_figure.png')
-}
+plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }
 \author{
 Jordan S. Read, Luke A. Winslow
 }
 \seealso{
-\code{\link{get_temp}}
+\code{\link{get_temp}}, \code{\link{plot_var}}
 }
 \keyword{methods}
 

@@ -1,12 +1,17 @@
-gen_default_fig <- function(file_name, fig_w = 4, fig_h = 2, ps = 12, l.mar = 0.35,
-                            r.mar = 0, t.mar = 0.05, b.mar = 0.2, res = 200){
-  png(filename = file_name,
-      width = fig_w, height = fig_h, units = "in", res = res)
+gen_default_fig <- function(filename, width = 4, height, ps = 12, res = 200, units = "in",
+                            mai = c(0.2,0,0.05,0),
+                            omi = c(0, 0.35, 0, 0), 
+                            mgp = c(1.4,.3,0),
+                            num_divs = 1, ...){
   
-  
-  par(mai=c(b.mar,0, t.mar, 0),omi=c(0, l.mar, 0, r.mar),ps = ps, mgp = c(1.4,.3,0))
-  
-  
+  if ((is.character(filename))){
+    valid_fig_path(filename)
+    if (missing(height)){
+      height = 2*num_divs
+    }
+    png(filename, width = width, height = height, units = units, res = res)
+  }
+  par(mai = mai,omi = omi, ps = ps, mgp = mgp, ...)
 }
 
 plot_one2one <- function(x, y, ...){
@@ -31,27 +36,12 @@ axis_layout <- function(xaxis, yaxis){
   axis(side = 4, labels=NA, at = yaxis$lim, tck = 0)
 }
 
-get_yaxis <- function(data, title){
-
-  lim <- c(min(data), max(data)*1.1)
-
-  
-  rng <- abs(lim[1]-lim[2])
-  
-  if (rng < 1){
-    spc <- .25
-  } else if (rng < 2){
-    spc <- .5
-  } else if (rng < 5){
-    spc <- 1
-  } else if (rng < 10){
-    spc <- 2
-  } else {
-    spc <- 5
+get_yaxis <- function(data, title, lim = NULL){
+  if (is.null(lim)){
+    lim <- c(min(data, na.rm = TRUE), max(data, na.rm = TRUE)*1.1)
   }
-  
-  start_tck <- floor(min(lim)/spc) * spc
-  ticks <- seq(start_tck, max(lim) + spc, spc)
+
+  ticks <- pretty(data)
   yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
   return(yaxis) 
 }
@@ -68,25 +58,11 @@ get_yaxis_2D <- function(z_out, reference){
     title <- 'Elevation (m)'
   }
   
-  rng <- abs(lim[1]-lim[2])
-
-  if (rng < 1){
-    spc <- .25
-  } else if (rng < 2){
-    spc <- .5
-  } else if (rng < 5){
-    spc <- 1
-  } else if (rng < 10){
-    spc <- 2
-  } else {
-    spc <- 5
-  }
-  ticks <- seq(0, max(lim) + spc, spc)
-  yaxis <- list('lim'=lim, 'ticks'=ticks, 'title' = title)
+  yaxis <- get_yaxis(data = z_out, title = title, lim = lim)
   return(yaxis) 
 }
 
-color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0C)'){
+color_key <- function(levels, colors, subs, cex = 0.75, col_label){
   # add feau plot
   plot(NA, xlim = c(0,1),
        ylim=c(0,1),
@@ -94,15 +70,13 @@ color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   old_mgp <- par()$mgp
   old_mai <- par()$mai
-  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,0,0))
+  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,.25,0))
   axis(side = 4, at = 0.5, tck = NA, labels= col_label, lwd = 0.0)#(\xB0 C)
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   
   p_start <- 0.1
-  p_wid <- 0.35
-  if (missing(ps)){
-    ps <- round(par()$ps*0.7)
-  }
+  p_wid <- 0.55
+
   # plotting to a 1 x 1 space
   if (!all(subs %in% levels)) stop('selected values must be included in levels')
   
@@ -118,9 +92,9 @@ color_key <- function(levels, colors, subs, ps, col_label = 'Temperature (\u00B0
     col <- colors[levels==subs[i]]
     b <- (i-1)*(poly_h+spc_h)
     t <- b+poly_h
-    m <- mean(c(b,t))-0.12*(t-b) # vertical fudge factor for text
+    m <- mean(c(b,t))
     polygon(c(p_start,p_wid,p_wid,p_start),c(b,b,t,t),col = col, border = NA)
-    text(p_wid-.05,m,as.character(subs[i]), ps = ps, pos= 4)
+    text(p_wid+0.025,m,as.character(subs[i]), cex = cex, adj = c(0.5, 1), srt = 90)
   }
   par(mai = old_mai, mgp = old_mgp)
 }
@@ -131,7 +105,7 @@ get_xaxis <- function(dates){
   start_time = min(dates) #earliest date
   end_time = max(dates) #latest date
   
-  vis_time = pretty(dates) # pretty vector to specify tick mark location 
+  vis_time = c(start_time-86400, pretty(dates), end_time+86400) # pretty vector to specify tick mark location 
   sec.end_time = as.numeric(end_time) # show time as seconds
   sec.start_time = as.numeric(start_time) # show time as seconds
   tt = sec.end_time - sec.start_time # time range of data frame; used to specify time axis
@@ -171,12 +145,16 @@ get_xaxis <- function(dates){
   return(list('time_form' = time_form, 'x_lab' = x_lab, 'lim' = c(start_time, end_time), 'vis_time' = vis_time))
 }
 
+.simple_layout <- function(nrow = 1){
+  panels  <- matrix(seq_len(nrow),nrow=nrow)
+  layout(panels)
+}
 
 colbar_layout <- function(nrow = 1){
 	# ensures all colorbar plots use same x scaling for divs
 	mx <- matrix(c(rep(1,5),2),nrow=1)
 	panels <- mx
-	if (nrow > 2){
+	if (nrow > 1){
 		for (i in 2:nrow){
 			panels <- rbind(panels,mx+(i-1)*2)
 		}
@@ -193,7 +171,7 @@ valid_fig_path <- function(fig_path){
   }
   
 }
-plot_layout <- function(xaxis, yaxis, add, data = NA){
+plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 	
 	if (!add){
 		panels <- colbar_layout()
@@ -206,4 +184,27 @@ plot_layout <- function(xaxis, yaxis, add, data = NA){
 			 frame=FALSE,axes=F,xaxs="i",yaxs="i")
 	
 	
+}
+
+.stacked_layout <- function(is_heatmap, num_divs){
+  if(num_divs == 1 & !is_heatmap) return()
+  
+  if(is_heatmap){
+    colbar_layout(num_divs)
+  } else {
+    .simple_layout(num_divs)
+  }
+
+}
+
+.plot_null <- function(){
+  plot(NA, ylim=c(0,1),xlim=c(0,1), axes=F,ylab="",xlab="")
+}
+
+.unit_label <- function(file, var_name){
+  longname <- sim_var_longname(file, var_name) 
+  titlename <- gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", longname, perl=TRUE)
+  units <- sim_var_units(file, var_name)
+  unit_label <- paste0(titlename, " (", units, ")")
+  return(unit_label)
 }

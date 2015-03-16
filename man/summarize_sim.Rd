@@ -4,7 +4,7 @@
 \alias{summarize_sim}
 \title{creates GLM simulation summary outputs}
 \usage{
-summarize_sim(file, sim_outputs = "temp", fig_path = FALSE)
+summarize_sim(file, sim_outputs, fig_path)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

@@ -40,8 +40,7 @@ validate_sim <- function(nc_file, field_file, metrics, fig_path, report = F, ...
   
   if (!missing(fig_path)){
     if (is.character(fig_path)){
-      gen_default_fig(file_name = fig_path, fig_w = 2, fig_h = num_metrics*2, ps = 10, 
-                      l.mar = 0.5, r.mar = 0.1, b.mar = .4, t.mar = .1) 
+      gen_default_fig(fig_path, width = 2, ps = 10)
     }
     panels <- matrix(seq_len(num_metrics), nrow = num_metrics) # vertical panels
     layout(panels)

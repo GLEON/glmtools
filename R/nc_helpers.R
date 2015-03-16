@@ -63,4 +63,12 @@ get_time_info <- function(glm_nc, file = NULL){
 	return(time_info)
 }
 
+.is_heatmap <- function(file, var_name){
+  glm_nc <- get_glm_nc(file)
+  dims <-unlist(lapply(X = var_name, FUN = function(x) length(glm_nc$var[[x]]$dim)))
+  
+  close_glm_nc(glm_nc)
+  #dim == 4 is heatmap (3D)
+  return(dims==4 | dims == 0)
+}
 

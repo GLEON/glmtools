@@ -20,5 +20,8 @@ sim_vars(file = nc_file)
 \author{
 Stuart E. Jones, Jordan S. Read, Luke A. Winslow
 }
+\seealso{
+\code{\link{sim_var_longname}}, \code{\link{sim_var_units}}, \code{\link{plot_var}}
+}
 \keyword{methods}
 

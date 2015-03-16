@@ -28,7 +28,7 @@
 #'plot(evaporation)
 #'@import ncdf
 #'@export
-get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var_name, ...){
+get_var <-  function(file,  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   
   
   
@@ -39,14 +39,16 @@ get_var <-  function(file, reference = 'bottom', z_out = NULL, t_out = NULL, var
   temp <- get.var.ncdf(glm_nc, var_name)
   time <- get_time(glm_nc)
   
-  if (length(dim(temp)) == 1){
-    # is 1D
+  heatmap <- .is_heatmap(file, var_name)
+  
+  if (!heatmap){
     variable_df <- data.frame('DateTime' = time, 'variable' = temp)
     colnames(variable_df)[2] <- var_name
     
     variable_df <- resample_sim(df = variable_df, t_out = t_out, ...)
     return(variable_df)
   }
+
   if (reference!='bottom' & reference!='surface'){
     stop('reference input must be either "surface" or "bottom"')
   }

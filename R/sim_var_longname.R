@@ -10,7 +10,7 @@
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'vars <- sim_vars(file = nc_file)
 #'sim_var_units(nc_file, vars[1,]$name)
-#'sim_var_units(nc_file, 'u_mean')
+#'sim_var_longname(nc_file, 'u_mean')
 #'@export
 sim_var_longname <- function(file, var_name){
   

@@ -9,6 +9,9 @@ sim_vars(file)
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 }
+\value{
+A data frame with columns \code{name, unit, longname}.
+}
 \description{
 get list of variables from a GLM simulation
 }

@@ -4,7 +4,7 @@
 \alias{get_raw}
 \title{get raw data from GLM simulation}
 \usage{
-get_raw(file, param_name)
+get_raw(file = "output.nc", param_name)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

@@ -18,7 +18,7 @@
 #'surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FALSE)
 #'@import ncdf
 #'@export
-get_surface_height  <-	function(file, ice.rm = TRUE, snow.rm = TRUE, ...){
+get_surface_height  <-	function(file='output.nc', ice.rm = TRUE, snow.rm = TRUE, ...){
   glm_nc <- get_glm_nc(file)
   NS	<- 	get.var.ncdf(glm_nc, "NS")
   elev <- get.var.ncdf(glm_nc, "z")

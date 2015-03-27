@@ -34,7 +34,7 @@
 #'@import ncdf
 #'@seealso \code{\link{sim_vars}}
 #'@export
-get_raw <-  function(file, param_name){
+get_raw <-  function(file='output.nc', param_name){
   glm_nc <- get_glm_nc(file)
   raw_data <- get.var.ncdf(glm_nc, param_name)
   

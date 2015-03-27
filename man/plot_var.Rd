@@ -4,7 +4,8 @@
 \alias{plot_var}
 \title{plot variables from a GLM simulation}
 \usage{
-plot_var(file, var_name, fig_path = F, reference = "surface", ...)
+plot_var(file = "output.nc", var_name, fig_path = F,
+  reference = "surface", ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

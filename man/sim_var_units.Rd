@@ -4,7 +4,7 @@
 \alias{sim_var_units}
 \title{get units of variable from a GLM simulation}
 \usage{
-sim_var_units(file, var_name)
+sim_var_units(file = "output.nc", var_name)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

@@ -19,7 +19,7 @@
 #'plot(ice)
 #'points(ice_and_snow, col = "red")
 #'@export
-get_ice <-  function(file, snow.rm = TRUE, ...){
+get_ice <-  function(file='output.nc', snow.rm = TRUE, ...){
   ice <- get_var(file, var_name = "hice", ...)
   ice[, 2] <- ice[, 2] + get_var(file, var_name = "hwice", ...)[, 2]
   if (!snow.rm){

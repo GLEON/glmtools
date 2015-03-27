@@ -4,7 +4,7 @@
 \alias{get_ice}
 \title{get ice depth from GLM simulation}
 \usage{
-get_ice(file, snow.rm = TRUE, ...)
+get_ice(file = "output.nc", snow.rm = TRUE, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

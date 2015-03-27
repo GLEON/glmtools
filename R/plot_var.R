@@ -25,7 +25,7 @@
 #'fig_path = 'aed_out.png')
 #'}
 #'@export
-plot_var <- function(file, var_name, fig_path = F, reference='surface', ...){
+plot_var <- function(file='output.nc', var_name, fig_path = F, reference='surface', ...){
   
   heatmaps <- .is_heatmap(file, var_name)
   num_divs <- length(var_name)

@@ -15,7 +15,7 @@
 #'wind <- get_wind(file = nc_file)
 #'
 #'@export
-get_wind <-  function(file, ...){
+get_wind <-  function(file='output.nc', ...){
   
   glm_wind <- get_var(file = file, var_name = 'wind', ...)
 

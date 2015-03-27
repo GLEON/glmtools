@@ -4,7 +4,7 @@
 \alias{sim_vars}
 \title{get list of variables from a GLM simulation}
 \usage{
-sim_vars(file)
+sim_vars(file = "output.nc")
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

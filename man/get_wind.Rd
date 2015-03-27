@@ -4,7 +4,7 @@
 \alias{get_wind}
 \title{get wind speed from GLM simulation}
 \usage{
-get_wind(file, ...)
+get_wind(file = "output.nc", ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

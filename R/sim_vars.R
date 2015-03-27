@@ -11,7 +11,7 @@
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'sim_vars(file = nc_file)
 #'@export
-sim_vars <- function(file){
+sim_vars <- function(file='output.nc'){
   
   glm_nc <- get_glm_nc(file)
   #get the list of variable names

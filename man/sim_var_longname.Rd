@@ -4,7 +4,7 @@
 \alias{sim_var_longname}
 \title{get long name of variable from a GLM simulation}
 \usage{
-sim_var_longname(file, var_name)
+sim_var_longname(file = "output.nc", var_name)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

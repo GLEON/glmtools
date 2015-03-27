@@ -12,7 +12,7 @@
 #'sim_var_units(nc_file, vars[1,]$name)
 #'sim_var_longname(nc_file, 'u_mean')
 #'@export
-sim_var_longname <- function(file, var_name){
+sim_var_longname <- function(file='output.nc', var_name){
   
   glm_nc <- get_glm_nc(file)
   longname <- glm_nc$var[[var_name]]$longname

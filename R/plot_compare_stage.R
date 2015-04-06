@@ -19,9 +19,7 @@
 plot_compare_stage = function(nc_file, field_file, ...){
 	
 	#get modeled stage prepped
-	all_z = get_var(nc_file, var_name='z')
-	stage_mod_z = apply(all_z[,-1], 1, max, na.rm=TRUE)
-	stage_mod = data.frame(DateTime=all_z[,1], Stage=stage_mod_z)
+	stage_mod = get_surface_height(nc_file, ice.rm = FALSE, snow.rm = FALSE)
 	
 	minmax = range(stage_mod[,2])
 	

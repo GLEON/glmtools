@@ -45,7 +45,7 @@ How do I install `glmtools`? It isn't on CRAN!
 
 1. Setup R to add GRAN using the instructions on the [USGS R page](http://owi.usgs.gov/R/gran.html).
 
-2. After GRAN is setup (usually requires a restart), then use the following command in R:
+2. After GRAN is setup (usually requires a restart of R), then use the following command in R:
 
     `install.packages("glmtools")`
         

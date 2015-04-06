@@ -41,14 +41,13 @@ FAQ
 
 How do I install `glmtools`? It isn't on CRAN!
 ===
-`glmtools` can be installed from the [github.gleon.io](http://github.gleon.io "GLEON's github page") repository. To install `glmtools` and all dependencies, follow the appropriate instructions below:
+`glmtools` can be installed from the [USGS GRAN](http://owi.usgs.gov/R/gran.html) repository. To install `glmtools` and all dependencies, follow the appropriate instructions below:
 
-use the following command in R:
+1. Setup R to add GRAN using the instructions on the [USGS R page](http://owi.usgs.gov/R/gran.html).
 
-    install.packages("glmtools", 
-        repos = c("http://gleon.github.com/", "http://usgs-r.github.com/", "http://cran.us.r-project.org"),
-        dependencies = TRUE,
-        type = "both")
+2. After GRAN is setup (usually requires a restart), then use the following command in R:
+
+    install.packages("glmtools")
         
 What libraries does `glmtools` need?
 ===

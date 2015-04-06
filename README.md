@@ -47,7 +47,7 @@ How do I install `glmtools`? It isn't on CRAN!
 
 2. After GRAN is setup (usually requires a restart), then use the following command in R:
 
-    install.packages("glmtools")
+    `install.packages("glmtools")`
         
 What libraries does `glmtools` need?
 ===

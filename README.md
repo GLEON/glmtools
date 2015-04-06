@@ -70,7 +70,7 @@ In order to contribute to this code, we recommend the following workflow:
 
 	$cd glmtools
 
-	$git remote add upstream https://github.com/GLEON/glmtools.git
+	$git remote add upstream https://github.com/USGS-R/glmtools.git
 
 5) before pushing your changes to your repository, pull in the current version of the GLEON master:
 

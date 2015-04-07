@@ -38,7 +38,10 @@ axis_layout <- function(xaxis, yaxis){
 
 get_yaxis <- function(data, title, lim = NULL){
   if (is.null(lim)){
-    lim <- c(min(data, na.rm = TRUE), max(data, na.rm = TRUE)*1.1)
+    mn <- min(data, na.rm = TRUE)
+    mx <- max(data, na.rm = TRUE)
+    axBuff <- diff(c(mn, mx))*0.1
+    lim <- c(mn-axBuff, mx+axBuff)
   }
 
   ticks <- pretty(data)

@@ -65,6 +65,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
   un_dates <- unique(compare_data$DateTime)
   mod_metric <- vector('numeric', length = length(un_dates))
   obs_metric <- vector('numeric', length = length(un_dates))
+  dates <- as.POSIXct(rep(NA, length = length(un_dates)))
   
   for (j in 1:length(un_dates)){
     date <- un_dates[j]
@@ -91,20 +92,28 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
         # if as_mat, need a much larger matrix to support. Buffer and fill
         cnt = 1
         mod_metric <- vector(length = length(un_dates)*200)*NA
-        obs_metric <- mod_metric
+        obs_metric <- vector(length = length(un_dates)*200)*NA
+        dates <- as.POSIXct(rep(NA, length = length(un_dates)*200))
       } 
       mod_metric[cnt:(cnt+length(mod_num)-1)] = mod_num
       obs_metric[cnt:(cnt+length(mod_num)-1)] = obs_num
+      dates[cnt:(cnt+length(mod_num)-1)] <- rep(un_dates[j], length(mod_num))
       cnt = cnt+length(mod_num)
     } else {
       mod_metric[j] <- mod_num
       obs_metric[j] <- obs_num
+      dates[j] <- un_dates[j]
     }
     
   }
   
+  if (as_mat == TRUE) {
+    dates <- dates[1:cnt-1]
+    obs_metric <- obs_metric[1:cnt-1]
+    mod_metric <- mod_metric[1:cnt-1]
+  }
   if (as_value){
-    compare.df <- data.frame('DateTime' = un_dates, 'obs' = obs_metric, 'mod' = mod_metric)
+    compare.df <- data.frame('DateTime' = dates, 'obs' = obs_metric, 'mod' = mod_metric)
     if (na.rm){
       na_i <- is.na(compare.df[, 2]) | is.na(compare.df[, 3])
       compare.df <- compare.df[!na_i, ]

@@ -139,7 +139,7 @@ Commented text is anything that begins with a `!`, for example:
 ```
 These commented lines are ignored by the model. There are advantages to using R to both run the model and modify the model parameters, including increased efficiency and the reproducibility aspects mentioned above.
 ###Reading nml files into R
-`glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output).  
+`glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm2.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:
 ```{r}
 eg_nml <- read_nml(nml_file = file.path(eg_folder,'glm2.nml'))
@@ -154,19 +154,98 @@ class(eg_nml)
 names(eg_nml)
 eg_nml[[1]][1:4]
 ```
+###Getting information from nml
+Even though the `nml` is basically just an R list, there are a number of convienence functions that help get data out of the list structure. For finding a value from a parameter, just specify the name of the parameter and use the `get_nml_value()` function:
+```{r}
+# water clarity
+get_nml_value(eg_nml, 'Kw')
+```
+or get values from a parameter that has a vector of values:
+```{r}
+# initial conditions for depths
+get_nml_value(eg_nml, 'the_depths')
+```
 ###Changing nml contents
+Likewise, `nml` values can be easily modified with the helper function `set_nml()`:
+```{r}
+# water clarity
+eg_nml <- set_nml(eg_nml, 'Kw', 1.4)
+# note how the value is now changed:
+get_nml_value(eg_nml, 'Kw')
+```
+`set_nml()` can use a parameter name and a corresponding value, or it can accept a list to set multiple parameters at once:
+```{r}
+eg_nml <- set_nml(eg_nml, arg_list = list('Kw' = 1.2, 'max_layers' = 480))
+get_nml_value(eg_nml, 'max_layers')
+```
+But the `nml` object is still just in memory for the R session. In order for these changes to have an impact on the simulations, the `nml` needs to be written to file  
 
 ###Writing modified nml files
-
-
+The `nml` object can be easily written to a user-specified location by using the `write_nml()` function:
+```{r}
+# define a location for the file to be written to. Here it will overwrite the existing `nml` file:
+write_path <- file.path(eg_folder,'glm2.nml')
+write_nml(eg_nml, file = write_path)
+```
+A new simulation can be run with the modified `nml` file:
+```{r}
+run_glm(eg_folder)
+```
 ##Visualizing GLM output
+
 ###plotting water temperatures
+```{r, fig.width=4, fig.height=2.5}
+nc_file <- file.path(eg_folder, 'output.nc')
+plot_temp(file = nc_file)
+```
+
 ###plotting multiple variables
+```{r}
+sim_vars(file = nc_file)
+plot_var(file = nc_file, var_name = c('temp','u_mean'))
+```
 
 ##Validating the model against field observations
 
-##glmtools function index
-`glmtools` Functions (as of v0.9.4)
+```{r}
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+field_file <- file.path(sim_folder, 'field_data.tsv')
+
+```
+
+create a diagnostic output within R for thermocline depth:
+```{r}
+thermo_values <- compare_to_field(nc_file, field_file,
+                          metric = 'thermo.depth', as_value = TRUE)
+```
+
+Do the same for water temperatures vs field observations:
+```{r}
+temp_rmse <- compare_to_field(nc_file, field_file,
+                          metric = 'water.temperature', as_value = FALSE)
+print(paste(temp_rmse,'deg C RMSE'))
+```
+
+###Plotting comparision of water temperature vs field observations:
+```{r, fig.width=6, fig.height=5.25}
+sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(sim_folder, 'output.nc')
+nml_file <- file.path(sim_folder, 'glm2.nml')
+field_file <- file.path(sim_folder, 'field_data.tsv')
+
+plot_temp_compare(nc_file, field_file) ##makes a plot!
+```
+
+###Compare lake elevation with field measurements:
+```{r, fig.width=4, fig.height=3.5}
+field_file <- file.path(sim_folder, 'field_stage.csv')
+
+plot_compare_stage(nc_file, field_file) ##makes a plot!
+```
+
+##glmtools function index  
+
 | Function       | Title           |
 | ------------- |:-------------|
 | `compare_to_field` | compare metric for GLM vs field observations |

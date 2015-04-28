@@ -16,7 +16,6 @@ library(rmarkdown)
 options(continue=" ")
 options(width=60)
 library(knitr)
-library(glmtools)
 
 ```
 
@@ -50,6 +49,7 @@ install.packages("glmtools",
 ##Using example data built into the package
 ###Find example data directory
 ```{r}
+library(glmtools)
 eg_folder = system.file('extdata', package = 'GLMr')
 print(eg_folder) # location of example data
 ```
@@ -269,4 +269,4 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 | `write_nml` | write GLM `*.nml` for a GLM simulation |
 
 ##Running AED with GLM (Aquatic EcoDynnamics model)
-
+coming soon

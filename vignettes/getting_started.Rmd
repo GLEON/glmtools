@@ -43,25 +43,130 @@ To install **glmtools**
 Install package with dependencies:
 ```{r, eval=FALSE}
 install.packages("glmtools", 
-    repos = c("https://owi.usgs.gov/R"),
+    repos = c("http://owi.usgs.gov/R"),
     dependencies = TRUE)
 ```
 
-##Modifying nml files
+##Using example data built into the package
+###Find example data directory
+```{r}
+eg_folder = system.file('extdata', package = 'GLMr')
+print(eg_folder) # location of example data
+```
+###List files that are included in the example data
+```{r}
+dir(eg_folder)
+```
 
 ##Running GLM
-
-##Citing GLM
+###Find current version of GLM included in the package
+```{r, eval=FALSE}
+glm_version()
+```
+###Citing GLM
+A lot of time went into the development of GLM and it is important to give the authors proper credit. To see a current citation for GLM, use the following command in R:
 ```{r}
 citation('GLMr')
 ```
+###Update GLMr if needed
+If GLMr is out of date with the current version of GLM, it is probably because this package has not been updated recently. If you would like to be able to automatically receive update recommendations via RStudio's "Update" button, you will need to add the "http://owi.usgs.gov/R" repository to your RProfile. This can be done with:
+```{r, eval=FALSE}
+source("http://owi.usgs.gov/R/add_gran_repo.R")
+update.packages()
+```
+Alternatively, the `repos` argument to `update.packages` and `install.packages` can be manually set to point where `GLMr` and `glmtools` live:
+```{r, eval=FALSE}
+update.packages(repos = c("http://owi.usgs.gov/R"))
+```
+###Running GLM with example data
+The contents of `eg_folder` (i.e., a `glm2.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLMr`. The `run_glm()` function simply takes a folder path to where the `glm2.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
+```{r, results ='hide'}
+run_glm(eg_folder)
+```
+Note that new output files have been added to the simulation directory:
+```{r}
+dir(eg_folder)
+```
+
+###Running GLM with user data
+To run GLM with user-specified data, the formats of the example data should be followed in order to properly run the simulation. Small differences in the `glm2.nml` file can result in model failures due to the inability of the model to parse certain kinds of text. When real data are used in a simulation, the user can run GLM in the same way that the example simulations were initiated. For example:
+```{r, eval =FALSE}
+run_glm('~/Documents/my_sim')
+```
+
+Below, there are a number of handy functions that support modifying the input data and model configuration. 
+
+
+##Interacting with nml files
+The `glm2.nml` file is holds the configuration for the model run. This file can be edited in a text editor as plain text, or `glmtools` can be used to programatically modify the file, reducing user errors and increasing reproducibility. The structure of the file includes content blocks that are delinated by `&` and `\` and parameter names and their values within those sections. For example:
+```
+&glm_setup
+   sim_name = 'GLMSimulation'
+   max_layers = 200
+   min_layer_vol = 0.025
+   min_layer_thick = 0.1
+   max_layer_thick = 1.5
+   Kw = 0.25
+   coef_mix_conv = 0.33
+   coef_wind_stir = 0.23
+   coef_mix_shear = 0.3
+   coef_mix_turb = 0.51
+   coef_mix_KH = 0.3
+   coef_mix_hyp = 0.5
+/
+```
+Commented text is anything that begins with a `!`, for example:
+```
+!-------------------------------------------------------------------------------
+! general model setup
+!-------------------------------------------------------------------------------
+!
+! sim_name         [string]  title of simulation       
+! max_layers       [integer] maximum number of layers  
+! min_layer_vol    [real]    minimum layer volume (m3 * 1000)      
+! min_layer_thick  [real]    minimum layer thickness (m)  
+! max_layer_thick  [real]    maximum layer thickness (m) 
+! Kw               [real]    background light attenuation (m**-1)
+! coef_mix_conv    [real]    mixing efficiency - convective overturn
+! coef_wind_stir   [real]    mixing efficiency - wind stirring
+! coef_mix_turb    [real]    mixing efficiency - unsteady turbulence effects
+! coef_mix_shear   [real]    mixing efficiency - shear production
+! coef_mix_KH      [real]    mixing efficiency - hypolimnetic Kelvin-Helmholtz turbulent billows
+! coef_mix_hyp     [real]    mixing efficiency - hypolimnetic turbulence
+! deep_mixing      [bool]    flag to disable deep-mixing
+!
+!-------------------------------------------------------------------------------
+```
+These commented lines are ignored by the model. There are advantages to using R to both run the model and modify the model parameters, including increased efficiency and the reproducibility aspects mentioned above.
+###Reading nml files into R
+`glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output).  
+To read the example nml into memory:
+```{r}
+eg_nml <- read_nml(nml_file = file.path(eg_folder,'glm2.nml'))
+```
+and display the `nml` contents within R:
+```{r}
+eg_nml
+```
+See that `eg_nml` is an `nml` object, but behaves just like a list in R:
+```{r}
+class(eg_nml)
+names(eg_nml)
+eg_nml[[1]][1:4]
+```
+###Changing nml contents
+
+###Writing modified nml files
+
+
 ##Visualizing GLM output
+###plotting water temperatures
+###plotting multiple variables
 
 ##Validating the model against field observations
 
 ##glmtools function index
 `glmtools` Functions (as of v0.9.4)
-=====
 | Function       | Title           |
 | ------------- |:-------------|
 | `compare_to_field` | compare metric for GLM vs field observations |

@@ -1,0 +1,88 @@
+---
+title: "Getting started with glmtools"
+author: "Jordan S Read, Luke A Winslow"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Getting started with glmtools}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+library(rmarkdown)
+options(continue=" ")
+options(width=60)
+library(knitr)
+library(glmtools)
+
+```
+
+
+##Introduction
+
+
+This package `glmtools` provides services in support using the General Lake Model (GLM) in R. GLM is a one-dimensional model that balances fluxes of energy and mass as part of dynamically simulating lake physics. The GLM model has been developed as an initiative of the Global Lake Ecological Observatory Network (GLEON) and in collaboration with the Aquatic Ecosystem Modelling Network (AEMON) that started in 2010. The model was first introduced in Leipzig at the 2nd Lake Ecosystem Modelling Symposium in 2012, and has since developed rapidly with application to numerous lakes within the GLEON network and beyond. Authors: Matthew R Hipsey, Louise C Bruce, David P Hamilton. More information about GLM can be found at <a href="http://aed.see.uwa.edu.au/research/models/GLM/">http://aed.see.uwa.edu.au/research/models/GLM/</a>.
+
+Running GLM requires three mandatory components (in addition to several optional components). The required components include:  
+  
+1. A GLM executable for the operating system being used (currently there is support for linux, windows, and mavericks/yosemite mac OSX)  
+2. A `glm2.nml` file, which is a configuration file for the model (see below for specifics)  
+3. Appropriate driver data (currently in the form of a comma-delimited time-series file)
+
+The model generates a number of optional outputs, but will always create a `.nc` (netCDF) file which contains the simulation results.  
+  
+`glmtools` has a number of utility functions that help with prepping for model runs, executing the model, and analyzing/visualizing the simulation. `glmtools` also depends on a companion package `GLMr`, which contains the executable GLM for each supported platform and creates a unified interface for running the model across these different platforms. `GLMr` will be automatically installed when following the instructions below. 
+
+
+##Installation
+To install **glmtools** 
+
+Install package with dependencies:
+```{r, eval=FALSE}
+install.packages("glmtools", 
+    repos = c("https://owi.usgs.gov/R"),
+    dependencies = TRUE)
+```
+
+##Modifying nml files
+
+##Running GLM
+
+##Citing GLM
+```{r}
+citation('GLMr')
+```
+##Visualizing GLM output
+
+##Validating the model against field observations
+
+##glmtools function index
+`glmtools` Functions (as of v0.9.4)
+=====
+| Function       | Title           |
+| ------------- |:-------------|
+| `compare_to_field` | compare metric for GLM vs field observations |
+| `get_evaporation`  | get evaporation from GLM simulation |
+| `get_hypsography` | retrieve hypsography information |
+| `get_ice` | get ice depth from GLM simulation |
+| `get_nml_value` | gets a nml value according to an arg_name |
+| `get_surface_height` | get surface height from GLM simulation |
+| `get_temp` | get water temperatures from a GLM simulation |
+| `get_wind` | get wind speed from GLM simulation |
+| `model_diagnostics` | run diagnostics on model results |
+| `plot_temp` | plot water temperatures from a GLM simulation |
+| `read_field_obs` | read in field data into a data.frame |
+| `read_nml` | read in a GLM simulation `*.nml` file |
+| `resample_sim` | get subset of time from a generic timeseries data.frame |
+| `resample_to_field` | match GLM water temperatures with field observations |
+| `set_nml` | sets values in nml object |
+| `sim_metrics` | get possible metrics for comparing GLM outputs to field |
+| `summarize_sim` | creates GLM simulation summary outputs |
+| `validate_sim` | run diagnostics on model results vs observations |
+| `write_nml` | write GLM `*.nml` for a GLM simulation |
+
+##Running AED with GLM (Aquatic EcoDynnamics model)
+

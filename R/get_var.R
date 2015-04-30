@@ -39,6 +39,8 @@ get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = 
   temp <- get.var.ncdf(glm_nc, var_name)
   time <- get_time(glm_nc)
   
+  close_glm_nc(glm_nc)
+  
   heatmap <- .is_heatmap(file, var_name)
   
   if (!heatmap){
@@ -59,7 +61,6 @@ get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = 
     z_out = (max(get_surface_height(file)[, 2], na.rm = TRUE)/tail(z_lyrs,1)) * z_lyrs
   }
   
-  close_glm_nc(glm_nc)
   
   if (reference=='surface') {
     elev_surf = get_surface_height(file)

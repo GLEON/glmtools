@@ -29,7 +29,7 @@ get_hypsography <- function(glm_nml, file){
   
   heights	<-	get_nml_value(glm_nml,'H')
   max_elev  <-	max(heights)
-  bthA	<-	rev(get_nml_value(glm_nml,'A')*1000) # now m2
+  bthA	<-	rev(get_nml_value(glm_nml,'A')) # (As of GLMv2.0, nml has areas in m^2, no conversion needed)
   bthZ	<-	rev(max_elev-heights)
   glm_bth	<-	data.frame(bthZ,bthA)
   names(glm_bth)	<-	c("Depths","Areas")

@@ -37,7 +37,7 @@ set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
   blckI	<-	findBlck(glm_nml,arg_name)
   
   currVal	<-	glm_nml[[blckI]][[arg_name]]
-  typeError	<-	"input must be of same data type as current value"
+  typeError	<-	paste0("input ", arg_name ," must be of same data type as current value")
   if (is.logical(currVal) & !is.logical(arg_val)){
     stop(c(typeError,' (logical)'))
   } else if (is.character(currVal) & !is.character(arg_val)){

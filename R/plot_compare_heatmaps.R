@@ -38,6 +38,9 @@ plot_temp_compare = function(nc_file, field_file, ...){
 	full_x = sort(unique(as.numeric(as.POSIXct(mod_temp$DateTime))))
 	full_y = sort(unique(mod_depths))
 	
+	
+	#Added a scaling factor to Y. Interp won't interpolate if X and Y are on vastly different scales.
+	# I don't use Y from here later, so it doesn't matter what the mangitude of the values is.
 	interped = interp(x, y*1e6, z, full_x, full_y*1e6)
 	
 	palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 

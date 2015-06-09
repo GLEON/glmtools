@@ -24,10 +24,12 @@ get_time_info <- function(glm_nc, file = NULL){
   
 	day_secs = 86400
   time_unit <- 3600/day_secs
-
+	close_nc <- FALSE #flag if we should close nc in this function
+	
 	#The units attribute on the time variable has basically the info we need
   if (missing(glm_nc)){
     glm_nc <- get_glm_nc(file)
+    close_nc <- TRUE
   }
 	time_units <- att.get.ncdf(glm_nc,'time','units')$value
 
@@ -57,7 +59,7 @@ get_time_info <- function(glm_nc, file = NULL){
 	endT <- time_info$startDate + get.var.ncdf(glm_nc, 'time', start=tLen, count=1) * time_unit * day_secs
 
   time_info  <-  cbind(time_info,"stopDate"=endT[1])
-	if (missing(glm_nc)){
+	if (close_nc){
 	  close_glm_nc(glm_nc)
 	}
 	return(time_info)

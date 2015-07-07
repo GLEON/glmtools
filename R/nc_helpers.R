@@ -1,5 +1,8 @@
 
 get_glm_nc  <-  function(file){
+	if(length(file) < 1 || is.na(file)){
+		stop('glm_nc file must be supplied string or proper file handle')
+	}
 	glm_nc	<- 	open.ncdf(file, readunlim=TRUE)
 	return(glm_nc)
 }

@@ -19,9 +19,10 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	# special case for date:
 	if (nchar(parVl>17) & substr(parVl,14,14)==':' & substr(parVl,17,17)==':'){
 		parVl<-paste(c(substr(parVl,1,11),' ',substr(parVl,12,nchar(parVl))),collapse='')
-		}
+	}
 	if (any(grep("'",parVl))){
-		parVl	<-	gsub("'","",parVl)
+	  
+		parVl	<-	gsub("'","",parVl)#c(as.character(unlist(strsplit(parVl,","))))
 	}else if (any(grep("\"",parVl))){
 	  parVl  <-	gsub("\"","",parVl)
 	}else if (any(grep(".true.",parVl))){
@@ -44,7 +45,7 @@ findBlck	<-	function(nml,argName){
   # test for argName being a string
   if (!is.character(argName)){stop(c("parameter name must be a string"))}
   fau <- " "
-  fault.string <- rep(fau,100) # names fault matrix, only returned when empty match
+  fault.string <- rep(fau,1000) # names fault matrix, only returned when empty match
 	blockNames	<-	names(nml)
 	blckI	<-	NULL
 	for (i in 1:length(blockNames)){
@@ -104,13 +105,3 @@ ascii_only <- function(file){
   
 }
 
-.validate_nml <- function(nml){
-  # test for required blocks:
-  required_blks <- c('outflow', 'inflow', 'meteorology', 'init_profiles', 'output', 'time', 'morphometry', 'glm_setup')
-  blk_match <- required_blks %in% names(nml)
-  if (!all(blk_match)){
-    stop('parsing error in nml file.',required_blks[blk_match],'missing.')
-  }
-  return(TRUE)
-  
-}

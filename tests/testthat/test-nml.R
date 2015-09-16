@@ -15,6 +15,7 @@ test_that("set_nml() with different datatypes", {
 })
 
 
+
 context("reading a bad nml file")
 test_that("file errors out",{
   expect_error(read_nml(system.file('extdata','bad_glm2.nml',package='glmtools')))

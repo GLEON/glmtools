@@ -15,8 +15,13 @@
 #'@export
 get_nml_value  <-	function(glm_nml, arg_name){
   
-  blckI	<-	findBlck(glm_nml,arg_name)
+  arg_split = strsplit(arg_name,'::')[[1]]
+  if (length(arg_split) > 1){
+    blck = arg_split[1]
+    arg_name = arg_split[2]
+  } else{
+    blck	<-	findBlck(glm_nml,arg_name)
+  }
   
-  arg_val	<-	glm_nml[[blckI]][[arg_name]]
-  return(arg_val)
+  return(glm_nml[[blck]][[arg_name]])
 }

@@ -47,11 +47,10 @@ findBlck	<-	function(nml,argName){
   fau <- " "
   fault.string <- rep(fau,1000) # names fault matrix, only returned when empty match
 	blockNames	<-	names(nml)
-	blckI	<-	NULL
+	blckI	<-	c()
 	for (i in 1:length(blockNames)){
 		if (any(argName %in% names(nml[[i]]))){
-			blckI	<- i
-			break
+			blckI	<- c(blckI,i)
 		} else {
       one.i <- which(fault.string==fau)[1]
 		  fault.string[one.i:(one.i+length(names(nml[[i]]))-1)]=names(nml[[i]])
@@ -103,5 +102,33 @@ ascii_only <- function(file){
     return(TRUE)
   }
   
+}
+
+
+get_block <- function(glm_nml, arg_name, warn=TRUE){
+  arg_split = strsplit(arg_name,'::')[[1]]
+  if (length(arg_split) > 1){
+    blck = arg_split[1]
+    arg_name = get_arg_name(arg_name)
+  } else{
+    blck	<-	findBlck(glm_nml,arg_name)
+  }
+  if (length(blck) > 1){
+    if (warn)
+      warning(arg_name, " found in ", paste(names(glm_nml[blck]), collapse=' & '), ", returning the first. Try ",names(glm_nml[blck])[1],"::",arg_name, " for explicit match")
+    blck = blck[1]
+  }
+  
+  return(blck)
+}
+
+get_arg_name <- function(arg_name){
+  arg_split = strsplit(arg_name,'::')[[1]]
+  
+  if (length(arg_split) > 1){
+    blck = arg_split[1]
+    arg_name = arg_split[2]
+  }
+  return(arg_name)
 }
 

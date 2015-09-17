@@ -1,6 +1,6 @@
-gen_default_fig <- function(filename, width = 4, height, ps = 12, res = 200, units = "in",
+gen_default_fig <- function(filename=FALSE, width = 4, height, ps = 11, res = 200, units = "in",
                             mai = c(0.2,0,0.05,0),
-                            omi = c(0, 0.35, 0, 0), 
+                            omi = c(0.1, 0.5, 0, 0), 
                             mgp = c(1.4,.3,0),
                             num_divs = 1, ...){
   
@@ -49,16 +49,16 @@ get_yaxis <- function(data, title, lim = NULL){
   return(yaxis) 
 }
 
-get_yaxis_2D <- function(z_out, reference){
+get_yaxis_2D <- function(z_out, reference, prefix=NULL, suffix=NULL){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   
   if (reference == 'surface'){
     lim <- c(max(z_out), 0)
-    title <- 'Depth (m)'
+    title <- paste(prefix,' Depth (m) ',suffix, sep='')
   } else {
     lim <- c(0, max(z_out))
-    title <- 'Elevation (m)'
+    title <- paste(prefix,' Elevation (m) ',suffix, sep='')
   }
   
   yaxis <- get_yaxis(data = z_out, title = title, lim = lim)
@@ -73,7 +73,7 @@ color_key <- function(levels, colors, subs, cex = 0.75, col_label){
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   old_mgp <- par()$mgp
   old_mai <- par()$mai
-  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,.25,0))
+  par(mai=c(old_mai[1],0, old_mai[3], 0), mgp = c(-1,-1,0))
   axis(side = 4, at = 0.5, tck = NA, labels= col_label, lwd = 0.0)#(\xB0 C)
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   
@@ -210,4 +210,56 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
   units <- sim_var_units(file, var_name)
   unit_label <- paste0(titlename, " (", units, ")")
   return(unit_label)
+}
+
+
+.plot_nc_heatmap <- function(file, var_name, reference, num_cells=100, palette){
+  
+  surface <- get_surface_height(file)
+  max_depth <- max(surface[, 2])
+  min_depth <- 0
+  z_out <- seq(min_depth, max_depth,length.out = num_cells)
+  data <- get_var(file, z_out = z_out, var_name = var_name, reference = reference)
+  title = .unit_label(file, var_name)
+  .plot_df_heatmap(data, title, num_cells, palette)
+}
+
+.plot_df_heatmap <- function(data, bar_title, num_cells, palette, title_prefix=NULL,...){
+  
+  z_out <- rLakeAnalyzer::get.offsets(data)
+  reference = ifelse(substr(names(data)[2],1,3) == 'elv', 'bottom', 'surface')
+  
+  if (missing(palette))
+    palette <- colorRampPalette(c("violet","blue","cyan", "green3", "yellow", "orange", "red"), 
+                                bias = 1, space = "rgb")
+  
+  col_lim <- range(data[, -1], na.rm = TRUE)
+  
+  
+  col_subs <- head(pretty(col_lim, 6), -1)
+  levels <- sort(unique(c(col_subs, pretty(col_lim, 15))))
+  colors <- palette(n = length(levels)-1)
+  dates <- data[, 1]
+  matrix_var <- data.matrix(data[, -1])
+  xaxis <- get_xaxis(dates)
+  yaxis <- get_yaxis_2D(z_out, reference, prefix=title_prefix)
+  plot_layout(xaxis, yaxis, add=T)
+  .filled.contour(x = dates, y = z_out, z =matrix_var,
+                  levels= levels,
+                  col=colors)
+  list(...)$overlays # will plot any overlay functions
+  axis_layout(xaxis, yaxis) #doing this after heatmap so the axis are on top
+  
+  color_key(levels, colors, subs=col_subs, col_label = bar_title)
+}
+
+.plot_nc_timeseries <- function(file, var_name){
+  
+  ylab = .unit_label(file, var_name)
+  variable_df <- get_var(file, var_name=var_name)
+  xaxis <- get_xaxis(variable_df[,1])
+  yaxis <- get_yaxis(variable_df[,2], title = ylab)
+  plot_layout(xaxis, yaxis, add=T)
+  points(variable_df)
+  axis_layout(xaxis, yaxis)
 }

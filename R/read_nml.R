@@ -51,7 +51,6 @@ read_nml  <-	function(nml_file = 'template'){
     carryover = ''
     
     for (j in (blckOpen[i]+1):(blckClse[i]-1)){
-      
       textLine	<-	paste(carryover, gsub("\t","",gsub(" ","",fileLines[j])), sep='')
       #cat(textLine,'\n')
       #browser()
@@ -73,7 +72,6 @@ read_nml  <-	function(nml_file = 'template'){
     }
   }
   nml <- .nml(nml)
-  .validate_nml(nml)
   return(nml)
 }
 

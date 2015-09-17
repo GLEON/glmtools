@@ -13,10 +13,10 @@
 #'glm_nml <- read_nml()
 #'get_nml_value(glm_nml,arg_name = 'Kw')
 #'@export
-get_nml_value  <-	function(glm_nml, arg_name){
+get_nml_value  <-	function(glm_nml, arg_name, ...){
   
-  blckI	<-	findBlck(glm_nml,arg_name)
   
-  arg_val	<-	glm_nml[[blckI]][[arg_name]]
-  return(arg_val)
+  blck = get_block(glm_nml, arg_name, ...)
+  arg_name = get_arg_name(arg_name)
+  return(glm_nml[[blck]][[arg_name]])
 }

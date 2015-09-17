@@ -33,10 +33,9 @@ set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
     glm_nml <- setnmlList(glm_nml,arg_list)
   }
   
-  # get appropriate block to place val within ** assumes no duplicate param names in other blocks **
-  blckI	<-	findBlck(glm_nml,arg_name)
   
-  currVal	<-	glm_nml[[blckI]][[arg_name]]
+  
+  currVal	<-	get_nml_value(glm_nml, arg_name, warn=FALSE)
   typeError	<-	paste0("input ", arg_name ," must be of same data type as current value")
   if (is.logical(currVal) & !is.logical(arg_val)){
     stop(c(typeError,' (logical)'))
@@ -46,6 +45,9 @@ set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
     stop(c(typeError,' (numeric)'))
   }
   
-  glm_nml[[blckI]][[arg_name]]	<- arg_val
+  # get appropriate block to place val within ** assumes no duplicate param names in other blocks **
+  blck	<-	get_block(glm_nml,arg_name)
+  arg_name <- get_arg_name(arg_name)
+  glm_nml[[blck]][[arg_name]]	<- arg_val
   return(glm_nml)
 }

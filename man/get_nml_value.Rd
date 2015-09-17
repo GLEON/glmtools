@@ -10,6 +10,8 @@ get_nml_value(glm_nml, arg_name, ...)
 \item{glm_nml}{a nml (a list) for GLM config}
 
 \item{arg_name}{a string representing a valid field in glm_nml}
+
+\item{\dots}{additional arguments passed to \code{get_block}, such as warn=TRUE}
 }
 \value{
 arg_val value for the valid field in glm_nml specified by \code{arg_name}

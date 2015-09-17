@@ -13,6 +13,8 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE, ...)
 
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
+\item{fig_path}{F if plot to screen, string path if save plot as .png}
+
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }
 \description{

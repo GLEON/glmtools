@@ -11,6 +11,8 @@ plot_temp_compare(nc_file, field_file, fig_path = FALSE, ...)
 
 \item{field_file}{CSV or TSV field data file (see \link{resample_to_field} for format)}
 
+\item{fig_path}{F if plot to screen, string path if save plot as .png}
+
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }
 \description{

@@ -4,7 +4,8 @@
 \alias{plot_var_compare}
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE, ...)
+plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
+  resample = TRUE, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -14,6 +15,8 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE, ...)
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
+
+\item{resample}{sample the model output to the same time points as the observations?}
 
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }

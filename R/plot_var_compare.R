@@ -3,6 +3,7 @@
 #' @param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #' @param fig_path F if plot to screen, string path if save plot as .png
+#' @param resample sample the model output to the same time points as the observations?
 #' @param \dots additional arguments passed to \code{\link{resample_to_field}}
 #'
 #' @seealso Internally uses \link{get_var} and \link{resample_to_field}
@@ -18,7 +19,7 @@
 #'
 #'@importFrom akima interp
 #'@export
-plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, ...){
+plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, ...){
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   if (!heatmaps){
@@ -26,7 +27,10 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, ...
     return()
   }
    
-  
+  if (!resample){
+    warning('resample = FALSE is not yet supported for this function')
+    return()
+  }
   start_par = par(no.readonly = TRUE)
   #Create layout
   

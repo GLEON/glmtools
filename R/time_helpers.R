@@ -80,7 +80,7 @@ trunc_time <- function(df, start_date, stop_date){
 
 get_prec_time <- function(time_secs){
 	
-	if(is.na(prec)){
+	if(is.na(time_secs)){
 		return('days')
 	}
 	

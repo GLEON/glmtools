@@ -4,7 +4,7 @@
 \alias{get_nml_value}
 \title{gets a nml value according to an arg_name}
 \usage{
-get_nml_value(glm_nml, arg_name)
+get_nml_value(glm_nml, arg_name, ...)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}

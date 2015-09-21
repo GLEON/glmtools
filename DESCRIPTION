@@ -1,10 +1,12 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.9.10
+Version: 0.10.1
 Date: 2013-09-18
-Author: Jordan S Read, Luke A Winslow
-Maintainer: Jordan S Read <jread@usgs.gov>
+Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
+    email = "jread@usgs.gov"),
+    person("Luke", "Winslow", role = "aut",
+    email = "lwinslow@usgs.gov"))
 Description: tools for working with the GLM lake model.
 License: file LICENSE
 Copyright: This software is in the public domain because it contains materials
@@ -21,6 +23,10 @@ Imports:
     tools,
     akima
 Suggests:
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+BuildVignettes: true
 LazyLoad: yes
 LazyData: yes

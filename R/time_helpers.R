@@ -69,7 +69,7 @@ trunc_time <- function(df, start_date, stop_date){
   }
   
   df_step <- diff(as.numeric(srt_dt[1:2]))
-  t_unit <- get_prec_time(df_step)
+ 	t_unit <- get_prec_time(df_step)
   unit_s <- get_sec_unit(t_unit)
   
   # truncate *inclusive*
@@ -79,6 +79,11 @@ trunc_time <- function(df, start_date, stop_date){
 }
 
 get_prec_time <- function(time_secs){
+	
+	if(is.na(prec)){
+		return('days')
+	}
+	
   if (time_secs >= 3600 & time_secs < 86400){
     prec = 'hours'
   } else if (time_secs >= 60 & time_secs < 3600){

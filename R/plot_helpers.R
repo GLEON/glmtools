@@ -1,6 +1,6 @@
-gen_default_fig <- function(filename, width = 4, height, ps = 12, res = 200, units = "in",
+gen_default_fig <- function(filename=FALSE, width = 4, height, ps = 11, res = 200, units = "in",
                             mai = c(0.2,0,0.05,0),
-                            omi = c(0, 0.35, 0, 0), 
+                            omi = c(0.1, 0.5, 0, 0), 
                             mgp = c(1.4,.3,0),
                             num_divs = 1, ...){
   
@@ -49,16 +49,16 @@ get_yaxis <- function(data, title, lim = NULL){
   return(yaxis) 
 }
 
-get_yaxis_2D <- function(z_out, reference){
+get_yaxis_2D <- function(z_out, reference, prefix=NULL, suffix=NULL){
   
   if (length(z_out) < 2){stop('z_out must be larger than 1 for heatmap plots')}
   
   if (reference == 'surface'){
     lim <- c(max(z_out), 0)
-    title <- 'Depth (m)'
+    title <- paste(prefix,' Depth (m) ',suffix, sep='')
   } else {
     lim <- c(0, max(z_out))
-    title <- 'Elevation (m)'
+    title <- paste(prefix,' Elevation (m) ',suffix, sep='')
   }
   
   yaxis <- get_yaxis(data = z_out, title = title, lim = lim)
@@ -73,7 +73,7 @@ color_key <- function(levels, colors, subs, cex = 0.75, col_label){
        frame=FALSE,axes=F,xaxs="i",yaxs="i")
   old_mgp <- par()$mgp
   old_mai <- par()$mai
-  par(mai=c(old_mai[1],0, old_mai[3], .2), mgp = c(0,.25,0))
+  par(mai=c(old_mai[1],0, old_mai[3], 0), mgp = c(-1,-1,0))
   axis(side = 4, at = 0.5, tck = NA, labels= col_label, lwd = 0.0)#(\xB0 C)
   spc_pol_rat <- 0.2 # ratio between spaces and bars
   
@@ -211,3 +211,4 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
   unit_label <- paste0(titlename, " (", units, ")")
   return(unit_label)
 }
+

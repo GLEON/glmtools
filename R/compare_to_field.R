@@ -57,8 +57,8 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     bthD <- NA
   } else {
     hypso <- get_hypsography(file = nml_file)
-    bthA <- hypso$Areas
-    bthD <- hypso$Depths
+    bthA <- hypso$areas
+    bthD <- hypso$depths
   }
   compare_data <- resample_to_field(nc_file, field_file, ...)
   

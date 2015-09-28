@@ -6,7 +6,7 @@
 #'
 #'@param glm_nml a nml (a list) for GLM config
 #'@param file a string with the path to the GLM glm.nml file
-#'@return glm_bth a data.frame with \code{Depths} and \code{Areas}
+#'@return glm_bth a data.frame with \code{depths} and \code{areas}
 #'@keywords methods
 #'@author
 #'Jordan S. Read
@@ -32,6 +32,6 @@ get_hypsography <- function(glm_nml, file){
   bthA	<-	rev(get_nml_value(glm_nml,'A')) # (As of GLMv2.0, nml has areas in m^2, no conversion needed)
   bthZ	<-	rev(max_elev-heights)
   glm_bth	<-	data.frame(bthZ,bthA)
-  names(glm_bth)	<-	c("Depths","Areas")
+  names(glm_bth)	<-	c("depths","areas")
   return(glm_bth)
 }

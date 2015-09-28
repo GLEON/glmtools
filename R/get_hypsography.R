@@ -6,7 +6,7 @@
 #'
 #'@param glm_nml a nml (a list) for GLM config
 #'@param file a string with the path to the GLM glm.nml file
-#'@return glm_bth a data.frame with \code{Depths} and \code{Areas}
+#'@return glm_bth a data.frame with \code{depths} and \code{areas}
 #'@keywords methods
 #'@author
 #'Jordan S. Read

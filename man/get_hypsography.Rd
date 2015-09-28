@@ -12,7 +12,7 @@ get_hypsography(glm_nml, file)
 \item{file}{a string with the path to the GLM glm.nml file}
 }
 \value{
-glm_bth a data.frame with \code{Depths} and \code{Areas}
+glm_bth a data.frame with \code{depths} and \code{areas}
 }
 \description{
 Retrieves hypsography information from glm_nml object or file.  \cr

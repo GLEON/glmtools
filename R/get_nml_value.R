@@ -18,6 +18,6 @@ get_nml_value  <-	function(glm_nml, arg_name, ...){
   
   
   blck = get_block(glm_nml, arg_name, ...)
-  arg_name = get_arg_name(arg_name)
+  arg_name = 'get_arg_name(arg_name)'
   return(glm_nml[[blck]][[arg_name]])
 }

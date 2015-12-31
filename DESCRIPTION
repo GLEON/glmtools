@@ -7,7 +7,7 @@ Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
     person("Luke", "Winslow", role = "aut",
     email = "lwinslow@usgs.gov"))
-Description: tools for working with the GLM lake model.
+Description: Tools for working with the GLM lake model.
 License: file LICENSE
 Copyright: This software is in the public domain because it contains materials
     that originally came from the United States Geological Survey, an agency of

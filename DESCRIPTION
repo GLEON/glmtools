@@ -1,7 +1,7 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.10.2
+Version: 0.10.3
 Date: 2013-09-18
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),

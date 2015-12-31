@@ -27,6 +27,6 @@ plot_temp_compare(nc_file, field_file) ##makes a plot!
 Luke Winslow
 }
 \seealso{
-Internally uses \link{get_temp} and \link{resample_to_field}
+Internally uses \code{\link{plot_var_compare}}, \code{\link{get_temp}} and \code{\link{resample_to_field}}
 }
 

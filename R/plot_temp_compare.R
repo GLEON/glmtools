@@ -4,7 +4,7 @@
 #' @param fig_path F if plot to screen, string path if save plot as .png
 #'@param \dots additional arguments passed to \code{\link{resample_to_field}}
 #'
-#'@seealso Internally uses \link{get_temp} and \link{resample_to_field}
+#'@seealso Internally uses \code{\link{plot_var_compare}}, \code{\link{get_temp}} and \code{\link{resample_to_field}}
 #'
 #'@author Luke Winslow
 #'

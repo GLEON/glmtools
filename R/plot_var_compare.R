@@ -15,7 +15,9 @@
 #'nml_file <- file.path(sim_folder, 'glm2.nml')
 #'field_file <- file.path(sim_folder, 'field_data.tsv')
 #'
-#'plot_var_compare(nc_file, field_file, 'temp') ##makes a plot!
+#'run_glm(sim_folder)
+#'
+#'plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot!
 #'
 #'@importFrom akima interp
 #'@export
@@ -26,11 +28,7 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
     warning('plot_var_compare not implemented for 1D variables')
     return()
   }
-   
-  if (!resample){
-    warning('resample = FALSE is not yet supported for this function')
-    return()
-  }
+  
   start_par = par(no.readonly = TRUE)
   #Create layout
   
@@ -39,7 +37,12 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   
   
   data = resample_to_field(nc_file, field_file, ...)
-  model_df <- resample_sim(mod_temp, t_out = unique(data$DateTime))
+  if(resample){
+  	model_df <- resample_sim(mod_temp, t_out = unique(data$DateTime))
+  }else{
+  	model_df = mod_temp
+  }
+  
   #Pivot observed into table
   
   x = as.numeric(as.POSIXct(data$DateTime))
@@ -59,10 +62,13 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   names(obs_df) <- paste('var_',y_out, sep='')
   obs_df <- cbind(data.frame(DateTime=as.POSIXct(x_out, origin='1970-01-01')), obs_df)
   
-  y.text = y_out[1]+diff(range(y_out))*0.05 # note, reference will ALWAYS be surface for compare to field data
-  .plot_df_heatmap(obs_df, bar_title = .unit_label(nc_file,var_name), overlays=c(points(x=x,y=y),text(x_out[1],y=y.text,'Observed', pos=4, offset = 1)))
+  #Use model to define X-axis plotting extent for both graphs
+  xaxis <- get_xaxis(model_df[,1])
   
-  .plot_df_heatmap(model_df, bar_title = .unit_label(nc_file,var_name), overlays=text(x_out[1],y=y.text,'Modeled', pos=4, offset = 1))
+  y.text = y_out[1]+diff(range(y_out))*0.05 # note, reference will ALWAYS be surface for compare to field data
+  .plot_df_heatmap(obs_df, bar_title = .unit_label(nc_file,var_name), overlays=c(points(x=x,y=y),text(x_out[1],y=y.text,'Observed', pos=4, offset = 1)), xaxis=xaxis)
+  
+  .plot_df_heatmap(model_df, bar_title = .unit_label(nc_file,var_name), overlays=text(x_out[1],y=y.text,'Modeled', pos=4, offset = 1), xaxis=xaxis)
   
   par(start_par)#set PAR back to what it started at
   if(is.character(fig_path))

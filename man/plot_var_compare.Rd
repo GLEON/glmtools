@@ -26,7 +26,10 @@ nc_file <- file.path(sim_folder, 'output.nc')
 nml_file <- file.path(sim_folder, 'glm2.nml')
 field_file <- file.path(sim_folder, 'field_data.tsv')
 
-plot_var_compare(nc_file, field_file, 'temp') ##makes a plot!
+run_glm(sim_folder)
+
+plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot!
+
 
 }
 \seealso{

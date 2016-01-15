@@ -30,7 +30,6 @@ run_glm(sim_folder)
 
 plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot!
 
-
 }
 \seealso{
 Internally uses \link{get_var} and \link{resample_to_field}

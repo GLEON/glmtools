@@ -26,7 +26,7 @@
 #'print(sim_vars(nc_file))
 #'evaporation <- get_var(nc_file, var_name = "evap")
 #'plot(evaporation)
-#'@import ncdf
+#'@importFrom ncdf4 ncvar_get
 #'@export
 get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   
@@ -34,9 +34,9 @@ get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = 
   
   glm_nc <- get_glm_nc(file)
   
-  tallest_layer <- get.var.ncdf(glm_nc, "NS") #The last useful index
-  elev <- get.var.ncdf(glm_nc, "z" )
-  temp <- get.var.ncdf(glm_nc, var_name)
+  tallest_layer <- ncvar_get(glm_nc, "NS") #The last useful index
+  elev <- ncvar_get(glm_nc, "z" )
+  temp <- ncvar_get(glm_nc, var_name)
   time <- get_time(glm_nc)
   
   close_glm_nc(glm_nc)

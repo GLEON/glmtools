@@ -16,12 +16,12 @@
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'surface <- get_surface_height(file = nc_file)
 #'surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FALSE)
-#'@import ncdf
+#'@importFrom ncdf4 ncvar_get
 #'@export
 get_surface_height  <-	function(file='output.nc', ice.rm = TRUE, snow.rm = TRUE, ...){
   glm_nc <- get_glm_nc(file)
-  NS	<- 	get.var.ncdf(glm_nc, "NS")
-  elev <- get.var.ncdf(glm_nc, "z")
+  NS	<- 	ncvar_get(glm_nc, "NS")
+  elev <- ncvar_get(glm_nc, "z")
   time <- get_time(glm_nc)
   close_glm_nc(glm_nc)
   

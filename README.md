@@ -51,7 +51,7 @@ How do I install `glmtools`? It isn't on CRAN!
         
 What libraries does `glmtools` need?
 ===
-This version requires the NetCDF version R library (called `ncdf`), and `rLakeAnalyzer`, and `tools` if you would like to run all examples. 
+This version requires the NetCDF version R library (called `ncdf4`), and `rLakeAnalyzer`, and `tools` if you would like to run all examples. 
 
 How do I contribute new code back to the glmtools project?
 ===

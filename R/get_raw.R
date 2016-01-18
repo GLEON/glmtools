@@ -31,12 +31,12 @@
 #'sim_folder <- run_example_sim(verbose = FALSE)
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'wind <- get_raw(nc_file, 'wind') #raw wind data
-#'@import ncdf
+#'@importFrom ncdf4 ncvar_get
 #'@seealso \code{\link{sim_vars}}
 #'@export
 get_raw <-  function(file='output.nc', param_name){
   glm_nc <- get_glm_nc(file)
-  raw_data <- get.var.ncdf(glm_nc, param_name)
+  raw_data <- ncvar_get(glm_nc, param_name)
   
   close_glm_nc(glm_nc)
   return(raw_data)

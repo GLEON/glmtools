@@ -40,12 +40,12 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
 		
 		val_indx = mod_and_obs$DateTime == u_dates[i]
 		
-		plot(mod_and_obs$Modeled_wTemp[val_indx], mod_and_obs$Depth[val_indx], type='l', 
-				 xlim=range(c(mod_and_obs$Modeled_wTemp[val_indx], mod_and_obs$Observed_wTemp[val_indx]), na.rm=TRUE),
+		plot(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Depth[val_indx], type='l', 
+				 xlim=range(c(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Observed_temp[val_indx]), na.rm=TRUE),
 				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_and_obs$Depth[val_indx], na.rm = T),0),
 				 main=strptime(u_dates[i], '%Y-%m-%d'))
 		
-		points(mod_and_obs$Observed_wTemp[val_indx], mod_and_obs$Depth[val_indx], pch=20)
+		points(mod_and_obs$Observed_temp[val_indx], mod_and_obs$Depth[val_indx], pch=20)
 		
 	}
   par(start_par)

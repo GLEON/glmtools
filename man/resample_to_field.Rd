@@ -4,7 +4,8 @@
 \alias{resample_to_field}
 \title{match GLM water temperatures with field observations}
 \usage{
-resample_to_field(nc_file, field_file, method = "match", precision = "days")
+resample_to_field(nc_file, field_file, method = "match", precision = "days",
+  var_name = "temp")
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -14,6 +15,9 @@ resample_to_field(nc_file, field_file, method = "match", precision = "days")
 \item{method}{'match' for exact match or 'interp' for temporal interpolation}
 
 \item{precision}{matching precision (must be 'secs', 'mins','hours', or 'days')}
+
+\item{var_name}{Name of variable to look for in field_obs file. 
+Should match a GLM simulation variable (see output from \code{\link{sim_vars}}).}
 }
 \value{
 validation a data.frame with DateTime and temperature at depth

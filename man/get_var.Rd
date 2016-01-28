@@ -15,7 +15,7 @@ get_var(file = "output.nc", var_name, reference = "bottom", z_out = NULL,
 \item{reference}{a string which specifies the vertical reference ('surface' or 'bottom'). 
 (Only used for variables with multiple depths)}
 
-\item{z_out}{an optional vector of depths for temperature output (in meters). 
+\item{z_out}{an optional vector of depths for value output (in meters). 
 (Only used for variables with multiple depths). 
 If NULL, depths will be determined based on the depth of the lake}
 
@@ -24,7 +24,7 @@ If NULL, depths will be determined based on the depth of the lake}
 \item{...}{additional arguments passed to \code{resample_sim()}}
 }
 \value{
-a data.frame with DateTime and temperature at depth
+a data.frame with DateTime and variable at depth
 }
 \description{
 Creates a data.frame with DateTime and variable  \cr

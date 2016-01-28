@@ -36,7 +36,7 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   mod_depths = get.offsets(mod_temp)
   
   
-  data = resample_to_field(nc_file, field_file, ...)
+  data = resample_to_field(nc_file, field_file, var_name=var_name, ...)
   if(resample){
   	model_df <- resample_sim(mod_temp, t_out = unique(data$DateTime))
   }else{
@@ -44,10 +44,9 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   }
   
   #Pivot observed into table
-  
   x = as.numeric(as.POSIXct(data$DateTime))
   y = data$Depth
-  z = data$Observed_wTemp
+  z = data[,paste0('Observed_', var_name)]
   x_out = sort(unique(x))
   y_out = sort(unique(mod_depths))
   
@@ -59,7 +58,7 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   gen_default_fig(filename=fig_path, num_divs=2)#, omi = c(0.1, 0.5, 0, 0))
   .stacked_layout(heatmaps, num_divs=2)
   obs_df <- data.frame(interped$z)
-  names(obs_df) <- paste('var_',y_out, sep='')
+  names(obs_df) <- paste('var_', y_out, sep='')
   obs_df <- cbind(data.frame(DateTime=as.POSIXct(x_out, origin='1970-01-01')), obs_df)
   
   #Use model to define X-axis plotting extent for both graphs

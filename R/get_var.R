@@ -8,13 +8,13 @@
 #'@param file a string with the path to the netcdf output from GLM
 #'@param reference a string which specifies the vertical reference ('surface' or 'bottom'). 
 #'(Only used for variables with multiple depths)
-#'@param z_out an optional vector of depths for temperature output (in meters). 
+#'@param z_out an optional vector of depths for value output (in meters). 
 #'(Only used for variables with multiple depths). 
 #'If NULL, depths will be determined based on the depth of the lake
 #'@param t_out a vector of POSIXct dates for temporal resampling (order is important)
 #'@param var_name a name of a valid variable in the netcdf file specified with \code{file}.
 #'@param ... additional arguments passed to \code{resample_sim()}
-#'@return a data.frame with DateTime and temperature at depth 
+#'@return a data.frame with DateTime and variable at depth 
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
 #'@author
@@ -29,8 +29,6 @@
 #'@importFrom ncdf4 ncvar_get
 #'@export
 get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
-  
-  
   
   glm_nc <- get_glm_nc(file)
   
@@ -101,8 +99,13 @@ get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = 
   frameNms	<-	letters[seq( from = 1, to = num_dep )]
   frameNms[1] <- "DateTime"
   
+  #Added this for backwards compatibility, temp was labeled as wtr_
+  #if(var_name == 'temp'){
+  # 	var_name <- 'wtr'
+  #}
+  
   for (z in 1:num_dep){
-    out_head <- ifelse(reference=='surface', 'wtr_', 'elv_')
+    out_head <- ifelse(reference=='surface', paste0(var_name, '_'), paste0(var_name, '.elv_'))
     frameNms[z+1]  <- paste(c(out_head,as.character(z_out[z])),collapse="")
   }
   names(glm_temp)<- frameNms

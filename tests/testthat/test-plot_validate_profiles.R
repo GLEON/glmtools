@@ -29,3 +29,14 @@ test_that("plot_temp_compare", {
   plot_temp_compare(nc_file, field_file)
   expect_equal(old_par, par(no.readonly = TRUE))
 })
+
+context('plot_var')
+test_that("plot_var", {
+	
+	old_par = par(no.readonly = TRUE)
+	plot_var(nc_file, 'V')
+	plot_var(nc_file, 'evap')
+	plot_var(nc_file, 'Tot_V')
+	plot_var(nc_file, 'u_mean')
+	expect_equal(old_par, par(no.readonly = TRUE))
+})

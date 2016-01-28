@@ -23,16 +23,13 @@
 #' @import tools
 #' @export
 read_field_obs <- function(file, var_name='temp'){
-  
-	#standardize varname case
-	var_name = tolower(var_name)
 	
   delimiter <- get_delimiter(file)
   data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
   
   date_i <- match('datetime', tolower(names(data)))
   depth_i <- match('depth', tolower(names(data)))
-  var_i <- match(var_name, tolower(names(data)))
+  var_i <- match(tolower(var_name), tolower(names(data))) #only use lowercase in find, need case consistent later
   #if (is.na(var_i) && var_name == 'temp'){
   	#leave this in here to catch wtemp header
   #  var_i <- match('wtemp',tolower(names(data)))

@@ -23,9 +23,6 @@
 #'@export
 plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, ...){
   
-	#standardize
-	var_name = tolower(var_name)
-	
   heatmaps <- .is_heatmap(nc_file, var_name)
   if (!heatmaps){
     warning('plot_var_compare not implemented for 1D variables')

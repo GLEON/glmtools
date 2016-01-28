@@ -22,6 +22,9 @@
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days', var_name='temp'){
   
+	#standardize
+	var_name = tolower(var_name)
+	
   field_obs <- read_field_obs(field_file, var_name=var_name)
   
   time_info <- get_time_info(file = nc_file)

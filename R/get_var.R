@@ -30,7 +30,8 @@
 #'@export
 get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   
-  
+	#standardize
+	var_name = tolower(var_name)
   
   glm_nc <- get_glm_nc(file)
   

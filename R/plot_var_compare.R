@@ -50,6 +50,10 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   x_out = sort(unique(x))
   y_out = sort(unique(mod_depths))
   
+  #remove any NA values before the 2D interp
+  x = x[!is.na(z)]
+  y = y[!is.na(z)]
+  z = z[!is.na(z)]
   
   #Added a scaling factor to Y. Interp won't interpolate if X and Y are on vastly different scales.
   # I don't use Y from here later, so it doesn't matter what the mangitude of the values is.

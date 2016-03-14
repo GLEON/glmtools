@@ -5,7 +5,7 @@
 \title{plot variables from a GLM simulation}
 \usage{
 plot_var(file = "output.nc", var_name, fig_path = F,
-  reference = "surface", ...)
+  reference = "surface", col_lim, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -15,6 +15,8 @@ plot_var(file = "output.nc", var_name, fig_path = F,
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
 
 \item{reference}{'surface' or 'bottom'. Only used for heatmap plots.}
+
+\item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{...}{additional arguments passed to \code{par()}}
 }

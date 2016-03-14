@@ -3,6 +3,7 @@
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path F if plot to screen, string path if save plot as .png
 #'@param reference 'surface' or 'bottom'. Only used for heatmap plots.
+#' @param col_lim range for heatmap (in units of the variable)
 #'@param ... additional arguments passed to \code{par()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
@@ -25,7 +26,7 @@
 #'fig_path = 'aed_out.png')
 #'}
 #'@export
-plot_var <- function(file='output.nc', var_name, fig_path = F, reference='surface', ...){
+plot_var <- function(file='output.nc', var_name, fig_path = F, reference='surface', col_lim, ...){
   
   heatmaps <- .is_heatmap(file, var_name)
   num_divs <- length(var_name)
@@ -42,7 +43,7 @@ plot_var <- function(file='output.nc', var_name, fig_path = F, reference='surfac
   # iterate through plots
   for (j in 1:num_divs){
     if (heatmaps[j]){
-      .plot_nc_heatmap(file, var_name[j], reference)
+      .plot_nc_heatmap(file, var_name[j], reference, col_lim=col_lim)
     } else {
       .plot_nc_timeseries(file, var_name[j])
       if(is_heatmap) .plot_null() # to fill up the colormap div

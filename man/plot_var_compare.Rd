@@ -5,7 +5,7 @@
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
 plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
-  resample = TRUE, ...)
+  resample = TRUE, col_lim, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -17,6 +17,8 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
 
 \item{resample}{sample the model output to the same time points as the observations?}
+
+\item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }

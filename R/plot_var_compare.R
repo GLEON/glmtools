@@ -4,6 +4,7 @@
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #' @param fig_path F if plot to screen, string path if save plot as .png
 #' @param resample sample the model output to the same time points as the observations?
+#' @param col_lim range for heatmap (in units of the variable)
 #' @param \dots additional arguments passed to \code{\link{resample_to_field}}
 #'
 #' @seealso Internally uses \link{get_var} and \link{resample_to_field}
@@ -21,7 +22,7 @@
 #'
 #'@importFrom akima interp
 #'@export
-plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, ...){
+plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, col_lim, ...){
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   if (!heatmaps){
@@ -69,9 +70,12 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   xaxis <- get_xaxis(model_df[,1])
   
   y.text = y_out[1]+diff(range(y_out))*0.05 # note, reference will ALWAYS be surface for compare to field data
-  .plot_df_heatmap(obs_df, bar_title = .unit_label(nc_file,var_name), overlays=c(points(x=x,y=y),text(x_out[1],y=y.text,'Observed', pos=4, offset = 1)), xaxis=xaxis)
+  if (missing(col_lim))
+    col_lim = range(data[, -1], na.rm = TRUE)
   
-  .plot_df_heatmap(model_df, bar_title = .unit_label(nc_file,var_name), overlays=text(x_out[1],y=y.text,'Modeled', pos=4, offset = 1), xaxis=xaxis)
+  .plot_df_heatmap(obs_df, bar_title = .unit_label(nc_file,var_name), overlays=c(points(x=x,y=y),text(x_out[1],y=y.text,'Observed', pos=4, offset = 1)), xaxis=xaxis, col_lim=col_lim)
+  
+  .plot_df_heatmap(model_df, bar_title = .unit_label(nc_file,var_name), overlays=text(x_out[1],y=y.text,'Modeled', pos=4, offset = 1), xaxis=xaxis, col_lim=col_lim)
   
   par(start_par)#set PAR back to what it started at
   if(is.character(fig_path))

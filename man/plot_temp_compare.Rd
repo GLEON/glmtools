@@ -4,7 +4,8 @@
 \alias{plot_temp_compare}
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(nc_file, field_file, fig_path = FALSE, ...)
+plot_temp_compare(nc_file, field_file, fig_path = FALSE, resample = TRUE,
+  col_lim, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -12,6 +13,10 @@ plot_temp_compare(nc_file, field_file, fig_path = FALSE, ...)
 \item{field_file}{CSV or TSV field data file (see \link{resample_to_field} for format)}
 
 \item{fig_path}{F if plot to screen, string path if save plot as .png}
+
+\item{resample}{sample the model output to the same time points as the observations?}
+
+\item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }

@@ -72,7 +72,15 @@ get_time_info <- function(glm_nc, file = NULL){
 }
 
 .is_heatmap <- function(file, var_name){
+  
   glm_nc <- get_glm_nc(file)
+  in.nc <- var_name %in% names(glm_nc$var)
+  if (!all(in.nc)){
+    close_glm_nc(glm_nc)
+    stop(paste(var_name[!in.nc], collapse=', '),' not in ', file)
+  }
+      
+  
   dims <-unlist(lapply(X = var_name, FUN = function(x) length(glm_nc$var[[x]]$dim)))
   
   close_glm_nc(glm_nc)

@@ -52,3 +52,15 @@ test_that("get variables from sim",{
   expect_is(sim_var_units(nc_file, 'u_mean'), 'character')
   expect_error(sim_var_units(nc_file, 'u_meanBADNAME'))
 })
+
+context(".is_heatmap")
+
+test_that("test is heatmap",{
+  sim_folder <- run_example_sim(verbose = FALSE)
+  nc_file <- file.path(sim_folder, 'output.nc')
+  var_names <- c("hice","NS","garbage","other")
+  expect_error(glmtools:::.is_heatmap(nc_file, var_names), 'garbage, other not in ')
+  expect_is(glmtools:::.is_heatmap(nc_file, c('NS','hice')), 'logical')
+  expect_true(glmtools:::.is_heatmap(nc_file,'temp'))
+  expect_false(glmtools:::.is_heatmap(nc_file,'evap'))
+})

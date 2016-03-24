@@ -14,7 +14,6 @@ install:
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh r_install covr
   - Rscript -e 'install.packages("GLMr", repos="http://owi.usgs.gov/R")'
-#  - ./travis-tool.sh install_github GLEON/GLMr
 script: ./travis-tool.sh run_tests
 
 after_success:

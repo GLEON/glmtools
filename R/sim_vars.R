@@ -18,7 +18,7 @@ sim_vars <- function(file='output.nc'){
   var_list = unlist(lapply(glm_nc$var,function(x){x$name}))
   
   #build a data table and populate with units and longnames
-  out = data.frame(name=unname(var_list))
+  out = data.frame(name=unname(var_list), stringsAsFactors = FALSE)
   out$unit     = unlist(lapply(glm_nc$var,function(x){x$units}))
   out$longname = unlist(lapply(glm_nc$var,function(x){x$longname}))
   

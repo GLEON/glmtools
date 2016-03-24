@@ -13,7 +13,7 @@ before_install:
 install:
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh r_install covr
-  - ./travis-tool.sh install_github GLEON/GLMr
+  - Rscript -e 'install.packages("GLMr", repos="http://owi.usgs.gov/R")'
 script: ./travis-tool.sh run_tests
 
 after_success:

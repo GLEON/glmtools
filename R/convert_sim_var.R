@@ -10,6 +10,7 @@
 #' @param longname the longname for the new variable
 #' @export
 #' @importFrom lazyeval lazy_dots lazy_eval
+#' @importFrom ncdf4 ncvar_def ncvar_put ncvar_add
 #' @examples 
 #' \dontrun{
 #'sim_folder <- run_example_sim(verbose = FALSE)
@@ -17,12 +18,13 @@
 #'convert_sim_var(nc_file, tempF = temp/5*9+32, unit='degF',longname='temperature degrees Farenheit')
 #'plot_var(nc_file, 'tempF')
 #'convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
-#'plot_var(nc_file, crazy_var)
+#'plot_var(nc_file, 'crazy_var')
 #'
 #' }
 #' 
 convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname=''){
   
+  sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
   
   # // here, vals would be defined by the function passed in by `...`. Probably captured w/ lazyeval?
@@ -32,10 +34,16 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname=''){
     stop('not yet ready to handle multi-var expressions')
   
   var.name <- names(convert)
+  if (var.name %in% sim.vars)
+    stop(var.name, ' cannot be added, it already exists.', call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
   variables <- strsplit(fun.string,"[^a-zA-Z_]")[[1]]
   variables <- variables[variables != '']
+  vars.not.in <- variables[!variables %in% sim.vars]
+  if (length(vars.not.in) > 0)
+    stop(paste(vars.not.in, collapse=', '), ' do not exist in simulation vars', call. = FALSE)
+  
   data <- lapply(variables, function(v) get_raw(nc_file, v))
   names(data) <- variables
   vals <- lazyeval::lazy_eval(convert, data=data)[[1]]

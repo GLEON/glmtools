@@ -26,7 +26,7 @@ nc_file <- file.path(sim_folder, 'output.nc')
 convert_sim_var(nc_file, tempF = temp/5*9+32, unit='degF',longname='temperature degrees Farenheit')
 plot_var(nc_file, 'tempF')
 convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
-plot_var(nc_file, crazy_var)
+plot_var(nc_file, 'crazy_var')
 
 }
 

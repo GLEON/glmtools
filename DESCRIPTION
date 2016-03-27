@@ -21,7 +21,8 @@ Depends:
 Imports:
     ncdf4,
     tools,
-    akima
+    akima,
+    lazyeval
 Suggests:
     testthat,
     knitr,

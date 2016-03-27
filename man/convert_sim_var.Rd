@@ -4,12 +4,10 @@
 \alias{convert_sim_var}
 \title{convert an existing simulation variable into a different one}
 \usage{
-convert_sim_var(nc_file = "output.nc", name, unit, longname = name, ...)
+convert_sim_var(nc_file = "output.nc", ..., unit = "", longname = "")
 }
 \arguments{
 \item{nc_file}{the netcdf output file}
-
-\item{name}{the name for the new variable}
 
 \item{unit}{the units for the new variable}
 
@@ -25,8 +23,11 @@ that can be used with \code{\link{plot_var_compare}}, and others.
 \dontrun{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
-convert_sim_var(nc_file, 'tempF','degF','temperature degrees Farenheit', temp/5*9+32)
+convert_sim_var(nc_file, tempF = temp/5*9+32, unit='degF',longname='temperature degrees Farenheit')
 plot_var(nc_file, 'tempF')
+convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
+plot_var(nc_file, crazy_var)
+
 }
 
 }

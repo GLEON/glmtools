@@ -31,3 +31,13 @@ test_that("can modify variable with a function", {
   expect_error(convert_sim_var(nc_file, tempf2 = garbagefun(temp)))
   
 })
+
+test_that("can overwrite existing variable", {
+  
+  temp2f <- function(c) c/5*9+32
+  tempf <- get_raw(nc_file, 'tempf')
+  convert_sim_var(nc_file, tempf = temp2f(temp), overwrite = TRUE)
+  expect_equal(tempf, get_raw(nc_file, 'tempf'))
+  convert_sim_var(nc_file, tempf = temp2f(temp)+5, overwrite = TRUE)
+  expect_equal(tempf, get_raw(nc_file, 'tempf')-5)
+})

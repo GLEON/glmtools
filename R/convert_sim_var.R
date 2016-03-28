@@ -25,9 +25,7 @@
 #' }
 #' 
 convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', overwrite=FALSE){
-  
-  if (overwrite)
-    stop('overwrite=TRUE is not yet implemented for convert_sim_var', call. = FALSE)
+
   
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
@@ -39,8 +37,9 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', over
     stop('not yet ready to handle multi-var expressions')
   
   var.name <- names(convert)
-  if (var.name %in% sim.vars)
-    stop(var.name, ' cannot be added, it already exists.', call. = FALSE)
+  var.exists <- var.name %in% sim.vars
+  if (var.exists & !overwrite)
+    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
   variables <- strsplit(fun.string,"[^a-zA-Z_]")[[1]]
@@ -53,20 +52,26 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', over
   
   nc <- nc_open(nc_file, readunlim=TRUE, write=TRUE)
   
-  #depending on conversion, dims can be [time], [lon,lat,time], or [lon,lat,z,time] 
-  lon <- nc$dim$lon
-  lat <- nc$dim$lon
-  time <- nc$dim$time
-  if (length(dim(vals)) > 1){
-    z <- nc$dim$z
-    dim = list(lon,lat,z,time)
-  } else {
-    dim = list(lon,lat,time)
-  }
   
-  missval = 9.96920996838687e36
-  var_new <- ncvar_def(name=var.name, unit, dim = dim, missval, prec="double")
-  nc <- ncvar_add(nc, var_new)
+  if (!var.exists){
+    #depending on conversion, dims can be [time], [lon,lat,time], or [lon,lat,z,time] 
+    lon <- nc$dim$lon
+    lat <- nc$dim$lon
+    time <- nc$dim$time
+    if (length(dim(vals)) > 1){
+      z <- nc$dim$z
+      dim = list(lon,lat,z,time)
+    } else {
+      dim = list(lon,lat,time)
+    }
+    
+    missval = 9.96920996838687e36
+    var_new <- ncvar_def(name=var.name, unit, dim = dim, missval, prec="double")
+    nc <- ncvar_add(nc, var_new)
+  } else {
+    var_new <- var.name
+  }
+    
   
   ncvar_put(nc, var_new, vals=vals)
   nc_close(nc)

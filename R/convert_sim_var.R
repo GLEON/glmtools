@@ -20,9 +20,14 @@
 #'convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
 #'plot_var(nc_file, 'crazy_var')
 #'
+#'temp2f <- function(c) c/5*9+32
+#'convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
 #' }
 #' 
-convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname=''){
+convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', overwrite=FALSE){
+  
+  if (overwrite)
+    stop('overwrite=TRUE is not yet implemented for convert_sim_var', call. = FALSE)
   
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
@@ -40,12 +45,10 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname=''){
   fun.string <- deparse(convert[[1]]$expr)
   variables <- strsplit(fun.string,"[^a-zA-Z_]")[[1]]
   variables <- variables[variables != '']
-  vars.not.in <- variables[!variables %in% sim.vars]
-  if (length(vars.not.in) > 0)
-    stop(paste(vars.not.in, collapse=', '), ' do not exist in simulation vars', call. = FALSE)
+  nc.vars <- variables[variables %in% sim.vars]
   
-  data <- lapply(variables, function(v) get_raw(nc_file, v))
-  names(data) <- variables
+  data <- lapply(nc.vars, function(v) get_raw(nc_file, v))
+  names(data) <- nc.vars
   vals <- lazyeval::lazy_eval(convert, data=data)[[1]]
   
   nc <- nc_open(nc_file, readunlim=TRUE, write=TRUE)

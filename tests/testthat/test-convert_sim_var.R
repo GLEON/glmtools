@@ -4,7 +4,7 @@ test_that("errors with poor matches", {
   sim_folder <- run_example_sim(verbose = FALSE)
   nc_file <<- file.path(sim_folder, 'output.nc')
   expect_error(convert_sim_var(nc_file, temp = temp*2), "temp cannot be added, it already exists.")
-  expect_error(convert_sim_var(nc_file, temp.new = garbage), "garbage do not exist in simulation vars")
+  expect_error(convert_sim_var(nc_file, temp.new = garbage))
 })
 
 test_that("can add variable", {
@@ -21,4 +21,13 @@ test_that("can modify variable with more than one variable function", {
 
   convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
   expect_true('crazy_var' %in% sim_vars(nc_file)$name)
+})
+
+test_that("can modify variable with a function", {
+  
+  temp2f <- function(c) c/5*9+32
+  convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
+  expect_true('tempf' %in% sim_vars(nc_file)$name)
+  expect_error(convert_sim_var(nc_file, tempf2 = garbagefun(temp)))
+  
 })

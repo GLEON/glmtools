@@ -49,7 +49,7 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   y = data$Depth
   z = data[,paste0('Observed_', var_name)]
   x_out = sort(unique(x))
-  y_out = sort(unique(mod_depths))
+  y_out = sort(unique(c(y, mod_depths)))
   
   #remove any NA values before the 2D interp
   x = x[!is.na(z)]

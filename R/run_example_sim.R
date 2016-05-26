@@ -24,6 +24,8 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
   calibration_csv <- file.path(sim_folder, 'field_data.csv')
   stage_csv <- file.path(sim_folder, 'field_stage.csv')
+  ice_snow_csv <- file.path(sim_folder, 'snow_ice_depth_obs.csv')
+  ice_dur_csv <- file.path(sim_folder, 'ice_duration_obs.csv')
   
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
   # move glm2.nml to sim_folder
@@ -34,6 +36,8 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
   file.copy(from = system.file('extdata', 'field_data.csv', package = 'glmtools'), to = calibration_csv)
   file.copy(from = system.file('extdata', 'field_stage.csv', package = 'glmtools'), to = stage_csv)
+  file.copy(from = system.file('extdata', basename(ice_snow_csv), package = 'glmtools'), to = ice_snow_csv)
+  file.copy(from = system.file('extdata', basename(ice_dur_csv), package = 'glmtools'), to = ice_dur_csv)
   
   nml <- read_nml() # read in default nml from GLMr
   nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Sparkling', 

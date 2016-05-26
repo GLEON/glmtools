@@ -43,22 +43,24 @@ test_that('testing unsupported methods', {
 
 context('resample_sim testing interpolation')
 test_that('testing interpolation', { 
-  t_out <- as.POSIXct(c("2011-04-05 08:15", 
-             "2011-06-14 10:30", "2011-04-05 10:21", 
-             "2011-07-28 10:00"),tz = 'GMT') 
+  t_out <- as.POSIXct(c("2010-05-05 08:15", 
+             "2010-06-14 10:30", "2010-04-16 10:21", 
+             "2010-07-28 10:00"),tz = 'GMT') 
   df <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'exact')
   expect_true(all(t_out == df[,1]))
   
   df_min <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'mins')
   expect_true(all(df_min[,1] == df[,1]))
+
+  t_out <- as.POSIXct(c("2010-05-05 08:15:00", 
+  											"2010-06-14 10:30:00", "2010-05-05 08:15:14", 
+  											"2010-07-28 10:00:00"),tz = 'GMT') 
   
-  t_out <- as.POSIXct(c("2011-04-05 08:15:00", 
-                        "2011-06-14 10:30:00", "2011-04-05 08:15:14", 
-                        "2011-07-28 10:00:00"),tz = 'GMT') 
   #no error
   df <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'exact')
-  # error
+  
+  # Should throw duplicate value warning with minute precision (2010-05-05 8:15 appears twice)
   expect_warning(df_min <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'mins'))
-  expect_less_than(length(unique(df_min[,1])),length(unique(df[,1])))
+  expect_lt(length(unique(df_min[,1])),length(unique(df[,1])))
 })
 

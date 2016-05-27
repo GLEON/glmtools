@@ -27,7 +27,7 @@
 #'                           metric = 'water.temperature', as_value = FALSE)
 #'print(paste(temp_rmse,'deg C RMSE'))
 #'# function in development
-#'buoy_file <- file.path(sim_folder, 'buoy_data.csv')
+#'buoy_file <- file.path(sim_folder, 'field_data.tsv')
 #'temp_rmse <- compare_to_field(nc_file, buoy_file, 
 #'                           metric = 'water.temperature', as_value = FALSE, 
 #'                           method = 'interp',precision = 'hours')

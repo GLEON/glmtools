@@ -138,6 +138,7 @@ Commented text is anything that begins with a `!`, for example:
 !-------------------------------------------------------------------------------
 ```
 These commented lines are ignored by the model. There are advantages to using R to both run the model and modify the model parameters, including increased efficiency and the reproducibility aspects mentioned above.
+
 ###Reading nml files into R
 `glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm2.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:

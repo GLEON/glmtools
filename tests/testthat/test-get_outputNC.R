@@ -17,6 +17,10 @@ test_that("get_wind", {
   expect_true(all(t_out == df[,1]))
 })
 
+test_that("check hanging nml", {
+  expect_error(read_nml(system.file(package='glmtools', 'extdata', 'hanging_line.nml')), "Empty values after")
+})
+
 context("get_surface_height")
 
 test_that("get_surface_height", {

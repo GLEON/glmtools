@@ -1,0 +1,365 @@
+!-------------------------------------------------------------------------------
+! general model setup
+!-------------------------------------------------------------------------------
+!
+! sim_name         [string]  title of simulation       
+! max_layers       [integer] maximum number of layers  
+! min_layer_vol    [real]    minimum layer volume (m3 * 1000)      
+! min_layer_thick  [real]    minimum layer thickness (m)  
+! max_layer_thick  [real]    maximum layer thickness (m) 
+! Kw               [real]    background light attenuation (m**-1)
+! coef_mix_conv    [real]    mixing efficiency - convective overturn
+! coef_wind_stir   [real]    mixing efficiency - wind stirring
+! coef_mix_turb    [real]    mixing efficiency - unsteady turbulence effects
+! coef_mix_shear   [real]    mixing efficiency - shear production !sensitive to hypolimnetic temperature
+! coef_mix_KH      [real]    mixing efficiency - hypolimnetic Kelvin-Helmholtz turbulent billows
+! coef_mix_hyp     [real]    mixing efficiency - hypolimnetic turbulence
+! deep_mixing      [bool]    flag to disable deep-mixing
+!
+!-------------------------------------------------------------------------------
+&glm_setup
+   sim_name = 'GLM Simulation'
+   max_layers = 500
+   min_layer_vol = 0.025
+   min_layer_thick = 0.05
+   !min_layer_thick = 0.350
+   max_layer_thick = 0.500
+   !max_layer_thick = 0.900
+   !-- Light Parameters
+   Kw = 0.85
+   !-- Mixing Parameters
+   coef_mix_conv = 0.125    ! 0.05,0.2 , 0.35 , 0.12
+   coef_wind_stir = 0.23    ! 0.1,0.3, 0.3, 0.1
+   coef_mix_shear = 0.2     ! 0.018,0.4, 0.2, 0.13
+   coef_mix_turb = 0.51    ! 0.51, 0.51, 0.51, 0.51        
+   coef_mix_KH = 0.33      !0.015, 0.4, 0.18, 0.33 
+   coef_mix_hyp = 0.5      !0.05, 0.6, 0.25, 0.8
+!  non_avg = .true.
+!  deep_mixing = .true.
+/
+
+!-------------------------------------------------------------------------------
+! wq setup
+! if this block is read, water quality functionality will be enabled
+!-------------------------------------------------------------------------------
+! wq_lib            [string] 
+!                     Select which WQ library to use;
+!                     valid options are 'aed2' or 'fabm' [default is 'aed2']
+! ode_method        [integer]
+!                     ODE numerical scheme for source and sink dynamics
+!                     1: first-order explicit (not positive)
+!                     2: second-order explicit Runge-Kutta (not positive)
+!                     3: fourth-order explicit Runge-Kutta (not positive)
+!                     4: Patankar (first-order, not conservative)
+!                     5: Patankar-RK (second-order, not conservative)
+!                     6: Patankar-RK (does not work, not conservative)
+!                     7: Modified Patankar (1st-order, conservat., posit.)
+!                     8: Modified Patankar-RK (2nd-order, conservat., posit.)
+!                     9: Modified Patankar-RK (does not work, conservat.,
+!                       posit.)
+!                     10: Extended Modified Patankar (1st-order, conservat.,
+!                       posit.)
+!                     11: Extended Modified Patankar-RK (2nd-order, conservat.,
+!                       posit.)
+!                     This variable is used only if bio_calc = True
+! split_factor      [integer, minimum = 1]
+!                     number of biogeochemical time steps per physical time step
+! bioshade_feedback [bool]
+!                     feedback of bio-turbidity to temperature equation
+! repair_state      [bool]
+!                     FABM option to repeair state variables that have -ve's
+! wq_nml_file       [string]
+!                     name of .nml file to be passed to WQ library;
+!                     the default is {wq_lib}.nml (eg aed2.nml)
+! mobility_off      [bool]
+!                     flag to turn off settling/rising
+! multi_ben         [bool]
+!                     GLM specific option for FABM to do benthic fluxes only
+!                     in bottom layer, or on flanks of all layers (.true.)
+!-------------------------------------------------------------------------------
+&wq_setup
+   wq_lib = 'aed2'
+   wq_nml_file = 'aed2.nml'
+   ode_method = 1
+   split_factor = 1
+   !bioshade_feedback = .true.
+   bioshade_feedback = .false.
+   repair_state = .true.
+!  mobility_off = .false.
+   multi_ben = .true.
+/
+
+!-------------------------------------------------------------------------------
+! lake details
+!-------------------------------------------------------------------------------
+!
+! name             [string]
+!                    name of the lake
+! latitude         [float, minimum = -90, maximum = 90, unit = deg North]
+!                    latitude
+! longitude        [float, minimum = -360, maximum = 360, unit = deg East]
+!                    longitude
+! base_elev        [float]   
+!                    base elevation (m)
+! crest_elev       [float]   
+!                    crest elevation (m)
+! bsn_len          [float]   
+!                    basin length at crest (m)
+! bsn_wid          [float]   
+!                    basin width at crest (m)
+! bsn_vals         [integer] 
+!                    number of depth points on height-area relationship
+! H                [float] 
+!                    elevations (m)   (comma separated list, len=bsn_vals)
+! A                [float] 
+!                    area (m2) (comma separated list, len=bsn_vals)
+!
+!-------------------------------------------------------------------------------
+&morphometry
+   lake_name  = 'Falling Creek'
+   latitude   = 37.307681
+   longitude  = -79.837068
+   bsn_len    = 711.699
+   bsn_wid    = 226.030
+   bsn_vals   = 31
+   !   H(m)  A(m2) V(m3)
+   H = 497.683,497.983,498.283,498.683,498.983,499.283,499.583,499.883,500.183,500.483,500.783,501.083,501.383,501.683,501.983,502.283,502.583,502.883,503.183,503.483,503.783,504.083,504.383,504.683,505.083,505.383,505.683,505.983,506.283,506.583,506.983
+   A = 0,61.408883,494.615572,1201.23579,2179.597283,3239.620513,4358.358439,5637.911458,6929.077352,8228.697419,9469.324081,10811.30792,12399.67051,14484.22802,16834.20941,19631.05422,22583.1399,25790.70893,28442.99667,31155.95008,36269.3312,42851.13714,51179.89109,59666.85885,68146.39437,76424.14457,85430.25429,95068.47603,103030.4489,111302.1604,119880.9164
+/
+
+!-------------------------------------------------------------------------------
+! duration of run
+!-------------------------------------------------------------------------------
+!
+! timefmt [integer]
+!           method to specify start and duration of model run
+!           1: duration computed from number of time steps, MaxN (bogus start
+!             date used) [no longer implemented!!]
+!           2: duration computed from given start and stop dates (number of time
+!             steps MaxN computed)
+!           3: duration computed from number of time steps, MaxN (start date as
+!             specified, stop date computed)
+! start   [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal start date
+!           This variable is used only if timefmt != 1
+! stop    [string, format = "yyyy-mm-dd hh:mm:ss"]
+!           nominal stop date
+!           This variable is used only if timefmt = 2
+! dt        [float, minimum = 0.001, maximum = 86400, unit = s]
+!               Time step for integration
+! numb_days [number of days to run the simulation ]
+!           This variable is used only if timefmt != 2
+!
+!-------------------------------------------------------------------------------
+&time
+   timefmt = 2
+   start = '2015-03-31 11:00:00'
+   stop = '2015-09-30 00:00:00'
+   dt = 3600.0
+   !num_days = 3288
+   timezone = -5.0
+/
+
+!-------------------------------------------------------------------------------
+! format for output and filename(s)
+!-------------------------------------------------------------------------------
+!
+! out_dir           [string]
+!                     path to output directory (set permissions)
+! out_fn            [string]
+!                     name of output netcdf file
+! nsave             [integer, minimum = 1, maximum = 86400]
+!                     save results every 'nsave' timesteps
+! csv_lake_fname    [string]
+!                     name of lake.csv lake simulation daily summary information
+! csv_point_nlevs   [integer]
+!                     number of depths at which to dump a csv time-series file
+! csv_point_at      [real]
+!                     height from bottom for point csv file(s) (comma separated list)
+! csv_point_fname   [string]
+!                     name of csv output file(s) (comma separated list)
+! csv_point_nvars   [integer]
+!                     number of variables to output into csv 
+! csv_point_vars    [string]
+!                     list of names of variables to output, - order IS important
+! csv_outlet_allinone [bool]
+!                     put all outflow data into the same csv file
+! csv_outlet_fname  [string]
+!                     name of csv output file(s) (comma separated list)
+! csv_outlet_nvars  [integer]
+!                     number of variables to output into outlet csv
+! csv_outlet_vars   [string]
+!                     list of names of variables to output
+! csv_ovrflw_fname  [string]
+!                     name of csv file to record amount and quality of overflow
+!
+!-------------------------------------------------------------------------------! simulation number  1 
+&output
+ out_dir = '.'
+ out_fn = 'output'
+ nsave = 24
+ csv_point_nlevs = 2
+ csv_point_fname = 'WQ_'
+ csv_point_at = 20,22
+ csv_point_nvars =  6
+ csv_lake_fname = 'Physics'
+ csv_point_vars = 'temp','OXY_oxy','PHY_CYANOPCH1','PHY_CYANONPCH2','PHY_CHLOROPCH3','PHY_DIATOMPCH4'
+/
+!-------------------------------------------------------------------------------
+! initial condition profiles
+!-------------------------------------------------------------------------------
+!
+!   lake_depth     [float]   initial lake depth (m)
+!   num_depths     [integer] number of depths provided for initial profiles
+!   the_depths     [float]   the depths of the initial profile points (m)
+!   the_temps      [float]   the temperature of the initial profile points (C)
+!   the_sals       [float]   the salinity of the initial profile points (psu)
+!   num_wq_vars    [integer] number of non GLM (ie FABM) vars to be initialised
+!   wq_names       [string]  names of non GLM (ie FABM) vars to be initialised
+!   wq_init_vals   [float]   array of FABM vars (rows = vars; cols = depths)
+!
+!-------------------------------------------------------------------------------
+&init_profiles
+    num_depths = 30
+    lake_depth = 9.3
+    the_depths = 0.0, 0.80, 1.11, 1.41, 1.71, 2.02, 2.32, 2.62, 2.93, 3.23, 3.53, 3.84, 4.14, 4.44, 4.75, 5.05, 5.36, 5.66, 5.96, 6.27, 6.57, 6.87, 7.18, 7.48, 7.78, 8.09, 8.39, 8.69, 9.00, 9.30,
+    the_temps  = 5.80, 5.82, 5.89, 5.95, 6.02, 6.09, 6.18, 6.25, 6.36, 6.45, 6.59, 6.73, 6.83, 6.91, 7.00, 7.08, 7.14, 7.23, 7.32, 7.42, 7.55, 7.69, 7.81, 8.01, 8.38, 8.66, 8.88, 8.93, 8.97, 9.12,
+    the_sals   = 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50
+    num_wq_vars = 7
+    wq_names =  
+     'OGM_doc',
+		 'OXY_oxy',
+		 'CAR_dic',
+		 'NIT_amm',
+		 'NIT_nit',
+		 'PHS_frp',
+		 'CAR_ch4'
+	wq_init_vals = 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.09, 0.09, 0.09, 0.09, 0.09, 0.09, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08, 0.08,  
+			300.62, 300.41, 300.19, 300.98, 300.76, 300.55, 300.33, 300.12, 300.90, 300.69, 300.47, 300.25, 300.04, 300.82, 300.61, 300.39, 300.18, 300.96, 300.75, 300.53, 300.31, 300.10, 250.88, 250.67, 250.45, 250.24, 250.02, 250.81, 250.59, 250.38, 
+			0.11, 0.11, 0.11, 0.11, 0.11, 0.13, 0.13, 0.13, 0.13, 0.13, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.12, 0.13, 0.13, 0.13,  
+			0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.22, 0.25, 0.25, 0.25, 0.25, 0.25, 0.22, 0.22, 0.22, 0.22, 0.23, 0.23, 0.23, 0.23, 0.23, 0.26, 0.26, 0.26, 0.37, 0.37,
+			0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.19, 0.17, 0.17, 0.17, 0.17, 0.17, 0.12, 0.12, 0.12, 0.12, 0.15, 0.15, 0.15, 0.15, 0.15, 0.20, 0.20, 0.20, 0.21, 0.21,
+			0.61, 0.61, 0.61, 0.61, 0.61, 0.61, 0.61, 0.61, 0.63, 0.63, 0.63, 0.63, 0.63, 0.63, 0.53, 0.53, 0.53, 0.53, 0.53, 0.47, 0.47, 0.47, 0.47, 0.47, 0.53, 0.53, 0.51, 0.51, 0.51, 0.51,
+			0.58, 0.58, 0.59, 0.59, 0.60, 0.60, 0.61, 0.61, 0.62, 0.62, 0.62, 0.63, 0.63, 0.64, 0.64, 0.65, 0.65, 0.66, 0.66, 0.67, 0.67, 0.67, 0.68, 0.68, 0.69, 0.69, 0.70, 0.70, 0.71, 0.71
+/
+!-------------------------------------------------------------------------------
+! meteorology
+!-------------------------------------------------------------------------------
+!
+!   met_sw         [bool]   switch to include surface meteorological forcing
+!   lw_type        [string] type of longwave data supplied (LW_IN/LW_CC/LW_NET)
+!   rain_sw        [bool]   include rainfall nutrient composition
+!   snow_sw        [bool]   include snowfall (m/d)
+!   atm_stab       [bool]   account for non-neutral atmospheric stability
+!   catchrain      [bool]   flag that enables runoff from exposed banks of lake area
+!   rad_mode       [integer] short and long wave radation model configuration (see manual)
+!   albedo_mode    [integer] shortwave albedo calculation method
+!   cloud_mode     [integer] atmospheric emmisivity calculation method
+!
+!   meteo_fl       [string] name of file with meteorology input data
+!   wind_factor    [float]  wind multiplication factor (-)
+!   wind_factor    [float]  wind multiplication factor (-)
+!   rain_factor    [float]  wind multiplication factor (-)
+!   sw_factor      [float]  wind multiplication factor (-)
+!   lw_factor      [float]  wind multiplication factor (-)
+!   at_factor      [float]  wind multiplication factor (-)
+!   rh_factor      [float]  wind multiplication factor (-)
+!
+!   ce             [float]  bulk aerodynamic coefficient for latent heat transfer
+!   ch             [float]  bulk aerodynamic coefficient for sensible heat transfer
+!   cd             [float]  bulk aerodynamic coefficient for transfer of momentum
+!   rain_threshold [float]  rainfall amount (m) required before runoff from exposed banks
+!   runoff_coef    [float]  conversion of rainfall to runoff in exposed lake banks
+!
+!-------------------------------------------------------------------------------
+&meteorology
+   met_sw     = .true.
+   lw_type    = 'LW_IN'
+   rain_sw    = .false.
+   snow_sw    = .false.
+   atm_stab   = .false.
+   catchrain   = .false.
+   rad_mode    = 1
+   albedo_mode = 1
+   cloud_mode  = 4
+   !-- BC file details
+   meteo_fl   = 'glm_met_2015_FCR_adjusted_tillDec.csv'
+   !meteo_fl   = 'glm_met_2015_FCR_adjusted_wind.csv'
+   subdaily = .true.
+   wind_factor = 1.0
+   sw_factor = 1.0
+   lw_factor = 1.0
+   at_factor = 1.0
+   rh_factor = 1.0
+   rain_factor = 1.0
+   cd         = 0.001
+   ce         = 0.0013
+   ch         = 0.0013
+   rain_threshold = 0.01
+   runoff_coef    = 0.3
+   time_fmt = 'YYYY-MM-DD hh:mm:ss'
+/
+!-------------------------------------------------------------------------------
+! inflows 
+!-------------------------------------------------------------------------------
+!
+!  num_inflows       [integer]   number of inflowing streams (0+)
+!  names_of_strms    [string]    names of streams (comma separated list)
+!  strm_hf_angle     [float]     stream half angle (degrees)
+!  strmbd_slope      [float]     streambed slope (degrees)
+!  strmbd_drag       [float]     streambed drag coefficient (-)
+!  inflow_factor     [float]     inflow flow rate multiplier (-)
+!  inflow_fl         [string]    inflow data filename(s) (comma separated list)
+!  inflow_varnum     [integer]   number of columns (excluding date) to be read
+!  inflow_vars       [string]    variable names of inflow file columns
+!                                This should be a comma separated list, and must 
+!                                include FLOW, SALT & TEMP (for GLM), and 
+!                                optionally can include FABM var names.
+! coef_inf_entrain   [real]      entrainment coefficient for inflows
+!     
+!-------------------------------------------------------------------------------
+&inflow
+   num_inflows    = 2
+   names_of_strms = 'river1','SSS'
+   subm_flag = .false.,.true. 
+   strm_hf_angle  = 100.0,35.0 !Degree of channelization
+   strmbd_slope   = 0.573,0.1 !0.03-0.05 FCR inflow 0.03 SSS
+   strmbd_drag    = 0.0160,0.0160     
+   inflow_factor  = 1,0.00314 !SSS 0.00314
+   inflow_fl      = 'FCR_GLM_iof_2015_modified_9Jan17.csv','FCR_GLM_SSSin_2015_004.csv'
+   inflow_varnum  = 10
+   inflow_vars    = 'FLOW',
+                    'TEMP',
+                    'SALT',
+                    'OGM_doc',
+                    'NIT_amm',
+                    'OXY_oxy',
+                    'NIT_nit',
+                    'PHS_frp',
+                    'TOT_tn',
+                    'TOT_tp'
+/
+!-------------------------------------------------------------------------------
+! outflows
+!-------------------------------------------------------------------------------
+!
+!  num_outlet      [integer]  no. of outlets
+!  flt_off_sw      [bool]     floating offtake switches
+!  outl_elvs       [float]    outlet elevations (comma separated list)
+!  bsn_len_outl    [float]    basin length at outlets (m)
+!  bsn_wid_outl    [float]    basin width at outlets (m)
+!  outflow_fl      [string]   outflow data file
+!  outflow_factor  [float]    outflow flow rate multiplier (-)
+!  seepage         [bool]     do seepage processing [default is off - ie no seepage]
+!  seepage_rate    [float]    seepage rate of water (m/day) from bottom layer
+!
+!-------------------------------------------------------------------------------
+&outflow
+   num_outlet   = 4
+   flt_off_sw   = .false.,.false.,.false.,.false.
+   outl_elvs    = 506.9,498,506.9,506.9
+   bsn_len_outl = 711.699,100,711.699,711.699 !711.699
+   bsn_wid_outl = 226.030,10,226.030,226.030 !226.030
+   outflow_fl   = 'FCR_GLM_out1_2015.csv','FCR_GLM_SSSin_2015_004.csv','FCR_glm_out2_extra_2015.csv','FCR_glm_out_WTP_2015.csv'
+   outflow_factor = 1,0.00314,1,1 ! inflow 0.3
+/

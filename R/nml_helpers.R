@@ -17,6 +17,10 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	# can be: string, number, comma-sep-numbers, or boolean
 	
 	# special case for date:
+	if (is.na(parVl)){
+	  stop('Empty values after "', textLine, '" on line ', lineNum, 
+	       '. \nPerhaps the values are on the next line?', call. = FALSE)
+	}
 	if (nchar(parVl>17) & substr(parVl,14,14)==':' & substr(parVl,17,17)==':'){
 		parVl<-paste(c(substr(parVl,1,11),' ',substr(parVl,12,nchar(parVl))),collapse='')
 	}

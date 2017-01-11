@@ -42,8 +42,7 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', over
     stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
-  variables <- strsplit(fun.string,"[^a-zA-Z_]")[[1]]
-  variables <- variables[variables != '']
+  variables <- sim.vars[sapply(sim.vars,grepl, x = fun.string)]
   nc.vars <- variables[variables %in% sim.vars]
   
   data <- lapply(nc.vars, function(v) get_raw(nc_file, v))

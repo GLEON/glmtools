@@ -14,7 +14,19 @@ test_that("set_nml() with different datatypes", {
     
 })
 
+context("can use vectors for logicals")
+test_that("set_nml() can use a vector for logicals", {
+  nml <- set_nml(nml, 'flt_off_sw', c(T, F, F))
+  expect_true(get_nml_value(nml, 'flt_off_sw')[1])
+  expect_false(get_nml_value(nml, 'flt_off_sw')[2])
+  expect_error(set_nml(nml, 'flt_off_sw', c(T, F, '.false.')))
+})
 
+test_that("can read in nml with vector for logicals", {
+  nml <- read_nml(system.file(package='glmtools','extdata','multiple_booleans.nml'))
+  expect_true(length(get_nml_value(nml, 'flt_off_sw')) > 1)
+  expect_is(get_nml_value(nml, 'flt_off_sw'), 'logical')
+})
 
 context("reading a bad nml file")
 test_that("file errors out",{

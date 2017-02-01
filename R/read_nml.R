@@ -51,9 +51,8 @@ read_nml  <-	function(nml_file = 'template'){
     carryover = ''
     
     for (j in (blckOpen[i]+1):(blckClse[i]-1)){
+
       textLine	<-	paste(carryover, gsub("\t","",gsub(" ","",fileLines[j])), sep='')
-      #cat(textLine,'\n')
-      #browser()
       if(substr(textLine,1,1)!='!'){
         # Add a check here, sometimes, if there is a hanging comma, 
         #and only sometimes that means add next row

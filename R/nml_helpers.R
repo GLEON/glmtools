@@ -26,13 +26,12 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	}
 	if (any(grep("'",parVl))){
 	  
-		parVl	<-	gsub("'","",parVl)#c(as.character(unlist(strsplit(parVl,","))))
+		parVl	<-	gsub("'","",parVl)
 	}else if (any(grep("\"",parVl))){
 	  parVl  <-	gsub("\"","",parVl)
-	}else if (any(grep(".true.",parVl))){
-		parVl	<-	TRUE
-	}else if (any(grep(".false.",parVl))){
-		parVl	<-	FALSE
+	}else if (isTRUE(grepl(".true.",parVl) || grepl(".false.",parVl))){
+		logicals <- unlist(strsplit(parVl,","))
+		parVl <- from.glm_boolean(logicals)
 	}else if (any(grep(",",parVl))){	# comma-sep-nums
 		parVl	<-	c(as.numeric(unlist(strsplit(parVl,","))))
 	}else {	# test for number
@@ -43,6 +42,29 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	return(lineVal)
 }
 
+#' go from glm2.nml logical vectors to R logicals
+#' 
+#' @param values a vector of strings containing either .false. or .true.
+#' @return a logical vector
+#' @keywords internal
+from.glm_boolean <- function(values){
+  
+  logicals <- sapply(values, FUN = function(x){
+    if (!isTRUE(grepl(".true.", x) || grepl(".false.", x))){
+      stop(x, ' is not a .true. or .false.; conversion to TRUE or FALSE failed.', 
+           call. = FALSE)
+    }
+    return(ifelse(isTRUE(grepl(".true.", x)), TRUE, FALSE))
+  })
+  return(as.logical(logicals))
+}
+
+to.glm_boolean <- function(values){
+  val.logical <- values
+  values[val.logical] <- '.true.'
+  values[!val.logical] <- '.false.'
+  return(values)
+}
 # private function
 findBlck	<-	function(nml,argName){
 	

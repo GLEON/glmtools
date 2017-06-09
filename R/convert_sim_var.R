@@ -31,7 +31,8 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='',
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
   
-  # // here, vals would be defined by the function passed in by `...`. Probably captured w/ lazyeval?
+  # // here, vals would be defined by the function passed in by `...`. 
+  # Probably captured w/ lazyeval?
   # lazyeval::lazy_eval(convert, data=list(temp=ncvar_get(nc, 'temp')))
   convert <- lazyeval::lazy_dots(...)
   if (length(convert) > 1)
@@ -40,7 +41,8 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='',
   var.name <- names(convert)
   var.exists <- var.name %in% sim.vars
   if (var.exists & !overwrite)
-    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', call. = FALSE)
+    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', 
+         call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
   variables <- sim.vars[sapply(sim.vars,grepl, x = fun.string)]
@@ -54,7 +56,8 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='',
   
   
   if (!var.exists){
-    #depending on conversion, dims can be [time], [lon,lat,time], or [lon,lat,z,time] 
+    #depending on conversion, dims can be [time], [lon,lat,time], 
+    # or [lon,lat,z,time] 
     lon <- nc$dim$lon
     lat <- nc$dim$lon
     time <- nc$dim$time

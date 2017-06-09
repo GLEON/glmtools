@@ -61,6 +61,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric,
   }
   compare_data <- resample_to_field(nc_file, field_file, ...)
   
-  .compare_to_field(compare_data, bthA, bthD, metric=metric, as_value=as_value, na.rm=na.rm)
+  .compare_to_field(compare_data, bthA, bthD, metric = metric, 
+                    as_value = as_value, na.rm = na.rm)
   
 }

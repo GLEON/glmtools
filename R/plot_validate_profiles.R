@@ -36,7 +36,7 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
   
 	u_dates = unique(mod_and_obs$DateTime)
 	
-	for(i in 1:length(u_dates)){
+	for(i in seq_len(length(u_dates))){
 		
 		val_indx = mod_and_obs$DateTime == u_dates[i]
 		

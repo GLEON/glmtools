@@ -23,7 +23,7 @@ nml_file <- file.path(sim_folder, 'glm2.nml')
 field_file <- file.path(sim_folder, 'field_data.tsv')
 
 #  create a multiple metric diagnostic fig within R:
-plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')                        
+plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')             
 }
 \seealso{
 \link{validate_sim}, \link{resample_to_field}

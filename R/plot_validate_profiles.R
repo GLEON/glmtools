@@ -15,7 +15,7 @@
 #'field_file <- file.path(sim_folder, 'field_data.tsv')
 #'
 #' #  create a multiple metric diagnostic fig within R:
-#'plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')                        
+#'plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')             
 #'@export
 plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
   valid_fig_path(fig_path)

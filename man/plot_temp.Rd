@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_temp.R
 \name{plot_temp}
 \alias{plot_temp}
-\title{plot water temperatures from a GLM simulation}
+\title{Plot water temperatures from a GLM simulation}
 \usage{
 plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
   col_lim, ...)
@@ -17,6 +17,9 @@ plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
 \item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{...}{additional arguments passed to \code{par()}}
+}
+\description{
+Plot water temperatures from a GLM simulation
 }
 \note{
 \code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}. 

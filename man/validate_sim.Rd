@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_sim.R
 \name{validate_sim}
 \alias{validate_sim}
-\title{run diagnostics on model results vs observations}
+\title{Run diagnostics on model results vs observations}
 \usage{
 validate_sim(nc_file, field_file, metrics, fig_path, report = F, ...)
 }
@@ -24,6 +24,9 @@ summary stats for each metric used.}
 }
 \value{
 a report or figures comparing modeled results to observations
+}
+\description{
+Run diagnostics on model results vs observations
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)

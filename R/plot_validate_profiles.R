@@ -1,4 +1,4 @@
-#'@title Plot validation and model temperature profiles
+#'Plot validation and model temperature profiles
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png. 

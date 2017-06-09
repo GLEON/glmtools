@@ -1,4 +1,4 @@
-#'@title Run example simulation 
+#'Run example simulation 
 #'@param sim_folder the directory where simulation files will be copied/moved to. 
 #'Will use a temporary directory if missing
 #'@param verbose should operations and output of GLM be shown

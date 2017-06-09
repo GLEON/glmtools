@@ -1,4 +1,4 @@
-#' @title read in field data into a data.frame
+#' Read in field data into a data.frame
 #'
 #' @param file 
 #' a file path for a supported field data format (currently, tsv

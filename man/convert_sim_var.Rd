@@ -15,6 +15,8 @@ convert_sim_var(nc_file = "output.nc", ..., unit = "", longname = "",
 \item{unit}{the units for the new variable}
 
 \item{longname}{the longname for the new variable}
+
+\item{overwrite}{logical overwrite existing variable data?}
 }
 \description{
 allows you to provide specific variable or unit conversions to create a new variable 

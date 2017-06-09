@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_var.R
 \name{plot_var}
 \alias{plot_var}
-\title{plot variables from a GLM simulation}
+\title{Plot variables from a GLM simulation}
 \usage{
 plot_var(file = "output.nc", var_name, fig_path = FALSE,
   reference = "surface", col_lim, ...)
@@ -19,6 +19,9 @@ plot_var(file = "output.nc", var_name, fig_path = FALSE,
 \item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{...}{additional arguments passed to \code{par()}}
+}
+\description{
+Plot variables from a GLM simulation
 }
 \note{
 \code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.

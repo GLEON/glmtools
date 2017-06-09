@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_meteo.R
 \name{plot_meteo}
 \alias{plot_meteo}
-\title{plot meterological drivers from a csv file}
+\title{Plot meterological drivers from a csv file}
 \usage{
 plot_meteo(nml_file, fig_path = FALSE)
 }
@@ -11,6 +11,9 @@ plot_meteo(nml_file, fig_path = FALSE)
 \code{'template'} for loading the GLM template nml file with GLMr (default)}
 
 \item{fig_path}{FALSE if plot to screen, string path if save plot as .png}
+}
+\description{
+Plot meterological drivers from a csv file
 }
 \examples{
 nml_file <- nml_template_path()

@@ -1,4 +1,4 @@
-#'@title run diagnostics on model results vs observations
+#'Run diagnostics on model results vs observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param metrics a string or vector of strings representing physical metrics. 

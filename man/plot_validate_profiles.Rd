@@ -16,6 +16,9 @@ If argument is not used, plotting is skipped}
 
 \item{...}{optional arguments passed to \code{resample_to_field}}
 }
+\description{
+Plot validation and model temperature profiles
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')

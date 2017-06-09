@@ -8,6 +8,7 @@
 #' @param \dots an expression to convert variable based on other variables or offsets
 #' @param unit the units for the new variable
 #' @param longname the longname for the new variable
+#' @param overwrite logical overwrite existing variable data?
 #' @export
 #' @importFrom lazyeval lazy_dots lazy_eval
 #' @importFrom ncdf4 ncvar_def ncvar_put ncvar_add

@@ -1,4 +1,4 @@
-#' @title Plot matching heatmaps for modeled and observed temp
+#' Plot matching heatmaps for modeled and observed temp
 #' @param nc_file Netcdf model output file
 #' @param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})

@@ -1,4 +1,4 @@
-#'@title plot variables from a GLM simulation
+#'Plot variables from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path F if plot to screen, string path if save plot as .png

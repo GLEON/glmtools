@@ -1,4 +1,4 @@
-#'@title plot meterological drivers from a csv file
+#'Plot meterological drivers from a csv file
 #'@inheritParams read_nml
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'@keywords methods

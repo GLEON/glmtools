@@ -3,6 +3,7 @@
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'@keywords methods
 #'@seealso \code{\link{read_nml}}
+#'@importFrom utils read.csv
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 

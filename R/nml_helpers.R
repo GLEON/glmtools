@@ -102,6 +102,7 @@ setnmlList <- function(glm_nml,arg_list){
 }
 
 # private function
+#' @importFrom utils tail
 is_nml_file <- function(nml_file){
   
   is_nml <- FALSE
@@ -113,6 +114,7 @@ is_nml_file <- function(nml_file){
   return(is_nml)
 }
 
+#' @importFrom utils capture.output
 what_ascii <- function(file){
   response <- capture.output(showNonASCIIfile(file))
   return(response)

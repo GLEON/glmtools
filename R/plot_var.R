@@ -25,6 +25,7 @@
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
+#'@importFrom grDevices dev.off
 #'@export
 plot_var <- function(file='output.nc', var_name, fig_path = FALSE, reference='surface', col_lim, ...){
   

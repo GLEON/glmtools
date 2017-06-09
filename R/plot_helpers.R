@@ -1,3 +1,4 @@
+#' @importFrom grDevices png
 gen_default_fig <- function(filename=FALSE, width = 4, height, ps = 11, res = 200, units = "in",
                             mai = c(0.2,0,0.05,0),
                             omi = c(0.1, 0.5, 0, 0), 
@@ -14,6 +15,7 @@ gen_default_fig <- function(filename=FALSE, width = 4, height, ps = 11, res = 20
   par(mai = mai,omi = omi, ps = ps, mgp = mgp, ...)
 }
 
+#' @importFrom graphics abline
 plot_one2one <- function(x, y, ...){
   
   min_val <- min(c(x,y), na.rm = TRUE)
@@ -23,7 +25,7 @@ plot_one2one <- function(x, y, ...){
   abline(0, 1, lty = 2, col = 'black')
 }
 
-
+#' @importFrom graphics axis par
 axis_layout <- function(xaxis, yaxis){
   # x axis
   axis(side = 1, labels=format(xaxis$vis_time, xaxis$time_form), at = xaxis$vis_time, tck = -0.01, pos = yaxis$lim[1])
@@ -65,6 +67,7 @@ get_yaxis_2D <- function(z_out, reference, prefix=NULL, suffix=NULL){
   return(yaxis) 
 }
 
+#' @importFrom graphics polygon text
 color_key <- function(levels, colors, subs, cex = 0.75, col_label){
   # add feau plot
   plot(NA, xlim = c(0,1),
@@ -148,6 +151,7 @@ get_xaxis <- function(dates){
   return(list('time_form' = time_form, 'x_lab' = x_lab, 'lim' = c(start_time, end_time), 'vis_time' = vis_time))
 }
 
+#' @importFrom graphics layout 
 .simple_layout <- function(nrow = 1){
   panels  <- matrix(seq_len(nrow),nrow=nrow)
   layout(panels)
@@ -200,6 +204,7 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 
 }
 
+#' @importFrom graphics plot 
 .plot_null <- function(){
   plot(NA, ylim=c(0,1),xlim=c(0,1), axes=FALSE,ylab="",xlab="")
 }

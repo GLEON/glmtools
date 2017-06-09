@@ -13,6 +13,7 @@
 #'sim_metrics()
 #'sim_metrics(with_nml = TRUE)
 #'@import rLakeAnalyzer
+#'@importFrom methods getPackageName
 #'@export
 sim_metrics <- function(with_nml = FALSE){
   package_name <- 'rLakeAnalyzer'
@@ -32,6 +33,7 @@ sim_metrics <- function(with_nml = FALSE){
   return(metrics)
 }
 
+#' @importFrom utils lsf.str 
 fun_from_package <- function(package_name, private = FALSE){
   
   if (private){

@@ -10,6 +10,9 @@
   .plot_df_heatmap(data, title, num_cells, palette, ...)
 }
 
+#' @importFrom graphics .filled.contour
+#' @importFrom grDevices colorRampPalette 
+#' @importFrom utils head
 .plot_df_heatmap <- function(data, bar_title, num_cells, palette, title_prefix=NULL, overlays=NULL, xaxis=NULL, col_lim){
   
   z_out <- rLakeAnalyzer::get.offsets(data)
@@ -41,6 +44,7 @@
   color_key(levels, colors, subs=col_subs, col_label = bar_title)
 }
 
+#' @importFrom graphics points
 .plot_nc_timeseries <- function(file, var_name){
   
   ylab = .unit_label(file, var_name)

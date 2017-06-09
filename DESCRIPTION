@@ -23,7 +23,8 @@ Imports:
     ncdf4,
     tools,
     akima,
-    lazyeval
+    lazyeval,
+    methods
 Suggests:
     testthat,
     knitr,

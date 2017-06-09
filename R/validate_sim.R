@@ -33,7 +33,8 @@
 #'validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
 #'                           metrics = c('thermo.depth', 'schmidt.stability'))          
 #'@export
-validate_sim <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
+validate_sim <- function(nc_file, field_file, metrics, fig_path, 
+                         report = FALSE, ...){
   warning('function in development')
   # need to check is.missing for fig_path...
   num_metrics <- length(metrics)

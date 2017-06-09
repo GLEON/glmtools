@@ -34,7 +34,7 @@
   }
   
   yaxis <- get_yaxis_2D(z_out, reference, prefix=title_prefix)
-  plot_layout(xaxis, yaxis, add=T)
+  plot_layout(xaxis, yaxis, add=TRUE)
   .filled.contour(x = dates, y = z_out, z =matrix_var,
                   levels= levels,
                   col=colors)
@@ -51,7 +51,7 @@
   variable_df <- get_var(file, var_name=var_name)
   xaxis <- get_xaxis(variable_df[,1])
   yaxis <- get_yaxis(variable_df[,2], title = ylab)
-  plot_layout(xaxis, yaxis, add=T)
+  plot_layout(xaxis, yaxis, add=TRUE)
   points(variable_df)
   axis_layout(xaxis, yaxis)
 }

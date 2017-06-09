@@ -4,7 +4,7 @@
 \alias{validate_sim}
 \title{Run diagnostics on model results vs observations}
 \usage{
-validate_sim(nc_file, field_file, metrics, fig_path, report = F, ...)
+validate_sim(nc_file, field_file, metrics, fig_path, report = FALSE, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}

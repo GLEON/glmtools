@@ -24,9 +24,9 @@
 #'convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
 #' }
 #' 
-convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', overwrite=FALSE){
+convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', 
+                            overwrite=FALSE){
 
-  
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
   

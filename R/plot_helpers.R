@@ -70,7 +70,7 @@ color_key <- function(levels, colors, subs, cex = 0.75, col_label){
   plot(NA, xlim = c(0,1),
        ylim=c(0,1),
        xlab="", ylab="",
-       frame=FALSE,axes=F,xaxs="i",yaxs="i")
+       frame=FALSE,axes=FALSE,xaxs="i",yaxs="i")
   old_mgp <- par()$mgp
   old_mai <- par()$mai
   par(mai=c(old_mai[1],0, old_mai[3], 0), mgp = c(-1,-1,0))
@@ -184,7 +184,7 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 	plot(data, xlim = xaxis$lim,
 			 ylim=yaxis$lim,
 			 xlab=xaxis$x_lab, ylab=' ',
-			 frame=FALSE,axes=F,xaxs="i",yaxs="i")
+			 frame=FALSE,axes=FALSE,xaxs="i",yaxs="i")
 	
 	
 }
@@ -201,7 +201,7 @@ plot_layout <- function(xaxis=NULL, yaxis=NULL, add, data = NA){
 }
 
 .plot_null <- function(){
-  plot(NA, ylim=c(0,1),xlim=c(0,1), axes=F,ylab="",xlab="")
+  plot(NA, ylim=c(0,1),xlim=c(0,1), axes=FALSE,ylab="",xlab="")
 }
 
 .unit_label <- function(file, var_name){

@@ -42,7 +42,7 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
 		
 		plot(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Depth[val_indx], type='l', 
 				 xlim=range(c(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Observed_temp[val_indx]), na.rm=TRUE),
-				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_and_obs$Depth[val_indx], na.rm = T),0),
+				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_and_obs$Depth[val_indx], na.rm = TRUE),0),
 				 main=strptime(u_dates[i], '%Y-%m-%d'))
 		
 		points(mod_and_obs$Observed_temp[val_indx], mod_and_obs$Depth[val_indx], pch=20)

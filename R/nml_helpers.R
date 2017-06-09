@@ -74,7 +74,7 @@ findBlck	<-	function(nml,argName){
   fault.string <- rep(fau,1000) # names fault matrix, only returned when empty match
 	blockNames	<-	names(nml)
 	blckI	<-	c()
-	for (i in 1:length(blockNames)){
+	for (i in seq_len(length(blockNames))){
 		if (any(argName %in% names(nml[[i]]))){
 			blckI	<- c(blckI,i)
 		} else {
@@ -95,7 +95,7 @@ setnmlList <- function(glm_nml,arg_list){
   
   if (any(nchar(names(arg_list)) == 0)){stop('arg_list must be a named list')}
   arg_names  <-	names(arg_list)
-  for (i in 1:length(arg_names)){
+  for (i in seq_len(length(arg_names))){
     glm_nml <- set_nml(glm_nml,arg_name=arg_names[i],arg_val=arg_list[[i]])
   }
   return(glm_nml)

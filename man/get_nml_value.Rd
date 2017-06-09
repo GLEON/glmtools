@@ -24,10 +24,9 @@ This function returns an nml value according to the arg_name nml list for GLM.
 glm_nml <- read_nml()
 get_nml_value(glm_nml,arg_name = 'Kw')
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{read_nml}, \link{set_nml}
 }
-
+\author{
+Jordan S. Read
+}

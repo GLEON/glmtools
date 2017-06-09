@@ -24,4 +24,3 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 
 
 }
-

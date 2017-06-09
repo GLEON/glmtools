@@ -18,11 +18,10 @@ run_example_sim()
 run_example_sim('~/Desktop/GLM_sims')
 }    
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link[GLMr]{run_glm}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

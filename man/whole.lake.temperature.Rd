@@ -16,4 +16,3 @@ called by \code{\link{sim_metrics}}
 \seealso{
 \code{\link{sim_metrics}}, \code{\link{compare_to_field}}, \code{\link{validate_sim}}
 }
-

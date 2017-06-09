@@ -21,11 +21,10 @@ summarize_sim(nc_file)
 
 summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \link{get_temp}, \link{get_surface_height}, \link{get_evaporation}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

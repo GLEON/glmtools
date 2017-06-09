@@ -26,11 +26,10 @@ field_data <- read_field_obs(file)
 file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 field_data <- read_field_obs(file)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_temp}, \link{resample_sim}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

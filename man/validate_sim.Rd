@@ -2,9 +2,9 @@
 % Please edit documentation in R/validate_sim.R
 \name{validate_sim}
 \alias{validate_sim}
-\title{run diagnostics on model results vs observations}
+\title{Run diagnostics on model results vs observations}
 \usage{
-validate_sim(nc_file, field_file, metrics, fig_path, report = F, ...)
+validate_sim(nc_file, field_file, metrics, fig_path, report = FALSE, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -25,6 +25,9 @@ summary stats for each metric used.}
 \value{
 a report or figures comparing modeled results to observations
 }
+\description{
+Run diagnostics on model results vs observations
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -42,13 +45,12 @@ validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.p
                   
 # return the diagnostic info but avoid the plot:                                   
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-                          metrics = c('thermo.depth', 'schmidt.stability'))                                                       
-}
-\author{
-Jordan S. Read
+                          metrics = c('thermo.depth', 'schmidt.stability'))          
 }
 \seealso{
 \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

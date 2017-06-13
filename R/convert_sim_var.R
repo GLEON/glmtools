@@ -8,6 +8,7 @@
 #' @param \dots an expression to convert variable based on other variables or offsets
 #' @param unit the units for the new variable
 #' @param longname the longname for the new variable
+#' @param overwrite logical overwrite existing variable data
 #' @export
 #' @importFrom lazyeval lazy_dots lazy_eval
 #' @importFrom ncdf4 ncvar_def ncvar_put ncvar_add
@@ -24,13 +25,14 @@
 #'convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
 #' }
 #' 
-convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', overwrite=FALSE){
+convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', 
+                            overwrite=FALSE){
 
-  
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
   
-  # // here, vals would be defined by the function passed in by `...`. Probably captured w/ lazyeval?
+  # // here, vals would be defined by the function passed in by `...`. 
+  # Probably captured w/ lazyeval?
   # lazyeval::lazy_eval(convert, data=list(temp=ncvar_get(nc, 'temp')))
   convert <- lazyeval::lazy_dots(...)
   if (length(convert) > 1)
@@ -39,7 +41,8 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', over
   var.name <- names(convert)
   var.exists <- var.name %in% sim.vars
   if (var.exists & !overwrite)
-    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', call. = FALSE)
+    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', 
+         call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
   variables <- sim.vars[sapply(sim.vars,grepl, x = fun.string)]
@@ -53,7 +56,8 @@ convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', over
   
   
   if (!var.exists){
-    #depending on conversion, dims can be [time], [lon,lat,time], or [lon,lat,z,time] 
+    #depending on conversion, dims can be [time], [lon,lat,time], 
+    # or [lon,lat,z,time] 
     lon <- nc$dim$lon
     lat <- nc$dim$lon
     time <- nc$dim$time

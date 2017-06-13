@@ -48,8 +48,8 @@
 #'}
 #'@export
 #'@import rLakeAnalyzer
-compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE, ...){
-  
+compare_to_field <- function(nc_file, field_file, nml_file, metric, 
+                             as_value = FALSE, na.rm = TRUE, ...){
   
   if (missing(nml_file)){
     bthA <- NA
@@ -61,6 +61,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
   }
   compare_data <- resample_to_field(nc_file, field_file, ...)
   
-  .compare_to_field(compare_data, bthA, bthD, metric=metric, as_value=as_value, na.rm=na.rm)
+  .compare_to_field(compare_data, bthA, bthD, metric = metric, 
+                    as_value = as_value, na.rm = na.rm)
   
 }

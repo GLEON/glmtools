@@ -38,6 +38,7 @@ time_precision <- function(t_out, precision){
   return(t_out)
 }
 
+#' @importFrom stats approx
 df_interp <- function(df, t_out){
   t_srt <- sort(t_out) # get it in order for approx
   n_dep <- ncol(df) - 1 

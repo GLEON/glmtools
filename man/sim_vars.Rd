@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_vars.R
 \name{sim_vars}
 \alias{sim_vars}
-\title{get list of variables from a GLM simulation}
+\title{Get list of variables from a GLM simulation}
 \usage{
 sim_vars(file = "output.nc")
 }
@@ -12,16 +12,18 @@ sim_vars(file = "output.nc")
 \value{
 A data frame with columns \code{name, unit, longname}.
 }
+\description{
+Get list of variables from a GLM simulation
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 sim_vars(file = nc_file)
 }
-\author{
-Stuart E. Jones, Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{sim_var_longname}}, \code{\link{sim_var_units}}, \code{\link{plot_var}}
 }
+\author{
+Stuart E. Jones, Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

@@ -2,7 +2,7 @@
 % Please edit documentation in R/resample_to_field.R
 \name{resample_to_field}
 \alias{resample_to_field}
-\title{match GLM water temperatures with field observations}
+\title{Match GLM water temperatures with field observations}
 \usage{
 resample_to_field(nc_file, field_file, method = "match", precision = "days",
   var_name = "temp")
@@ -22,6 +22,9 @@ Should match a GLM simulation variable (see output from \code{\link{sim_vars}}).
 \value{
 validation a data.frame with DateTime and temperature at depth
 }
+\description{
+Match GLM water temperatures with field observations
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -31,11 +34,10 @@ temps <- resample_to_field(nc_file, field_file)
 buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
 temps <- resample_to_field(nc_file, buoy_file, precision = 'mins')
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{resample_sim}, \link{get_temp}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

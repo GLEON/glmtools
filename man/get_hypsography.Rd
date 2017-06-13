@@ -26,11 +26,10 @@ glm_nml <- read_nml(nml_file)
 get_hypsography(glm_nml)
 get_hypsography(file = nml_file)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{read_nml}, \link{get_nml_value}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

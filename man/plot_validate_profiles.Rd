@@ -16,6 +16,9 @@ If argument is not used, plotting is skipped}
 
 \item{...}{optional arguments passed to \code{resample_to_field}}
 }
+\description{
+Plot validation and model temperature profiles
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -23,13 +26,12 @@ nml_file <- file.path(sim_folder, 'glm2.nml')
 field_file <- file.path(sim_folder, 'field_data.tsv')
 
 #  create a multiple metric diagnostic fig within R:
-plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')                        
-}
-\author{
-Luke A. Winslow, Jordan S. Read
+plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')             
 }
 \seealso{
 \link{validate_sim}, \link{resample_to_field}
 }
+\author{
+Luke A. Winslow, Jordan S. Read
+}
 \keyword{methods}
-

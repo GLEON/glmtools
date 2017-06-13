@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_var_longname.R
 \name{sim_var_longname}
 \alias{sim_var_longname}
-\title{get long name of variable from a GLM simulation}
+\title{Get long name of variable from a GLM simulation}
 \usage{
 sim_var_longname(file = "output.nc", var_name)
 }
@@ -11,6 +11,9 @@ sim_var_longname(file = "output.nc", var_name)
 
 \item{var_name}{name of a valid variable from a simulation (see \code{\link{sim_vars}})}
 }
+\description{
+Get long name of variable from a GLM simulation
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -18,11 +21,10 @@ vars <- sim_vars(file = nc_file)
 sim_var_units(nc_file, vars[1,]$name)
 sim_var_longname(nc_file, 'u_mean')
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \code{\link{sim_vars}}, \code{\link{sim_var_units}}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

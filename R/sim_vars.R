@@ -1,4 +1,4 @@
-#'@title get list of variables from a GLM simulation
+#'Get list of variables from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
 #'@keywords methods
 #'@seealso \code{\link{sim_var_longname}}, \code{\link{sim_var_units}}, \code{\link{plot_var}}

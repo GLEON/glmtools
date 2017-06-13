@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarize_sim.R
 \name{summarize_sim}
 \alias{summarize_sim}
-\title{creates GLM simulation summary outputs}
+\title{Creates GLM simulation summary outputs}
 \usage{
 summarize_sim(file, sim_outputs, fig_path)
 }
@@ -14,6 +14,9 @@ summarize_sim(file, sim_outputs, fig_path)
 \item{fig_path}{FALSE if plot to screen, string path if save plot as .png
 See \code{get_}, timeseries (as in temp, evaporation, etc)}
 }
+\description{
+Creates GLM simulation summary outputs
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
@@ -21,11 +24,10 @@ summarize_sim(nc_file)
 
 summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \link{get_temp}, \link{get_surface_height}, \link{get_evaporation}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

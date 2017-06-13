@@ -18,7 +18,7 @@
 #'surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FALSE)
 #'@importFrom ncdf4 ncvar_get
 #'@export
-get_surface_height  <-	function(file='output.nc', ice.rm = TRUE, snow.rm = TRUE, ...){
+get_surface_height  <-	function(file = 'output.nc', ice.rm = TRUE, snow.rm = TRUE, ...){
   glm_nc <- get_glm_nc(file)
   NS	<- 	ncvar_get(glm_nc, "NS")
   elev <- ncvar_get(glm_nc, "z")
@@ -26,7 +26,7 @@ get_surface_height  <-	function(file='output.nc', ice.rm = TRUE, snow.rm = TRUE,
   close_glm_nc(glm_nc)
   
   surface_height <- vector(mode = "numeric",length = length(NS))
-  for (j in 1:length(NS)){
+  for (j in seq_len(length(NS))){
     surface_height[j] <- elev[NS[j],j]
   }
   if (!ice.rm){

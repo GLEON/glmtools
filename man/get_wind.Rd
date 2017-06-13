@@ -27,4 +27,3 @@ wind <- get_wind(file = nc_file)
 Luke A. Winslow, Jordan S. Read
 }
 \keyword{methods}
-

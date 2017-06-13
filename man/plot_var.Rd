@@ -2,9 +2,9 @@
 % Please edit documentation in R/plot_var.R
 \name{plot_var}
 \alias{plot_var}
-\title{plot variables from a GLM simulation}
+\title{Plot variables from a GLM simulation}
 \usage{
-plot_var(file = "output.nc", var_name, fig_path = F,
+plot_var(file = "output.nc", var_name, fig_path = FALSE,
   reference = "surface", col_lim, ...)
 }
 \arguments{
@@ -19,6 +19,9 @@ plot_var(file = "output.nc", var_name, fig_path = F,
 \item{col_lim}{range for heatmap (in units of the variable)}
 
 \item{...}{additional arguments passed to \code{par()}}
+}
+\description{
+Plot variables from a GLM simulation
 }
 \note{
 \code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
@@ -37,12 +40,11 @@ var_name = 'aed_oxygen_oxy',
 fig_path = 'aed_out.png')
 }
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
 \code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

@@ -12,17 +12,19 @@ Will use a temporary directory if missing}
 
 \item{verbose}{should operations and output of GLM be shown}
 }
+\description{
+Run example simulation
+}
 \examples{
 run_example_sim()
 \dontrun{
 run_example_sim('~/Desktop/GLM_sims')
 }    
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link[GLMr]{run_glm}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

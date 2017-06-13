@@ -5,6 +5,13 @@
 
 language: r
 cache: packages
+sudo: required
+
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libnetcdf-dev
+
 
 r_github_packages: GLEON/GLMr
 

@@ -13,7 +13,6 @@
 #'@examples 
 #'glm_nml <- read_nml()
 #'print(glm_nml)
-#'@import GLMr
 #'@export
 read_nml  <-	function(nml_file = 'template'){
   nml_file <- nml_path_norm(nml_file)
@@ -74,10 +73,10 @@ read_nml  <-	function(nml_file = 'template'){
   return(nml)
 }
 
-
+#' @importFrom GLMr nml_template_path
 nml_path_norm <- function(nml_file){
   if (nml_file == "template"){
-    nml_file <- nml_template_path()
+    nml_file <- GLMr::nml_template_path()
   }
   if (!is_nml_file(nml_file)){
     stop(nml_file, ' is not of file type *.nml')

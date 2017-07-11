@@ -4,12 +4,15 @@
 \alias{get_nml_value}
 \title{gets a nml value according to an arg_name}
 \usage{
-get_nml_value(glm_nml, arg_name, ...)
+get_nml_value(glm_nml = NA, arg_name, nml_file = "template", ...)
 }
 \arguments{
 \item{glm_nml}{a nml (a list) for GLM config}
 
 \item{arg_name}{a string representing a valid field in glm_nml}
+
+\item{nml_file}{a string with the path to the GLM glm2.nml file or 
+\code{'template'} for loading the GLM template nml file with GLMr (default)}
 
 \item{\dots}{additional arguments passed to \code{get_block}, such as warn=TRUE}
 }

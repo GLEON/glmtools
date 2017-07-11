@@ -28,6 +28,20 @@ test_that("can read in nml with vector for logicals", {
   expect_is(get_nml_value(nml, 'flt_off_sw'), 'logical')
 })
 
+test_that("can read values from an nml file", {
+  nml <- read_nml()
+  nml <- set_nml(nml, "sim_name", "test")
+  temp_nml <- tempfile(fileext = ".nml")
+  write_nml(nml, temp_nml)
+  
+  expect_true(get_nml_value(arg_name = "sim_name") == "GLMSimulation")
+  expect_true(
+    get_nml_value(arg_name = "sim_name", nml_file = temp_nml) == "test")
+  
+  nml <- read_nml()
+  get_nml_value(nml, arg_name = "sim_name", nml_file = temp_nml)
+})
+
 context("reading a bad nml file")
 test_that("file errors out",{
   expect_error(read_nml(system.file('extdata','bad_glm2.nml',package='glmtools')))

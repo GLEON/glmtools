@@ -10,7 +10,6 @@
 #'@author
 #'Jordan S. Read
 #'@seealso \link{read_nml}, \link{set_nml}
-#'@import GLMr
 #'@examples
 #'# read in default nml template from GLMr
 #'glm_nml <- read_nml()

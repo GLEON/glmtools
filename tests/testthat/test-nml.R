@@ -39,7 +39,8 @@ test_that("can read values from an nml file", {
     get_nml_value(arg_name = "sim_name", nml_file = temp_nml) == "test")
   
   nml <- read_nml()
-  get_nml_value(nml, arg_name = "sim_name", nml_file = temp_nml)
+  expect_error(
+    get_nml_value(nml, arg_name = "sim_name", nml_file = temp_nml))
 })
 
 context("reading a bad nml file")

@@ -18,13 +18,13 @@
 #'@export
 get_nml_value  <-	function(glm_nml = NA, arg_name, nml_file = 'template', ...){
   
-  if(all(is.na(glm_nml))){
-    glm_nml <- read_nml(nml_file)
-  }
-  
   if(!all(is.na(glm_nml)) & nml_file != 'template'){
     stop("Must specify either an nml object via 'glm_nml' or 
          an nml file path via 'nml_file'")
+  }
+  
+  if(all(is.na(glm_nml))){
+    glm_nml <- read_nml(nml_file)
   }
   
   blck = get_block(glm_nml, arg_name, ...)

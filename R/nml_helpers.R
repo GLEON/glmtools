@@ -6,12 +6,12 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	# remove all text after comment string
 	textLine	<-	strsplit(textLine,'!')[[1]][1]
   
-	if (!any(grep("=",textLine))){
+	if (!any(grep("=", textLine))){
     stop(c("no hanging lines allowed in .nml, used ",textLine,'.\nSee line number:',lineNum,' in "&',blckName,'" section.'))
 	}
 	params	<-	strsplit(textLine,"=") # break text at "="
-	parNm	<-	params[[1]][1]
-	parVl	<-	params[[1]][2]
+	parNm	  <-	params[[1]][1]
+	parVl	  <-	params[[1]][2]
 	# figure out what parval is...if string, remove quotes and keep as string
 	# ***for boolean text, use "indentical" so that 0!= FALSE
 	# can be: string, number, comma-sep-numbers, or boolean

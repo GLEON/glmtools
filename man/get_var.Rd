@@ -40,11 +40,10 @@ print(sim_vars(nc_file))
 evaporation <- get_var(nc_file, var_name = "evap")
 plot(evaporation)
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

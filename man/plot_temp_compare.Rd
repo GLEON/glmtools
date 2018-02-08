@@ -28,10 +28,9 @@ field_file <- file.path(sim_folder, 'field_data.tsv')
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
 }
-\author{
-Luke Winslow
-}
 \seealso{
 Internally uses \code{\link{plot_var_compare}}, \code{\link{get_temp}} and \code{\link{resample_to_field}}
 }
-
+\author{
+Luke Winslow
+}

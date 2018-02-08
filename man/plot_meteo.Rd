@@ -17,11 +17,10 @@ nml_file <- nml_template_path()
 
 plot_meteo(nml_file)
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{read_nml}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

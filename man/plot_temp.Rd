@@ -28,11 +28,10 @@ nc_file <- file.path(sim_folder, 'output.nc')
 plot_temp(file = nc_file, fig_path = FALSE)
 plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

@@ -40,11 +40,10 @@ t_out <- seq(as.POSIXct("2010-04-15"), as.POSIXct("2010-06-01"), by = 86400)
 temp_surf <- get_temp(nc_file, reference = 'surface', z_out = 0, t_out = t_out)
 plot(temp_surf)
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \link{resample_sim}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

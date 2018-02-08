@@ -31,4 +31,3 @@ surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FA
 Jordan S. Read, Luke A. Winslow
 }
 \keyword{methods}
-

@@ -20,11 +20,10 @@ write_path <- paste0(tempdir(),'glm2.nml')
 write_nml(glm_nml, file = write_path)
 print(read_nml(write_path))
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_nml_value}, \link{read_nml}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

@@ -62,11 +62,10 @@ values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value =
 # -- will fail
 }
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{resample_sim}, \link{resample_to_field}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

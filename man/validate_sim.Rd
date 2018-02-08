@@ -44,11 +44,10 @@ validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.p
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
                           metrics = c('thermo.depth', 'schmidt.stability'))                                                       
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

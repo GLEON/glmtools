@@ -17,11 +17,10 @@ sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 sim_vars(file = nc_file)
 }
-\author{
-Stuart E. Jones, Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{sim_var_longname}}, \code{\link{sim_var_units}}, \code{\link{plot_var}}
 }
+\author{
+Stuart E. Jones, Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

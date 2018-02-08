@@ -31,4 +31,3 @@ plot(data)
 \author{
 Luke Winslow
 }
-

@@ -31,11 +31,10 @@ temps <- resample_to_field(nc_file, field_file)
 buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
 temps <- resample_to_field(nc_file, buoy_file, precision = 'mins')
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{resample_sim}, \link{get_temp}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

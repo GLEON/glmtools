@@ -37,12 +37,11 @@ var_name = 'aed_oxygen_oxy',
 fig_path = 'aed_out.png')
 }
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
 \code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

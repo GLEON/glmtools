@@ -22,6 +22,9 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
 
 \item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
 }
+\description{
+Plot matching heatmaps for modeled and observed temp
+}
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')

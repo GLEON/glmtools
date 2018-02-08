@@ -1,4 +1,4 @@
-#'@title run diagnostics on model results vs observations
+#'Run diagnostics on model results vs observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param metrics a string or vector of strings representing physical metrics. 
@@ -31,9 +31,10 @@
 #'                   
 #' # return the diagnostic info but avoid the plot:                                   
 #'validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-#'                           metrics = c('thermo.depth', 'schmidt.stability'))                                                       
+#'                           metrics = c('thermo.depth', 'schmidt.stability'))          
 #'@export
-validate_sim <- function(nc_file, field_file, metrics, fig_path, report = F, ...){
+validate_sim <- function(nc_file, field_file, metrics, fig_path, 
+                         report = FALSE, ...){
   warning('function in development')
   # need to check is.missing for fig_path...
   num_metrics <- length(metrics)

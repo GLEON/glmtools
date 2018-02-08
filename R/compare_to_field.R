@@ -50,9 +50,9 @@
 #'@import dplyr
 #'
 #'@export
-compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE, ...){
-  
-  
+compare_to_field <- function(nc_file, field_file, nml_file, metric, 
+                             as_value = FALSE, na.rm = TRUE, ...){
+
   if (missing(nml_file)){
     bthA <- NA
     bthD <- NA
@@ -65,6 +65,7 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
   
   compare_data = group_by(na.omit(compare_data), DateTime) %>% filter(n() >= 3) %>% ungroup %>% as.data.frame
   
-  .compare_to_field(compare_data, bthA, bthD, metric=metric, as_value=as_value, na.rm=na.rm)
-  
+  .compare_to_field(compare_data, bthA, bthD, metric = metric, 
+                    as_value = as_value, na.rm = na.rm)
+
 }

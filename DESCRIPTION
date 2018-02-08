@@ -8,6 +8,8 @@ Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     person("Luke", "Winslow", role = "aut",
     email = "lwinslow@usgs.gov"))
 Description: Tools for working with the GLM lake model.
+URL: https://github.com/USGS-R/glmtools
+BugReports: https://github.com/USGS-R/glmtools/issues
 License: file LICENSE
 Copyright: This software is in the public domain because it contains materials
     that originally came from the United States Geological Survey, an agency of
@@ -23,7 +25,8 @@ Imports:
     tools,
     akima,
     lazyeval,
-    dplyr
+    dplyr,
+    methods
 Suggests:
     testthat,
     knitr,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_var_units.R
 \name{sim_var_units}
 \alias{sim_var_units}
-\title{get units of variable from a GLM simulation}
+\title{Get units of variable from a GLM simulation}
 \usage{
 sim_var_units(file = "output.nc", var_name)
 }
@@ -10,6 +10,9 @@ sim_var_units(file = "output.nc", var_name)
 \item{file}{a string with the path to the netcdf output from GLM}
 
 \item{var_name}{name of a valid variable from a simulation (see \code{\link{sim_vars}})}
+}
+\description{
+Get units of variable from a GLM simulation
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)

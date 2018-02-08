@@ -1,4 +1,4 @@
-#' @title read in field data into a data.frame
+#' Read in field data into a data.frame
 #'
 #' @param file 
 #' a file path for a supported field data format (currently, tsv
@@ -21,6 +21,7 @@
 #' file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 #' field_data <- read_field_obs(file)
 #' @import tools
+#' @importFrom utils read.delim2
 #' @export
 read_field_obs <- function(file, var_name='temp'){
 	

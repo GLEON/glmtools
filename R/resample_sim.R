@@ -64,7 +64,7 @@ resample_sim <- function(df, t_out, method = 'match', precision = 'days'){
   }
   
   idx_out <- vector(length = length(time))
-  for (j in 1:length(time)){
+  for (j in seq_len(length(time))){
     m_i <- which(time[j] - time_compr == 0) #funny, match doesn't work (lt vs ct types)
     idx_out[j] = ifelse(length(m_i)==0,NA,m_i)
   }

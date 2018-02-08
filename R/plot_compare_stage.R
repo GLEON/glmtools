@@ -1,9 +1,8 @@
-#'@title Plot simulated and observed stage data
+#'Plot simulated and observed stage data
 #'
 #'@param nc_file NetCDF model output file
 #'@param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #'@param ... Additional paramters supplied to the \code{plot} function
-#'
 #'
 #'@examples
 #'

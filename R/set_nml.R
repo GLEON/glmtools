@@ -19,8 +19,6 @@
 #'@export
 set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
   
-  
-  
   if (missing(arg_name) & missing(arg_val)){
     return(setnmlList(glm_nml,arg_list))
   }

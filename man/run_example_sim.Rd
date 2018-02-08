@@ -12,6 +12,9 @@ Will use a temporary directory if missing}
 
 \item{verbose}{should operations and output of GLM be shown}
 }
+\description{
+Run example simulation
+}
 \examples{
 run_example_sim()
 \dontrun{

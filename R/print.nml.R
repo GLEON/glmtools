@@ -1,13 +1,13 @@
 #'@export
 print.nml <- function(x, ...){
   glm_nml <- x
-  for (i in 1:length(names(glm_nml))){ # these are the blocks
+  for (i in seq_len(length(names(glm_nml)))){ # these are the blocks
     blckNm  <-	names(glm_nml)[i]
     cat("&")
     cat(blckNm)
     cat('\n')
     blckList	<-	glm_nml[[i]]
-    for (j in 1:length(names(blckList))){
+    for (j in seq_len(length(names(blckList)))){
       cat('   ')
       cat(names(blckList)[j])
       cat(' = ')

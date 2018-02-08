@@ -1,8 +1,9 @@
-#'@title plot meterological drivers from a csv file
+#'Plot meterological drivers from a csv file
 #'@inheritParams read_nml
 #'@param fig_path FALSE if plot to screen, string path if save plot as .png
 #'@keywords methods
 #'@seealso \code{\link{read_nml}}
+#'@importFrom utils read.csv
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
@@ -45,7 +46,7 @@ plot_meteo <- function(nml_file, fig_path = FALSE){
   panels <- matrix(seq(1,ncol(meteo)))
   layout(panels)
   par(oma = c(0,0,0,0), mar = c(1,3,.3,0), mgp=c(1,0,0), tck = 0.02)
-  for (i in 1:ncol(meteo)){
+  for (i in seq_len(ncol(meteo))){
     plot(dates, meteo[[i]], xlab = '', ylab = names(meteo[i]))
   }
   par(start_par)

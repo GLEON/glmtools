@@ -1,4 +1,4 @@
-#'@title match GLM water temperatures with field observations
+#'Match GLM water temperatures with field observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param method 'match' for exact match or 'interp' for temporal interpolation

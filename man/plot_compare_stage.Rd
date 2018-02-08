@@ -13,6 +13,9 @@ plot_compare_stage(nc_file, field_file, ...)
 
 \item{...}{Additional paramters supplied to the \code{plot} function}
 }
+\description{
+Plot simulated and observed stage data
+}
 \examples{
 
 sim_folder <- run_example_sim(verbose = FALSE)

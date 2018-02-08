@@ -1,4 +1,4 @@
-#'@title plot water temperatures from a GLM simulation
+#'Plot water temperatures from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
 #'@param reference a string for 'surface' or 'bottom'
 #'@param fig_path F if plot to screen, string path if save plot as .png

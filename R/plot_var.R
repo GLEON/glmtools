@@ -4,6 +4,7 @@
 #'@param fig_path F if plot to screen, string path if save plot as .png
 #'@param reference 'surface' or 'bottom'. Only used for heatmap plots.
 #' @param col_lim range for heatmap (in units of the variable)
+#' @param palette color palette for heatmap (2-D var) plot if non-default is desired
 #'@param ... additional arguments passed to \code{par()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
@@ -19,6 +20,9 @@
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'vars <- sim_vars(file = nc_file)
 #'plot_var(nc_file, 'u_mean')
+#'#try alternate palette
+#'plot_var(nc_file, 'u_mean', palette = terrain.colors)
+#'
 #'\dontrun{
 #'# need to specify a valid .nc file here: 
 #'plot_var(file = fabm_sim_nc.nc,
@@ -27,7 +31,7 @@
 #'}
 #'@importFrom grDevices dev.off
 #'@export
-plot_var <- function(file='output.nc', var_name, fig_path = FALSE, reference='surface', col_lim, ...){
+plot_var <- function(file='output.nc', var_name, fig_path = FALSE, reference='surface', col_lim, palette, ...){
   
   heatmaps <- .is_heatmap(file, var_name)
   num_divs <- length(var_name)
@@ -44,7 +48,7 @@ plot_var <- function(file='output.nc', var_name, fig_path = FALSE, reference='su
   # iterate through plots
   for (j in 1:num_divs){
     if (heatmaps[j]){
-      .plot_nc_heatmap(file, var_name[j], reference, col_lim=col_lim)
+      .plot_nc_heatmap(file, var_name[j], reference, col_lim=col_lim, palette=palette)
     } else {
       .plot_nc_timeseries(file, var_name[j])
       if(is_heatmap) .plot_null() # to fill up the colormap div

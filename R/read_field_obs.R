@@ -25,8 +25,12 @@
 #' @export
 read_field_obs <- function(file, var_name='temp'){
 	
-  delimiter <- get_delimiter(file)
-  data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
+  if(file_ext(file) == "rds"){
+    data <- readRDS(file)
+  } else {
+    delimiter <- get_delimiter(file)
+    data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
+  }
   
   date_i <- match('datetime', tolower(names(data)))
   depth_i <- match('depth', tolower(names(data)))

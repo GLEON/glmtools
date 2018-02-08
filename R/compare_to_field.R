@@ -46,8 +46,10 @@
 #'values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
 #'# -- will fail
 #'}
-#'@export
 #'@import rLakeAnalyzer
+#'@import dplyr
+#'
+#'@export
 compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE, ...){
   
   
@@ -60,6 +62,8 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
     bthD <- hypso$depths
   }
   compare_data <- resample_to_field(nc_file, field_file, ...)
+  
+  compare_data = group_by(na.omit(compare_data), DateTime) %>% filter(n() >= 3) %>% ungroup %>% as.data.frame
   
   .compare_to_field(compare_data, bthA, bthD, metric=metric, as_value=as_value, na.rm=na.rm)
   

@@ -1,7 +1,7 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.14.6
+Version: 0.14.7
 Date: 2017-01-31
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
@@ -22,7 +22,8 @@ Imports:
     ncdf4,
     tools,
     akima,
-    lazyeval
+    lazyeval,
+    dplyr
 Suggests:
     testthat,
     knitr,
@@ -31,4 +32,4 @@ VignetteBuilder: knitr
 BuildVignettes: true
 LazyLoad: yes
 LazyData: yes
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

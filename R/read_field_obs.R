@@ -1,8 +1,8 @@
 #' Read in field data into a data.frame
 #'
 #' @param file 
-#' a file path for a supported field data format (currently, tsv
-#' or csv with Date, depth, wtemp or similar columns)
+#' a file path for a supported field data format (currently, tsv,
+#' csv, or RDS containing a data frame with Date, depth, wtemp or similar columns)
 #' @param var_name 
 #' Name of variable to look for in field_obs file. 
 #' Should match a GLM simulation variable (see output from \code{\link{sim_vars}}).

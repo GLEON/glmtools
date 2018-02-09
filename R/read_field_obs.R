@@ -1,8 +1,8 @@
 #' Read in field data into a data.frame
 #'
 #' @param file 
-#' a file path for a supported field data format (currently, tsv
-#' or csv with Date, depth, wtemp or similar columns)
+#' a file path for a supported field data format (currently, tsv,
+#' csv, or RDS containing a data frame with Date, depth, wtemp or similar columns)
 #' @param var_name 
 #' Name of variable to look for in field_obs file. 
 #' Should match a GLM simulation variable (see output from \code{\link{sim_vars}}).
@@ -25,8 +25,12 @@
 #' @export
 read_field_obs <- function(file, var_name='temp'){
 	
-  delimiter <- get_delimiter(file)
-  data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
+  if(file_ext(file) == "rds"){
+    data <- readRDS(file)
+  } else {
+    delimiter <- get_delimiter(file)
+    data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
+  }
   
   date_i <- match('datetime', tolower(names(data)))
   depth_i <- match('depth', tolower(names(data)))

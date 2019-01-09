@@ -17,7 +17,7 @@
 #'print(glm_nml)
 #'@seealso \link{get_nml_value}, \link{read_nml}
 #'@export
-set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
+set_nml <- function(glm_nml, arg_name, arg_val, arg_list = NULL){
   
   if (missing(arg_name) & missing(arg_val)){
     return(setnmlList(glm_nml,arg_list))
@@ -46,6 +46,9 @@ set_nml  <-	function(glm_nml,arg_name,arg_val,arg_list=NULL){
   # get appropriate block to place val within ** assumes no duplicate param names in other blocks **
   blck	<-	get_block(glm_nml,arg_name)
   arg_name <- get_arg_name(arg_name)
+  if(length(arg_val) > 1){
+    arg_val <- paste0(arg_val, collapse = ",")
+  }
   glm_nml[[blck]][[arg_name]]	<- arg_val
   return(glm_nml)
 }

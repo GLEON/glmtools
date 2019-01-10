@@ -28,8 +28,8 @@ test_that("can read in nml with vector for logicals", {
   expect_is(get_nml_value(nml, 'flt_off_sw'), 'logical')
 })
 
-test_that("can read and write nml with vectors for character fields", {
-  # read vectors
+test_that("can read and write nml with vectors", {
+  # read character vectors
   glm_nml <- read_nml()
   glm_nml <- set_nml(glm_nml, arg_list = list(
     'inflow_fl' = c("yahara.csv", "yahara2.csv")))
@@ -37,12 +37,25 @@ test_that("can read and write nml with vectors for character fields", {
     length(get_nml_value(glm_nml, arg_name = "inflow_fl")), 
     1)
   
-  # write vectors
+  # read numeric vectors
+  glm_nml <- read_nml()
+  glm_nml <- set_nml(glm_nml, arg_list = list(
+    'A' = c(1, 2, 3)))
+  expect_true(
+    length(get_nml_value(glm_nml, arg_name = "A") > 1))
+  
+  # write character vectors
   write_path <- paste0(tempdir(), 'glm2.nml')
   write_nml(glm_nml, file = write_path)
   expect_equal(
     length(get_nml_value(read_nml(write_path), arg_name = "inflow_fl")), 
     1)
+  
+  # write numeric vectors
+  write_path <- paste0(tempdir(), 'glm2.nml')
+  write_nml(glm_nml, file = write_path)
+  expect_true(
+    length(get_nml_value(read_nml(write_path), arg_name = "A")) > 1)
 })
 
 test_that("can read values from an nml file", {

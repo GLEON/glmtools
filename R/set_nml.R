@@ -46,7 +46,7 @@ set_nml <- function(glm_nml, arg_name, arg_val, arg_list = NULL){
   # get appropriate block to place val within ** assumes no duplicate param names in other blocks **
   blck	<-	get_block(glm_nml,arg_name)
   arg_name <- get_arg_name(arg_name)
-  if(length(arg_val) > 1){
+  if(length(arg_val) > 1 & is.character(arg_val)){
     arg_val <- paste0(arg_val, collapse = ",")
   }
   glm_nml[[blck]][[arg_name]]	<- arg_val

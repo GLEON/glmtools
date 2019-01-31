@@ -42,7 +42,7 @@ test_that("can read and write nml with vectors", {
   glm_nml <- set_nml(glm_nml, arg_list = list(
     'A' = c(1, 2, 3)))
   expect_true(
-    length(get_nml_value(glm_nml, arg_name = "A") > 1))
+    length(get_nml_value(glm_nml, arg_name = "A")) > 1)
   
   # write character vectors
   write_path <- paste0(tempdir(), 'glm2.nml')

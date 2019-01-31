@@ -1,12 +1,14 @@
 Package: glmtools
 Type: Package
 Title: glmtools
-Version: 0.14.8
+Version: 0.15.0
 Date: 2017-01-31
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
     person("Luke", "Winslow", role = "aut",
-    email = "lwinslow@usgs.gov"))
+    email = "lwinslow@usgs.gov"), 
+    person("Joseph", "Stachelek", role = "ctb", 
+    email = "stachel2@msu.edu"))
 Description: Tools for working with the GLM lake model.
 URL: https://github.com/USGS-R/glmtools
 BugReports: https://github.com/USGS-R/glmtools/issues
@@ -35,4 +37,4 @@ VignetteBuilder: knitr
 BuildVignettes: true
 LazyLoad: yes
 LazyData: yes
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

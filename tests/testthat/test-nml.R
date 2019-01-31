@@ -37,6 +37,14 @@ test_that("can read and write nml with vectors", {
     length(get_nml_value(glm_nml, arg_name = "inflow_fl")), 
     1)
   
+  # writing character vectors is backwards compatible
+  glm_nml <- read_nml()
+  glm_nml <- set_nml(glm_nml, arg_name = "inflow_fl", 
+                     arg_val = c("yahara.csv", "yahara2.csv"))
+  expect_equal(
+    length(get_nml_value(glm_nml, arg_name = "inflow_fl")), 
+    1)
+  
   # read numeric vectors
   glm_nml <- read_nml()
   glm_nml <- set_nml(glm_nml, arg_list = list(

@@ -7,7 +7,7 @@
 plot_var(file = "output.nc", var_name, fig_path = FALSE,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL)
+  plot.title = NULL, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -16,7 +16,7 @@ plot_var(file = "output.nc", var_name, fig_path = FALSE,
 
 \item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
 
-\item{reference}{String; `"surface"` or `"bottom"`. Only used for heatmap plots.}
+\item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots.}
 
 \item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 
@@ -26,9 +26,11 @@ plot_var(file = "output.nc", var_name, fig_path = FALSE,
 
 \item{show.legend}{Logical; TRUE to show legend (default), FALSE to hide legend}
 
-\item{legend.position}{String; Legend position. Default is `"right"`. Options: `"left"`, `"right"`, `"top"`, `"bottom"`}
+\item{legend.position}{String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'}
 
 \item{plot.title}{Vector string; Default is no title.}
+
+\item{...}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Plot variables from a GLM simulation
@@ -45,6 +47,8 @@ vars <- sim_vars(file = nc_file)
 plot_var(nc_file, 'u_mean')
 #Plotting two variables
 plot_var(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+#Saving plot
+plot_var(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 
 \dontrun{
 # need to specify a valid .nc file here: 

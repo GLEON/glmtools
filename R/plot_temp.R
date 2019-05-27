@@ -1,9 +1,14 @@
 #'Plot water temperatures from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
-#'@param reference a string for 'surface' or 'bottom'
-#'@param fig_path F if plot to screen, string path if save plot as .png
-#' @param col_lim range for heatmap (in units of the variable)
-#'@param ... additional arguments passed to \code{par()}
+#'@param fig_path Logical; F if plot to screen, string path if save plot as .png
+#'@param reference String; 'surface' or 'bottom. Only used for heatmap plots.
+#'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
+#'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
+#'@param text.size Integer; Default is 12. Higher values will increase text size in plot.
+#'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
+#'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
+#'@param plot.title Vector string; Default is no title. 
+#'@param ... additional arguments passed to \code{ggsave()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
 #'@note
@@ -17,8 +22,12 @@
 #'plot_temp(file = nc_file, fig_path = FALSE)
 #'plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 #'@export
-plot_temp <- function(file='output.nc', fig_path = FALSE, reference = 'surface', col_lim, ...){
+plot_temp <- function(file='output.nc',fig_path = FALSE, reference='surface', legend.title = NULL, 
+                      interval = 0.5, text.size = 12, show.legend = TRUE, 
+                      legend.position = 'right', plot.title = NULL){
 
-  plot_var(file, var_name = 'temp', fig_path, reference, col_lim, ...)
+  plot_var(file, var_name = 'temp', fig_path = FALSE, reference, legend.title, 
+           interval, text.size, show.legend, 
+           legend.position, plot.title)
   
 }

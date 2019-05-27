@@ -5,18 +5,30 @@
 \title{Plot water temperatures from a GLM simulation}
 \usage{
 plot_temp(file = "output.nc", fig_path = FALSE,
-  reference = "surface", col_lim, ...)
+  reference = "surface", legend.title = NULL, interval = 0.5,
+  text.size = 12, show.legend = TRUE, legend.position = "right",
+  plot.title = NULL)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
-\item{fig_path}{F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
 
-\item{reference}{a string for 'surface' or 'bottom'}
+\item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots.}
 
-\item{col_lim}{range for heatmap (in units of the variable)}
+\item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 
-\item{...}{additional arguments passed to \code{par()}}
+\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
+
+\item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{show.legend}{Logical; TRUE to show legend (default), FALSE to hide legend}
+
+\item{legend.position}{String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'}
+
+\item{plot.title}{Vector string; Default is no title.}
+
+\item{...}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Plot water temperatures from a GLM simulation

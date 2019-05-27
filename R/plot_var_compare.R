@@ -4,10 +4,10 @@
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #' @param fig_path F if plot to screen, string path if save plot as .png
 #' @param resample sample the model output to the same time points as the observations?
-#' @param method String; 'match' for exact match or 'interp' for temporal interpolation
 #' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
+#' @param method String; 'match' for exact match or 'interp' for temporal interpolation
 #' @param text.size Integer; Default is 12. Higher values will increase text size in plot.
-# '@param ... additional arguments passed to \code{ggsave()}
+#' @param \dots additional arguments passed to \code{ggsave()}
 #'
 #' @seealso Internally uses \link{get_var} and \link{resample_to_field}
 #'

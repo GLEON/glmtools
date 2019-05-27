@@ -24,6 +24,8 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
 \item{method}{String; 'match' for exact match or 'interp' for temporal interpolation}
 
 \item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{\dots}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Plot matching heatmaps for modeled and observed temp

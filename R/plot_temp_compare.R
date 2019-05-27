@@ -3,8 +3,10 @@
 #' @param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #' @param fig_path F if plot to screen, string path if save plot as .png
 #' @param resample sample the model output to the same time points as the observations?
-#' @param col_lim range for heatmap (in units of the variable)
-#' @param \dots additional arguments passed to \code{\link{resample_to_field}}
+#' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
+#' @param method String; 'match' for exact match or 'interp' for temporal interpolation
+#' @param text.size Integer; Default is 12. Higher values will increase text size in plot.
+#' @param \dots additional arguments passed to \code{ggsave()}
 #'
 #'@seealso Internally uses \code{\link{plot_var_compare}}, \code{\link{get_temp}} and \code{\link{resample_to_field}}
 #'
@@ -18,8 +20,10 @@
 #'
 #'plot_temp_compare(nc_file, field_file) ##makes a plot!
 #'@export
-plot_temp_compare = function(nc_file, field_file, fig_path=FALSE, resample=TRUE, col_lim, ...){
+plot_temp_compare = function(nc_file, field_file, fig_path=FALSE, resample=TRUE, 
+                             interval = 1,method = 'match', text.size = 12, ...){
 	
-	plot_var_compare(nc_file, field_file, var_name='temp', fig_path=fig_path, resample=resample, col_lim=col_lim, ...)
+	plot_var_compare(nc_file, field_file, var_name='temp', fig_path=fig_path, resample=resample,
+	                 interval = interval, method = method, text.size = text.size, ...)
   
 }

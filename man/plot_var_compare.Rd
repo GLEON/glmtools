@@ -5,7 +5,8 @@
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
 plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
-  resample = TRUE, col_lim, ...)
+  resample = TRUE, interval = 1, method = "match", text.size = 12,
+  ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -18,9 +19,11 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
 
 \item{resample}{sample the model output to the same time points as the observations?}
 
-\item{col_lim}{range for heatmap (in units of the variable)}
+\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
 
-\item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
+\item{method}{String; 'match' for exact match or 'interp' for temporal interpolation}
+
+\item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
 }
 \description{
 Plot matching heatmaps for modeled and observed temp

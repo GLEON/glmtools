@@ -4,8 +4,10 @@
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #' @param fig_path F if plot to screen, string path if save plot as .png
 #' @param resample sample the model output to the same time points as the observations?
-#' @param col_lim range for heatmap (in units of the variable)
-#' @param \dots additional arguments passed to \code{\link{resample_to_field}}
+#' @param method String; 'match' for exact match or 'interp' for temporal interpolation
+#' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
+#' @param text.size Integer; Default is 12. Higher values will increase text size in plot.
+# '@param ... additional arguments passed to \code{ggsave()}
 #'
 #' @seealso Internally uses \link{get_var} and \link{resample_to_field}
 #'
@@ -21,8 +23,10 @@
 #'plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot!
 #'
 #'@importFrom akima interp
+#'@importFrom akima interp2xyz
 #'@export
-plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, col_lim, ...){
+plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, resample = TRUE, 
+                            interval = 1,method = 'match', text.size = 12, ...){
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   if (!heatmaps){
@@ -30,54 +34,72 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
     return()
   }
   
-  start_par = par(no.readonly = TRUE)
-  #Create layout
-  
-  mod_temp = get_var(nc_file, var_name, reference='surface')
-  mod_depths = get.offsets(mod_temp)
-  
-  
-  data = resample_to_field(nc_file, field_file, var_name=var_name, ...)
-  if(resample){
-  	model_df <- resample_sim(mod_temp, t_out = unique(data$DateTime))
-  }else{
-  	model_df = mod_temp
-  }
-  
-  #Pivot observed into table
-  x = as.numeric(as.POSIXct(data$DateTime))
-  y = data$Depth
-  z = data[,paste0('Observed_', var_name)]
-  x_out = sort(unique(x))
-  y_out = sort(unique(c(y, mod_depths)))
-  
-  #remove any NA values before the 2D interp
-  x = x[!is.na(z)]
-  y = y[!is.na(z)]
-  z = z[!is.na(z)]
-  
-  #Added a scaling factor to Y. Interp won't interpolate if X and Y are on vastly different scales.
-  # I don't use Y from here later, so it doesn't matter what the mangitude of the values is.
-  interped = interp(x, y*1e6, z, x_out, y_out*1e6)
+  surface <- get_surface_height(nc_file)
+  max_depth <- max(surface[, 2])
+  min_depth <- 0
+  z_out <- seq(min_depth, max_depth,by = interval) # Set plotting interval
+  mod_temp = get_var(nc_file, var_name, reference='surface',z_out = z_out)
 
-  gen_default_fig(filename=fig_path, num_divs=2)#, omi = c(0.1, 0.5, 0, 0))
-  .stacked_layout(heatmaps, num_divs=2)
-  obs_df <- data.frame(interped$z)
-  names(obs_df) <- paste('var_', y_out, sep='')
-  obs_df <- cbind(data.frame(DateTime=as.POSIXct(x_out, origin='1970-01-01')), obs_df)
+  data = resample_to_field(nc_file, field_file, var_name=var_name, method = method) 
   
-  #Use model to define X-axis plotting extent for both graphs
-  xaxis <- get_xaxis(model_df[,1])
+  # Akima interpolation of observed data
+  dataClean = data %>% dplyr::filter_all(all_vars(!is.na(.))) 
   
-  y.text = y_out[1]+diff(range(y_out))*0.05 # note, reference will ALWAYS be surface for compare to field data
-  if (missing(col_lim))
-    col_lim = range(data[, -1], na.rm = TRUE)
+  df_akima <-interp2xyz(interp(x=as.numeric(dataClean$DateTime), y=dataClean$Depth*1e6, z=dataClean$Observed_temp, duplicate="mean", linear = T,
+                               # xo=seq.POSIXt(min(dataClean$DateTime), max(dataClean$DateTime), by = 'day'),
+                               xo = as.numeric(seq(min(dataClean$DateTime), max(dataClean$DateTime), by = 'day')),
+                               yo = 1e6*seq(min(dataClean$Depth), max(dataClean$Depth), by = 1)), data.frame=TRUE) %>% 
+    dplyr::mutate(x =  as.POSIXct(x, origin = '1970-01-01', tz = Sys.timezone())) %>% 
+    dplyr::mutate(y = y/1e6) %>% 
+    dplyr::arrange(x,y)
   
-  .plot_df_heatmap(obs_df, bar_title = .unit_label(nc_file,var_name), overlays=c(points(x=x,y=y),text(x_out[1],y=y.text,'Observed', pos=4, offset = 1)), xaxis=xaxis, col_lim=col_lim)
+  # Resample modeled data? 
+  if(resample == TRUE) {
+  	model_df <-interp2xyz(interp(x=as.numeric(dataClean$DateTime), y=dataClean$Depth*1e6, z=dataClean$Modeled_temp, duplicate="mean", linear = T,
+  	                             # xo=seq.POSIXt(min(dataClean$DateTime), max(dataClean$DateTime), by = 'day'),
+  	                             xo = as.numeric(seq(min(dataClean$DateTime), max(dataClean$DateTime), by = 'day')),
+  	                             yo = 1e6*seq(min(dataClean$Depth), max(dataClean$Depth), by = 1)), data.frame=TRUE) %>% 
+  	  dplyr::mutate(x =  as.POSIXct(x, origin = '1970-01-01', tz = Sys.timezone())) %>% 
+  	  dplyr::mutate(y = y/1e6) %>% 
+  	  dplyr::arrange(x,y) 
+  	names(model_df) = c('DateTime','Depth','var')
+  	
+  } else {
+  	model_df = mod_temp
+  	names.df = data.frame(names = names(model_df)[-1], Depth = z_out, stringsAsFactors = F)
+  	model_df = gather(data = model_df,key = depth, value = var,-DateTime) %>%
+  	  left_join(names.df, by = c('depth' = 'names')) %>% 
+  	  arrange(DateTime, Depth)
+  }
+
   
-  .plot_df_heatmap(model_df, bar_title = .unit_label(nc_file,var_name), overlays=text(x_out[1],y=y.text,'Modeled', pos=4, offset = 1), xaxis=xaxis, col_lim=col_lim)
+  legend.title = .unit_label(nc_file, var_name)
   
-  par(start_par)#set PAR back to what it started at
-  if(is.character(fig_path))
-    dev.off()
+  h1 = ggplot(data = df_akima, aes(x = x, y = y)) +
+    geom_raster(aes(fill = z), interpolate = F) +
+    geom_point(data = data, aes(x = DateTime, y = Depth), color = 'white', alpha = 0.6) +
+    scale_y_reverse(expand = c(0.01,0.01)) +
+    scale_x_datetime(expand = c(0.01,0.01), limits = c(min(df_akima$x), max(df_akima$x))) +
+    scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
+    ylab('Depth (m)') + xlab('Date') +
+    labs(fill = legend.title, title = 'Observed') +
+    theme_bw(base_size = text.size) 
+    
+  h2 = ggplot(data = model_df, aes(DateTime, Depth)) +
+    geom_raster(aes(fill = var), interpolate = F) +
+    scale_y_reverse(expand = c(0.01,0.01)) +
+    scale_x_datetime(expand = c(0.01,0.01), limits = c(min(df_akima$x), max(df_akima$x))) +
+    scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
+    ylab('Depth (m)') + xlab('Date') +
+    labs(fill = legend.title, title = 'Modeled') +
+    theme_bw(base_size = text.size) 
+  
+  
+  grid.arrange(h1,h2)
+  
+  # Saving plot 
+  if (is.character(fig_path)){
+    ggsave(filename = fig_path,...)
+  } 
+  
 }

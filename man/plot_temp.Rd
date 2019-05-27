@@ -4,8 +4,8 @@
 \alias{plot_temp}
 \title{Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
-  col_lim, ...)
+plot_temp(file = "output.nc", fig_path = FALSE,
+  reference = "surface", col_lim, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

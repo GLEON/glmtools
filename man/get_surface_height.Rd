@@ -4,7 +4,8 @@
 \alias{get_surface_height}
 \title{get surface height from GLM simulation}
 \usage{
-get_surface_height(file = "output.nc", ice.rm = TRUE, snow.rm = TRUE, ...)
+get_surface_height(file = "output.nc", ice.rm = TRUE, snow.rm = TRUE,
+  ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

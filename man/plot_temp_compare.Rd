@@ -4,8 +4,8 @@
 \alias{plot_temp_compare}
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(nc_file, field_file, fig_path = FALSE, resample = TRUE,
-  col_lim, ...)
+plot_temp_compare(nc_file, field_file, fig_path = FALSE,
+  resample = TRUE, col_lim, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}

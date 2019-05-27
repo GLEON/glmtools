@@ -5,22 +5,30 @@
 \title{Plot variables from a GLM simulation}
 \usage{
 plot_var(file = "output.nc", var_name, fig_path = FALSE,
-  reference = "surface", col_lim, palette, ...)
+  reference = "surface", legend.title = NULL, interval = 0.5,
+  text.size = 12, show.legend = TRUE, legend.position = "right",
+  plot.title = NULL)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
 
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
-\item{fig_path}{F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
 
-\item{reference}{'surface' or 'bottom'. Only used for heatmap plots.}
+\item{reference}{String; `"surface"` or `"bottom"`. Only used for heatmap plots.}
 
-\item{col_lim}{range for heatmap (in units of the variable)}
+\item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 
-\item{palette}{color palette for heatmap (2-D var) plot if non-default is desired}
+\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
 
-\item{...}{additional arguments passed to \code{par()}}
+\item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{show.legend}{Logical; TRUE to show legend (default), FALSE to hide legend}
+
+\item{legend.position}{String; Legend position. Default is `"right"`. Options: `"left"`, `"right"`, `"top"`, `"bottom"`}
+
+\item{plot.title}{Vector string; Default is no title.}
 }
 \description{
 Plot variables from a GLM simulation
@@ -35,8 +43,8 @@ sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 vars <- sim_vars(file = nc_file)
 plot_var(nc_file, 'u_mean')
-#try alternate palette
-plot_var(nc_file, 'u_mean', palette = terrain.colors)
+#Plotting two variables
+plot_var(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
 
 \dontrun{
 # need to specify a valid .nc file here: 
@@ -50,6 +58,6 @@ fig_path = 'aed_out.png')
 \code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
 }
 \author{
-Jordan S. Read, Luke A. Winslow
+Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 }
 \keyword{methods}

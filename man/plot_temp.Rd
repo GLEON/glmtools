@@ -4,13 +4,13 @@
 \alias{plot_temp}
 \title{Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file = "output.nc", fig_path = FALSE,
+plot_temp(nc_file = "output.nc", fig_path = FALSE,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
   plot.title = NULL)
 }
 \arguments{
-\item{file}{a string with the path to the netcdf output from GLM}
+\item{nc_file}{a string with the path to the netcdf output from GLM}
 
 \item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
 
@@ -40,8 +40,8 @@ Plot water temperatures from a GLM simulation
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
-plot_temp(file = nc_file, fig_path = FALSE)
-plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+plot_temp(nc_file = nc_file, fig_path = FALSE)
+plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}

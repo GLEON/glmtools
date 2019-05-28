@@ -24,6 +24,9 @@
 plot_temp_compare = function(nc_file, field_file, fig_path=FALSE, resample=TRUE, 
                              interval = 1,method = 'match', text.size = 12, ...){
 	
+  .Deprecated('plot_var_compare',msg = 'Deprecated. Use `plot_var_compare`, where default is var_name = `temp`')
+  
+  
 	plot_var_compare(nc_file, field_file, var_name='temp', fig_path=fig_path, resample=resample,
 	                 interval = interval, method = method, text.size = text.size, ...)
   

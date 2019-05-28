@@ -3,7 +3,8 @@
 #' @import dplyr
 
 .plot_nc_heatmap <- function(file, var_name, reference, legend.title , interval,
-                             text.size, show.legend, legend.position, plot.title) {
+                             text.size, show.legend, legend.position, plot.title,
+                             color.palette, color.direction) {
   
   surface <- get_surface_height(file)
   max_depth <- max(surface[, 2])
@@ -21,12 +22,14 @@
   if(is.null(legend.title)) {
     legend.title = .unit_label(file, var_name)
   }
-  .plot_df_heatmap(dataLong, legend.title, text.size, show.legend, legend.position, plot.title)
+  .plot_df_heatmap(dataLong, legend.title, text.size, show.legend, legend.position, plot.title,
+                   color.palette, color.direction)
 }
 
 
 .plot_df_heatmap <- function(dataLong, legend.title, text.size, 
-                             show.legend, legend.position, plot.title) {
+                             show.legend, legend.position, plot.title,
+                             color.palette, color.direction) {
                              
                              # num_cells, palette, title_prefix=NULL, overlays=NULL, xaxis=NULL, col_lim){
   
@@ -34,7 +37,8 @@
   geom_raster(aes(fill = var), interpolate = F, hjust = 0.5, vjust = 0.5, show.legend = show.legend) +
   scale_y_reverse(expand = c(0.01,0.01)) +
   scale_x_datetime(expand = c(0.01,0.01)) +
-  scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
+  scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
+  # scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
   ylab('Depth (m)') + xlab('Date') +
   labs(fill = legend.title, title = plot.title) +
   theme_bw(base_size = text.size) +

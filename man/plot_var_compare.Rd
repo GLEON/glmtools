@@ -4,9 +4,10 @@
 \alias{plot_var_compare}
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
-  resample = TRUE, interval = 1, method = "match", text.size = 12,
-  ...)
+plot_var_compare(nc_file, field_file, var_name = "temp",
+  fig_path = FALSE, resample = TRUE, legend.title = NULL,
+  interval = 1, method = "match", text.size = 12,
+  color.palette = "RdYlBu", color.direction = -1, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -19,11 +20,20 @@ plot_var_compare(nc_file, field_file, var_name, fig_path = FALSE,
 
 \item{resample}{sample the model output to the same time points as the observations?}
 
+\item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
+
 \item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
 
 \item{method}{String; 'match' for exact match or 'interp' for temporal interpolation}
 
 \item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. If a number, will index into the list of palettes of appropriate. 
+Palettes available include: Diverging:
+BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
+Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.}
+
+\item{color.direction}{Sets the order of colors in the scale. If 1, the default, colors are as output by brewer.pal. If -1, the order of colors is reversed.}
 
 \item{\dots}{additional arguments passed to \code{ggsave()}}
 }
@@ -38,7 +48,11 @@ field_file <- file.path(sim_folder, 'field_data.tsv')
 
 run_glm(sim_folder)
 
-plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot!
+plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot
+
+#Change clor palette, custom legend title, save figure:
+plot_var_compare(nc_file, field_file, var_name = 'temp', resample = F, legend.title = 'Temp (*C)',
+color.palette = 'PuBuGn', color.direction = 1,fig_path = '~/Downloads/figtest.png', width = 6, height = 8, units = 'in')
 
 }
 \seealso{

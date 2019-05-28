@@ -20,6 +20,7 @@
 #'
 #'plot_temp_compare(nc_file, field_file) ##makes a plot!
 #'@export
+#'
 plot_temp_compare = function(nc_file, field_file, fig_path=FALSE, resample=TRUE, 
                              interval = 1,method = 'match', text.size = 12, ...){
 	

@@ -4,14 +4,13 @@
 \alias{plot_var}
 \title{Plot variables from a GLM simulation}
 \usage{
-plot_var(file = "output.nc", var_name, fig_path = FALSE,
+plot_var(nc_file = "output.nc", var_name = "temp", fig_path = FALSE,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL, ...)
+  plot.title = NULL, color.palette = "RdYlBu", color.direction = -1,
+  ...)
 }
 \arguments{
-\item{file}{a string with the path to the netcdf output from GLM}
-
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
@@ -30,7 +29,16 @@ plot_var(file = "output.nc", var_name, fig_path = FALSE,
 
 \item{plot.title}{Vector string; Default is no title.}
 
-\item{...}{additional arguments passed to \code{ggsave()}}
+\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. If a number, will index into the list of palettes of appropriate. 
+Palettes available include: Diverging:
+BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
+Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.}
+
+\item{color.direction}{Sets the order of colors in the scale. If 1, the default, colors are as output by brewer.pal. If -1, the order of colors is reversed.}
+
+\item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
+
+\item{file}{a string with the path to the netcdf output from GLM}
 }
 \description{
 Plot variables from a GLM simulation
@@ -45,8 +53,13 @@ sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 vars <- sim_vars(file = nc_file)
 plot_var(nc_file, 'u_mean')
+
 #Plotting two variables
 plot_var(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+
+#Change color palette
+plot_var(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
+
 #Saving plot
 plot_var(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 

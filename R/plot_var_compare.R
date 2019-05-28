@@ -34,6 +34,7 @@
 #'
 #'@importFrom akima interp
 #'@importFrom akima interp2xyz
+#'@importFrom gridExtra grid.arrange
 #'@export
 plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = FALSE, resample = TRUE, 
                             legend.title = NULL, interval = 1,method = 'match', text.size = 12,

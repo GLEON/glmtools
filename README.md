@@ -2,6 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 glmtools
 ========
+[![status](https://img.shields.io/badge/USGS-Research-blue.svg)](https://owi.usgs.gov/R/packages.html#research)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/j5mscylmkssa0esf)](https://ci.appveyor.com/project/jread-usgs/glmtools) [![Build Status](https://travis-ci.org/USGS-R/glmtools.svg)](https://travis-ci.org/USGS-R/glmtools)  [![Coverage Status](https://img.shields.io/coveralls/USGS-R/glmtools.svg)](https://coveralls.io/r/USGS-R/glmtools)
 

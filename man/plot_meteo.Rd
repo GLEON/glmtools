@@ -8,12 +8,12 @@ plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...)
 }
 \arguments{
 \item{met_file}{Options: 1) file path to glm2.nml file. Date limits pulled from .nml file
-2) file path to .csv file, with Date values in the first column
-3) data.frame object, with Date values in the first column}
+2) file path to .csv file. csv file in wide format. First column is Date, additional columns are meteorological paramters. 
+3) data.frame object in wide format. First column is Date, additional columns are meteorological paramters.}
 
-\item{xmin}{Optional, start date for xaxis}
+\item{xmin}{Optional, start date for xaxis. Formatted as same date format as meteo file.}
 
-\item{xmax}{Optional, end date for xaxis}
+\item{xmax}{Optional, end date for xaxis. Formatted as same date format as meteo file.}
 
 \item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
 

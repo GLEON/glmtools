@@ -1,5 +1,5 @@
 #'Plot water temperatures from a GLM simulation
-#'@param file a string with the path to the netcdf output from GLM
+#'@param nc_file a string with the path to the netcdf output from GLM
 #'@param fig_path Logical; F if plot to screen, string path if save plot as .png
 #'@param reference String; 'surface' or 'bottom. Only used for heatmap plots.
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
@@ -19,14 +19,16 @@
 #'@examples 
 #'sim_folder <- run_example_sim(verbose = FALSE)
 #'nc_file <- file.path(sim_folder, 'output.nc')
-#'plot_temp(file = nc_file, fig_path = FALSE)
-#'plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+#'plot_temp(nc_file = nc_file, fig_path = FALSE)
+#'plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 #'@export
-plot_temp <- function(file='output.nc',fig_path = FALSE, reference='surface', legend.title = NULL, 
+plot_temp <- function(nc_file='output.nc',fig_path = FALSE, reference='surface', legend.title = NULL, 
                       interval = 0.5, text.size = 12, show.legend = TRUE, 
                       legend.position = 'right', plot.title = NULL){
-
-  plot_var(file, var_name = 'temp', fig_path = FALSE, reference, legend.title, 
+  
+  .Deprecated('plot_var',msg = 'Deprecated. Use `plot_var`, where default is var_name = `temp`')
+  
+  plot_var(nc_file, var_name = 'temp', fig_path = FALSE, reference, legend.title, 
            interval, text.size, show.legend, 
            legend.position, plot.title)
   

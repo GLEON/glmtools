@@ -1,10 +1,10 @@
 #'Plot meterological drivers from a csv file
 #'@inheritParams read_nml
 #'@param met_file Options: 1) file path to glm2.nml file. Date limits pulled from .nml file
-#'2) file path to .csv file, with Date values in the first column
-#'3) data.frame object, with Date values in the first column
-#'@param xmin Optional, start date for xaxis
-#'@param xmax Optional, end date for xaxis
+#'2) file path to .csv file. csv file in wide format. First column is Date, additional columns are meteorological paramters. 
+#'3) data.frame object in wide format. First column is Date, additional columns are meteorological paramters. 
+#'@param xmin Optional, start date for xaxis. Formatted as same date format as meteo file. 
+#'@param xmax Optional, end date for xaxis. Formatted as same date format as meteo file. 
 #'@param fig_path Logical; F if plot to screen, string path if save plot as .png
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
@@ -53,17 +53,17 @@ plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...){
     meteo = met_file
   } 
   
-  meteo = meteo %>% gather(key = 'parameter',value = 'value', -1)
+  meteoLong = meteo %>% gather(key = 'parameter',value = 'value', -1)
   
   if (is.na(xmin)){
-    xmin = pull(meteo[1,1])
+    xmin = pull(meteoLong[1,1])
   }
   
-  firstcol = names(meteo)[1]
-  p1 = ggplot(meteo, aes(x = get(firstcol), y = value)) + geom_point(alpha = 0.8, size = 0.5) +
+  firstcol = names(meteoLong)[1]
+  p1 = ggplot(meteoLong, aes(x = get(firstcol), y = value)) + geom_point(alpha = 0.8, size = 0.5) +
     facet_grid(vars(parameter), scales = 'free_y') +
     xlim(xmin,xmax) +
-    xlab('Date') + ylab('')
+    xlab('Date') + ylab('') +
     theme_bw() 
   
   print(p1)

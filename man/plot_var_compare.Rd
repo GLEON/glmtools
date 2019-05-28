@@ -58,3 +58,6 @@ color.palette = 'PuBuGn', color.direction = 1,fig_path = '~/Downloads/figtest.pn
 \seealso{
 Internally uses \link{get_var} and \link{resample_to_field}
 }
+\author{
+Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
+}

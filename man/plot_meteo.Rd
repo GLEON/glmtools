@@ -4,21 +4,28 @@
 \alias{plot_meteo}
 \title{Plot meterological drivers from a csv file}
 \usage{
-plot_meteo(nml_file, fig_path = FALSE)
+plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...)
 }
 \arguments{
-\item{nml_file}{a string with the path to the GLM glm2.nml file, or 
-\code{'template'} for loading the GLM template nml file with GLMr (default)}
+\item{met_file}{Options: 1) file path to glm2.nml file. Date limits pulled from .nml file
+2) file path to .csv file, with Date values in the first column
+3) data.frame object, with Date values in the first column}
 
-\item{fig_path}{FALSE if plot to screen, string path if save plot as .png}
+\item{xmin}{Optional, start date for xaxis}
+
+\item{xmax}{Optional, end date for xaxis}
+
+\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
+
+\item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }
 \description{
 Plot meterological drivers from a csv file
 }
 \examples{
-nml_file <- nml_template_path()
+met_file <- nml_template_path()
 
-plot_meteo(nml_file)
+plot_meteo(met_file)
 }
 \seealso{
 \code{\link{read_nml}}

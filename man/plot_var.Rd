@@ -11,6 +11,8 @@ plot_var(nc_file = "output.nc", var_name = "temp", fig_path = FALSE,
   ...)
 }
 \arguments{
+\item{nc_file}{a string with the path to the netcdf output from GLM}
+
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
@@ -37,8 +39,6 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 \item{color.direction}{Sets the order of colors in the scale. If 1, the default, colors are as output by brewer.pal. If -1, the order of colors is reversed.}
 
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
-
-\item{file}{a string with the path to the netcdf output from GLM}
 }
 \description{
 Plot variables from a GLM simulation

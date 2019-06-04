@@ -1,19 +1,19 @@
 #'Plot variables from a GLM simulation
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
-#'@param fig_path Logical; F if plot to screen, string path if save plot as .png
-#'@param reference String; 'surface' or 'bottom. Only used for heatmap plots.
+#'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
+#'@param reference String; 'surface' or 'bottom. Only used for heatmap plots. We recommend using 'bottom' if surface levels are fluctuating. This will present a more realistic representation of surface conditions. 
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
 #'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #'@param text.size Integer; Default is 12. Higher values will increase text size in plot.
 #'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
 #'@param plot.title Vector string; Default is no title. 
-#'@param color.palette See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. If a number, will index into the list of palettes of appropriate. 
+#'@param color.palette See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
 #' Palettes available include: Diverging:
 #' BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
-#'@param color.direction Sets the order of colors in the scale. If 1, the default, colors are as output by brewer.pal. If -1, the order of colors is reversed.
+#'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
@@ -46,10 +46,9 @@
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
-#'@importFrom grDevices dev.off
 #'@importFrom gridExtra grid.arrange
 #'@export
-plot_var <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = FALSE, reference = 'surface', 
+plot_var <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
                      legend.title = NULL, interval = 0.5, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
                      color.palette = 'RdYlBu', color.direction = -1,...) {
@@ -80,7 +79,7 @@ plot_var <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = FALSE,
   
   
   # Saving plot 
-  if (is.character(fig_path)){
+  if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
 }

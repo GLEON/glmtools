@@ -4,7 +4,7 @@
 \alias{plot_meteo}
 \title{Plot meterological drivers from a csv file}
 \usage{
-plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...)
+plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...)
 }
 \arguments{
 \item{met_file}{Options: 1) file path to glm2.nml file. Date limits pulled from .nml file
@@ -15,7 +15,7 @@ plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...)
 
 \item{xmax}{Optional, end date for xaxis. Formatted as same date format as meteo file.}
 
-\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }

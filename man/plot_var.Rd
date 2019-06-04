@@ -4,7 +4,7 @@
 \alias{plot_var}
 \title{Plot variables from a GLM simulation}
 \usage{
-plot_var(nc_file = "output.nc", var_name = "temp", fig_path = FALSE,
+plot_var(nc_file = "output.nc", var_name = "temp", fig_path = NULL,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
   plot.title = NULL, color.palette = "RdYlBu", color.direction = -1,
@@ -15,9 +15,9 @@ plot_var(nc_file = "output.nc", var_name = "temp", fig_path = FALSE,
 
 \item{var_name}{a character vector of valid variable names (see \code{\link{sim_vars}})}
 
-\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
-\item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots.}
+\item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots. We recommend using 'bottom' if surface levels are fluctuating. This will present a more realistic representation of surface conditions.}
 
 \item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 
@@ -31,12 +31,12 @@ plot_var(nc_file = "output.nc", var_name = "temp", fig_path = FALSE,
 
 \item{plot.title}{Vector string; Default is no title.}
 
-\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. If a number, will index into the list of palettes of appropriate. 
+\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
 Palettes available include: Diverging:
 BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.}
 
-\item{color.direction}{Sets the order of colors in the scale. If 1, the default, colors are as output by brewer.pal. If -1, the order of colors is reversed.}
+\item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
 
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }

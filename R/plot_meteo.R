@@ -5,7 +5,7 @@
 #'3) data.frame object in wide format. First column is Date, additional columns are meteorological paramters. 
 #'@param xmin Optional, start date for xaxis. Formatted as same date format as meteo file. 
 #'@param xmax Optional, end date for xaxis. Formatted as same date format as meteo file. 
-#'@param fig_path Logical; F if plot to screen, string path if save plot as .png
+#'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
 #'@seealso \code{\link{read_nml}}
@@ -19,7 +19,7 @@
 #'
 #'plot_meteo(met_file)
 #'@export
-plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...){
+plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...){
   
   if (is.character(met_file)){
     if (file_ext(met_file) == 'nml'){
@@ -69,7 +69,7 @@ plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = FALSE, ...){
   print(p1)
   
   # Saving plot 
-  if (is.character(fig_path)){
+  if (!is.null(fig_path)){
     ggsave(plot = p1, filename = fig_path,...)
   }   
     

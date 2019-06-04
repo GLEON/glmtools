@@ -16,25 +16,30 @@
   units = sim_var_units(file, var_name = var_name)
   
   names.df = data.frame(names = names(data)[-1], depth.numeric = z_out, stringsAsFactors = F)
-  dataLong = gather(data = data,key = depth, value = var,-DateTime) %>%
-    left_join(names.df, by = c('depth' = 'names'))
+  if (reference == 'bottom'){
+    names.df = data.frame(names = names(data)[-1], depth.numeric = rev(z_out), stringsAsFactors = F)
+  }
+  dataLong = gather(data = data,key = depth, value = var, -DateTime) %>%
+    left_join(names.df, by = c('depth' = 'names')) 
+  names(dataLong)[3] = var_name
   
   if(is.null(legend.title)) {
     legend.title = .unit_label(file, var_name)
   }
-  .plot_df_heatmap(dataLong, legend.title, text.size, show.legend, legend.position, plot.title,
+  .plot_df_heatmap(dataLong, var_name, legend.title, text.size, show.legend, legend.position, plot.title,
                    color.palette, color.direction)
 }
 
 
-.plot_df_heatmap <- function(dataLong, legend.title, text.size, 
+.plot_df_heatmap <- function(dataLong, var_name, legend.title, text.size, 
                              show.legend, legend.position, plot.title,
                              color.palette, color.direction) {
                              
                              # num_cells, palette, title_prefix=NULL, overlays=NULL, xaxis=NULL, col_lim){
   
+  
   h1 = ggplot(data = dataLong, aes(DateTime, depth.numeric)) +
-  geom_raster(aes(fill = var), interpolate = F, hjust = 0.5, vjust = 0.5, show.legend = show.legend) +
+  geom_raster(aes_string(fill = var_name), interpolate = F, hjust = 0.5, vjust = 0.5, show.legend = show.legend) +
   scale_y_reverse(expand = c(0.01,0.01)) +
   scale_x_datetime(expand = c(0.01,0.01)) +
   scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
@@ -43,6 +48,8 @@
   labs(fill = legend.title, title = plot.title) +
   theme_bw(base_size = text.size) +
   theme(legend.position = legend.position)
+  
+  return(h1)
 }
 
 #' @importFrom graphics points

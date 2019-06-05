@@ -1,6 +1,6 @@
-#'Plot water temperatures from a GLM simulation
+#'Deprecated. Plot water temperatures from a GLM simulation
 #'@param nc_file a string with the path to the netcdf output from GLM
-#'@param fig_path Logical; F if plot to screen, string path if save plot as .png
+#'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'@param reference String; 'surface' or 'bottom. Only used for heatmap plots.
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
 #'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
@@ -22,13 +22,13 @@
 #'plot_temp(nc_file = nc_file, fig_path = FALSE)
 #'plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 #'@export
-plot_temp <- function(nc_file='output.nc',fig_path = FALSE, reference='surface', legend.title = NULL, 
+plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', legend.title = NULL, 
                       interval = 0.5, text.size = 12, show.legend = TRUE, 
                       legend.position = 'right', plot.title = NULL){
   
   .Deprecated('plot_var',msg = 'Deprecated. Use `plot_var`, where default is var_name = `temp`')
   
-  plot_var(nc_file, var_name = 'temp', fig_path = FALSE, reference, legend.title, 
+  plot_var(nc_file, var_name = 'temp', fig_path = NULL, reference, legend.title, 
            interval, text.size, show.legend, 
            legend.position, plot.title)
   

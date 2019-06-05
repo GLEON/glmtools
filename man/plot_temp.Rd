@@ -2,9 +2,9 @@
 % Please edit documentation in R/plot_temp.R
 \name{plot_temp}
 \alias{plot_temp}
-\title{Plot water temperatures from a GLM simulation}
+\title{Deprecated. Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(nc_file = "output.nc", fig_path = FALSE,
+plot_temp(nc_file = "output.nc", fig_path = NULL,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
   plot.title = NULL)
@@ -12,7 +12,7 @@ plot_temp(nc_file = "output.nc", fig_path = FALSE,
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
 
-\item{fig_path}{Logical; F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
 \item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots.}
 
@@ -31,7 +31,7 @@ plot_temp(nc_file = "output.nc", fig_path = FALSE,
 \item{...}{additional arguments passed to \code{ggsave()}}
 }
 \description{
-Plot water temperatures from a GLM simulation
+Deprecated. Plot water temperatures from a GLM simulation
 }
 \note{
 \code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}. 

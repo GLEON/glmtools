@@ -1,4 +1,4 @@
-#' Plot matching heatmaps for modeled and observed temp
+#' Deprecated. Plot matching heatmaps for modeled and observed temp
 #' @param nc_file Netcdf model output file
 #' @param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #' @param fig_path F if plot to screen, string path if save plot as .png
@@ -21,7 +21,7 @@
 #'plot_temp_compare(nc_file, field_file) ##makes a plot!
 #'@export
 #'
-plot_temp_compare = function(nc_file, field_file, fig_path=FALSE, resample=TRUE, 
+plot_temp_compare = function(nc_file, field_file, fig_path = NULL, resample=TRUE, 
                              interval = 1,method = 'match', text.size = 12, ...){
 	
   .Deprecated('plot_var_compare',msg = 'Deprecated. Use `plot_var_compare`, where default is var_name = `temp`')

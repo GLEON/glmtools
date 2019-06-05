@@ -11,13 +11,17 @@
   min_depth <- 0
   z_out <- seq(min_depth, max_depth,by = interval) # Set plotting interval
   # Get data from .nc file
-  data = get_var(file, var_name = var_name, z_out = z_out,reference = reference)
+  data = get_var(file, var_name = var_name, z_out = z_out, reference = reference)
   # Get units
   units = sim_var_units(file, var_name = var_name)
   
-  names.df = data.frame(names = names(data)[-1], depth.numeric = z_out, stringsAsFactors = F)
+  if (reference == 'surface'){
+    names.df = data.frame(names = names(data)[-1], depth.numeric = z_out, stringsAsFactors = F)
+    # ylabel = 'Depth (m)'
+  }
   if (reference == 'bottom'){
     names.df = data.frame(names = names(data)[-1], depth.numeric = rev(z_out), stringsAsFactors = F)
+    # ylabel = 'Elevation (m)'
   }
   dataLong = gather(data = data,key = depth, value = var, -DateTime) %>%
     left_join(names.df, by = c('depth' = 'names')) 
@@ -33,7 +37,7 @@
 
 .plot_df_heatmap <- function(dataLong, var_name, legend.title, text.size, 
                              show.legend, legend.position, plot.title,
-                             color.palette, color.direction) {
+                             color.palette, color.direction, ylabel) {
                              
                              # num_cells, palette, title_prefix=NULL, overlays=NULL, xaxis=NULL, col_lim){
   

@@ -1,8 +1,13 @@
-#'Plot variables from a GLM simulation
+#'Plot variables from a .nc file 
+#'
+#'Plots variables directly from a .nc file output from a GLM simulation. Replaces function plot_var.
+#'
+#'@export plot_var plot_var_nc
+#'@alias plot_var
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
-#'@param reference String; 'surface' or 'bottom. Only used for heatmap plots. We recommend using 'bottom' if surface levels are fluctuating. This will present a more realistic representation of surface conditions. 
+#'@param reference String; 'surface' or 'bottom'. Only used for heatmap plots. We recommend using 'bottom' if surface levels are fluctuating. This will present a more realistic representation of surface conditions. 
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
 #'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #'@param text.size Integer; Default is 12. Higher values will increase text size in plot.
@@ -18,10 +23,6 @@
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
 #'\code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
-#'@note
-#'\code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
-#'When creating a heatmap, the output produced by \code{plot_var} is actually a combination of two plots; 
-#'one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
 #'@author
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'
@@ -29,26 +30,26 @@
 #'sim_folder <- run_example_sim(verbose = FALSE)
 #'nc_file <- file.path(sim_folder, 'output.nc')
 #'vars <- sim_vars(file = nc_file)
-#'plot_var(nc_file, 'u_mean')
+#'plot_var_nc(nc_file, 'u_mean')
 #'
 #'#Plotting two variables
-#'plot_var(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+#'plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
 #'
 #'#Change color palette
-#'plot_var(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
+#'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
 #'
 #'#Saving plot
-#'plot_var(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+#'plot_var_nc(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 #'
 #'\dontrun{
 #'# need to specify a valid .nc file here: 
-#'plot_var(file = fabm_sim_nc.nc,
+#'plot_var_nc(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
 #'@importFrom gridExtra grid.arrange
 #'@export
-plot_var <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
+plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
                      legend.title = NULL, interval = 0.5, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
                      color.palette = 'RdYlBu', color.direction = -1,...) {
@@ -83,4 +84,6 @@ plot_var <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, 
     ggsave(filename = fig_path,...)
   } 
 }
+
+plot_var = plot_var_nc
 

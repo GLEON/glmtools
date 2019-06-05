@@ -2,9 +2,9 @@
 % Please edit documentation in R/plot_temp_compare.R
 \name{plot_temp_compare}
 \alias{plot_temp_compare}
-\title{Plot matching heatmaps for modeled and observed temp}
+\title{Deprecated. Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(nc_file, field_file, fig_path = FALSE,
+plot_temp_compare(nc_file, field_file, fig_path = NULL,
   resample = TRUE, interval = 1, method = "match", text.size = 12,
   ...)
 }
@@ -26,7 +26,7 @@ plot_temp_compare(nc_file, field_file, fig_path = FALSE,
 \item{\dots}{additional arguments passed to \code{ggsave()}}
 }
 \description{
-Plot matching heatmaps for modeled and observed temp
+Deprecated. Plot matching heatmaps for modeled and observed temp
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)

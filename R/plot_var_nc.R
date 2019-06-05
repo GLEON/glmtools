@@ -1,8 +1,8 @@
 #'Plot variables from a .nc file 
 #'
 #'Plots variables directly from a .nc file output from a GLM simulation. Replaces function plot_var.
-#'@export plot_var_nc plot_var
-#'@aliases plot_var
+#'@export plot_var plot_var_nc
+#'@alias plot_var
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 

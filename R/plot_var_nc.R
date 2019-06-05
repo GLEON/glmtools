@@ -1,7 +1,7 @@
 #'Plot variables from a .nc file 
 #'
 #'Plots variables directly from a .nc file output from a GLM simulation. Replaces function plot_var.
-#'
+#'@export plot_var_nc plot_var
 #'@aliases plot_var
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})

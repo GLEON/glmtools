@@ -20,11 +20,10 @@ read in a GLM simulation *.nml file and create a list.  \cr
 glm_nml <- read_nml()
 print(glm_nml)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_nml_value}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

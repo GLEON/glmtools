@@ -1,4 +1,4 @@
-#'@title creates GLM simulation summary outputs
+#'Creates GLM simulation summary outputs
 #'
 #'@param file a string with the path to the netcdf output from GLM
 #'@param sim_outputs a character vector of outputs. 

@@ -40,11 +40,10 @@ sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 wind <- get_raw(nc_file, 'wind') #raw wind data
 }
-\author{
-Luke A. Winslow, Jordan S. Read
-}
 \seealso{
 \code{\link{sim_vars}}
 }
+\author{
+Luke A. Winslow, Jordan S. Read
+}
 \keyword{methods}
-

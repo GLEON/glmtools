@@ -33,4 +33,3 @@ points(ice_and_snow, col = "red")
 Luke A. Winslow, Jordan S. Read
 }
 \keyword{methods}
-

@@ -21,11 +21,10 @@ An example of this behavior is thermocline depth (but not water density for all 
 sim_metrics()
 sim_metrics(with_nml = TRUE)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

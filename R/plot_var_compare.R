@@ -1,4 +1,4 @@
-#' @title Plot matching heatmaps for modeled and observed temp
+#' Plot matching heatmaps for modeled and observed temp
 #' @param nc_file Netcdf model output file
 #' @param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
@@ -49,7 +49,7 @@ plot_var_compare = function(nc_file, field_file, var_name, fig_path = FALSE, res
   y = data$Depth
   z = data[,paste0('Observed_', var_name)]
   x_out = sort(unique(x))
-  y_out = sort(unique(mod_depths))
+  y_out = sort(unique(c(y, mod_depths)))
   
   #remove any NA values before the 2D interp
   x = x[!is.na(z)]

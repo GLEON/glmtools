@@ -4,16 +4,19 @@
 \alias{convert_sim_var}
 \title{convert an existing simulation variable into a different one}
 \usage{
-convert_sim_var(nc_file = "output.nc", ..., unit = "", longname = "")
+convert_sim_var(nc_file = "output.nc", ..., unit = "", longname = "",
+  overwrite = FALSE)
 }
 \arguments{
 \item{nc_file}{the netcdf output file}
+
+\item{\dots}{an expression to convert variable based on other variables or offsets}
 
 \item{unit}{the units for the new variable}
 
 \item{longname}{the longname for the new variable}
 
-\item{\dots}{an expression to convert variable based on other variables or offsets}
+\item{overwrite}{logical overwrite existing variable data}
 }
 \description{
 allows you to provide specific variable or unit conversions to create a new variable 
@@ -28,7 +31,8 @@ plot_var(nc_file, 'tempF')
 convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
 plot_var(nc_file, 'crazy_var')
 
+temp2f <- function(c) c/5*9+32
+convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
 }
 
 }
-

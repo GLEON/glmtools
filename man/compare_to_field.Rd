@@ -42,7 +42,7 @@ temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
 print(paste(temp_rmse,'deg C RMSE'))
 # function in development
-buoy_file <- file.path(sim_folder, 'buoy_data.csv')
+buoy_file <- file.path(sim_folder, 'field_data.tsv')
 temp_rmse <- compare_to_field(nc_file, buoy_file, 
                           metric = 'water.temperature', as_value = FALSE, 
                           method = 'interp',precision = 'hours')
@@ -62,11 +62,10 @@ values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value =
 # -- will fail
 }
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{resample_sim}, \link{resample_to_field}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

@@ -1,4 +1,4 @@
-#'@title get long name of variable from a GLM simulation
+#'Get long name of variable from a GLM simulation
 #'@param file a string with the path to the netcdf output from GLM
 #'@param var_name name of a valid variable from a simulation (see \code{\link{sim_vars}})
 #'@keywords methods

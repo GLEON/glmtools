@@ -30,10 +30,9 @@ glm_nml <- set_nml(glm_nml, arg_name = 'Kw', arg_val = 1.4)
 glm_nml <- set_nml(glm_nml, arg_list = list('Kw' = 1.4))
 print(glm_nml)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_nml_value}, \link{read_nml}
 }
-
+\author{
+Jordan S. Read
+}

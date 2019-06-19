@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_temp.R
 \name{plot_temp}
 \alias{plot_temp}
-\title{plot water temperatures from a GLM simulation}
+\title{Plot water temperatures from a GLM simulation}
 \usage{
 plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
   col_lim, ...)
@@ -18,6 +18,9 @@ plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
 
 \item{...}{additional arguments passed to \code{par()}}
 }
+\description{
+Plot water temperatures from a GLM simulation
+}
 \note{
 \code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}. 
 \code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
@@ -28,11 +31,10 @@ nc_file <- file.path(sim_folder, 'output.nc')
 plot_temp(file = nc_file, fig_path = FALSE)
 plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

@@ -27,7 +27,7 @@
 #'                           metric = 'water.temperature', as_value = FALSE)
 #'print(paste(temp_rmse,'deg C RMSE'))
 #'# function in development
-#'buoy_file <- file.path(sim_folder, 'buoy_data.csv')
+#'buoy_file <- file.path(sim_folder, 'field_data.tsv')
 #'temp_rmse <- compare_to_field(nc_file, buoy_file, 
 #'                           metric = 'water.temperature', as_value = FALSE, 
 #'                           method = 'interp',precision = 'hours')
@@ -46,11 +46,13 @@
 #'values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
 #'# -- will fail
 #'}
-#'@export
 #'@import rLakeAnalyzer
-compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = FALSE, na.rm = TRUE, ...){
-  
-  
+#'@import dplyr
+#'
+#'@export
+compare_to_field <- function(nc_file, field_file, nml_file, metric, 
+                             as_value = FALSE, na.rm = TRUE, ...){
+
   if (missing(nml_file)){
     bthA <- NA
     bthD <- NA
@@ -61,6 +63,9 @@ compare_to_field <- function(nc_file, field_file, nml_file, metric, as_value = F
   }
   compare_data <- resample_to_field(nc_file, field_file, ...)
   
-  .compare_to_field(compare_data, bthA, bthD, metric=metric, as_value=as_value, na.rm=na.rm)
+  #compare_data = group_by(na.omit(compare_data), DateTime) %>% filter(n() >= 3) %>% ungroup %>% as.data.frame
   
+  .compare_to_field(compare_data, bthA, bthD, metric = metric, 
+                    as_value = as_value, na.rm = na.rm)
+
 }

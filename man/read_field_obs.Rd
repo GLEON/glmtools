@@ -2,13 +2,13 @@
 % Please edit documentation in R/read_field_obs.R
 \name{read_field_obs}
 \alias{read_field_obs}
-\title{read in field data into a data.frame}
+\title{Read in field data into a data.frame}
 \usage{
 read_field_obs(file, var_name = "temp")
 }
 \arguments{
-\item{file}{a file path for a supported field data format (currently, tsv
-or csv with Date, depth, wtemp or similar columns)}
+\item{file}{a file path for a supported field data format (currently, tsv,
+csv, or RDS containing a data frame with Date, depth, wtemp or similar columns)}
 
 \item{var_name}{Name of variable to look for in field_obs file. 
 Should match a GLM simulation variable (see output from \code{\link{sim_vars}}).
@@ -16,6 +16,9 @@ Defaults to 'temp'}
 }
 \value{
 a data.frame with DateTime, Depth, and wTemp columns
+}
+\description{
+Read in field data into a data.frame
 }
 \examples{
 # -- read in a .csv file --
@@ -26,11 +29,10 @@ field_data <- read_field_obs(file)
 file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
 field_data <- read_field_obs(file)
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_temp}, \link{resample_sim}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

@@ -38,6 +38,7 @@ time_precision <- function(t_out, precision){
   return(t_out)
 }
 
+#' @importFrom stats approx
 df_interp <- function(df, t_out){
   t_srt <- sort(t_out) # get it in order for approx
   n_dep <- ncol(df) - 1 
@@ -87,9 +88,9 @@ get_prec_time <- function(time_secs){
   if (time_secs >= 3600 & time_secs < 86400){
     prec = 'hours'
   } else if (time_secs >= 60 & time_secs < 3600){
-    prec = 'minutes'
+    prec = 'mins'
   } else if (time_secs < 60){
-    prec = 'seconds'
+    prec = 'secs'
   } else {
     prec = 'days'
   }
@@ -100,9 +101,9 @@ get_sec_unit <- function(unit){
   # gotta be a POSIXct method for this...
   if (unit == 'hours'){
     secs = 3600
-  } else if (unit == 'minutes'){
+  } else if (unit == 'mins'){
     secs = 60
-  } else if (unit == 'seconds'){
+  } else if (unit == 'secs'){
     secs = 1
   } else if (unit == 'days'){
     secs = 86400

@@ -2,10 +2,10 @@
 % Please edit documentation in R/plot_var.R
 \name{plot_var}
 \alias{plot_var}
-\title{plot variables from a GLM simulation}
+\title{Plot variables from a GLM simulation}
 \usage{
-plot_var(file = "output.nc", var_name, fig_path = F,
-  reference = "surface", col_lim, ...)
+plot_var(file = "output.nc", var_name, fig_path = FALSE,
+  reference = "surface", col_lim, palette, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -18,7 +18,12 @@ plot_var(file = "output.nc", var_name, fig_path = F,
 
 \item{col_lim}{range for heatmap (in units of the variable)}
 
+\item{palette}{color palette for heatmap (2-D var) plot if non-default is desired}
+
 \item{...}{additional arguments passed to \code{par()}}
+}
+\description{
+Plot variables from a GLM simulation
 }
 \note{
 \code{plot_var} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
@@ -30,6 +35,9 @@ sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 vars <- sim_vars(file = nc_file)
 plot_var(nc_file, 'u_mean')
+#try alternate palette
+plot_var(nc_file, 'u_mean', palette = terrain.colors)
+
 \dontrun{
 # need to specify a valid .nc file here: 
 plot_var(file = fabm_sim_nc.nc,
@@ -37,12 +45,11 @@ var_name = 'aed_oxygen_oxy',
 fig_path = 'aed_out.png')
 }
 }
-\author{
-Jordan S. Read, Luke A. Winslow
-}
 \seealso{
 \code{\link{get_temp}}, \code{\link{sim_var_longname}}, 
 \code{\link{sim_vars}}, \code{\link{plot_temp}},  \code{\link{get_var}}
 }
+\author{
+Jordan S. Read, Luke A. Winslow
+}
 \keyword{methods}
-

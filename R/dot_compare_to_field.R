@@ -20,7 +20,7 @@
 	obs_metric <- vector('numeric', length = length(un_dates))
 	dates <- as.POSIXct(rep(NA, length = length(un_dates)))
 	
-	for (j in 1:length(un_dates)){
+	for (j in seq_len(length(un_dates))){
 		date <- un_dates[j]
 		u_i <- compare_data$DateTime == date
 		depths <- compare_data$Depth[u_i]

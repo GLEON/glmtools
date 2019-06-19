@@ -8,6 +8,7 @@
 #' @param \dots an expression to convert variable based on other variables or offsets
 #' @param unit the units for the new variable
 #' @param longname the longname for the new variable
+#' @param overwrite logical overwrite existing variable data
 #' @export
 #' @importFrom lazyeval lazy_dots lazy_eval
 #' @importFrom ncdf4 ncvar_def ncvar_put ncvar_add
@@ -20,50 +21,60 @@
 #'convert_sim_var(nc_file, crazy_var = temp-u_mean*1000)
 #'plot_var(nc_file, 'crazy_var')
 #'
+#'temp2f <- function(c) c/5*9+32
+#'convert_sim_var(nc_file, tempf = temp2f(temp), unit='degF',longname='temperature degrees Farenheit')
 #' }
 #' 
-convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname=''){
-  
+convert_sim_var <- function(nc_file='output.nc', ..., unit='', longname='', 
+                            overwrite=FALSE){
+
   sim.vars <- sim_vars(nc_file)$name
   message('convert_sim_var is untested and in development')
   
-  # // here, vals would be defined by the function passed in by `...`. Probably captured w/ lazyeval?
+  # // here, vals would be defined by the function passed in by `...`. 
+  # Probably captured w/ lazyeval?
   # lazyeval::lazy_eval(convert, data=list(temp=ncvar_get(nc, 'temp')))
   convert <- lazyeval::lazy_dots(...)
   if (length(convert) > 1)
     stop('not yet ready to handle multi-var expressions')
   
   var.name <- names(convert)
-  if (var.name %in% sim.vars)
-    stop(var.name, ' cannot be added, it already exists.', call. = FALSE)
+  var.exists <- var.name %in% sim.vars
+  if (var.exists & !overwrite)
+    stop(var.name, ' cannot be added, it already exists and overwrite = FALSE.', 
+         call. = FALSE)
   
   fun.string <- deparse(convert[[1]]$expr)
-  variables <- strsplit(fun.string,"[^a-zA-Z_]")[[1]]
-  variables <- variables[variables != '']
-  vars.not.in <- variables[!variables %in% sim.vars]
-  if (length(vars.not.in) > 0)
-    stop(paste(vars.not.in, collapse=', '), ' do not exist in simulation vars', call. = FALSE)
+  variables <- sim.vars[sapply(sim.vars,grepl, x = fun.string)]
+  nc.vars <- variables[variables %in% sim.vars]
   
-  data <- lapply(variables, function(v) get_raw(nc_file, v))
-  names(data) <- variables
+  data <- lapply(nc.vars, function(v) get_raw(nc_file, v))
+  names(data) <- nc.vars
   vals <- lazyeval::lazy_eval(convert, data=data)[[1]]
   
   nc <- nc_open(nc_file, readunlim=TRUE, write=TRUE)
   
-  #depending on conversion, dims can be [time], [lon,lat,time], or [lon,lat,z,time] 
-  lon <- nc$dim$lon
-  lat <- nc$dim$lon
-  time <- nc$dim$time
-  if (length(dim(vals)) > 1){
-    z <- nc$dim$z
-    dim = list(lon,lat,z,time)
-  } else {
-    dim = list(lon,lat,time)
-  }
   
-  missval = 9.96920996838687e36
-  var_new <- ncvar_def(name=var.name, unit, dim = dim, missval, prec="double")
-  nc <- ncvar_add(nc, var_new)
+  if (!var.exists){
+    #depending on conversion, dims can be [time], [lon,lat,time], 
+    # or [lon,lat,z,time] 
+    lon <- nc$dim$lon
+    lat <- nc$dim$lon
+    time <- nc$dim$time
+    if (length(dim(vals)) > 1){
+      z <- nc$dim$z
+      dim = list(lon,lat,z,time)
+    } else {
+      dim = list(lon,lat,time)
+    }
+    
+    missval = 9.96920996838687e36
+    var_new <- ncvar_def(name=var.name, unit, dim = dim, missval, prec="double")
+    nc <- ncvar_add(nc, var_new)
+  } else {
+    var_new <- var.name
+  }
+    
   
   ncvar_put(nc, var_new, vals=vals)
   nc_close(nc)

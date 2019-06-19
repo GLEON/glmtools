@@ -6,29 +6,32 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	# remove all text after comment string
 	textLine	<-	strsplit(textLine,'!')[[1]][1]
   
-	if (!any(grep("=",textLine))){
+	if (!any(grep("=", textLine))){
     stop(c("no hanging lines allowed in .nml, used ",textLine,'.\nSee line number:',lineNum,' in "&',blckName,'" section.'))
 	}
 	params	<-	strsplit(textLine,"=") # break text at "="
-	parNm	<-	params[[1]][1]
-	parVl	<-	params[[1]][2]
+	parNm	  <-	params[[1]][1]
+	parVl	  <-	params[[1]][2]
 	# figure out what parval is...if string, remove quotes and keep as string
 	# ***for boolean text, use "indentical" so that 0!= FALSE
 	# can be: string, number, comma-sep-numbers, or boolean
 	
 	# special case for date:
+	if (is.na(parVl)){
+	  stop('Empty values after "', textLine, '" on line ', lineNum, 
+	       '. \nPerhaps the values are on the next line?', call. = FALSE)
+	}
 	if (nchar(parVl>17) & substr(parVl,14,14)==':' & substr(parVl,17,17)==':'){
 		parVl<-paste(c(substr(parVl,1,11),' ',substr(parVl,12,nchar(parVl))),collapse='')
 	}
 	if (any(grep("'",parVl))){
 	  
-		parVl	<-	gsub("'","",parVl)#c(as.character(unlist(strsplit(parVl,","))))
+		parVl	<-	gsub("'","",parVl)
 	}else if (any(grep("\"",parVl))){
 	  parVl  <-	gsub("\"","",parVl)
-	}else if (any(grep(".true.",parVl))){
-		parVl	<-	TRUE
-	}else if (any(grep(".false.",parVl))){
-		parVl	<-	FALSE
+	}else if (isTRUE(grepl(".true.",parVl) || grepl(".false.",parVl))){
+		logicals <- unlist(strsplit(parVl,","))
+		parVl <- from.glm_boolean(logicals)
 	}else if (any(grep(",",parVl))){	# comma-sep-nums
 		parVl	<-	c(as.numeric(unlist(strsplit(parVl,","))))
 	}else {	# test for number
@@ -39,6 +42,29 @@ buildVal	<-	function(textLine, lineNum, blckName){
 	return(lineVal)
 }
 
+#' go from glm2.nml logical vectors to R logicals
+#' 
+#' @param values a vector of strings containing either .false. or .true.
+#' @return a logical vector
+#' @keywords internal
+from.glm_boolean <- function(values){
+  
+  logicals <- sapply(values, FUN = function(x){
+    if (!isTRUE(grepl(".true.", x) || grepl(".false.", x))){
+      stop(x, ' is not a .true. or .false.; conversion to TRUE or FALSE failed.', 
+           call. = FALSE)
+    }
+    return(ifelse(isTRUE(grepl(".true.", x)), TRUE, FALSE))
+  })
+  return(as.logical(logicals))
+}
+
+to.glm_boolean <- function(values){
+  val.logical <- values
+  values[val.logical] <- '.true.'
+  values[!val.logical] <- '.false.'
+  return(values)
+}
 # private function
 findBlck	<-	function(nml,argName){
 	
@@ -48,7 +74,7 @@ findBlck	<-	function(nml,argName){
   fault.string <- rep(fau,1000) # names fault matrix, only returned when empty match
 	blockNames	<-	names(nml)
 	blckI	<-	c()
-	for (i in 1:length(blockNames)){
+	for (i in seq_len(length(blockNames))){
 		if (any(argName %in% names(nml[[i]]))){
 			blckI	<- c(blckI,i)
 		} else {
@@ -67,15 +93,21 @@ findBlck	<-	function(nml,argName){
 setnmlList <- function(glm_nml,arg_list){
   if (!is.list(arg_list)){stop("arg_list must be a list")}
   
-  if (any(nchar(names(arg_list)) == 0)){stop('arg_list must be a named list')}
+  if (any(nchar(names(arg_list)) == 0) | length(names(arg_list)) == 0){
+    stop('arg_list must be a named list')
+  }
+  
   arg_names  <-	names(arg_list)
-  for (i in 1:length(arg_names)){
+  
+  for (i in seq_len(length(arg_names))){
     glm_nml <- set_nml(glm_nml,arg_name=arg_names[i],arg_val=arg_list[[i]])
   }
+  
   return(glm_nml)
 }
 
 # private function
+#' @importFrom utils tail
 is_nml_file <- function(nml_file){
   
   is_nml <- FALSE
@@ -87,6 +119,7 @@ is_nml_file <- function(nml_file){
   return(is_nml)
 }
 
+#' @importFrom utils capture.output
 what_ascii <- function(file){
   response <- capture.output(showNonASCIIfile(file))
   return(response)

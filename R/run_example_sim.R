@@ -1,9 +1,10 @@
-#'@title Run example simulation 
+#'Run example simulation 
 #'@param sim_folder the directory where simulation files will be copied/moved to. 
 #'Will use a temporary directory if missing
 #'@param verbose should operations and output of GLM be shown
 #'@keywords methods
 #'@seealso \code{\link[GLMr]{run_glm}}
+#'@importFrom GLMr run_glm
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
@@ -20,48 +21,60 @@ run_example_sim = function(sim_folder, verbose = TRUE){
     if(verbose){cat('sim_folder argument missing, using temp directory: ', sim_folder,'\n\n')}
   }
   nml_file <- file.path(sim_folder, 'glm2.nml')
-  driver_file <- file.path(sim_folder, 'Anvil_driver.csv')
+  driver_file <- file.path(sim_folder, 'nldas_driver.csv')
   calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
   calibration_csv <- file.path(sim_folder, 'field_data.csv')
   stage_csv <- file.path(sim_folder, 'field_stage.csv')
+  ice_snow_csv <- file.path(sim_folder, 'snow_ice_depth_obs.csv')
+  ice_dur_csv <- file.path(sim_folder, 'ice_duration_obs.csv')
   
-  buoy_csv <- file.path(sim_folder, 'buoy_data.csv')
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
   # move glm2.nml to sim_folder
 
-  file.copy(from = system.file('extdata', 'Anvil_driver.csv', package = 'glmtools'),
-            to = driver_file)
+  file.copy(from = system.file('extdata', 'nldas_driver.csv', package = 'glmtools'), to = driver_file)
   if(verbose){cat('driver data file copied to ', driver_file,'\n')}
   
   file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
   file.copy(from = system.file('extdata', 'field_data.csv', package = 'glmtools'), to = calibration_csv)
-  file.copy(from = system.file('extdata', 'buoy_data.csv', package = 'glmtools'), to = buoy_csv)
   file.copy(from = system.file('extdata', 'field_stage.csv', package = 'glmtools'), to = stage_csv)
+  file.copy(from = system.file('extdata', basename(ice_snow_csv), package = 'glmtools'), to = ice_snow_csv)
+  file.copy(from = system.file('extdata', basename(ice_dur_csv), package = 'glmtools'), to = ice_dur_csv)
   
   nml <- read_nml() # read in default nml from GLMr
-  nml <- set_nml(nml, arg_list = list('Kw'=0.55, 'lake_name'='Anvil', 
+  nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Sparkling', 
                                'bsn_vals' = 15,
-                               'H' = c(510.5363, 511.23299, 511.92967, 512.62636, 513.32304, 514.01973, 514.71641, 515.4131, 516.10979, 516.80647, 517.50316, 518.19984, 518.89653, 519.59321, 520.2899),
-                               'A' = c(0, 108964, 217929, 326893, 435858, 544822.5, 653787, 762751, 871716, 980680, 1089645, 1198609, 1307574, 1416538, 1525503),
-                               'start' = '2011-04-01 00:00:00',
-                               'stop' = '2011-09-02 00:00:00',
+                               'H' = c(301.712, 303.018285714286, 304.324571428571, 305.630857142857, 306.937142857143, 308.243428571429, 309.549714285714, 310.856, 312.162285714286, 313.468571428571, 314.774857142857, 316.081142857143, 317.387428571429, 318.693714285714, 320),
+                               'A' = c(0, 45545.8263571429, 91091.6527142857, 136637.479071429, 182183.305428571, 227729.131785714, 273274.958142857, 318820.7845, 364366.610857143, 409912.437214286, 455458.263571429, 501004.089928571, 546549.916285714, 592095.742642857, 637641.569),
+                               'start' = '2010-04-15 00:00:00',
+                               'stop' = '2010-12-30 00:00:00',
                                'dt' = 3600, 
                                'out_fn' = nc_out,
                                'nsave' = 24, 
                                'csv_point_nlevs' = 0,
                                'num_depths' = 3,
-                               'lake_depth' = 9.7536,
-                               'the_depths' = c(0, 1.2, 9.7536),
-                               'the_temps' = c(12, 10, 7),
+                               'lake_depth' = 18.288,
+                               'the_depths' = c(0, 0.2, 18.288),
+                               'the_temps' = c(3, 4, 4),
                                'the_sals' = c(0, 0, 0),
                                'subdaily' = FALSE,
-                               'meteo_fl' = 'Anvil_driver.csv',
-                               'cd' = 0.00108,
+                               'meteo_fl' = 'nldas_driver.csv',
+															 'max_layer_thick' = 3,
+															 'sw_factor' = 1.08,
+															 'coef_wind_stir' = 0.402,
+															 'coef_mix_hyp' = 0.2,
+															 'coef_mix_KH' = 0.1,
+															 'cd' = 0.0013,
+															 'ce' = 0.00132,
+															 'sed_temp_mean' = 4.5,
+															 'sed_temp_amplitude' = 0.25,
+															 'min_layer_thick' = 0.1,
+															 'coef_mix_conv' = 0.20,
                                'num_outlet' = 0))
+  
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
   write_nml(glm_nml = nml, file = nml_file)
   
-  run_glm(sim_folder = sim_folder, verbose = verbose)
+  GLMr::run_glm(sim_folder = sim_folder, verbose = verbose)
   
   if(verbose){cat('simulation complete. \n*.nc output located in ', nc_file,'\n')}
   

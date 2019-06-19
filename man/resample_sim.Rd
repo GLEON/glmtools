@@ -39,11 +39,10 @@ temp_out <- resample_sim(df = temp_surf, t_out = t_out, precision = 'days')
 
 temp_out <- resample_sim(df = temp_surf, t_out = t_out, method = 'interp', precision = 'hours')
 }
-\author{
-Jordan S. Read
-}
 \seealso{
 \link{get_temp}, \link{get_wind}, \link{get_surface_height}, \link{get_evaporation}, \link{get_ice}
 }
+\author{
+Jordan S. Read
+}
 \keyword{methods}
-

@@ -1,4 +1,4 @@
-#'@title match GLM water temperatures with field observations
+#'Match GLM water temperatures with field observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
 #'@param method 'match' for exact match or 'interp' for temporal interpolation
@@ -18,7 +18,7 @@
 #'
 #'temps <- resample_to_field(nc_file, field_file)
 #'buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
-#'temps <- resample_to_field(nc_file, buoy_file, precision = 'hours')
+#'temps <- resample_to_field(nc_file, buoy_file, precision = 'mins')
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days', var_name='temp'){
   

@@ -23,8 +23,7 @@ plot_meteo(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...)
 Plot meterological drivers from a csv file
 }
 \examples{
-met_file <- nml_template_path()
-
+met_file <- system.file("extdata", "LakeMendota_NLDAS.csv", package = "glmtools")
 plot_meteo(met_file)
 }
 \seealso{

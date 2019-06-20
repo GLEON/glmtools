@@ -54,6 +54,7 @@ When creating a heatmap, the output produced by \code{plot_var} is actually a co
 one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
 }
 \examples{
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 data = get_var(nc_file,'temp', reference = 'surface') 
 plot_var_df(data, var_name = 'temp', interpolate = F, legend.title = 'Temp (degC)')
 #Saving plot

@@ -56,10 +56,8 @@ Plots variables directly from a .nc file output from a GLM simulation. Replaces 
 }}
 
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-vars <- sim_vars(file = nc_file)
-plot_var_nc(nc_file, 'u_mean')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+plot_var_nc(nc_file, 'temp')
 
 #Plotting two variables
 plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))

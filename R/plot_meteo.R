@@ -15,8 +15,7 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'met_file <- nml_template_path()
-#'
+#'met_file <- system.file("extdata", "LakeMendota_NLDAS.csv", package = "glmtools")
 #'plot_meteo(met_file)
 #'@export
 plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...){
@@ -45,7 +44,7 @@ plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...){
     } 
     
     if (file_ext(met_file) == 'csv'){
-      meteo <- read_csv(file = met_path) 
+      meteo <- read_csv(file = met_file) 
     }
   }
   

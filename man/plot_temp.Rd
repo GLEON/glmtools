@@ -38,8 +38,7 @@ Deprecated. Plot water temperatures from a GLM simulation
 \code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 plot_temp(nc_file = nc_file, fig_path = FALSE)
 plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
 }

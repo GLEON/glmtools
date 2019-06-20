@@ -29,10 +29,8 @@ plot_temp_compare(nc_file, field_file, fig_path = NULL,
 Deprecated. Plot matching heatmaps for modeled and observed temp
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+field_file <- system.file("extdata", "field_data.tsv", package = "glmtools")
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
 }

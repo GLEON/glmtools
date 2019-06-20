@@ -52,7 +52,7 @@ Plots variables directly from a .nc file output from a GLM simulation. Replaces 
 }
 \section{Functions}{
 \itemize{
-\item \code{plot_var}: Depreceated. Use plot_var_nc
+\item \code{plot_var}: Deprecated. Use plot_var_nc
 }}
 
 \examples{

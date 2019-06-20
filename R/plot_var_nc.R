@@ -62,7 +62,7 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
   h = list() #for ggplots
   for (j in 1:num_divs){
     if (heatmaps[j]){
-        h[[j]] = .plot_nc_heatmap(file = nc_file, var_name = var_name[j], reference = reference,
+      h[[j]] = .plot_nc_heatmap(file = nc_file, var_name = var_name[j], reference = reference,
                                   legend.title = legend.title[j], interval=interval, text.size = text.size, 
                                   show.legend = show.legend, legend.position = legend.position, 
                                   plot.title = plot.title[j], 
@@ -84,6 +84,6 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
   } 
 }
 
-#'@describeIn plot_var_nc Depreceated. Use plot_var_nc
+#'@describeIn plot_var_nc Deprecated. Use plot_var_nc
 plot_var = plot_var_nc
 

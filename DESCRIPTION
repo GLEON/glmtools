@@ -8,7 +8,9 @@ Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     person("Luke", "Winslow", role = "aut",
     email = "lwinslow@usgs.gov"), 
     person("Joseph", "Stachelek", role = "ctb", 
-    email = "stachel2@msu.edu"))
+    email = "stachel2@msu.edu"),
+    person("Hilary", "Dugan", role = "ctb", 
+    email = "hdugan@wisc.edu"))
 Description: Tools for working with the GLM lake model.
 URL: https://github.com/USGS-R/glmtools
 BugReports: https://github.com/USGS-R/glmtools/issues
@@ -28,7 +30,11 @@ Imports:
     akima,
     lazyeval,
     dplyr,
-    methods
+    methods,
+    ggplot2,
+    readr,
+    tidyr,
+    gridExtra
 Suggests:
     testthat,
     knitr,

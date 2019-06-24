@@ -25,11 +25,14 @@ library(knitr)
 
 This package `glmtools` provides services in support using the General Lake Model (GLM) in R. GLM is a one-dimensional model that balances fluxes of energy and mass as part of dynamically simulating lake physics. The GLM model has been developed as an initiative of the Global Lake Ecological Observatory Network (GLEON) and in collaboration with the Aquatic Ecosystem Modelling Network (AEMON) that started in 2010. The model was first introduced in Leipzig at the 2nd Lake Ecosystem Modelling Symposium in 2012, and has since developed rapidly with application to numerous lakes within the GLEON network and beyond. Authors: Matthew R Hipsey, Louise C Bruce, David P Hamilton. More information about GLM can be found at <a href="http://aed.see.uwa.edu.au/research/models/GLM/">http://aed.see.uwa.edu.au/research/models/GLM/</a>.
 
+GLM version 3.0 was released in 2019. More information can be found in Hipsey et al 2019:
+<a hrfer="https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019-discussion.html">https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019-discussion.html.
+
 Running GLM requires three mandatory components (in addition to several optional components). The required components include:  
   
-1. A GLM executable for the operating system being used (currently there is support for linux, windows, and mavericks/yosemite mac OSX)  
-2. A `glm2.nml` file, which is a configuration file for the model (see below for specifics)  
-3. Appropriate driver data (currently in the form of a comma-delimited time-series file)
+1. A GLM executable for the operating system being used (currently there is support for linux, windows, and mojave mac OSX)  
+2. A `glm3.nml` file for version 3.0 or a `glm2.nml` file for version 2.2, which is a configuration file for the model (see below for specifics)  
+3. Appropriate meteorological/hydrological driver data (currently in the form of a comma-delimited time-series file)
 
 The model generates a number of optional outputs, but will always create a `.nc` (netCDF) file which contains the simulation results.  
   
@@ -195,20 +198,20 @@ run_glm(eg_folder)
 ##Visualizing GLM output
 
 ###plotting water temperatures
-```{r, fig.width=4, fig.height=2.5}
+```{r, fig.width=4, fig.height=2.5, eval = F}
 nc_file <- file.path(eg_folder, 'output.nc')
 plot_temp(file = nc_file)
 ```
 
 ###plotting multiple variables
-```{r}
+```{r, eval = F}
 sim_vars(file = nc_file)
 plot_var(file = nc_file, var_name = c('temp','u_mean'))
 ```
 
 ##Validating the model against field observations
 
-```{r}
+```{r, eval = F}
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 field_file <- file.path(sim_folder, 'field_data.tsv')
@@ -216,20 +219,20 @@ field_file <- file.path(sim_folder, 'field_data.tsv')
 ```
 
 create a diagnostic output within R for thermocline depth:
-```{r}
+```{r, eval = F}
 thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
 ```
 
 Do the same for water temperatures vs field observations:
-```{r}
+```{r, eval = F}
 temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
 print(paste(temp_rmse,'deg C RMSE'))
 ```
 
 ###Plotting comparision of water temperature vs field observations:
-```{r, fig.width=6, fig.height=5.25}
+```{r, fig.width=6, fig.height=5.25, eval = F}
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 nml_file <- file.path(sim_folder, 'glm2.nml')
@@ -239,7 +242,7 @@ plot_temp_compare(nc_file, field_file) ##makes a plot!
 ```
 
 ###Compare lake elevation with field measurements:
-```{r, fig.width=4, fig.height=3.5}
+```{r, fig.width=4, fig.height=3.5, eval = F}
 field_file <- file.path(sim_folder, 'field_stage.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!

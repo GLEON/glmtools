@@ -17,9 +17,8 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
-#'field_file <- file.path(sim_folder, 'field_data.tsv')
+#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 #'
 #'thermo_values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'thermo.depth', as_value = TRUE)

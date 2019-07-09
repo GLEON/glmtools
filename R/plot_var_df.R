@@ -98,17 +98,12 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
     plotdata = dataLong 
     
     if (interpolate == T) {
-      # Akima interpolation of observed data
-      dataClean = as_tibble(dataLong) %>% dplyr::filter_all(all_vars(!is.na(.)))
+      dataClean = dataLong %>% dplyr::filter_all(all_vars(!is.na(.)))
+      # Akima interpolation of observed data (Gridded Bivariate Interpolation for Irregular Data)
+      observed_df = .interpolate2grid(dataClean, xcol = 1, ycol = 4, zcol = which(names(dataClean) == var_name[j]))
       
-      df_akima <-interp2xyz(interp(x=as.numeric(dataClean$DateTime), y=dataClean$depth.numeric*1e6, z=pull(dataClean[,var_name[j]]), duplicate="mean", linear = T,
-                                   xo = as.numeric(seq(min(dataClean$DateTime), max(dataClean$DateTime), by = 'day')),
-                                   yo = 1e6*seq(min(dataClean$depth.numeric), max(dataClean$depth.numeric), by = 1)), data.frame=TRUE) %>%
-        dplyr::mutate(x =  as.POSIXct(x, origin = '1970-01-01', tz = Sys.timezone())) %>%
-        dplyr::mutate(y = y/1e6) %>%
-        dplyr::arrange(x,y)
-      names(df_akima) = c('DateTime','depth.numeric',var_name[j])
-      plotdata = df_akima
+      names(observed_df) = c('DateTime','depth.numeric',var_name[j])
+      plotdata = observed_df
     }
     
     h[[j]] = .plot_df_heatmap(plotdata,var_name[j], legend.title[j], text.size, show.legend, legend.position, plot.title[j],

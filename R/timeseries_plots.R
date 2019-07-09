@@ -1,6 +1,24 @@
 #' @importFrom tidyr gather
 #' @import ggplot2
 #' @import dplyr
+#' @importFrom akima interp
+#' @importFrom akima interp2xyz
+
+.interpolate2grid <- function(xyzData, xcol = 1, ycol = 2, zcol = 3) {
+  # Interpolate field or modeled data to grid 
+  # xcol, ycol, and zcol and column numbers from data.frame
+  # The spreads of x and y must be within four orders of magnitude of each other for interp to work
+  # Therefore must scale data to be within similar magnitude to numeric dates (1e6)
+  gridData <-interp2xyz(interp(x = as.numeric(xyzData[,xcol]), y=xyzData[,ycol]*1e6, z=xyzData[,zcol], duplicate="mean", linear = T,
+                               xo = as.numeric(seq(min(xyzData[,xcol]), max(xyzData[,xcol]), by = 'day')),
+                               yo = 1e6*seq(min(xyzData[,ycol]), max(xyzData[,ycol]), by = 1)), data.frame=TRUE) %>%
+    dplyr::mutate(x =  as.POSIXct(x, origin = '1970-01-01', tz = Sys.timezone())) %>%
+    dplyr::mutate(y = y/1e6) %>%
+    dplyr::arrange(x,y)
+  
+  return(gridData)
+}
+
 
 .plot_nc_heatmap <- function(file, var_name, reference, legend.title , interval,
                              text.size, show.legend, legend.position, plot.title,
@@ -38,20 +56,17 @@
 .plot_df_heatmap <- function(dataLong, var_name, legend.title, text.size, 
                              show.legend, legend.position, plot.title,
                              color.palette, color.direction, ylabel) {
-                             
-                             # num_cells, palette, title_prefix=NULL, overlays=NULL, xaxis=NULL, col_lim){
-  
   
   h1 = ggplot(data = dataLong, aes(DateTime, depth.numeric)) +
-  geom_raster(aes_string(fill = var_name), interpolate = F, hjust = 0.5, vjust = 0.5, show.legend = show.legend) +
-  scale_y_reverse(expand = c(0.01,0.01)) +
-  scale_x_datetime(expand = c(0.01,0.01)) +
-  scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
-  # scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
-  ylab('Depth (m)') + xlab('Date') +
-  labs(fill = legend.title, title = plot.title) +
-  theme_bw(base_size = text.size) +
-  theme(legend.position = legend.position)
+    geom_raster(aes_string(fill = var_name), interpolate = F, hjust = 0.5, vjust = 0.5, show.legend = show.legend) +
+    scale_y_reverse(expand = c(0.01,0.01)) +
+    scale_x_datetime(expand = c(0.01,0.01)) +
+    scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
+    # scale_fill_viridis_c(alpha = 0.95, option = 'plasma') +
+    ylab('Depth (m)') + xlab('Date') +
+    labs(fill = legend.title, title = plot.title) +
+    theme_bw(base_size = text.size) +
+    theme(legend.position = legend.position)
   
   return(h1)
 }

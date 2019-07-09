@@ -31,7 +31,7 @@ GLM version 3.0 was released in 2019. More information can be found in Hipsey et
 Running GLM requires three mandatory components (in addition to several optional components). The required components include:  
   
 1. A GLM executable for the operating system being used (currently there is support for linux, windows, and mojave mac OSX)  
-2. A `glm3.nml` file for version 3.0 or a `glm2.nml` file for version 2.2, which is a configuration file for the model (see below for specifics)  
+2. A `glm3.nml` file for version 3.0 or a `glm2.nml` file for version 2.0-2.2, which is a configuration file for the model (see below for specifics)  
 3. Appropriate meteorological/hydrological driver data (currently in the form of a comma-delimited time-series file)
 
 The model generates a number of optional outputs, but will always create a `.nc` (netCDF) file which contains the simulation results.  

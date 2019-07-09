@@ -90,7 +90,7 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
         rename('DateTime' = 1)
     }
   }
-  
+  dataLong = data.frame(dataLong) #Get rid of tibble 
 
   # iterate through plots
   h = list() #for ggplots

@@ -4,8 +4,8 @@
 \alias{resample_to_field}
 \title{Match GLM water temperatures with field observations}
 \usage{
-resample_to_field(nc_file, field_file, method = "match", precision = "days",
-  var_name = "temp")
+resample_to_field(nc_file, field_file, method = "match",
+  precision = "days", var_name = "temp")
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -26,9 +26,8 @@ validation a data.frame with DateTime and temperature at depth
 Match GLM water temperatures with field observations
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 
 temps <- resample_to_field(nc_file, field_file)
 buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')

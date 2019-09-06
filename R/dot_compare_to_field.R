@@ -5,8 +5,10 @@
 #' of nc and field file locations
 #' 
 #' @inheritParams compare_to_field
-#' @param compare_data A data.frame with columns "DateTime, "Depth", "Obs" and "Mod", in that order. 
-#' 
+#' @param compare_data A data.frame with columns "DateTime, "Depth", "Obs" and "Mod", in that order.
+#' @param bthA a numeric vector of cross sectional areas (m^2) corresponding to bthD depths
+#' @param bthD a numeric vector of depths (m) which correspond to areal measures in bthA 
+#'
 #' @return See return options for \link{compare_to_field}
 #' 
 #' 

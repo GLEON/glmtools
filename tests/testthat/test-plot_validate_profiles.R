@@ -2,8 +2,8 @@ context("plot_validate_profiles")
 
 test_that("plot_default", {
   sim_folder <- run_example_sim(verbose = F)
-  nc_file <<- file.path(sim_folder, 'output.nc')
-  field_file <<- file.path(sim_folder, 'field_data.tsv')
+  nc_file <<- file.path(sim_folder, 'output/output.nc')
+  field_file <<- file.path(sim_folder, 'field_data.csv')
   old_par = par(no.readonly = TRUE)
   expect_error(plot_validate_profiles(nc_file, field_file, fig_path = file.path(tempdir(),'temp.png')))
   expect_error(plot_validate_profiles(nc_file, field_file, fig_path = T))
@@ -14,12 +14,12 @@ test_that("plot_default", {
 })
 
 context("plot_meteo")
+
 test_that("plot_meteo", {
   nml_file <- nml_template_path()
-  
-  expect_error(plot_meteo(nml_file,fig_path = T))
+  # expect_error(plot_meteo(nml_file,fig_path = T))
   old_par = par(no.readonly = TRUE)
-  plot_meteo(nml_file,fig_path = F)
+  plot_meteo(nml_file,fig_path = NULL)
   expect_equal(old_par, par(no.readonly = TRUE))
 })
 

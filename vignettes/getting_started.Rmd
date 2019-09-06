@@ -82,7 +82,7 @@ Alternatively, the `repos` argument to `update.packages` and `install.packages` 
 update.packages(repos = c("http://owi.usgs.gov/R"))
 ```
 ###Running GLM with example data
-The contents of `eg_folder` (i.e., a `glm2.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm2.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
+The contents of `eg_folder` (i.e., a `glm3.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm3.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
 ```{r, results ='hide'}
 run_glm(eg_folder)
 ```
@@ -92,7 +92,7 @@ dir(eg_folder)
 ```
 
 ###Running GLM with user data
-To run GLM with user-specified data, the formats of the example data should be followed in order to properly run the simulation. Small differences in the `glm2.nml` file can result in model failures due to the inability of the model to parse certain kinds of text. When real data are used in a simulation, the user can run GLM in the same way that the example simulations were initiated. For example:
+To run GLM with user-specified data, the formats of the example data should be followed in order to properly run the simulation. Small differences in the `glm3.nml` file can result in model failures due to the inability of the model to parse certain kinds of text. When real data are used in a simulation, the user can run GLM in the same way that the example simulations were initiated. For example:
 ```{r, eval =FALSE}
 run_glm('~/Documents/my_sim')
 ```
@@ -101,7 +101,7 @@ Below, there are a number of handy functions that support modifying the input da
 
 
 ##Interacting with nml files
-The `glm2.nml` file is holds the configuration for the model run. This file can be edited in a text editor as plain text, or `glmtools` can be used to programatically modify the file, reducing user errors and increasing reproducibility. The structure of the file includes content blocks that are delinated by `&` and `\` and parameter names and their values within those sections. For example:
+The `glm3.nml` file is holds the configuration for the model run. This file can be edited in a text editor as plain text, or `glmtools` can be used to programatically modify the file, reducing user errors and increasing reproducibility. The structure of the file includes content blocks that are delinated by `&` and `\` and parameter names and their values within those sections. For example:
 ```
 &glm_setup
    sim_name = 'GLMSimulation'
@@ -143,10 +143,10 @@ Commented text is anything that begins with a `!`, for example:
 These commented lines are ignored by the model. There are advantages to using R to both run the model and modify the model parameters, including increased efficiency and the reproducibility aspects mentioned above.
 
 ###Reading nml files into R
-`glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm2.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
+`glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm3.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:
 ```{r}
-eg_nml <- read_nml(nml_file = file.path(eg_folder,'glm2.nml'))
+eg_nml <- read_nml(nml_file = file.path(eg_folder,'glm3.nml'))
 ```
 and display the `nml` contents within R:
 ```{r}
@@ -188,7 +188,7 @@ But the `nml` object is still just in memory for the R session. In order for the
 The `nml` object can be easily written to a user-specified location by using the `write_nml()` function:
 ```{r}
 # define a location for the file to be written to. Here it will overwrite the existing `nml` file:
-write_path <- file.path(eg_folder,'glm2.nml')
+write_path <- file.path(eg_folder,'glm3.nml')
 write_nml(eg_nml, file = write_path)
 ```
 A new simulation can be run with the modified `nml` file:
@@ -235,7 +235,7 @@ print(paste(temp_rmse,'deg C RMSE'))
 ```{r, fig.width=6, fig.height=5.25, eval = F}
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
+nml_file <- file.path(sim_folder, 'glm3.nml')
 field_file <- file.path(sim_folder, 'field_data.tsv')
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
@@ -258,7 +258,7 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 | `get_ice` | get ice depth from GLM simulation |
 | `get_nml_value` | gets a nml value according to an arg_name |
 | `get_surface_height` | get surface height from GLM simulation |
-| `get_temp` | get water temperatures from a GLM simulation |
+| `get_var` | get a variable from a GLM simulation |
 | `get_wind` | get wind speed from GLM simulation |
 | `model_diagnostics` | run diagnostics on model results |
 | `plot_temp` | plot water temperatures from a GLM simulation |

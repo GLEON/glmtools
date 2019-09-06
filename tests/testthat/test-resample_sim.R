@@ -2,7 +2,7 @@ context("resample simulation")
 
 test_that("running glm simulation", {
   sim_folder <- run_example_sim(verbose = F)
-  nc_file <- file.path(sim_folder, 'output.nc')
+  nc_file <- file.path(sim_folder, 'output/output.nc')
   temp_surf <<- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
 })
 
@@ -12,7 +12,7 @@ test_that('testing for empty returns and warnings', {
   
   # date won't be found
   expect_warning(df <- resample_sim(df = temp_surf, t_out = t_out))
-  expect_warning(df2 <- resample_sim(df = temp_surf, t_out = '2011-05-01 08:15', method = 'match', precision = 'hours'))
+  expect_warning(df2 <- resample_sim(df = temp_surf, t_out = '2010-05-01 08:15', method = 'match', precision = 'hours'))
   
   # dates won't be found. No extrapolation
   expect_warning(resample_sim(df = temp_surf, t_out = t_out, method = 'interp'))
@@ -25,11 +25,11 @@ test_that('testing for empty returns and warnings', {
 context('resample_sim testing duplicate dates')
 test_that('testing for duplicate date warnings', {
   # two on the same day w/ precision = 'days'
-  t_out <- c("2011-04-01 10:00", "2011-04-05 08:15", 
-         "2011-06-14 10:30", "2011-04-05 10:21", 
-         "2011-07-28 10:00")
+  t_out <- c("2010-04-16 10:00", "2010-04-16 10:00", 
+         "2010-06-14 10:30", "2010-04-05 10:21", 
+         "2010-07-28 10:00")
   # warning for "'days' precision resulted in duplicate date values"
-  expect_warning(resample_sim(df = temp_surf, t_out = t_out, precision = 'days'))
+  expect_error(resample_sim(df = temp_surf, t_out = t_out, precision = 'days'))
 })
 
 context('resample_sim testing unsupported methods')

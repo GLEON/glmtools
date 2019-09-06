@@ -105,3 +105,4 @@ test_that("reading and setting nml works as expected", {
     # pass list to arg_name (should be char)
     expect_error(set_nml(nml, arg_name = list('start'='no')))
 })
+

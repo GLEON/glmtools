@@ -2,7 +2,7 @@ context("convert variables in netcdf output")
 
 test_that("errors with poor matches", {
   sim_folder <- run_example_sim(verbose = FALSE)
-  nc_file <<- file.path(sim_folder, 'output.nc')
+  nc_file <<- file.path(sim_folder, 'output/output.nc')
   expect_error(convert_sim_var(nc_file, temp = temp*2), "temp cannot be added, it already exists.")
   expect_error(convert_sim_var(nc_file, temp.new = garbage))
 })

@@ -5,7 +5,6 @@
 #'@param interpolate Logical; FALSE = do not inteprolate data. TRUE = Interpolate data to daily timestep and 1 m depth interval
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
-#'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #'@param text.size Integer; Default is 12. Higher values will increase text size in plot.
 #'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
@@ -16,7 +15,6 @@
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param reference String; 'surface' or 'bottom'. surface = Depths are referenced from the surface, bottom = Depths are referenced from the bottom (elevations)
-#'@param depths Logical; TRUE = Depths are provided. FALSE = Elevations are provided. 
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
 #'@seealso \code{\link{get_var}}, \code{\link{sim_var_longname}}, 

@@ -20,7 +20,7 @@ run_example_sim = function(sim_folder, verbose = TRUE){
     sim_folder <- tempdir()
     if(verbose){cat('sim_folder argument missing, using temp directory: ', sim_folder,'\n\n')}
   }
-  nml_file <- file.path(sim_folder, 'glm2.nml')
+  nml_file <- file.path(sim_folder, 'glm3.nml')
   driver_file <- file.path(sim_folder, 'nldas_driver.csv')
   calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
   calibration_csv <- file.path(sim_folder, 'field_data.csv')
@@ -31,14 +31,14 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
   # move glm2.nml to sim_folder
 
-  file.copy(from = system.file('extdata', 'nldas_driver.csv', package = 'glmtools'), to = driver_file)
+  file.copy(from = system.file('extdata', 'LakeMendota_NLDAS.csv', package = 'glmtools'), to = driver_file,overwrite = T)
   if(verbose){cat('driver data file copied to ', driver_file,'\n')}
   
-  file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
-  file.copy(from = system.file('extdata', 'field_data.csv', package = 'glmtools'), to = calibration_csv)
-  file.copy(from = system.file('extdata', 'field_stage.csv', package = 'glmtools'), to = stage_csv)
-  file.copy(from = system.file('extdata', basename(ice_snow_csv), package = 'glmtools'), to = ice_snow_csv)
-  file.copy(from = system.file('extdata', basename(ice_dur_csv), package = 'glmtools'), to = ice_dur_csv)
+  # file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
+  file.copy(from = system.file('extdata', 'LakeMendota_field_data.csv', package = 'glmtools'), to = calibration_csv,overwrite = T)
+  file.copy(from = system.file('extdata', 'LakeMendota_stage_USGS05428000.csv', package = 'glmtools'), to = stage_csv,overwrite = T)
+  file.copy(from = system.file('extdata', 'LakeMendota_snow_ice_obs.csv', package = 'glmtools'), to = ice_snow_csv,overwrite = T)
+  file.copy(from = system.file('extdata', 'LakeMendota_iceduration_obs.csv', package = 'glmtools'), to = ice_dur_csv,overwrite = T)
   
   nml <- read_nml() # read in default nml from GLM3r
   nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Sparkling', 
@@ -72,9 +72,10 @@ run_example_sim = function(sim_folder, verbose = TRUE){
                                'num_outlet' = 0))
   
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
-  write_nml(glm_nml = nml, file = nml_file)
-  
-  GLM3r::run_glm(sim_folder = sim_folder, verbose = verbose)
+  write_nml(glm_nml = nml, file = nml_file)  
+  write_nml(glm_nml = nml, file = paste0(sim_folder,'/glm3.nml'))
+
+  GLM3r::run_glm(sim_folder = sim_folder)
   
   if(verbose){cat('simulation complete. \n*.nc output located in ', nc_file,'\n')}
   

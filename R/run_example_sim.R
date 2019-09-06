@@ -3,8 +3,8 @@
 #'Will use a temporary directory if missing
 #'@param verbose should operations and output of GLM be shown
 #'@keywords methods
-#'@seealso \code{\link[GLMr]{run_glm}}
-#'@importFrom GLMr run_glm
+#'@seealso \code{\link[GLM3r]{run_glm}}
+#'@importFrom GLM3r run_glm
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
@@ -40,7 +40,7 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   file.copy(from = system.file('extdata', basename(ice_snow_csv), package = 'glmtools'), to = ice_snow_csv)
   file.copy(from = system.file('extdata', basename(ice_dur_csv), package = 'glmtools'), to = ice_dur_csv)
   
-  nml <- read_nml() # read in default nml from GLMr
+  nml <- read_nml() # read in default nml from GLM3r
   nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Sparkling', 
                                'bsn_vals' = 15,
                                'H' = c(301.712, 303.018285714286, 304.324571428571, 305.630857142857, 306.937142857143, 308.243428571429, 309.549714285714, 310.856, 312.162285714286, 313.468571428571, 314.774857142857, 316.081142857143, 317.387428571429, 318.693714285714, 320),
@@ -74,7 +74,7 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
   write_nml(glm_nml = nml, file = nml_file)
   
-  GLMr::run_glm(sim_folder = sim_folder, verbose = verbose)
+  GLM3r::run_glm(sim_folder = sim_folder, verbose = verbose)
   
   if(verbose){cat('simulation complete. \n*.nc output located in ', nc_file,'\n')}
   

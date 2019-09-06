@@ -36,7 +36,7 @@ Running GLM requires three mandatory components (in addition to several optional
 
 The model generates a number of optional outputs, but will always create a `.nc` (netCDF) file which contains the simulation results.  
   
-`glmtools` has a number of utility functions that help with prepping for model runs, executing the model, and analyzing/visualizing the simulation. `glmtools` also depends on a companion package `GLMr`, which contains the executable GLM for each supported platform and creates a unified interface for running the model across these different platforms. `GLMr` will be automatically installed when following the instructions below. 
+`glmtools` has a number of utility functions that help with prepping for model runs, executing the model, and analyzing/visualizing the simulation. `glmtools` also depends on a companion package `GLM3r`, which contains the executable GLM for each supported platform and creates a unified interface for running the model across these different platforms. `GLM3r` will be automatically installed when following the instructions below. 
 
 
 ##Installation
@@ -53,7 +53,7 @@ install.packages("glmtools",
 ###Find example data directory
 ```{r}
 library(glmtools)
-eg_folder = system.file('extdata', package = 'GLMr')
+eg_folder = system.file('extdata', package = 'GLM3r')
 print(eg_folder) # location of example data
 ```
 ###List files that are included in the example data
@@ -69,20 +69,20 @@ glm_version()
 ###Citing GLM
 A lot of time went into the development of GLM and it is important to give the authors proper credit. To see a current citation for GLM, use the following command in R:
 ```{r}
-citation('GLMr')
+citation('GLM3r')
 ```
-###Update GLMr if needed
-If GLMr is out of date with the current version of GLM, it is probably because this package has not been updated recently. If you would like to be able to automatically receive update recommendations via RStudio's "Update" button, you will need to add the "http://owi.usgs.gov/R" repository to your RProfile. This can be done with:
+###Update GLM3r if needed
+If GLM3r is out of date with the current version of GLM, it is probably because this package has not been updated recently. If you would like to be able to automatically receive update recommendations via RStudio's "Update" button, you will need to add the "http://owi.usgs.gov/R" repository to your RProfile. This can be done with:
 ```{r, eval=FALSE}
 source("http://owi.usgs.gov/R/add_gran_repo.R")
 update.packages()
 ```
-Alternatively, the `repos` argument to `update.packages` and `install.packages` can be manually set to point where `GLMr` and `glmtools` live:
+Alternatively, the `repos` argument to `update.packages` and `install.packages` can be manually set to point where `GLM3r` and `glmtools` live:
 ```{r, eval=FALSE}
 update.packages(repos = c("http://owi.usgs.gov/R"))
 ```
 ###Running GLM with example data
-The contents of `eg_folder` (i.e., a `glm2.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLMr`. The `run_glm()` function simply takes a folder path to where the `glm2.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
+The contents of `eg_folder` (i.e., a `glm2.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm2.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
 ```{r, results ='hide'}
 run_glm(eg_folder)
 ```

@@ -22,7 +22,7 @@ run_example_sim('~/Desktop/GLM_sims')
 }    
 }
 \seealso{
-\code{\link[GLMr]{run_glm}}
+\code{\link[GLM3r]{run_glm}}
 }
 \author{
 Jordan S. Read, Luke A. Winslow

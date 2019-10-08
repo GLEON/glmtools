@@ -52,3 +52,4 @@ set_nml <- function(glm_nml, arg_name, arg_val, arg_list = NULL){
   glm_nml[[blck]][[arg_name]]	<- arg_val
   return(glm_nml)
 }
+

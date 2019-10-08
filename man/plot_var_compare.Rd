@@ -5,9 +5,9 @@
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
 plot_var_compare(nc_file, field_file, var_name = "temp",
-  fig_path = NULL, resample = TRUE, legend.title = NULL,
-  interval = 1, method = "match", text.size = 12,
-  color.palette = "RdYlBu", color.direction = -1,
+  fig_path = NULL, resample = TRUE, precision = "days",
+  legend.title = NULL, interval = 1, method = "match",
+  text.size = 12, color.palette = "RdYlBu", color.direction = -1,
   obs.color = "white", obs.alpha = 0.6, obs.shape = 16,
   obs.size = 1, ...)
 }
@@ -21,6 +21,8 @@ plot_var_compare(nc_file, field_file, var_name = "temp",
 \item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
 \item{resample}{sample the model output to the same time points as the observations?}
+
+\item{precision}{the time interval of the output.nc file and the field file must match (options: 'secs', 'mins','hours', or 'days')}
 
 \item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 

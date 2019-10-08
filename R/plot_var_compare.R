@@ -4,6 +4,7 @@
 #' @param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #' @param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #' @param resample sample the model output to the same time points as the observations?
+#' @param precision the time interval of the output.nc file and the field file must match (options: 'secs', 'mins','hours', or 'days')
 #' @param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
 #' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #' @param method String; 'match' for exact match or 'interp' for temporal interpolation
@@ -36,7 +37,8 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'@export
-plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = NULL, resample = TRUE, 
+plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = NULL, resample = TRUE,
+                            precision = 'days',
                             legend.title = NULL, interval = 1,method = 'match', text.size = 12,
                             color.palette = 'RdYlBu', color.direction = -1, 
                             obs.color = 'white', obs.alpha = 0.6, obs.shape = 16, obs.size = 1,...) {
@@ -54,7 +56,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   modeled_var = get_var(nc_file, var_name, reference='surface',z_out = z_out)
 
   # Resample 
-  data = resample_to_field(nc_file, field_file, var_name=var_name, method = method) 
+  data = resample_to_field(nc_file, field_file, var_name=var_name, method = method, precision = precision) 
   dataClean = data %>% dplyr::filter_all(all_vars(!is.na(.)))
   
   # Akima interpolation of observed data (Gridded Bivariate Interpolation for Irregular Data)

@@ -65,6 +65,7 @@ to.glm_boolean <- function(values){
   values[!val.logical] <- '.false.'
   return(values)
 }
+
 # private function
 findBlck	<-	function(nml,argName){
 	

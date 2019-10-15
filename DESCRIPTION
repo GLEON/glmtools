@@ -2,7 +2,7 @@ Package: glmtools
 Type: Package
 Title: glmtools
 Version: 0.16.0
-Date: 2019-09-06
+Date: 2019-10-15
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
     person("Luke", "Winslow", role = "aut",
@@ -22,9 +22,9 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
     R (>= 3.0),
-    GLM3r,
-    rLakeAnalyzer (>= 1.8.3)
+    GLM3r
 Imports:
+    rLakeAnalyzer,
     ncdf4,
     tools,
     akima,

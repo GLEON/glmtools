@@ -2,11 +2,20 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                       metric, target.fit, target.iter, nml.file,path){
   path <<- path
   
-  glmOPT <- pureCMAES(init.val, glmFUN, lower = rep(0,length(init.val)), 
-                      upper = rep(10,length(init.val)), 
-                      sigma = 0.5, 
-                      stopfitness = target.fit, 
-                      stopeval = target.iter)
+  if (method == 'CMA-ES'){
+    glmOPT <- pureCMAES(init.val, glmFUN, lower = rep(0,length(init.val)), 
+                        upper = rep(10,length(init.val)), 
+                        sigma = 0.5, 
+                        stopfitness = target.fit, 
+                        stopeval = target.iter)
+  } else if (method == 'Nelder-Mead'){
+    glmOPT <- neldermeadb(fn = glmFUN, init.val, lower = rep(0,length(init.val)), 
+                        upper = rep(10,length(init.val)), 
+                        adapt = TRUE,
+                        tol = 1e-10,
+                        maxfeval = target.iter)
+  }
+  
   
   glmFUN(glmOPT$xmin)
   calib <- read.csv(paste0('calib_results_',metric,'_',var,'.csv'))
@@ -75,7 +84,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   run_glmcmd(glmcmd, path)
   
   g1 <- diag.plots(mod2obs('output/output.nc', obs, reference = 'surface', var), obs)
-  ggsave(file=paste0('diagnostics_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+  ggsave(file=paste0('diagnostics_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   
   
   return()
@@ -313,6 +322,7 @@ diag.plots <- function(mod, obs, ggplot = T){
       scale_color_discrete(name = 'Depths', guide = F)+
       #guides(colour = guide_legend(override.aes = list(size=lgd.sz)))+
       geom_hline(yintercept = 0, size = 1, linetype = 'dashed')+
+      #xlim(min(names(mod)[1]),max(names(mod)[1])) +
       theme_bw()#+
     #theme(legend.text=element_text(size= (lgd.sz*2.5)))
     
@@ -400,4 +410,3 @@ sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
   }
   
 }
-

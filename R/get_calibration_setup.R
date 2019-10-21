@@ -3,10 +3,9 @@
 #'Creates dataframe containing the parameters for calibration (string) and their respective lower boundaries, upper boundaries 
 #'and initial values
 #'@keywords methods
-#'@seealso \code{\link{calibrate_sim}}}
+#'@seealso \code{\link{calibrate_sim}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
-#'
 #'@examples
 #'calib_setup <- get_calibration_setup()
 #'

@@ -14,6 +14,9 @@ and initial values
 calib_setup <- get_calibration_setup()
 
 }
+\seealso{
+\code{\link{calibrate_sim}}
+}
 \author{
 Robert Ladwig, Tadhg Moore
 }

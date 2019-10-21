@@ -15,10 +15,9 @@
 #'@param target.fit Double of your preferred fit, calibration will stop after reaching that; default is 1.5
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@keywords methods
-#'@seealso \code{\link{get_calibration_setup}}}
+#'@seealso \code{\link{get_calibration_setup}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
-#'
 #'@examples
 #'calib_setup <- get_calibration_setup()
 #'print(calib_setup)
@@ -28,7 +27,7 @@
 #'path = getwd() # simulation path
 #'obs = read_field_obs('bcs/sparkling_lter_temp.csv') # observed field data
 #'nml.file = 'glm3.nml' # name of nml-file, if different than the default version the system command needs to be changed as well
-#'glmcmd = "glm" # command to be used, default applies GLM3r
+#'glmcmd = 'glm' # command to be used, default applies GLM3r
 #'#Optional variables
 #'first.attempt = FALSE # if TRUE, copy glm3 and create glm4. declare F for subsequent runs
 #'scaling = TRUE # scaling should be TRUE for CMA-ES

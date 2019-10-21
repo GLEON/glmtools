@@ -40,6 +40,7 @@
 #'calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, scaling, method, metric, target.fit, target.iter)
 #'
 #'@import adagio
+#'@import GLM3r
 #'@import hydroGOF 
 #'@import ggplot2
 #'@export

@@ -6,10 +6,10 @@
 \usage{
 plot_var_compare(nc_file, field_file, var_name = "temp",
   fig_path = NULL, resample = TRUE, precision = "days",
-  legend.title = NULL, interval = 1, method = "match",
-  text.size = 12, color.palette = "RdYlBu", color.direction = -1,
-  obs.color = "white", obs.alpha = 0.6, obs.shape = 16,
-  obs.size = 1, ...)
+  conversion = NULL, legend.title = NULL, interval = 1,
+  method = "match", text.size = 12, color.palette = "RdYlBu",
+  color.direction = -1, obs.color = "white", obs.alpha = 0.6,
+  obs.shape = 16, obs.size = 1, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -23,6 +23,8 @@ plot_var_compare(nc_file, field_file, var_name = "temp",
 \item{resample}{sample the model output to the same time points as the observations?}
 
 \item{precision}{the time interval of the output.nc file and the field file must match (options: 'secs', 'mins','hours', or 'days')}
+
+\item{conversion}{conversion multiplier to adjust model output to field data units}
 
 \item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 

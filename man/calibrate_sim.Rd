@@ -49,7 +49,7 @@ var = 'temp' # variable to apply the calibration procedure
 path = getwd() # simulation path
 obs = read_field_obs('bcs/sparkling_lter_temp.csv') # observed field data
 nml.file = 'glm3.nml' # name of nml-file, if different than the default version the system command needs to be changed as well
-glmcmd = 'glm' # command to be used, default applies GLM3r
+glmcmd = "glm" # command to be used, default applies GLM3r
 #Optional variables
 first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the outcome of previous calibration runs
 period = list('start' = '2011-01-01 12:00:00', 'stop' = '2011-12-31 12:00:00')
@@ -61,9 +61,6 @@ target.iter = 150 # refers to a maximum run of 150 calibration iterations
 
 calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, scaling, method, metric, target.fit, target.iter)
 
-}
-\seealso{
-\code{\link{get_calibration_setup}}
 }
 \author{
 Robert Ladwig, Tadhg Moore

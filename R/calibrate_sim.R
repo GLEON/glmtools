@@ -16,7 +16,7 @@
 #'@param target.fit Double of your preferred fit, calibration will stop after reaching that; default is 1.5
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@keywords methods
-#'@seealso \code{\link{get_calib_setup}}}
+#'@seealso \code{\link{get_calib_setup}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
 #'

@@ -9,7 +9,7 @@ plot_var_compare(nc_file, field_file, var_name = "temp",
   conversion = NULL, legend.title = NULL, interval = 1,
   method = "match", text.size = 12, color.palette = "RdYlBu",
   color.direction = -1, obs.color = "white", obs.alpha = 0.6,
-  obs.shape = 16, obs.size = 1, ...)
+  obs.shape = 16, obs.size = 1, shiftPalette = NULL, ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -48,6 +48,8 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 \item{obs.shape}{Shape of observation points. For options see vignette("ggplot2-specs")}
 
 \item{obs.size}{Size of observation points. For options see \code{\link[vignette("ggplot2-specs")]{vignette("ggplot2-specs")}}}
+
+\item{shiftPalette}{See values argument in \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).}
 
 \item{\dots}{additional arguments passed to \code{ggsave()}}
 }

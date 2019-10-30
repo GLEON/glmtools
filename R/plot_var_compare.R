@@ -5,6 +5,7 @@
 #' @param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #' @param resample sample the model output to the same time points as the observations?
 #' @param precision the time interval of the output.nc file and the field file must match (options: 'secs', 'mins','hours', or 'days')
+#' @param conversion conversion multiplier to adjust model output to field data units
 #' @param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
 #' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #' @param method String; 'match' for exact match or 'interp' for temporal interpolation
@@ -38,7 +39,7 @@
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'@export
 plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = NULL, resample = TRUE,
-                            precision = 'days',
+                            precision = 'days', conversion = NULL,
                             legend.title = NULL, interval = 1,method = 'match', text.size = 12,
                             color.palette = 'RdYlBu', color.direction = -1, 
                             obs.color = 'white', obs.alpha = 0.6, obs.shape = 16, obs.size = 1,...) {
@@ -82,7 +83,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
     legend.title = .unit_label(nc_file, var_name)
   }
 
-  if (var_name != 'temp') {
+  if (var_name != 'temp' & is.null(conversion)) {
     h1 = ggplot(data = observed_df, aes(x = DateTime, y = Depth)) +
       geom_raster(aes(fill = var), interpolate = F) +
       geom_point(data = data, aes(x = DateTime, y = Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
@@ -105,7 +106,9 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
     h3 = grid.arrange(h1,h2)
   }
   
-  if (var_name == 'temp') {
+  if (var_name == 'temp' | !is.null(conversion)) {
+    if (!is.null(conversion))  {model_df = model_df %>% mutate(var = var * conversion)}
+
   dfCombine = mutate(observed_df, type = 'Observed') %>% 
     bind_rows(mutate(model_df, type = 'Modeled')) %>% 
     mutate(type = factor(type, levels=c('Observed','Modeled')))

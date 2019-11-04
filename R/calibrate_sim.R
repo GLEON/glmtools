@@ -73,7 +73,7 @@ calibrate_sim <- function(var = 'temp',
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
   }
-  pars <<- as.character(calib_setup$par)
+  pars <<- as.character(calib_setup$pars)
   ub <<- calib_setup$ub
   lb <<- calib_setup$lb
   variable <<- var

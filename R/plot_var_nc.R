@@ -75,12 +75,13 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
 
   grid.arrange(grobs = h, ncol = 1)
   
-  
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
+  return(h) #return as ggplot object list
 }
+
 
 #'@describeIn plot_var_nc Deprecated. Use plot_var_nc
 plot_var = plot_var_nc

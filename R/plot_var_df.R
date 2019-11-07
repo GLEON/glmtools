@@ -115,5 +115,6 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
+  return(h) #return as ggplot object list
 }
 

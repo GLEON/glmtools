@@ -9,13 +9,13 @@ plot_var_nc(nc_file = "output.nc", var_name = "temp",
   fig_path = NULL, reference = "surface", legend.title = NULL,
   interval = 0.5, text.size = 12, show.legend = TRUE,
   legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1, ...)
+  color.palette = "RdYlBu", color.direction = -1, zlim = NULL, ...)
 
 plot_var(nc_file = "output.nc", var_name = "temp", fig_path = NULL,
   reference = "surface", legend.title = NULL, interval = 0.5,
   text.size = 12, show.legend = TRUE, legend.position = "right",
   plot.title = NULL, color.palette = "RdYlBu", color.direction = -1,
-  ...)
+  zlim = NULL, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -38,12 +38,14 @@ plot_var(nc_file = "output.nc", var_name = "temp", fig_path = NULL,
 
 \item{plot.title}{Vector string; Default is no title.}
 
-\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
+\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate.}
+
+\item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
+
+\item{zlim}{Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 Palettes available include: Diverging:
 BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.}
-
-\item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
 
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }

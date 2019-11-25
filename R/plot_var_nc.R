@@ -14,10 +14,10 @@
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
 #'@param plot.title Vector string; Default is no title. 
 #'@param color.palette See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
-#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #' Palettes available include: Diverging:
 #' BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
+#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods

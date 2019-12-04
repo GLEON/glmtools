@@ -18,6 +18,9 @@ Reads in nml-file and splits the time period in a calibration and a validation t
 \examples{
 calib_periods <- get_calib_periods(nml = 'glm3.nml', ratio = 1)
 }
+\seealso{
+\code{\link{calibrate_sim}}
+}
 \author{
 Robert Ladwig
 }

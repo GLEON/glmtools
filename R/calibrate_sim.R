@@ -16,7 +16,7 @@
 #'@param target.fit Double of your preferred fit, calibration will stop after reaching that; default is 1.5
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@keywords methods
-#'@seealso \code{\link{get_calib_setup}}}
+#'@seealso \code{\link{get_calib_setup}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
 #'
@@ -73,7 +73,7 @@ calibrate_sim <- function(var = 'temp',
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
   }
-  pars <<- as.character(calib_setup$par)
+  pars <<- as.character(calib_setup$pars)
   ub <<- calib_setup$ub
   lb <<- calib_setup$lb
   variable <<- var

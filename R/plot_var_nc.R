@@ -17,6 +17,7 @@
 #' Palettes available include: Diverging:
 #' BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
+#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
@@ -49,7 +50,7 @@
 plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
                      legend.title = NULL, interval = 0.5, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
-                     color.palette = 'RdYlBu', color.direction = -1,...) {
+                     color.palette = 'RdYlBu', color.direction = -1, zlim = NULL,...) {
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   num_divs <- length(var_name)
@@ -64,7 +65,7 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
                                   legend.title = legend.title[j], interval=interval, text.size = text.size, 
                                   show.legend = show.legend, legend.position = legend.position, 
                                   plot.title = plot.title[j], 
-                                  color.palette = color.palette, color.direction = color.direction)
+                                  color.palette = color.palette, color.direction = color.direction, zlim)
     } else {
       h[[j]] = .plot_nc_timeseries(file = nc_file, var_name = var_name[j], 
                                    plot.title = plot.title[j], text.size = text.size)
@@ -75,12 +76,13 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
 
   grid.arrange(grobs = h, ncol = 1)
   
-  
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
+  return(h) #return as ggplot object list
 }
+
 
 #'@describeIn plot_var_nc Deprecated. Use plot_var_nc
 plot_var = plot_var_nc

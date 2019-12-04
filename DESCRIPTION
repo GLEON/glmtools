@@ -24,17 +24,19 @@ Depends:
     R (>= 3.0),
     GLM3r
 Imports:
-    rLakeAnalyzer,
-    ncdf4,
-    tools,
     akima,
-    lazyeval,
+    adagio,
     dplyr,
-    methods,
     ggplot2,
+    gridExtra,
+    hydroGOF,
+    lazyeval,
+    methods,
+    ncdf4,
     readr,
+    rLakeAnalyzer,
     tidyr,
-    gridExtra
+    tools
 Suggests:
     testthat,
     knitr,

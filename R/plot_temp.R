@@ -27,7 +27,7 @@ plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', 
   
   .Deprecated('plot_var',msg = 'Deprecated. Use `plot_var`, where default is var_name = `temp`')
   
-  plot_var_nc(nc_file, var_name = 'temp', fig_path = NULL, reference, legend.title, 
+  plot_var_nc(nc_file, var_name = 'temp', fig_path, reference, legend.title, 
            interval, text.size, show.legend, 
            legend.position, plot.title)
   

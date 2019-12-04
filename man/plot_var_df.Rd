@@ -8,7 +8,7 @@ plot_var_df(data, var_name, interpolate = F, fig_path = NULL,
   legend.title = var_name, text.size = 12, show.legend = TRUE,
   legend.position = "right", plot.title = NULL,
   color.palette = "RdYlBu", color.direction = -1,
-  reference = "surface", ...)
+  reference = "surface", zlim = NULL, ...)
 }
 \arguments{
 \item{data}{a dataframe directly from GLM output or field data. First column must be date/dateTime (Date or POSIXct format). 
@@ -38,6 +38,8 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 \item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
 
 \item{reference}{String; 'surface' or 'bottom'. surface = Depths are referenced from the surface, bottom = Depths are referenced from the bottom (elevations)}
+
+\item{zlim}{Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value).}
 
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }

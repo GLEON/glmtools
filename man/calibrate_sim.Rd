@@ -62,6 +62,9 @@ target.iter = 150 # refers to a maximum run of 150 calibration iterations
 calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, scaling, method, metric, target.fit, target.iter)
 
 }
+\seealso{
+\code{\link{get_calib_setup}}
+}
 \author{
 Robert Ladwig, Tadhg Moore
 }

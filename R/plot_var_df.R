@@ -15,6 +15,7 @@
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param reference String; 'surface' or 'bottom'. surface = Depths are referenced from the surface, bottom = Depths are referenced from the bottom (elevations)
+#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
 #'@seealso \code{\link{get_var}}, \code{\link{sim_var_longname}}, 
@@ -45,7 +46,7 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
                      legend.title = var_name, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
                      color.palette = 'RdYlBu', color.direction = -1,
-                     reference = 'surface', ...) {
+                     reference = 'surface', zlim = NULL, ...) {
   
   # Determine data format
   if (lapply(data, class)[1] == 'Date') {
@@ -105,7 +106,7 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
     }
     
     h[[j]] = .plot_df_heatmap(plotdata,var_name[j], legend.title[j], text.size, show.legend, legend.position, plot.title[j],
-                                   color.palette, color.direction)
+                                   color.palette, color.direction, zlim)
   }
   
   grid.arrange(grobs = h, ncol = 1)
@@ -115,5 +116,6 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
+  return(h) #return as ggplot object list
 }
 

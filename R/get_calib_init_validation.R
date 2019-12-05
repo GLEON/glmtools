@@ -4,7 +4,7 @@
 #'@param nml.file String of the GLM namelist file, in most cases this is 'glm3.nml'
 #'@param output String of the file path in which the output.nc file is stored (created by calibration period)
 #'@keywords methods
-#'@seealso \code{\link{calibrate_sim, get_calib_periods}}
+#'@seealso \\code{\link{get_calib_setup}, \link{get_calib_periods}, \link{calibrate_sim}}
 #'@author
 #'Robert Ladwig
 #'

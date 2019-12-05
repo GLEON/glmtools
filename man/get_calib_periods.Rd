@@ -19,7 +19,7 @@ Reads in nml-file and splits the time period in a calibration and a validation t
 calib_periods <- get_calib_periods(nml = 'glm3.nml', ratio = 1)
 }
 \seealso{
-\code{\link{calibrate_sim, get_calib_init_validation}}
+\code{\link{get_calib_setup}, \link{calibrate_sim}, \link{get_calib_init_validation}}
 }
 \author{
 Robert Ladwig

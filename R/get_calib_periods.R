@@ -5,7 +5,7 @@
 #'@param ratio Double of the ratio between calibration and validation, default is 1 which refers to calibration:validation 1:1, 2 would
 #' mean that calibration:validation would be 2:1
 #'@keywords methods
-#'@seealso \code{\link{calibrate_sim, get_calib_init_validation}}
+#'@seealso \code{\link{get_calib_setup}, \link{calibrate_sim}, \link{get_calib_init_validation}}
 #'@author
 #'Robert Ladwig
 #'

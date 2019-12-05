@@ -18,7 +18,7 @@ Reads in nml-file and output from calibration to get initial values for the cali
 initvalues <- get_calib_init_validation(nml = 'glm3.nml', output = 'output.nc')
 }
 \seealso{
-\code{\link{calibrate_sim, get_calib_periods}}
+\\code{\link{get_calib_setup}, \link{get_calib_periods}, \link{calibrate_sim}}
 }
 \author{
 Robert Ladwig

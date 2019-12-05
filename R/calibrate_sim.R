@@ -16,7 +16,7 @@
 #'@param target.fit Double of your preferred fit, calibration will stop after reaching that; default is 1.5
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@keywords methods
-#'@seealso \code{\link{get_calib_setup}}
+#'@seealso \code{\link{get_calib_setup, get_calib_periods, get_calib_init_validation}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
 #'
@@ -32,12 +32,12 @@
 #'glmcmd = "glm" # command to be used, default applies GLM3r
 #'#Optional variables
 #'first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the outcome of previous calibration runs
-#'period = list('start' = '2011-01-01 12:00:00', 'stop' = '2011-12-31 12:00:00')
+#'period = list('start' = '2011-01-01 12:00:00', 'stop' = '2011-12-31 12:00:00'), or use get_calib_periods.R to create calibration/validation periods, i.e. period = get_calib_periods(nml = nml.file, ratio = 1)$calibration
 #'scaling = TRUE # scaling should be TRUE for CMA-ES
 #'method = 'CMA-ES' # Choose the optimization method, either Covariance Matrix Adaption - Evolution Strategy ('CMA-ES') or Nelder-Mead
 #'metric = 'RMSE' # Root-mean square error
-#'target.fit = 1.5 # refers to a target fit of 1.5 degrees Celsius
-#'target.iter = 150 # refers to a maximum run of 150 calibration iterations
+#'target.fit = 1.5 # refers to a target fit of 1.5 degrees Celsius (algorithm stops after reaching 1.5 degree Celsius, set target.fit = -Inf to run until it reaches target.iter only)
+#'target.iter = 150 # refers to a maximum run of 150 calibration iterations (algorithm stops after doing 150 function evaluations)
 #'
 #'calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, scaling, method, metric, target.fit, target.iter)
 #'

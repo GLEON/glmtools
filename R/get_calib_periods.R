@@ -5,7 +5,7 @@
 #'@param ratio Double of the ratio between calibration and validation, default is 1 which refers to calibration:validation 1:1, 2 would
 #' mean that calibration:validation would be 2:1
 #'@keywords methods
-#'@seealso \code{\link{calibrate_sim}}
+#'@seealso \code{\link{calibrate_sim, get_calib_init_validation}}
 #'@author
 #'Robert Ladwig
 #'
@@ -37,5 +37,5 @@ get_calib_periods <- function(nml, ratio = 1){
   
   valid <- list('start' = as.character(start2), 'stop' = as.character(stop2))
   
-  return(list(total,calib,valid))
+  return(list("total" = total,"calibration" = calib,"validation" = valid))
 }

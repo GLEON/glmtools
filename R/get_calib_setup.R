@@ -3,7 +3,7 @@
 #'@description Creates dataframe containing the parameters for calibration (string) and their respective lower boundaries, upper boundaries 
 #'and initial values
 #'@keywords methods
-#'@seealso \code{\link{calibrate_sim}}
+#'@seealso \code{\link{calibrate_sim}, \link{get_calib_periods}, \link{get_calib_init_validation}}
 #'@author
 #'Robert Ladwig, Tadhg Moore
 #'

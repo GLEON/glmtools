@@ -14,7 +14,7 @@ and initial values
 calib_setup <- get_calibration_setup()
 }
 \seealso{
-\code{\link{calibrate_sim}}
+\code{\link{calibrate_sim}, \link{get_calib_periods}, \link{get_calib_init_validation}}
 }
 \author{
 Robert Ladwig, Tadhg Moore

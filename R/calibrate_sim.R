@@ -39,7 +39,7 @@
 #'target.fit = 1.5 # refers to a target fit of 1.5 degrees Celsius (algorithm stops after reaching 1.5 degree Celsius, set target.fit = -Inf to run until it reaches target.iter only)
 #'target.iter = 150 # refers to a maximum run of 150 calibration iterations (algorithm stops after doing 150 function evaluations)
 #'
-#'calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, scaling, method, metric, target.fit, target.iter)
+#'calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter)
 #'
 #'@import adagio
 #'@import GLM3r 
@@ -58,7 +58,9 @@ calibrate_sim <- function(var = 'temp',
                           method = 'CMA-ES',
                           metric = 'RMSE',
                           target.fit = 1.5,
-                          target.iter = 100){
+                          target.iter = 100,
+                          plotting = TRUE,
+                          output){
   
   if (first.attempt){
     if (file.exists(paste0('calib_results_',metric,'_',var,'.csv'))){
@@ -85,7 +87,7 @@ calibrate_sim <- function(var = 'temp',
   
   if (!is.null(period)){
     nml <- read_nml(nml.file)
-    nml <- set_nml(nml, arg_list = period)
+    nml <- set_nml(nml, arg_list = period$calibration)
     write_nml(nml,nml.file)
   }
   
@@ -93,5 +95,65 @@ calibrate_sim <- function(var = 'temp',
   
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
                  metric, target.fit, target.iter, nml.file,path)
+  
+  # loads all iterations
+  results <- read.csv('calib_results_RMSE_temp.csv')
+  results$DateTime <- as.POSIXct(results$DateTime)
+  g1 <- ggplot(results, aes(DateTime, RMSE)) +
+    geom_point() +
+    geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x)) +
+    theme_bw() +
+    theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
+    scale_x_datetime()
+  ggsave(file=paste0('optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+  
+  # compares simulated with observed data
+  temp_rmse1 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+                                 metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
+  
+  
+  
+  # check the model fit during the validation period
+  init.temps <- read_nml(nml.file)$init_profiles$the_temps
+  get_calib_init_validation(nml_file= nml.file, output = out_file)
+  nml <- read_nml(nml.file)
+  nml <- set_nml(nml, arg_list = period$validation)
+  write_nml(nml,nml.file)
+  
+  run_glm()
+  temp_rmse2 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+                                 metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
+  
+  
+  
+  # check the model fit during the whole time period
+  nml <- read_nml(nml.file)
+  total.list <- period$total
+  total.list[['the_temps']] <- init.temps
+  nml <- set_nml(nml, arg_list =total.list)
+  write_nml(nml,nml.file)
+  
+  run_glm()
+  temp_rmse3 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+                                 metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
+  
+  
+  # print a matrix of our constrained variable space, the initial value and the calibrated value
+  calibrated_results <- cbind(calib_setup, 'calibrated' =round(c(results$wind_factor[1], 
+                                                                 results$wind_factor[1],
+                                                                 results$ch[1],
+                                                                 results$sed_temp_mean[1],
+                                                                 results$sed_temp_mean.1[1],
+                                                                 results$coef_mix_hyp[1],
+                                                                 results$Kw[1]),4))
+  
+  print(paste('calibration:',round(temp_rmse1,2),'deg C RMSE'))
+  print(paste('validation:',round(temp_rmse2,2),'deg C RMSE'))
+  print(paste('total time period:',round(temp_rmse3,2),'deg C RMSE'))
+  return(print(calibrated_results))
+  
 }
 

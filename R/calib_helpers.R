@@ -410,3 +410,10 @@ sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
   }
   
 }
+
+checkHourFormat <- function(timest, hourst){
+  if (format(strptime(timest,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S') != hourst){
+    newTimest <- paste(gsub( " .*$", "", timest), hourst)
+  }
+  return(as.POSIXct(newTimest))
+}

@@ -64,7 +64,8 @@ calibrate_sim <- function(var = 'temp',
                           target.fit = 1.5,
                           target.iter = 100,
                           plotting = TRUE,
-                          output){
+                          output,
+                          field.file){
   
   if (first.attempt){
     if (file.exists(paste0('calib_results_',metric,'_',var,'.csv'))){
@@ -114,10 +115,10 @@ calibrate_sim <- function(var = 'temp',
   }
   
   # compares simulated with observed data
-  temp_rmse1 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+  temp_rmse1 <- compare_to_field(out_file, field_file = field.file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
+  plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
   }
   
   
@@ -129,10 +130,10 @@ calibrate_sim <- function(var = 'temp',
   write_nml(nml,nml.file)
   
   run_glm()
-  temp_rmse2 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+  temp_rmse2 <- compare_to_field(out_file, field_file = field.file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
+  plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
   }
   
   
@@ -144,10 +145,10 @@ calibrate_sim <- function(var = 'temp',
   write_nml(nml,nml.file)
   
   run_glm()
-  temp_rmse3 <- compare_to_field(out_file, field_file = 'bcs/ME_observed.csv', 
+  temp_rmse3 <- compare_to_field(out_file, field_file = field.file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-  plot_var_compare(nc_file = out_file, field_file = 'bcs/ME_observed.csv',var_name = 'temp', precision = 'hours', fig_path = paste0('total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
+  plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
   }
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value

@@ -8,7 +8,7 @@ calibrate_sim(var = "temp", path, obs, nml.file = "glm3.nml",
   calib_setup = NULL, glmcmd = NULL, first.attempt = TRUE,
   period = NULL, scaling = "TRUE", method = "CMA-ES",
   metric = "RMSE", target.fit = 1.5, target.iter = 100,
-  plotting = TRUE, output)
+  plotting = TRUE, output, field.file)
 }
 \arguments{
 \item{var}{Character vector of valid variable names (see \code{\link{sim_vars}})}

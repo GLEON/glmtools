@@ -128,7 +128,6 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   print(h3)
   }
     
-  
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(plot = h3, filename = fig_path,...)

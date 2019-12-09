@@ -2,36 +2,34 @@
 % Please edit documentation in R/plot_validate_profiles.R
 \name{plot_validate_profiles}
 \alias{plot_validate_profiles}
-\title{Plot validation and model temperature profiles}
+\title{Plot validation and model temperature profiles for all unique dates}
 \usage{
-plot_validate_profiles(nc_file, field_file, fig_path = FALSE, ...)
+plot_validate_profiles(nc_file, field_file, fig_path = NULL, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
 
 \item{field_file}{a string with the path to the field observation file}
 
-\item{fig_path}{FALSE if plot to screen, string path if save plot as .png. 
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 If argument is not used, plotting is skipped}
 
 \item{...}{optional arguments passed to \code{resample_to_field}}
 }
 \description{
-Plot validation and model temperature profiles
+Plot validation and model temperature profiles for all unique dates
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 
 #  create a multiple metric diagnostic fig within R:
-plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')             
+plot_validate_profiles(nc_file, field_file, fig_path = NULL, method = 'interp')             
 }
 \seealso{
 \link{validate_sim}, \link{resample_to_field}
 }
 \author{
-Luke A. Winslow, Jordan S. Read
+Luke A. Winslow, Jordan S. Read, Hilary A. Dugan
 }
 \keyword{methods}

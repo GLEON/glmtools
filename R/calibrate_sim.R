@@ -17,6 +17,7 @@
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@param plotting Boolean, if TRUE plots all results as heat maps
 #'@param output Character array of the output folder path 
+#'@param field.file String of the path to the field data CSV or TSV
 #'@keywords methods
 #'@seealso \code{\link{get_calib_setup}, \link{get_calib_periods}, \link{get_calib_init_validation}}
 #'@author

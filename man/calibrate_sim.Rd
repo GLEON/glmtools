@@ -8,7 +8,7 @@ calibrate_sim(var = "temp", path, obs, nml.file = "glm3.nml",
   calib_setup = NULL, glmcmd = NULL, first.attempt = TRUE,
   period = NULL, scaling = "TRUE", method = "CMA-ES",
   metric = "RMSE", target.fit = 1.5, target.iter = 100,
-  plotting = TRUE, output)
+  plotting = TRUE, output, field.file)
 }
 \arguments{
 \item{var}{Character vector of valid variable names (see \code{\link{sim_vars}})}
@@ -40,6 +40,8 @@ calibrate_sim(var = "temp", path, obs, nml.file = "glm3.nml",
 \item{plotting}{Boolean, if TRUE plots all results as heat maps}
 
 \item{output}{Character array of the output folder path}
+
+\item{field.file}{String of the path to the field data CSV or TSV}
 }
 \description{
 Starts a calibration run with multiple iterations using a GLM-AED2 setup. At the end a output csv.-file of all iterations and a 

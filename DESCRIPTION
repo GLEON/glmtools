@@ -9,6 +9,8 @@ Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "lwinslow@usgs.gov"), 
     person("Joseph", "Stachelek", role = "ctb", 
     email = "stachel2@msu.edu"),
+    person("Rober", "Ladwig", role = "ctb", 
+    email = "rladwig2@wisc.edu"),
     person("Hilary", "Dugan", role = "ctb", 
     email = "hdugan@wisc.edu"))
 Description: Tools for working with the GLM lake model.

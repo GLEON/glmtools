@@ -70,7 +70,6 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
       h[[j]] = .plot_nc_timeseries(file = nc_file, var_name = var_name[j], 
                                    plot.title = plot.title[j], text.size = text.size)
                                    
-      # if(is_heatmap) .plot_null() # to fill up the colormap div
     }
   }
 

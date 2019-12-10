@@ -36,7 +36,7 @@
 #'values <- compare_to_field(nc_file, field_file, 
 #'                           metric = 'schmidt.stability', as_value = TRUE)
 #'# -- will fail
-#'nml_file <- file.path(sim_folder, 'glm2.nml')
+#'nml_file <- file.path(sim_folder, 'glm3.nml')
 #'values <- compare_to_field(nc_file, field_file, nml_file, 
 #'                           metric = 'schmidt.stability', as_value = TRUE)
 #'# -- will succeed

@@ -71,7 +71,6 @@
   return(h1)
 }
 
-#' @importFrom graphics points
 .plot_nc_timeseries <- function(file, var_name, text.size, plot.title){
   
   # Get data from .nc file
@@ -87,3 +86,12 @@
     labs(title = plot.title) +
     theme_bw(base_size = text.size)
 }
+
+.unit_label <- function(file, var_name){
+  longname <- sim_var_longname(file, var_name) 
+  titlename <- gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", longname, perl=TRUE)
+  units <- sim_var_units(file, var_name)
+  unit_label <- paste0(titlename, " (", units, ")")
+  return(unit_label)
+}
+

@@ -1,6 +1,6 @@
 ---
 title: "Getting started with glmtools"
-author: "Jordan S Read, Luke A Winslow"
+author: "Jordan S Read, Luke A Winslow, Hilary A Dugan, Robert Ladwig"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   rmarkdown::html_vignette:
@@ -20,13 +20,13 @@ library(knitr)
 ```
 
 
-##Introduction
+## Introduction
 
 
 This package `glmtools` provides services in support using the General Lake Model (GLM) in R. GLM is a one-dimensional model that balances fluxes of energy and mass as part of dynamically simulating lake physics. The GLM model has been developed as an initiative of the Global Lake Ecological Observatory Network (GLEON) and in collaboration with the Aquatic Ecosystem Modelling Network (AEMON) that started in 2010. The model was first introduced in Leipzig at the 2nd Lake Ecosystem Modelling Symposium in 2012, and has since developed rapidly with application to numerous lakes within the GLEON network and beyond. Authors: Matthew R Hipsey, Louise C Bruce, David P Hamilton. More information about GLM can be found at <a href="http://aed.see.uwa.edu.au/research/models/GLM/">http://aed.see.uwa.edu.au/research/models/GLM/</a>.
 
 GLM version 3.0 was released in 2019. More information can be found in Hipsey et al 2019:
-<a hrfer="https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019-discussion.html">https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019-discussion.html.
+<a hrfer="https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019.html">https://www.geosci-model-dev.net/12/473/2019/gmd-12-473-2019.html.
 
 Running GLM requires three mandatory components (in addition to several optional components). The required components include:  
   
@@ -39,7 +39,7 @@ The model generates a number of optional outputs, but will always create a `.nc`
 `glmtools` has a number of utility functions that help with prepping for model runs, executing the model, and analyzing/visualizing the simulation. `glmtools` also depends on a companion package `GLM3r`, which contains the executable GLM for each supported platform and creates a unified interface for running the model across these different platforms. `GLM3r` will be automatically installed when following the instructions below. 
 
 
-##Installation
+## Installation
 To install **glmtools** 
 
 Install package with dependencies:
@@ -49,29 +49,38 @@ install.packages("glmtools",
     dependencies = TRUE)
 ```
 
-##Using example data built into the package
-###Find example data directory
+To install **GLM3r** 
+
+Install package with dependencies:
+```{r, eval=FALSE}
+library(devtools)
+install_github(repo = 'GLEON/GLM3r')
+```
+
+## Using example data built into the package
+
+### Find example data directory
 ```{r}
 library(glmtools)
 eg_folder = system.file('extdata', package = 'GLM3r')
 print(eg_folder) # location of example data
 ```
-###List files that are included in the example data
+### List files that are included in the example data
 ```{r}
 dir(eg_folder)
 ```
 
-##Running GLM
-###Find current version of GLM included in the package
+## Running GLM
+### Find current version of GLM included in the package
 ```{r, eval=FALSE}
 glm_version()
 ```
-###Citing GLM
+### Citing GLM
 A lot of time went into the development of GLM and it is important to give the authors proper credit. To see a current citation for GLM, use the following command in R:
 ```{r}
 citation('GLM3r')
 ```
-###Update GLM3r if needed
+### Update GLM3r if needed
 If GLM3r is out of date with the current version of GLM, it is probably because this package has not been updated recently. If you would like to be able to automatically receive update recommendations via RStudio's "Update" button, you will need to add the "http://owi.usgs.gov/R" repository to your RProfile. This can be done with:
 ```{r, eval=FALSE}
 source("http://owi.usgs.gov/R/add_gran_repo.R")
@@ -81,17 +90,17 @@ Alternatively, the `repos` argument to `update.packages` and `install.packages` 
 ```{r, eval=FALSE}
 update.packages(repos = c("http://owi.usgs.gov/R"))
 ```
-###Running GLM with example data
+### Running GLM with example data
 The contents of `eg_folder` (i.e., a `glm3.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm3.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
 ```{r, results ='hide'}
-run_glm(eg_folder)
+run_glm(sim_folder = eg_folder)
 ```
 Note that new output files have been added to the simulation directory:
 ```{r}
 dir(eg_folder)
 ```
 
-###Running GLM with user data
+### Running GLM with user data
 To run GLM with user-specified data, the formats of the example data should be followed in order to properly run the simulation. Small differences in the `glm3.nml` file can result in model failures due to the inability of the model to parse certain kinds of text. When real data are used in a simulation, the user can run GLM in the same way that the example simulations were initiated. For example:
 ```{r, eval =FALSE}
 run_glm('~/Documents/my_sim')
@@ -100,8 +109,8 @@ run_glm('~/Documents/my_sim')
 Below, there are a number of handy functions that support modifying the input data and model configuration. 
 
 
-##Interacting with nml files
-The `glm3.nml` file is holds the configuration for the model run. This file can be edited in a text editor as plain text, or `glmtools` can be used to programatically modify the file, reducing user errors and increasing reproducibility. The structure of the file includes content blocks that are delinated by `&` and `\` and parameter names and their values within those sections. For example:
+## Interacting with nml files
+The `glm3.nml` file holds the configuration for the model run. This file can be edited in a text editor as plain text, or `glmtools` can be used to programatically modify the file, reducing user errors and increasing reproducibility. The structure of the file includes content blocks that are delinated by `&` and `\` and parameter names and their values within those sections. For example:
 ```
 &glm_setup
    sim_name = 'GLMSimulation'
@@ -142,7 +151,7 @@ Commented text is anything that begins with a `!`, for example:
 ```
 These commented lines are ignored by the model. There are advantages to using R to both run the model and modify the model parameters, including increased efficiency and the reproducibility aspects mentioned above.
 
-###Reading nml files into R
+### Reading nml files into R
 `glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm3.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:
 ```{r}
@@ -158,7 +167,7 @@ class(eg_nml)
 names(eg_nml)
 eg_nml[[1]][1:4]
 ```
-###Getting information from nml
+### Getting information from nml
 Even though the `nml` is basically just an R list, there are a number of convienence functions that help get data out of the list structure. For finding a value from a parameter, just specify the name of the parameter and use the `get_nml_value()` function:
 ```{r}
 # water clarity
@@ -169,7 +178,7 @@ or get values from a parameter that has a vector of values:
 # initial conditions for depths
 get_nml_value(eg_nml, 'the_depths')
 ```
-###Changing nml contents
+### Changing nml contents
 Likewise, `nml` values can be easily modified with the helper function `set_nml()`:
 ```{r}
 # water clarity
@@ -184,7 +193,7 @@ get_nml_value(eg_nml, 'max_layers')
 ```
 But the `nml` object is still just in memory for the R session. In order for these changes to have an impact on the simulations, the `nml` needs to be written to file  
 
-###Writing modified nml files
+### Writing modified nml files
 The `nml` object can be easily written to a user-specified location by using the `write_nml()` function:
 ```{r}
 # define a location for the file to be written to. Here it will overwrite the existing `nml` file:
@@ -195,26 +204,26 @@ A new simulation can be run with the modified `nml` file:
 ```{r}
 run_glm(eg_folder)
 ```
-##Visualizing GLM output
+## Visualizing GLM output
 
-###plotting water temperatures
-```{r, fig.width=4, fig.height=2.5, eval = F}
-nc_file <- file.path(eg_folder, 'output.nc')
-plot_temp(file = nc_file)
+### plotting water temperatures
+```{r, fig.width=4, fig.height=2.5}
+nc_file <- file.path(eg_folder, 'output/output.nc')
+plot_var(nc_file = nc_file, var_name = 'temp')
 ```
 
-###plotting multiple variables
+### plotting multiple variables
 ```{r, eval = F}
 sim_vars(file = nc_file)
-plot_var(file = nc_file, var_name = c('temp','u_mean'))
+plot_var(nc_file = nc_file, var_name = c('temp','u_mean'))
 ```
 
-##Validating the model against field observations
+## Validating the model against field observations
 
 ```{r, eval = F}
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data.csv')
 
 ```
 
@@ -236,14 +245,14 @@ print(paste(temp_rmse,'deg C RMSE'))
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
 nml_file <- file.path(sim_folder, 'glm3.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data.csv')
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
 ```
 
 ###Compare lake elevation with field measurements:
 ```{r, fig.width=4, fig.height=3.5, eval = F}
-field_file <- file.path(sim_folder, 'field_stage.csv')
+field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!
 ```

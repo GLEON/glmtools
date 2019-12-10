@@ -20,6 +20,7 @@
 #' @param obs.shape Shape of observation points. For options see vignette("ggplot2-specs")
 #' @param obs.size Size of observation points. For options see \code{\link[vignette("ggplot2-specs")]{vignette("ggplot2-specs")}}
 #' @param shiftPalette See values argument in \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).
+#' @param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #' @param \dots additional arguments passed to \code{ggsave()}
 #'
 #' @seealso Internally uses \link{get_var} and \link{resample_to_field}
@@ -43,7 +44,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
                             precision = 'days', conversion = NULL,
                             legend.title = NULL, interval = 1,method = 'match', text.size = 12,
                             color.palette = 'RdYlBu', color.direction = -1, 
-                            obs.color = 'white', obs.alpha = 0.6, obs.shape = 16, obs.size = 1, shiftPalette = NULL, ...) {
+                            obs.color = 'white', obs.alpha = 0.6, obs.shape = 16, obs.size = 1, shiftPalette = NULL, zlim = NULL, ...) {
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   if (!heatmaps){
@@ -90,7 +91,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
       geom_point(data = data, aes(x = DateTime, y = Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
       scale_y_reverse(expand = c(0.01,0.01)) +
       scale_x_datetime(expand = c(0.01,0.01), limits = c(min(observed_df$DateTime), max(observed_df$DateTime))) +
-      scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
+      scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", limits = zlim) +
       ylab('Depth (m)') + xlab('Date') +
       labs(fill = legend.title, title = 'Observed') +
       theme_bw(base_size = text.size)
@@ -99,7 +100,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
       geom_raster(aes(fill = var), interpolate = F) +
       scale_y_reverse(expand = c(0.01,0.01)) +
       scale_x_datetime(expand = c(0.01,0.01), limits = c(min(observed_df$x), max(observed_df$x))) +
-      scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90") +
+      scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", limits = zlim) +
       ylab('Depth (m)') + xlab('Date') +
       labs(fill = legend.title, title = 'Modeled') +
       theme_bw(base_size = text.size)
@@ -119,7 +120,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
     geom_point(data = data, aes(x = DateTime, y = Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
     scale_y_reverse(expand = c(0.01,0.01)) +
     scale_x_datetime(expand = c(0.01,0.01), limits = c(min(dfCombine$DateTime), max(dfCombine$DateTime))) +
-    scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", values = shiftPalette) +
+    scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", values = shiftPalette, limits = zlim) +
     ylab('Depth (m)') + xlab('Date') +
     facet_wrap(type ~ ., ncol = 1) + 
     labs(fill = legend.title) +

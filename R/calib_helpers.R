@@ -364,6 +364,18 @@ diag.plots <- function(mod, obs, ggplot = T){
   }
 }
 
+get_nse <- function(x, y){
+  id1 <- !is.na(y) 
+  obs <- y[id1]
+  mods <- x[id1]
+  id2 <- !is.na(mods) 
+  obs <- obs[id2]
+  mods <- mods[id2]
+  sum_up <- sum((mods-obs)^2)
+  sum_bottom <- sum((obs-mean(obs))^2)
+  nse <- 1- sum_up/sum_bottom
+  return(nse)
+}
 
 # gotmtools.R
 sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
@@ -383,7 +395,7 @@ sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
     bias = mean(dif, na.rm = na.rm)
     mae = mean(abs(dif), na.rm = na.rm)
     rmse = sqrt(mean(dif^2, na.rm = na.rm))
-    nse = NSE(mod[,3], obs[,3])
+    nse = get_nse(mod[,3], obs[,3])
     summary_stats = data.frame(Pearson_r = pear_r$estimate,Variance_obs = var_obs,
                                Variance_mod = var_mod, SD_obs = SD_obs, SD_mod = SD_mod,
                                Covariance = cov, #Correlation =cor,
@@ -401,7 +413,7 @@ sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
     bias = mean(dif, na.rm = na.rm)
     mae = mean(abs(dif), na.rm = na.rm)
     rmse = sqrt(mean(dif^2, na.rm = na.rm))
-    nse = NSE(mod, obs)
+    nse = get_nse(mod, obs)
     summary_stats = data.frame(Pearson_r = pear_r$estimate,Variance_obs = var_obs,
                                Variance_mod = var_mod, SD_obs = SD_obs, SD_mod = SD_mod,
                                Covariance = cov, #Correlation =cor,

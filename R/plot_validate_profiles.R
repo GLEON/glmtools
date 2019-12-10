@@ -3,7 +3,7 @@
 #'@param field_file a string with the path to the field observation file
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'If argument is not used, plotting is skipped
-#'@param ... optional arguments passed to \code{resample_to_field}
+#' @param \dots additional arguments passed to \code{ggsave()}
 #'@keywords methods
 #'@seealso \link{validate_sim}, \link{resample_to_field}
 #'@author

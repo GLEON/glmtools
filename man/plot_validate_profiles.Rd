@@ -14,7 +14,7 @@ plot_validate_profiles(nc_file, field_file, fig_path = NULL, ...)
 \item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 If argument is not used, plotting is skipped}
 
-\item{...}{optional arguments passed to \code{resample_to_field}}
+\item{\dots}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Plot validation and model temperature profiles for all unique dates

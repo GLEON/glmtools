@@ -29,9 +29,8 @@ read_field_stage <- function(file){
 	stage_i <- match('stage',tolower(names(data)))
 	
 	if (any(is.na(c(date_i, stage_i)))){
-		stop('format for field data not supported. Need DateTime and Stage')
+		stop('format for field data not supported. Columns must be DateTime and Stage')
 	}
-	
 	
 	df <- data.frame("DateTime" = coerce_date(data[, date_i]), 
 									 "Stage" = as.numeric(data[, stage_i]))

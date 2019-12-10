@@ -47,30 +47,6 @@ calibrate_sim(var = "temp", path, obs, nml.file = "glm3.nml",
 Starts a calibration run with multiple iterations using a GLM-AED2 setup. At the end a output csv.-file of all iterations and a 
 diagnostic plot are created.
 }
-\examples{
-calib_setup <- get_calibration_setup()
-print(calib_setup)
-
-#Essential variables
-var = 'temp' # variable to apply the calibration procedure
-path = getwd() # simulation path
-obs = read_field_obs('bcs/sparkling_lter_temp.csv') # observed field data
-nml.file = 'glm3.nml' # name of nml-file, if different than the default version the system command needs to be changed as well
-glmcmd = "glm" # command to be used, default applies GLM3r
-#Optional variables
-first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the outcome of previous calibration runs
-period = use get_calib_periods.R to create calibration/validation periods, i.e. period = get_calib_periods(nml = nml.file, ratio = 1)
-scaling = TRUE # scaling should be TRUE for CMA-ES
-method = 'CMA-ES' # Choose the optimization method, either Covariance Matrix Adaption - Evolution Strategy ('CMA-ES') or Nelder-Mead
-metric = 'RMSE' # Root-mean square error
-target.fit = 1.5 # refers to a target fit of 1.5 degrees Celsius (algorithm stops after reaching 1.5 degree Celsius, set target.fit = -Inf to run until it reaches target.iter only)
-target.iter = 150 # refers to a maximum run of 150 calibration iterations (algorithm stops after doing 150 function evaluations)
-plotting = TRUE
-output = file.path(sim_folder, 'output/output.nc')
-
-calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter)
-
-}
 \seealso{
 \code{\link{get_calib_setup}, \link{get_calib_periods}, \link{get_calib_init_validation}}
 }

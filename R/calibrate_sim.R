@@ -43,12 +43,12 @@
 #'target.iter = 150 # refers to a maximum run of 150 calibration iterations (algorithm stops after doing 150 function evaluations)
 #'plotting = TRUE
 #'output = file.path(sim_folder, 'output/output.nc')
+#'field.file = 'bcs/sparkling_lter_temp.csv
 #'
 #'calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter)
 #'
 #'@import adagio
 #'@import GLM3r 
-#'@importFrom hydroGOF NSE 
 #'@import ggplot2
 #'@export
 calibrate_sim <- function(var = 'temp',

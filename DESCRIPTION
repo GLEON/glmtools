@@ -1,8 +1,8 @@
 Package: glmtools
 Type: Package
-Title: glmtools
+Title: Tools for working with the General Lake Model (GLM)
 Version: 0.16.0
-Date: 2019-10-15
+Date: 2019-12-10
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
     person("Luke", "Winslow", role = "aut",

@@ -62,12 +62,13 @@ install_github(repo = 'GLEON/GLM3r')
 ### Find example data directory
 ```{r}
 library(glmtools)
-eg_folder = system.file('extdata', package = 'GLM3r')
-print(eg_folder) # location of example data
+GLM3r_folder = system.file('extdata', package = 'GLM3r')
+glmtools_folder = system.file('extdata', package = 'glmtools')
 ```
 ### List files that are included in the example data
 ```{r}
-dir(eg_folder)
+dir(GLM3r_folder)
+dir(glmtools_folder)
 ```
 
 ## Running GLM
@@ -91,13 +92,13 @@ Alternatively, the `repos` argument to `update.packages` and `install.packages` 
 update.packages(repos = c("http://owi.usgs.gov/R"))
 ```
 ### Running GLM with example data
-The contents of `eg_folder` (i.e., a `glm3.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm3.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
+The contents of `GLM3r_folder` (i.e., a `glm3.nml` file and a `.csv` file for the meteorological drivers) are all that is needed to run GLM from R with `GLM3r`. The `run_glm()` function simply takes a folder path to where the `glm3.nml` is as an input (the `sim_folder` argument in `run_glm`). To run example data, files can be moved to a new directory of the user's choosing, or GLM can be run by pointing it directly at the example folder location:
 ```{r, results ='hide'}
-run_glm(sim_folder = eg_folder)
+run_glm(sim_folder = GLM3r_folder)
 ```
 Note that new output files have been added to the simulation directory:
 ```{r}
-dir(eg_folder)
+dir(GLM3r_folder)
 ```
 
 ### Running GLM with user data
@@ -155,7 +156,7 @@ These commented lines are ignored by the model. There are advantages to using R 
 `glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm3.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:
 ```{r}
-eg_nml <- read_nml(nml_file = file.path(eg_folder,'glm3.nml'))
+eg_nml <- read_nml(nml_file = file.path(GLM3r_folder,'glm3.nml'))
 ```
 and display the `nml` contents within R:
 ```{r}
@@ -197,70 +198,72 @@ But the `nml` object is still just in memory for the R session. In order for the
 The `nml` object can be easily written to a user-specified location by using the `write_nml()` function:
 ```{r}
 # define a location for the file to be written to. Here it will overwrite the existing `nml` file:
-write_path <- file.path(eg_folder,'glm3.nml')
+write_path <- file.path(GLM3r_folder,'glm3.nml')
 write_nml(eg_nml, file = write_path)
 ```
 A new simulation can be run with the modified `nml` file:
 ```{r}
-run_glm(eg_folder)
+run_glm(GLM3r_folder)
 ```
 ## Visualizing GLM output
 
 ### plotting water temperatures
-```{r, fig.width=4, fig.height=2.5}
-nc_file <- file.path(eg_folder, 'output/output.nc')
+```{r, fig.width=4, fig.height=2.5, results = 'hide', fig.keep='first'}
+nc_file <- file.path(GLM3r_folder, 'output/output.nc')
 plot_var(nc_file = nc_file, var_name = 'temp')
 ```
 
 ### plotting multiple variables
-```{r, eval = F}
+```{r, fig.width=4, fig.height=5, results = 'hide', fig.keep='first'}
 sim_vars(file = nc_file)
 plot_var(nc_file = nc_file, var_name = c('temp','u_mean'))
 ```
 
 ## Validating the model against field observations
 
-```{r, eval = F}
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-field_file <- file.path(sim_folder, 'LakeMendota_field_data.csv')
-
+```{r, eval = T}
+# sim_folder <- run_example_sim(verbose = FALSE)
+nc_file <- file.path(glmtools_folder, 'output.nc')
+field_file <- file.path(glmtools_folder, 'LakeMendota_field_data.csv')
 ```
 
 create a diagnostic output within R for thermocline depth:
-```{r, eval = F}
+```{r, eval = T}
 thermo_values <- compare_to_field(nc_file, field_file,
                           metric = 'thermo.depth', as_value = TRUE)
 ```
 
 Do the same for water temperatures vs field observations:
-```{r, eval = F}
+```{r, eval = T}
 temp_rmse <- compare_to_field(nc_file, field_file,
                           metric = 'water.temperature', as_value = FALSE)
 print(paste(temp_rmse,'deg C RMSE'))
 ```
 
-###Plotting comparision of water temperature vs field observations:
-```{r, fig.width=6, fig.height=5.25, eval = F}
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm3.nml')
-field_file <- file.path(sim_folder, 'LakeMendota_field_data.csv')
-
-plot_temp_compare(nc_file, field_file) ##makes a plot!
+### Plotting comparision of water temperature vs field observations:
+```{r, fig.width=6, fig.height=5.25, eval = T, results = 'hide', fig.keep='first'}
+plot_var_compare(nc_file, field_file, var_name = 'temp') ## makes a plot!
 ```
 
-###Compare lake elevation with field measurements:
+### There are many ways to customize these graphs
+```{r, fig.width=6, fig.height=5.25, eval = T, results = 'hide', fig.keep='first'}
+plot_var_compare(nc_file, field_file, var_name = 'temp',interval = 2, 
+                 legend.title = 'Temp degC',text.size = 14,obs.color = 'black',obs.shape = 17,
+                 zlim = c(0,40),color.palette = 'BrBG') 
+```
+
+### Compare lake elevation with field measurements:
 ```{r, fig.width=4, fig.height=3.5, eval = F}
-field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
+field_file <- file.path(glmtools_folder, 'LakeMendota_stage_USGS05428000.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!
 ```
 
-##glmtools function index  
+## glmtools function index  
 
 | Function       | Title           |
 | ------------- |:-------------|
+| `calibrate_sim` | Calibrates GLM-AED2 variables to improve fit between observed and simulated data |
 | `compare_to_field` | compare metric for GLM vs field observations |
 | `get_evaporation`  | get evaporation from GLM simulation |
 | `get_hypsography` | retrieve hypsography information |
@@ -270,7 +273,9 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 | `get_var` | get a variable from a GLM simulation |
 | `get_wind` | get wind speed from GLM simulation |
 | `model_diagnostics` | run diagnostics on model results |
-| `plot_temp` | plot water temperatures from a GLM simulation |
+| `plot_var_compare` | Plot matching heatmaps for modeled and observed variables |
+| `plot_var_nc` | plot variables from a GLM simulation |
+| `plot_var_df` | plot variables from a data.frame |
 | `read_field_obs` | read in field data into a data.frame |
 | `read_nml` | read in a GLM simulation `*.nml` file |
 | `resample_sim` | get subset of time from a generic timeseries data.frame |
@@ -281,5 +286,5 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 | `validate_sim` | run diagnostics on model results vs observations |
 | `write_nml` | write GLM `*.nml` for a GLM simulation |
 
-##Running AED with GLM (Aquatic EcoDynnamics model)
+## Running AED with GLM (Aquatic EcoDynnamics model)
 coming soon

@@ -65,13 +65,12 @@ plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...){
     xlab('Date') + ylab('') +
     theme_bw() 
   
-  print(p1)
-  
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(plot = p1, filename = fig_path,...)
   }   
-    
+  
+  return(p1)
 
 }
 

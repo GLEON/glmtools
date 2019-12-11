@@ -3,7 +3,7 @@ context("resample simulation")
 test_that("running glm simulation", {
   sim_folder <- run_example_sim(verbose = F)
   nc_file <- file.path(sim_folder, 'output/output.nc')
-  temp_surf <<- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
+  temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
 })
 
 context('resample_sim testing for empty returns and warnings')

@@ -1,9 +1,7 @@
 context("aed nmls can be parsed")
 
 test_that("normal aed parse works",{
-  
   aed_nml <<- read_nml(system.file('extdata','aed2.nml', package='glmtools'))
-  
   expect_equal(get_nml_value(aed_nml, 'num_tracers'), 1)
 })
 

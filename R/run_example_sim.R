@@ -64,16 +64,12 @@ run_example_sim = function(sim_folder, verbose = TRUE){
 															 'coef_mix_KH' = 0.1,
 															 'cd' = 0.0013,
 															 'ce' = 0.00132,
-															 'sed_temp_mean' = 4.5,
-															 'sed_temp_amplitude' = 0.25,
+															 'sed_temp_mean' = c(4.5,10),
+															 'sed_temp_amplitude' = c(4,3),
 															 'min_layer_thick' = 0.1,
 															 'coef_mix_conv' = 0.20,
                                'num_outlet' = 0))
-  nml <- set_nml(nml, arg_list = list(
-                                      'dt' = 3600, 
-                                      'out_fn' = nc_out,
-                                      'meteo_fl' = 'nldas_driver.csv'))
-  
+
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
   write_nml(glm_nml = nml, file = nml_file)  
 

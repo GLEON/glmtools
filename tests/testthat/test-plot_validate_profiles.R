@@ -2,19 +2,18 @@ context("plot_validate_profiles")
 
 test_that("plot_default", {
   sim_folder <- run_example_sim(verbose = F)
-  nc_file <<- file.path(sim_folder, 'output/output.nc')
-  field_file <<- file.path(sim_folder, 'field_data.csv')
+  nc_file <- file.path(sim_folder, 'output/output.nc')
+  field_file <- file.path(sim_folder, 'field_data.csv')
   old_par = par(no.readonly = TRUE)
-  expect_error(plot_validate_profiles(nc_file, field_file, fig_path = file.path(tempdir(),'temp.png')))
-  expect_error(plot_validate_profiles(nc_file, field_file, fig_path = T))
-  expect_error(plot_validate_profiles(nc_file, field_file = NULL, fig_path = F))
-  expect_error(plot_validate_profiles(nc_file, field_file = NA, fig_path = F))
-  plot_validate_profiles(nc_file, field_file, fig_path = F)
+  plot_validate_profiles(nc_file, field_file, fig_path = file.path(tempdir(),'temp.png'))
+  expect_error(plot_validate_profiles(nc_file, field_file = NULL, fig_path = NULL))
+  expect_error(plot_validate_profiles(nc_file, field_file = NA, fig_path = NULL))
+  plot_validate_profiles(nc_file, field_file, fig_path = NULL)
   expect_equal(old_par,par(no.readonly = TRUE))
 })
 
-context("plot_meteo")
 
+context("plot_meteo")
 test_that("plot_meteo", {
   nml_file <- nml_template_path()
   # expect_error(plot_meteo(nml_file,fig_path = T))
@@ -23,10 +22,10 @@ test_that("plot_meteo", {
   expect_equal(old_par, par(no.readonly = TRUE))
 })
 
-context("plot_temp_compare")
-test_that("plot_temp_compare", {
+context("plot_var_compare")
+test_that("plot_var_compare", {
   old_par = par(no.readonly = TRUE)
-  plot_temp_compare(nc_file, field_file)
+  plot_var_compare(nc_file, field_file, var = 'temp', precision = 'hours')
   expect_equal(old_par, par(no.readonly = TRUE))
 })
 

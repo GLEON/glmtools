@@ -41,7 +41,7 @@
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'@export
 plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = NULL, resample = TRUE,
-                            precision = 'days', conversion = NULL,
+                            precision = 'hours', conversion = NULL,
                             legend.title = NULL, interval = 1,method = 'match', text.size = 12,
                             color.palette = 'RdYlBu', color.direction = -1, 
                             obs.color = 'white', obs.alpha = 0.6, obs.shape = 16, obs.size = 1, shiftPalette = NULL, zlim = NULL, ...) {

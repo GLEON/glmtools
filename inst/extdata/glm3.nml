@@ -75,7 +75,7 @@
    rain_factor = 1
    cd = 0.0013
    ce = 0.0013
-   ch = 0.00161262915711572, 0.4
+   ch = 0.00161262915711572
    rain_threshold = 0.01
    runoff_coef = 0.3
    time_fmt = 'YYYY-MM-DD hh:mm:ss'

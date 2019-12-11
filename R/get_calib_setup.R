@@ -8,7 +8,7 @@
 #'Robert Ladwig, Tadhg Moore
 #'
 #'@examples
-#'calib_setup <- get_calibration_setup()
+#'calib_setup <- get_calib_setup()
 #'@export
 get_calib_setup <- function(){
   setup <- data.frame('pars' = as.character(c('wind_factor','lw_factor','Kw','sed_temp_mean','sed_temp_mean')),

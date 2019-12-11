@@ -11,7 +11,7 @@ Creates dataframe containing the parameters for calibration (string) and their r
 and initial values
 }
 \examples{
-calib_setup <- get_calibration_setup()
+calib_setup <- get_calib_setup()
 }
 \seealso{
 \code{\link{calibrate_sim}, \link{get_calib_periods}, \link{get_calib_init_validation}}

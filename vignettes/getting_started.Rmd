@@ -20,7 +20,6 @@ library(knitr)
 
 ## Introduction
 
-
 This package `glmtools` provides services in support using the General Lake Model (GLM) in R. GLM is a one-dimensional model that balances fluxes of energy and mass as part of dynamically simulating lake physics. The GLM model has been developed as an initiative of the Global Lake Ecological Observatory Network (GLEON) and in collaboration with the Aquatic Ecosystem Modelling Network (AEMON) that started in 2010. The model was first introduced in Leipzig at the 2nd Lake Ecosystem Modelling Symposium in 2012, and has since developed rapidly with application to numerous lakes within the GLEON network and beyond. Authors: Matthew R Hipsey, Louise C Bruce, David P Hamilton. More information about GLM can be found at <a href="http://aed.see.uwa.edu.au/research/models/GLM/">http://aed.see.uwa.edu.au/research/models/GLM/</a>.
 
 GLM version 3.0 was released in 2019. More information can be found in Hipsey et al 2019:
@@ -154,7 +153,7 @@ These commented lines are ignored by the model. There are advantages to using R 
 `glmtools` reads nml files into memory using the `read_nml` function. This function returns an R `list()` that is of class `nml` (this object class is used to support special functions to this list, including a pretty `print(nml)` output). `glmtools` automatically parses the `glm3.nml` document and converts the contents into the appropriate types in R (for example, .true. becomes TRUE in R)
 To read the example nml into memory:
 ```{r}
-eg_nml <- read_nml(nml_file = file.path(GLM3r_folder,'glm3.nml'))
+eg_nml <- read_nml(nml_file = file.path(glmtools_folder,'glm3.nml'))
 ```
 and display the `nml` contents within R:
 ```{r}
@@ -194,25 +193,25 @@ But the `nml` object is still just in memory for the R session. In order for the
 
 ### Writing modified nml files
 The `nml` object can be easily written to a user-specified location by using the `write_nml()` function:
-```{r}
+```{r, eval=F}
 # define a location for the file to be written to. Here it will overwrite the existing `nml` file:
 write_path <- file.path(GLM3r_folder,'glm3.nml')
 write_nml(eg_nml, file = write_path)
 ```
 A new simulation can be run with the modified `nml` file:
-```{r}
+```{r, eval=F}
 run_glm(GLM3r_folder)
 ```
 ## Visualizing GLM output
 
 ### plotting water temperatures
-```{r, fig.width=4, fig.height=2.5, results = 'hide', fig.keep='first'}
+```{r, fig.width=6, fig.height=2.5, results = 'hide', fig.keep='first'}
 nc_file <- file.path(GLM3r_folder, 'output/output.nc')
 plot_var(nc_file = nc_file, var_name = 'temp')
 ```
 
 ### plotting multiple variables
-```{r, fig.width=4, fig.height=5, results = 'hide', fig.keep='first'}
+```{r, fig.width=6, fig.height=5, results = 'hide', fig.keep='first'}
 sim_vars(file = nc_file)
 plot_var(nc_file = nc_file, var_name = c('temp','u_mean'))
 ```
@@ -222,7 +221,7 @@ plot_var(nc_file = nc_file, var_name = c('temp','u_mean'))
 ```{r, eval = T}
 # sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(glmtools_folder, 'output.nc')
-field_file <- file.path(glmtools_folder, 'LakeMendota_field_data.csv')
+field_file <- file.path(glmtools_folder, 'LakeMendota_field_data_hours.csv')
 ```
 
 create a diagnostic output within R for thermocline depth:
@@ -240,12 +239,12 @@ print(paste(temp_rmse,'deg C RMSE'))
 
 ### Plotting comparision of water temperature vs field observations:
 ```{r, fig.width=6, fig.height=5.25, eval = T, results = 'hide', fig.keep='first'}
-plot_var_compare(nc_file, field_file, var_name = 'temp') ## makes a plot!
+plot_var_compare(nc_file, field_file, precision = 'hours', var_name = 'temp') ## makes a plot!
 ```
 
 ### There are many ways to customize these graphs
 ```{r, fig.width=6, fig.height=5.25, eval = T, results = 'hide', fig.keep='first'}
-plot_var_compare(nc_file, field_file, var_name = 'temp',interval = 2, 
+plot_var_compare(nc_file, field_file, var_name = 'temp',interval = 2, precision = 'hours', 
                  legend.title = 'Temp degC',text.size = 14,obs.color = 'black',obs.shape = 17,
                  zlim = c(0,40),color.palette = 'BrBG') 
 ```
@@ -284,5 +283,5 @@ plot_compare_stage(nc_file, field_file) ##makes a plot!
 | `validate_sim` | run diagnostics on model results vs observations |
 | `write_nml` | write GLM `*.nml` for a GLM simulation |
 
-## Running AED with GLM (Aquatic EcoDynnamics model)
+## Running AED with GLM (Aquatic EcoDynamics model)
 coming soon

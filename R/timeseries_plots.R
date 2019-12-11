@@ -85,6 +85,8 @@
     scale_x_datetime(expand = c(0.01,0.01)) +
     labs(title = plot.title) +
     theme_bw(base_size = text.size)
+  
+  return(h1)
 }
 
 .unit_label <- function(file, var_name){

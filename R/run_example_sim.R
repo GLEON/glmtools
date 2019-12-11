@@ -29,34 +29,33 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   ice_dur_csv <- file.path(sim_folder, 'ice_duration_obs.csv')
   
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
-  # move glm2.nml to sim_folder
+  # move glm3.nml to sim_folder
 
   file.copy(from = system.file('extdata', 'LakeMendota_NLDAS.csv', package = 'glmtools'), to = driver_file,overwrite = T)
   if(verbose){cat('driver data file copied to ', driver_file,'\n')}
   
   # file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
-  file.copy(from = system.file('extdata', 'LakeMendota_field_data.csv', package = 'glmtools'), to = calibration_csv,overwrite = T)
+  file.copy(from = system.file('extdata', 'LakeMendota_field_data_hours.csv', package = 'glmtools'), to = calibration_csv,overwrite = T)
   file.copy(from = system.file('extdata', 'LakeMendota_stage_USGS05428000.csv', package = 'glmtools'), to = stage_csv,overwrite = T)
   file.copy(from = system.file('extdata', 'LakeMendota_snow_ice_obs.csv', package = 'glmtools'), to = ice_snow_csv,overwrite = T)
   file.copy(from = system.file('extdata', 'LakeMendota_iceduration_obs.csv', package = 'glmtools'), to = ice_dur_csv,overwrite = T)
   
   nml <- read_nml() # read in default nml from GLM3r
-  nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Sparkling', 
+  nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Mendota', 
                                'bsn_vals' = 15,
                                'H' = c(301.712, 303.018285714286, 304.324571428571, 305.630857142857, 306.937142857143, 308.243428571429, 309.549714285714, 310.856, 312.162285714286, 313.468571428571, 314.774857142857, 316.081142857143, 317.387428571429, 318.693714285714, 320),
                                'A' = c(0, 45545.8263571429, 91091.6527142857, 136637.479071429, 182183.305428571, 227729.131785714, 273274.958142857, 318820.7845, 364366.610857143, 409912.437214286, 455458.263571429, 501004.089928571, 546549.916285714, 592095.742642857, 637641.569),
-                               'start' = '2010-04-15 00:00:00',
-                               'stop' = '2010-12-30 00:00:00',
+                               'start' = '2015-02-15 12:00:00',
+                               'stop' = '2015-12-30 12:00:00',
                                'dt' = 3600, 
                                'out_fn' = nc_out,
                                'nsave' = 24, 
-                               'csv_point_nlevs' = 0,
                                'num_depths' = 3,
                                'lake_depth' = 18.288,
                                'the_depths' = c(0, 0.2, 18.288),
                                'the_temps' = c(3, 4, 4),
                                'the_sals' = c(0, 0, 0),
-                               'subdaily' = FALSE,
+                               'subdaily' = TRUE,
                                'meteo_fl' = 'nldas_driver.csv',
 															 'max_layer_thick' = 3,
 															 'sw_factor' = 1.08,
@@ -65,15 +64,14 @@ run_example_sim = function(sim_folder, verbose = TRUE){
 															 'coef_mix_KH' = 0.1,
 															 'cd' = 0.0013,
 															 'ce' = 0.00132,
-															 'sed_temp_mean' = 4.5,
-															 'sed_temp_amplitude' = 0.25,
+															 'sed_temp_mean' = c(4.5,10),
+															 'sed_temp_amplitude' = c(4,3),
 															 'min_layer_thick' = 0.1,
 															 'coef_mix_conv' = 0.20,
                                'num_outlet' = 0))
-  
+
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
   write_nml(glm_nml = nml, file = nml_file)  
-  write_nml(glm_nml = nml, file = paste0(sim_folder,'/glm3.nml'))
 
   GLM3r::run_glm(sim_folder = sim_folder)
   

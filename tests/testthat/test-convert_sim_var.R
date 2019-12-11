@@ -3,7 +3,7 @@ context("convert variables in netcdf output")
 test_that("errors with poor matches", {
   sim_folder <- run_example_sim(verbose = FALSE)
   nc_file <<- file.path(sim_folder, 'output/output.nc')
-  expect_error(convert_sim_var(nc_file, temp = temp*2), "temp cannot be added, it already exists.")
+  expect_error(convert_sim_var(nc_file, temp = temp*2), "temp cannot be added, it already exists and overwrite = FALSE.")
   expect_error(convert_sim_var(nc_file, temp.new = garbage))
 })
 
@@ -33,7 +33,6 @@ test_that("can modify variable with a function", {
 })
 
 test_that("can overwrite existing variable", {
-  
   temp2f <- function(c) c/5*9+32
   tempf <- get_raw(nc_file, 'tempf')
   convert_sim_var(nc_file, tempf = temp2f(temp), overwrite = TRUE)

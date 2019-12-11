@@ -1,5 +1,5 @@
 &glm_setup
-   sim_name = 'Mendota'
+   sim_name = 'GLMSimulation'
    max_layers = 75
    min_layer_vol = 0.1
    min_layer_thick = 0.15
@@ -38,7 +38,7 @@
 &time
    timefmt = 2
    start = '2015-01-01 12:00:00'
-   stop = '2016-12-31 12:00:00'
+   stop = '2015-12-31 12:00:00'
    dt = 3600
    num_days = 730
    timezone = -6
@@ -47,6 +47,7 @@
    out_dir = 'output'
    out_fn = 'output'
    nsave = 24
+   csv_lake_fname = 'lake'
 /
 &init_profiles
    lake_depth = 25
@@ -74,7 +75,7 @@
    rain_factor = 1
    cd = 0.0013
    ce = 0.0013
-   ch = 0.00161262915711572, 0.4
+   ch = 0.00161262915711572
    rain_threshold = 0.01
    runoff_coef = 0.3
    time_fmt = 'YYYY-MM-DD hh:mm:ss'
@@ -87,7 +88,7 @@
    strmbd_slope = 1.5, 1.5
    strmbd_drag = 0.016, 0.016
    inflow_factor = 1, 1
-   inflow_fl = 'ME_yahara.csv',ME_pheasant.csv'
+   inflow_fl = 'ME_yahara.csv','ME_pheasant.csv'
    inflow_varnum = 3
    inflow_vars = 'FLOW','SALT','TEMP'
 /

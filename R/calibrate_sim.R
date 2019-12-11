@@ -23,7 +23,7 @@
 #'@author
 #'Robert Ladwig, Tadhg Moore
 #'@examples
-#'calib_setup <- get_calibration_setup()
+#'calib_setup <- get_calib_setup()
 #'print(calib_setup)
 #'
 #'#Essential variables

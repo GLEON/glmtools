@@ -48,7 +48,7 @@ Starts a calibration run with multiple iterations using a GLM-AED2 setup. At the
 diagnostic plot are created.
 }
 \examples{
-calib_setup <- get_calibration_setup()
+calib_setup <- get_calib_setup()
 print(calib_setup)
 
 #Essential variables

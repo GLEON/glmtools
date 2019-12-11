@@ -2,14 +2,13 @@ context("resample simulation")
 
 test_that("running glm simulation", {
   sim_folder <- run_example_sim(verbose = F)
-  nc_file <- file.path(sim_folder, 'output/output.nc')
-  temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
+  nc_file <<- file.path(sim_folder, 'output/output.nc')
+  temp_surf <<- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
+  expect_is(temp_surf, 'data.frame')
 })
 
-context('resample_sim testing for empty returns and warnings')
 test_that('testing for empty returns and warnings', {
   t_out <- as.POSIXct(c("1900-01-01", "1900-01-02"))
-  
   # date won't be found
   expect_warning(df <- resample_sim(df = temp_surf, t_out = t_out))
   expect_warning(df2 <- resample_sim(df = temp_surf, t_out = '2010-05-01 08:15', method = 'match', precision = 'hours'))
@@ -22,7 +21,6 @@ test_that('testing for empty returns and warnings', {
 })
   
 
-context('resample_sim testing duplicate dates')
 test_that('testing for duplicate date warnings', {
   # two on the same day w/ precision = 'days'
   t_out <- c("2015-04-16 10:00", "2015-04-16 10:00", 
@@ -32,7 +30,6 @@ test_that('testing for duplicate date warnings', {
   expect_error(resample_sim(df = temp_surf, t_out = t_out, precision = 'days'))
 })
 
-context('resample_sim testing unsupported methods')
 test_that('testing unsupported methods', {
   t_out <- as.POSIXct(c("1900-01-01"))
   #unsupported method
@@ -41,7 +38,6 @@ test_that('testing unsupported methods', {
   expect_error(resample_sim(df = temp_surf, t_out = t_out, precision = 'hour'))
 })
 
-context('resample_sim testing interpolation')
 test_that('testing interpolation', { 
   t_out <- as.POSIXct(c("2015-05-05 08:15", 
              "2015-06-14 10:30", "2015-04-16 10:21", 

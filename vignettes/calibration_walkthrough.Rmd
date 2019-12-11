@@ -22,7 +22,7 @@ knitr::opts_knit$set(root.dir = tempdir())
 
 ## Introduction
 
-
+This vignette will give you a demonstration of the newly added automatic calibration method in `glmtools`. Currently there are two optimization algorithms included: the evolutionary `Covariance Matrix Adaption - Evolution Strategy (CMA-ES)` and the classical `Nelder-Mead` algorithm. At the moment, you also only do a minimization of the RMSE to optimize the parameter space of given values. To avoid changing files in the package folder, we will work here in a temporary folder that will automatically deleted after you have closed R. 
 
 
 ## Using example data built into the package
@@ -62,7 +62,7 @@ field_data <- file.path(temp_folder, 'LakeMendota_field_data_hours.csv')
 file.copy('glm3_uncalibrated.nml', 'glm3.nml', overwrite = TRUE)
 nml_data <- file.path(temp_folder, 'glm3.nml')
 ```
-##3 Running uncalibrated GLM setup
+## Running uncalibrated GLM setup
 The contents of `glmtools_folder` (i.e., a `glm3.nml` file and driver data including `.csv` file for the meteorological drivers) are now located in a temporary folder (`temp_folder`). The `run_glm()` function will now return the results from the uncalibrated setup.
 ```{r, results ='hide'}
 run_glm(sim_folder = temp_folder)
@@ -76,10 +76,12 @@ plot_var_compare(nc_file = out_file, field_file = field_data,var_name = 'temp', 
 
 temp_rmse <- compare_to_field(out_file, field_file = field_data,
                               metric = 'water.temperature', as_value = FALSE, precision= 'hours')
-print(paste('total time period:',round(temp_rmse,2),'deg C RMSE'))
+print(paste('Total time period (uncalibrated):',round(temp_rmse,2),'deg C RMSE'))
 ```
 ## Calibrating GLM
+Before we run the automatic calibration routine, we need to define certain input variables for the function. Here, we are trying to minimize the RMSE between observed and simulated water temperature data using the CMA-ES algorithm. To ensure that there is a reasonable covariance between variables, we are scaling all values on a space between 0 and 10. Further, to reduce computational times, we are stopping the algorithm either after reaching a RMSE of 1.0 degree Celsius, or after doing 100 iterations. Also, because we are working in a temporary directory, we are not saving any values. This approach will calibrate the wind_factor, the lw_factor, Kw and the sed_temp_mean values of two sediment zones with given lower and upper boundaries, as well as initial values.
 
+We will also print out here the RMSE of every iteration, as well as diagnostic plots of the calibration, and contour maps of all time periods.
 ```{r}
 var = 'temp'         # variable to which we apply the calibration procedure
 path = getwd()       # simulation path/folder
@@ -103,3 +105,5 @@ field.file = field_data # path of the field data
 calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter, plotting, output, field.file)
 
 ```
+
+You can see that the RMSE fit of the total period was improved compared to the uncalibrated setup. You can also notice that the calibration fit is in most cases better than the validation fit, which makes sense and helps us to avoid-overfitting. The table at the end gives you the final calibrated values of all variables

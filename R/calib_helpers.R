@@ -1,5 +1,5 @@
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml.file,path){
+                      metric, target.fit, target.iter, nml.file, path){
   path <<- path
   
   if (method == 'CMA-ES'){
@@ -18,10 +18,10 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   
   
   glmFUN(glmOPT$xmin)
-  calib <- read.csv(paste0('calib_results_',metric,'_',var,'.csv'))
+  calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
   eval(parse(text = paste0('best_par <- calib[which.min(calib$',metric,'),]')))
-  write.csv(best_par, paste0('calib_par_',var,'.csv'), row.names = F, quote = F)
-  best_par <- read.csv(paste0('calib_par_',var,'.csv'))
+  write.csv(best_par, paste0(path,'/calib_par_',var,'.csv'), row.names = F, quote = F)
+  best_par <- read.csv(paste0(path,'/calib_par_',var,'.csv'))
   
   #Input best parameter set
   nml <- read_nml(nml_file = nml.file)
@@ -83,8 +83,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   #Run GLM
   run_glmcmd(glmcmd, path)
   
-  g1 <- diag.plots(mod2obs('output/output.nc', obs, reference = 'surface', var), obs)
-  ggsave(file=paste0('diagnostics_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+  g1 <- diag.plots(mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), obs)
+  ggsave(file=paste0(path,'/diagnostics_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   
   
   return()
@@ -119,8 +119,7 @@ glmFUN <- function(p){
     error >- try(run_glmcmd(glmcmd,path))
   }
   
-
-  mod <- mod2obs(mod_nc = 'output/output.nc', obs = obs, reference = 'surface', var)
+  mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface', var)
 
   fit = get_rmse(mod,obs)
   
@@ -130,12 +129,12 @@ glmFUN <- function(p){
   
   #Opens and writes a csv file with datetime, parameters,and fitness
   
-    if(!file.exists(paste0('calib_results_',metric,'_',var,'.csv'))){
-      write.csv(dat,paste0('calib_results_',metric,'_',var,'.csv'), row.names = F, quote = F)
+    if(!file.exists(paste0(path,'/calib_results_',metric,'_',var,'.csv'))){
+      write.csv(dat,paste0(path,'/calib_results_',metric,'_',var,'.csv'), row.names = F, quote = F)
     }else{
-      df = read.csv(paste0('calib_results_',metric,'_',var,'.csv'))
+      df = read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
       df = rbind.data.frame(dat, df)
-      write.csv(df,paste0('calib_results_',metric,'_',var,'.csv'), row.names = F, quote = F)
+      write.csv(df,paste0(path,'/calib_results_',metric,'_',var,'.csv'), row.names = F, quote = F)
     }
 
   print(paste(metric, fit))

@@ -10,7 +10,7 @@
 #'Robert Ladwig
 #'
 #'@examples
-#'calib_periods <- get_calib_periods(nml = 'glm3.nml', ratio = 1)
+#'calib_periods <- get_calib_periods(system.file("extdata/", "glm3.nml", package = "glmtools"), ratio = 1)
 #'@export
 get_calib_periods <- function(nml, ratio = 1){
   start = as.POSIXct(get_nml_value(glm_nml = read_nml(nml),arg_name = 'start'), format = '%Y-%m-%d %H:%M:%S')

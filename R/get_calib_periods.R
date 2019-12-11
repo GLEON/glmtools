@@ -13,10 +13,10 @@
 #'calib_periods <- get_calib_periods(nml = 'glm3.nml', ratio = 1)
 #'@export
 get_calib_periods <- function(nml, ratio = 1){
-  start = as.POSIXct(get_nml_value(glm_nml = read_nml('glm3.nml'),arg_name = 'start'), format = '%Y-%m-%d %H:%M:%S')
-  stop = as.POSIXct(get_nml_value(glm_nml = read_nml('glm3.nml'),arg_name = 'stop'), format = '%Y-%m-%d %H:%M:%S')
+  start = as.POSIXct(get_nml_value(glm_nml = read_nml(nml),arg_name = 'start'), format = '%Y-%m-%d %H:%M:%S')
+  stop = as.POSIXct(get_nml_value(glm_nml = read_nml(nml),arg_name = 'stop'), format = '%Y-%m-%d %H:%M:%S')
   
-  if (format(strptime(start,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S') == format(strptime(stop,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S')){
+  if (!is.na(format(strptime(start,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S')) && format(strptime(start,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S') == format(strptime(stop,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S')){
     hourstamp <- format(strptime(start,'%Y-%m-%d %H:%M:%S'),'%H:%M:%S') 
   } else {
     hourstamp <- format(strptime(as.character("2000-01-01 00:00:00", format = '%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S'),'%H:%M:%S') 

@@ -77,6 +77,11 @@ calibrate_sim <- function(var = 'temp',
     }
   } 
   
+  if(!file.exists('glm4.nml')){
+    file.copy(nml.file, 'glm4.nml')
+  } else if (first.attempt){
+    file.copy('glm4.nml', nml.file, overwrite = TRUE)
+  }
   
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
@@ -110,7 +115,7 @@ calibrate_sim <- function(var = 'temp',
     geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x)) +
     theme_bw() +
     theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
-    scale_x_datetime()
+    scale_x_datetime();g1
   if (plotting == TRUE){
   ggsave(file=paste0('optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   }
@@ -120,6 +125,8 @@ calibrate_sim <- function(var = 'temp',
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
   plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
+  } else {
+    plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours')
   }
   
   
@@ -135,6 +142,8 @@ calibrate_sim <- function(var = 'temp',
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
   plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
+  } else {
+    plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours')
   }
   
   
@@ -150,6 +159,8 @@ calibrate_sim <- function(var = 'temp',
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
   plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0('total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
+  } else {
+    plot_var_compare(nc_file = out_file, field_file = field.file,var_name = 'temp', precision = 'hours')
   }
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value

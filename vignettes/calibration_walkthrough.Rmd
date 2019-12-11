@@ -1,6 +1,6 @@
 ---
 title: "Walkthrough of the calibration approach"
-author: "Jordan S Read, Luke A Winslow, Hilary A Dugan, Robert Ladwig, Tadhg Moore"
+author: "Robert Ladwig, Tadhg Moore"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -70,7 +70,7 @@ run_glm(sim_folder = temp_folder)
 ### Visualizing the uncalibrated setup
 Then we can plot the uncalibrated setup and quantify the root-mean squared error between observed and simulated data.
 
-```{r}
+```{r, results = 'hide', fig.keep='first'}
 plot_var_nc(out_file, var_name = 'temp')
 plot_var_compare(nc_file = out_file, field_file = field_data,var_name = 'temp', precision = 'hours')
 
@@ -85,7 +85,7 @@ We will also print out here the RMSE of every iteration, as well as diagnostic p
 ```{r}
 var = 'temp'         # variable to which we apply the calibration procedure
 path = getwd()       # simulation path/folder
-obs = read_field_obs(field_data)  # observed field data
+# obs = read_field_obs(field_data)  # observed field data
 nml.file = nml_data  # path of the nml configuration file
 calib_setup = get_calib_setup() # create a setup of variables for calibration
 glmcmd = NULL        # command to be used, default applies the GLM3r function
@@ -102,7 +102,7 @@ output = out_file    # path of the output file
 field.file = field_data # path of the field data
 
 # main calibration function
-calibrate_sim(var, path, obs, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter, plotting, output, field.file)
+calibrate_sim(var, path, field.file, nml.file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter, plotting, output)
 
 ```
 

@@ -4,7 +4,7 @@
 #'diagnostic plot are created.
 #'@param var Character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param path String with the path to the GLM setup
-#'@param obs CSV or TSV field data (see \link{resample_to_field}for format)
+#'@param field.file CSV or TSV field data (see \link{resample_to_field}for format)
 #'@param nml.file String of the glm-namelist file, default is 'glm3.nml'
 #'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calibration_setup})
 #'@param glmcmd String containing the desired glm run command, default is GLM3r
@@ -17,7 +17,6 @@
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@param plotting Boolean, if TRUE plots all results as heat maps
 #'@param output Character array of the output folder path 
-#'@param field.file String of the path to the field data CSV or TSV
 #'@keywords methods
 #'@seealso \code{\link{get_calib_setup}, \link{get_calib_periods}, \link{get_calib_init_validation}}
 #'@author

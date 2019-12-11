@@ -114,10 +114,12 @@ calibrate_sim <- function(var = 'temp',
     geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x)) +
     theme_bw() +
     theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
-    scale_x_datetime();g1
+    scale_x_datetime();
   if (plotting == TRUE){
   ggsave(file=paste0('optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   }
+  
+  g1
   
   # compares simulated with observed data
   temp_rmse1 <- compare_to_field(out_file, field_file = field.file, 

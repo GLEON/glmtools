@@ -1,67 +1,59 @@
 &glm_setup
-   sim_name = 'GLMSimulation'
-   max_layers = 480
-   min_layer_vol = 0.5
-   min_layer_thick = 0.1
-   max_layer_thick = 3
+   sim_name = 'Mendota'
+   max_layers = 75
+   min_layer_vol = 0.1
+   min_layer_thick = 0.15
+   max_layer_thick = 1.5
    density_model = 1
-   non_avg = .true.
+/
+&light
+   light_mode = 0
+   n_bands = 4
+   light_extc = 1, 0.5, 2, 4
+   energy_frac = 0.51, 0.45, 0.035, 0.005
+   Benthic_Imin = 10
+   Kw = 0.2624843
 /
 &mixing
    surface_mixing = 1
    coef_mix_conv = 0.2
-   coef_wind_stir = 0.402
-   coef_mix_shear = 0.2
+   coef_wind_stir = 0.23
+   coef_mix_shear = 0.3
    coef_mix_turb = 0.51
-   coef_mix_KH = 0.1
+   coef_mix_KH = 0.3
+   coef_mix_hyp = 0.4514088
    deep_mixing = 2
-   coef_mix_hyp = 0.2
    diff = 0
 /
 &morphometry
-   lake_name = 'Sparkling'
-   latitude = 46.00881
-   longitude = -89.69953
-   bsn_len = 901.0385
-   bsn_wid = 901.0385
-   crest_elev = 320
+   lake_name = 'LakeMendota'
+   latitude = 43
+   longitude = -89.41
+   bsn_len = 9500
+   bsn_wid = 7400
    bsn_vals = 15
-   H = 301.712, 303.018285714286, 304.324571428571, 305.630857142857, 306.937142857143, 308.243428571429, 309.549714285714, 310.856, 312.162285714286, 313.468571428571, 314.774857142857, 316.081142857143, 317.387428571429, 318.693714285714, 320
-   A = 0, 45545.8263571429, 91091.6527142857, 136637.479071429, 182183.305428571, 227729.131785714, 273274.958142857, 318820.7845, 364366.610857143, 409912.437214286, 455458.263571429, 501004.089928571, 546549.916285714, 592095.742642857, 637641.569
+   H = 375.0064, 376.79166, 378.57691, 380.36217, 382.14743, 383.93269, 385.71794, 387.5032, 389.28846, 391.07371, 392.85897, 394.64423, 396.42949, 398.21474, 400
+   A = 0, 2827226.39, 5654452.79, 8481679.18, 11308905.58, 14136131.97, 16963358.37, 19790584.76, 22617811.16, 25445037.55, 28272263.95, 31099490.34, 33926716.74, 36753943.13, 39581169.52
 /
 &time
-   timefmt = 3
-   start = '2015-04-15 00:00:00'
-   stop = '2015-12-30 00:00:00'
+   timefmt = 2
+   start = '2015-01-01 12:00:00'
+   stop = '2016-12-31 12:00:00'
    dt = 3600
+   num_days = 730
    timezone = -6
-   num_days = 150
 /
 &output
    out_dir = 'output'
    out_fn = 'output'
    nsave = 24
-   csv_lake_fname = 'lake'
-   csv_point_nlevs = 0
-   csv_point_fname = 'WQ_'
-   csv_point_at = 17
-   csv_point_nvars = 2
-   csv_point_vars = 'temp','salt','OXY_oxy'
-   csv_outlet_allinone = .false.
-   csv_outlet_fname = 'outlet_'
-   csv_outlet_nvars = 3
-   csv_outlet_vars = 'flow','temp','salt','OXY_oxy'
-   csv_ovrflw_fname = 'overflow'
 /
 &init_profiles
-   lake_depth = 18.288
-   num_depths = 3
-   the_depths = 0, 0.2, 18.288
-   the_temps = 3, 4, 4
-   the_sals = 0, 0, 0
-   num_wq_vars = 6
-   wq_names = 'OGM_don','OGM_pon','OGM_dop','OGM_pop','OGM_doc','OGM_poc'
-   wq_init_vals = 1.1, 1.2, 2.2, 1.3, 3.3, 4.1, 1.1, 1.2, 2.2, 1.3, 3.3, 4.1
+   lake_depth = 25
+   num_depths = 6
+   the_depths = 0, 4, 8, 12, 16, 20
+   the_temps = 0.3, 1.7, 1.8, 2, 2.3, 2.7
+   the_sals = 0, 0, 0, 0, 0, 0
 /
 &meteorology
    met_sw = .true.
@@ -72,69 +64,53 @@
    rad_mode = 1
    albedo_mode = 1
    cloud_mode = 4
-   fetch_mode = 0
-   subdaily = .false.
    meteo_fl = 'LakeMendota_NLDAS.csv'
-   wind_factor = 1
-   sw_factor = 1.08
-   lw_factor = 1
+   subdaily = .true.
+   wind_factor = 0.8160884
+   sw_factor = 1
+   lw_factor = 0.879135
    at_factor = 1
    rh_factor = 1
    rain_factor = 1
-   ce = 0.00132
-   ch = 0.0013
    cd = 0.0013
+   ce = 0.0013
+   ch = 0.00161262915711572, 0.4
    rain_threshold = 0.01
    runoff_coef = 0.3
-/
-&bird_model
-   AP = 973
-   Oz = 0.279
-   WatVap = 1.1
-   AOD500 = 0.033
-   AOD380 = 0.038
-   Albedo = 0.2
-/
-&light
-   light_mode = 0
-   n_bands = 4
-   light_extc = 1, 0.5, 2, 4
-   energy_frac = 0.51, 0.45, 0.035, 0.005
-   Benthic_Imin = 10
-   Kw = 0.331
+   time_fmt = 'YYYY-MM-DD hh:mm:ss'
 /
 &inflow
    num_inflows = 0
-   names_of_strms = 'Riv1','Riv2'
-   subm_flag = .false.
+   names_of_strms = 'Yahara','Pheasant'
+   subm_flag = .false., .false.
    strm_hf_angle = 65, 65
-   strmbd_slope = 2, 2
+   strmbd_slope = 1.5, 1.5
    strmbd_drag = 0.016, 0.016
    inflow_factor = 1, 1
-   inflow_fl = 'bcs/inflow_1.csv','bcs/inflow_2.csv'
-   inflow_varnum = 4
-   inflow_vars = 'FLOW','TEMP','SALT','OXY_oxy','SIL_rsi','NIT_amm','NIT_nit','PHS_frp','OGM_don','OGM_pon','OGM_dop','OGM_pop','OGM_doc','OGM_poc','PHY_green','PHY_crypto','PHY_diatom'
+   inflow_fl = 'ME_yahara.csv',ME_pheasant.csv'
+   inflow_varnum = 3
+   inflow_vars = 'FLOW','SALT','TEMP'
 /
 &outflow
    num_outlet = 0
-   flt_off_sw = .false.
-   outl_elvs = 1
-   bsn_len_outl = 5
-   bsn_wid_outl = 5
-   outflow_fl = 'bcs/outflow.csv'
-   outflow_factor = 0.8
-   crest_width = 100
-   crest_factor = 0.61
+   outlet_type = 1
+   outl_elvs = 399.5
+   bsn_len_outl = 799
+   bsn_wid_outl = 398
+   outflow_fl = 'ME_outflow.csv'
+   outflow_factor = 1
+/
+&snowice
+   snow_albedo_factor = 1
+   snow_rho_max = 500
+   snow_rho_min = 100
 /
 &sediment
-   sed_heat_Ksoil = 2
-   sed_temp_depth = 0.2
-   sed_temp_mean = 4.5
-   sed_temp_amplitude = 0.25
-   sed_temp_peak_doy = 242, 242, 242
    benthic_mode = 2
-   n_zones = 3
-   zone_heights = 10, 20, 30
-   sed_reflectivity = 0.1, 0.01, 0.01
-   sed_roughness = 0.1, 0.01, 0.01
+   n_zones = 2
+   zone_heights = 10, 25
+   sed_temp_mean = 7.28664213247785, 17.4034008325898
+   sed_temp_amplitude = 4, 3
+   sed_temp_peak_doy = 230, 230
+   sed_heat_Ksoil = 0.1, 0
 /

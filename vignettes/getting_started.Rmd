@@ -2,9 +2,7 @@
 title: "Getting started with glmtools"
 author: "Jordan S Read, Luke A Winslow, Hilary A Dugan, Robert Ladwig"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: 
-  rmarkdown::html_vignette:
-    toc: true
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Getting started with glmtools}

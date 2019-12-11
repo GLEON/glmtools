@@ -5,7 +5,7 @@
 \title{Match GLM water temperatures with field observations}
 \usage{
 resample_to_field(nc_file, field_file, method = "match",
-  precision = "days", var_name = "temp")
+  precision = "hours", var_name = "temp")
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}

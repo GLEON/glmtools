@@ -31,7 +31,6 @@ Imports:
     dplyr,
     ggplot2,
     gridExtra,
-    hydroGOF,
     lazyeval,
     methods,
     ncdf4,

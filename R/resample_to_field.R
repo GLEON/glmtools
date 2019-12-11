@@ -19,7 +19,7 @@
 #'buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
 #'temps <- resample_to_field(nc_file, buoy_file, precision = 'mins')
 #'@export
-resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'days', var_name='temp'){
+resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'hours', var_name='temp'){
   
   field_obs <- read_field_obs(field_file, var_name=var_name)
   

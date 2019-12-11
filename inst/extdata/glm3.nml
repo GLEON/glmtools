@@ -88,7 +88,7 @@
    strmbd_slope = 1.5, 1.5
    strmbd_drag = 0.016, 0.016
    inflow_factor = 1, 1
-   inflow_fl = 'ME_yahara.csv',ME_pheasant.csv'
+   inflow_fl = 'ME_yahara.csv','ME_pheasant.csv'
    inflow_varnum = 3
    inflow_vars = 'FLOW','SALT','TEMP'
 /

@@ -102,7 +102,7 @@ calibrate_sim <- function(var = 'temp',
   }
   
   # path <<- path
-  obs = read_field_obs(field.file)
+  obs <<- read_field_obs(field.file)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
                  metric, target.fit, target.iter, nml.file, path)
   

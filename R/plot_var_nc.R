@@ -37,7 +37,7 @@
 #'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
 #'
 #'#Saving plot
-#'plot_var_nc(nc_file,var_name = c('temp', 'OXY_oxy'),fig_path = './figtest.png', width = 6, height = 2, units = 'in')
+#'plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),fig_path = './figtest.png', width = 6, height = 2, units = 'in')
 #'
 #'\dontrun{
 #'# need to specify a valid .nc file here: 

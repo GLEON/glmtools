@@ -36,6 +36,7 @@ Imports:
     patchwork,
     ncdf4,
     readr,
+    reshape2,
     tidyr,
     tools
 Suggests:

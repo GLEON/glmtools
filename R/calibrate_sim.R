@@ -6,7 +6,7 @@
 #'@param path String with the path to the GLM setup
 #'@param field.file CSV or TSV field data (see \link{resample_to_field}for format)
 #'@param nml.file String of the glm-namelist file, default is 'glm3.nml'
-#'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calibration_setup})
+#'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calib_setup})
 #'@param glmcmd String containing the desired glm run command, default is GLM3r
 #'@param first.attempt Boolean, if TRUE a nml-template will be created, set it to FALSE after your first calibration run; default is TRUE
 #'@param period List that provides a start and a stop date for the simulation

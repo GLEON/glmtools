@@ -53,7 +53,7 @@
    lake_depth = 25
    num_depths = 6
    the_depths = 0, 4, 8, 12, 16, 20
-   the_temps = 0.3, 1.7, 1.8, 2, 2.3, 2.7
+   the_temps = 2.14463918500538, 2.14480702373743, 2.57099676007463, 2.57099676007463, 2.57099676007463, 2.57099676007463
    the_sals = 0, 0, 0, 0, 0, 0
 /
 &meteorology
@@ -75,7 +75,7 @@
    rain_factor = 1
    cd = 0.0013
    ce = 0.0013
-   ch = 0.00161262915711572
+   ch = 0.001612629
    rain_threshold = 0.01
    runoff_coef = 0.3
    time_fmt = 'YYYY-MM-DD hh:mm:ss'

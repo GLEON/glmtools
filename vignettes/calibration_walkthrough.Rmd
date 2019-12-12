@@ -40,13 +40,12 @@ dir(glmtools_folder)
 ```
 
 ### Move glmtools example files to a temporary folder
-```{r}
+```{r, results = 'hide'}
 example.files <- dir(glmtools_folder)
-temp_folder <- tempdir()
+temp_folder <<- tempdir()
 
-for(file in paste0(glmtools_folder,'/',example.files)) {
-  file.copy(file, temp_folder, overwrite = TRUE)
-}
+file.copy(list.files(glmtools_folder,full.names = T), temp_folder, overwrite = TRUE)
+
 ```
 
 Note that new files have been added to the temporary directory:
@@ -64,25 +63,31 @@ nml_data <- file.path(temp_folder, 'glm3.nml')
 ```
 ## Running uncalibrated GLM setup
 The contents of `glmtools_folder` (i.e., a `glm3.nml` file and driver data including `.csv` file for the meteorological drivers) are now located in a temporary folder (`temp_folder`). The `run_glm()` function will now return the results from the uncalibrated setup.
-```{r, results ='hide'}
-run_glm(sim_folder = temp_folder)
+```{r, results = 'hide'}
+GLM3r::run_glm(sim_folder = temp_folder)
 ```
 ### Visualizing the uncalibrated setup
 Then we can plot the uncalibrated setup and quantify the root-mean squared error between observed and simulated data.
 
-```{r, results = 'hide', fig.keep='first'}
+```{r, results = 'hide', fig.keep='first', fig.width = 6}
 plot_var_nc(out_file, var_name = 'temp')
-plot_var_compare(nc_file = out_file, field_file = field_data,var_name = 'temp', precision = 'hours')
+```
 
+```{r, results = 'hide', fig.keep='first', fig.width = 6}
+plot_var_compare(nc_file = out_file, field_file = field_data,var_name = 'temp', precision = 'hours')
+```
+
+```{r, fig.keep='first', fig.width = 6}
 temp_rmse <- compare_to_field(out_file, field_file = field_data,
                               metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+
 print(paste('Total time period (uncalibrated):',round(temp_rmse,2),'deg C RMSE'))
 ```
 ## Calibrating GLM
 Before we run the automatic calibration routine, we need to define certain input variables for the function. Here, we are trying to minimize the RMSE between observed and simulated water temperature data using the CMA-ES algorithm. To ensure that there is a reasonable covariance between variables, we are scaling all values on a space between 0 and 10. Further, to reduce computational times, we are stopping the algorithm either after reaching a RMSE of 1.0 degree Celsius, or after doing 100 iterations. Also, because we are working in a temporary directory, we are not saving any values. This approach will calibrate the wind_factor, the lw_factor, Kw and the sed_temp_mean values of two sediment zones with given lower and upper boundaries, as well as initial values.
 
 We will also print out here the RMSE of every iteration, as well as diagnostic plots of the calibration, and contour maps of all time periods.
-```{r}
+```{r, warning = F}
 var = 'temp'         # variable to which we apply the calibration procedure
 path = getwd()       # simulation path/folder
 # obs = read_field_obs(field_data)  # observed field data
@@ -90,14 +95,16 @@ nml.file = nml_data  # path of the nml configuration file
 calib_setup = get_calib_setup() # create a setup of variables for calibration
 glmcmd = NULL        # command to be used, default applies the GLM3r function
 # Optional variables
-first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the outcome of previous calibration runs
-period = get_calib_periods(nml = nml_data, ratio = 1) # define a period for the calibration, thissupports a split-sample calibration (e.g. calibration and validation period)
-scaling = TRUE       # scaling of the variables in a space of [0,10]; should be TRUE for CMA-ES
+first.attempt = TRUE # if TRUE, deletes all local csv-files that stores the 
+#outcome of previous calibration runs
+period = get_calib_periods(nml = nml_data, ratio = 1) # define a period for the calibration, 
+# thissupports a split-sample calibration (e.g. calibration and validation period)
+scaling = TRUE       # scaling of the variables in a space of [0,10]; TRUE for CMA-ES
 method = 'CMA-ES'    # optimization method, choose either `CMA-ES` or `Nelder-Mead`
-metric = 'RMSE'      # objective function, which will be minimized, here the root-mean square error
+metric = 'RMSE'      # objective function to be minimized, here the root-mean square error
 target.fit = 1.0     # refers to a target fit of 1.0 degrees Celsius
 target.iter = 100    # refers to a maximum run of 100 calibration iterations
-plotting = FALSE      # if set to TRUE, the script will automatically save the created contour plots 
+plotting = FALSE      # if TRUE, script will automatically save the contour plots
 output = out_file    # path of the output file
 field.file = field_data # path of the field data
 

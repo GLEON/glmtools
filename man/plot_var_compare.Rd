@@ -61,12 +61,12 @@ Plot matching heatmaps for modeled and observed temp
 }
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
+field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 
-plot_var_compare(nc_file, field_file, 'temp', resample=FALSE) ##makes a plot
+plot_var_compare(nc_file, field_file, 'temp', resample = FALSE) ##makes a plot
 
-#Change clor palette, custom legend title, save figure:
-plot_var_compare(nc_file, field_file, var_name = 'temp', resample = F, legend.title = 'Temp (*C)',
+#Change color palette, custom legend title, save figure:
+plot_var_compare(nc_file, field_file, var_name = 'temp', resample = TRUE, legend.title = 'Temp (*C)',
 color.palette = 'PuBuGn', color.direction = 1,fig_path = '~/Downloads/figtest.png', width = 6, height = 8, units = 'in')
 
 }

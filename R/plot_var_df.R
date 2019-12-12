@@ -32,7 +32,7 @@
 #'data = get_var(nc_file,'temp', reference = 'surface') 
 #'plot_var_df(data, var_name = 'temp', interpolate = F, legend.title = 'Temp (degC)')
 #'#Saving plot
-#'plot_var(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+#'plot_var_df(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 #'
 #'\dontrun{
 #'# need to specify a valid .nc file here: 
@@ -40,7 +40,8 @@
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
-#'@importFrom gridExtra grid.arrange
+#'@importFrom patchwork wrap_plots
+#'@importFrom readr parse_number
 #'@export
 plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL, 
                      legend.title = var_name, text.size = 12, show.legend = TRUE, 
@@ -109,13 +110,10 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
                                    color.palette, color.direction, zlim)
   }
   
-  grid.arrange(grobs = h, ncol = 1)
-  
-  
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
-  return(h) #return as ggplot object list
+  return(wrap_plots(h,ncol = 1))
 }
 

@@ -37,7 +37,7 @@
 #'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
 #'
 #'#Saving plot
-#'plot_var_nc(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+#'plot_var_nc(nc_file,var_name = c('temp', 'OXY_oxy'),fig_path = './figtest.png', width = 6, height = 2, units = 'in')
 #'
 #'\dontrun{
 #'# need to specify a valid .nc file here: 
@@ -45,7 +45,7 @@
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
-#'@importFrom gridExtra grid.arrange
+#'@importFrom patchwork wrap_plots
 #'@export
 plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
                      legend.title = NULL, interval = 0.5, text.size = 12, show.legend = TRUE, 
@@ -73,13 +73,12 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
     }
   }
 
-  grid.arrange(grobs = h, ncol = 1)
-  
   # Saving plot 
   if (!is.null(fig_path)){
-    ggsave(filename = fig_path,...)
+    ggsave(plot = wrap_plots(h,ncol = 1), filename = fig_path,...)
   } 
-  return(h) #return as ggplot object list
+  
+  return(wrap_plots(h,ncol = 1))
 }
 
 

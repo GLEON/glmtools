@@ -18,8 +18,7 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-#'plot_temp(nc_file = nc_file, fig_path = FALSE)
-#'plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+#'plot_temp(nc_file = nc_file, fig_path = NULL)
 #'@export
 plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', legend.title = NULL, 
                       interval = 0.5, text.size = 12, show.legend = TRUE, 

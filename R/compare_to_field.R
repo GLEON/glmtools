@@ -17,34 +17,35 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-#'field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
-#'
-#'thermo_values <- compare_to_field(nc_file, field_file, 
-#'                           metric = 'thermo.depth', as_value = TRUE)
-#'temp_rmse <- compare_to_field(nc_file, field_file, 
-#'                           metric = 'water.temperature', as_value = FALSE)
-#'print(paste(temp_rmse,'deg C RMSE'))
-#'# function in development
-#'buoy_file <- file.path(sim_folder, 'field_data.tsv')
-#'temp_rmse <- compare_to_field(nc_file, buoy_file, 
-#'                           metric = 'water.temperature', as_value = FALSE, 
-#'                           method = 'interp',precision = 'hours')
-#'print(paste(temp_rmse,'deg C RMSE'))
-#'\dontrun{
-#'# -- an nml file is necessary when functions require hypsographic information
-#'values <- compare_to_field(nc_file, field_file, 
-#'                           metric = 'schmidt.stability', as_value = TRUE)
-#'# -- will fail
-#'nml_file <- file.path(sim_folder, 'glm3.nml')
-#'values <- compare_to_field(nc_file, field_file, nml_file, 
-#'                           metric = 'schmidt.stability', as_value = TRUE)
-#'# -- will succeed
-#'
-#'# -- metrics can only be calculated by functions that are available to this environment
-#'values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
-#'# -- will fail
-#'}
+#' nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#' field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
+#' 
+#' thermo_values <- compare_to_field(nc_file, field_file,
+#'                                   metric = 'thermo.depth', as_value = TRUE,)
+#' 
+#' temp_rmse <- compare_to_field(nc_file, field_file,
+#'                               metric = 'water.temperature', as_value = FALSE)
+#' print(paste(round(temp_rmse,3),'deg C RMSE'))
+#' # function in development
+#' buoy_file <- system.file("extdata", "LakeMendota_buoy_data.csv", package = "glmtools")
+#' temp_rmse <- compare_to_field(nc_file, buoy_file,
+#'                               metric = 'water.temperature', as_value = FALSE,
+#'                               method = 'interp',precision = 'hours')
+#' print(paste(round(temp_rmse,3),'deg C RMSE'))
+#' \dontrun{
+#' # -- an nml file is necessary when functions require hypsographic information
+#' # -- will fail
+#' values <- compare_to_field(nc_file, field_file,
+#'                              metric = 'schmidt.stability', as_value = TRUE)
+#' # -- will succeed
+#' nml_file <- file.path(sim_folder, 'glm3.nml')
+#' values <- compare_to_field(nc_file, field_file, nml_file,
+#'                              metric = 'schmidt.stability', as_value = TRUE)
+#'   
+#' # -- metrics can only be calculated by functions that are available to this environment
+#' # -- will fail
+#' values <- compare_to_field(nc_file, field_file, metric = 'calc.fols', as_value = TRUE)
+#' }
 #'@import rLakeAnalyzer
 #'@import dplyr
 #'

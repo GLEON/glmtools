@@ -14,7 +14,7 @@ library(rmarkdown)
 options(continue=" ")
 options(width=60)
 library(knitr)
-
+library(glmtools)
 ```
 
 

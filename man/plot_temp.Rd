@@ -39,8 +39,7 @@ Deprecated. Plot water temperatures from a GLM simulation
 }
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-plot_temp(nc_file = nc_file, fig_path = FALSE)
-plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+plot_temp(nc_file = nc_file, fig_path = NULL)
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}

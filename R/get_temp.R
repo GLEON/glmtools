@@ -24,7 +24,7 @@
 #'temp_bot <- get_temp(nc_file)
 #'
 #'#-- get temporal subset--
-#'t_out <- seq(as.POSIXct("2010-04-15"), as.POSIXct("2010-06-01"), by = 86400)
+#'t_out <- seq(as.POSIXct("2015-04-15"), as.POSIXct("2015-06-01"), by = 86400)
 #'temp_surf <- get_temp(nc_file, reference = 'surface', z_out = 0, t_out = t_out)
 #'plot(temp_surf)
 #'@export

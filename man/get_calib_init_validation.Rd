@@ -7,15 +7,17 @@
 get_calib_init_validation(nml_file, output)
 }
 \arguments{
-\item{output}{String of the file path in which the output.nc file is stored (created by calibration period)}
+\item{nml_file}{String of the GLM namelist file, in most cases this is 'glm3.nml'}
 
-\item{nml.file}{String of the GLM namelist file, in most cases this is 'glm3.nml'}
+\item{output}{String of the file path in which the output.nc file is stored (created by calibration period)}
 }
 \description{
 Reads in nml-file and output from calibration to get initial values for the calibration
 }
 \examples{
-initvalues <- get_calib_init_validation(nml = 'glm3.nml', output = 'output.nc')
+nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nml_file <- system.file("extdata", "glm3.nml", package = "glmtools")
+initvalues <- get_calib_init_validation(nml = nml_file, output = nc_file)
 }
 \seealso{
 \\code{\link{get_calib_setup}, \link{get_calib_periods}, \link{calibrate_sim}}

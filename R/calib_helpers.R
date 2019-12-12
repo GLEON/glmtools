@@ -1,5 +1,5 @@
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml.file, path){
+                      metric, target.fit, target.iter, nml.file, path, scaling){
   path <<- path
   
   if (method == 'CMA-ES'){
@@ -7,7 +7,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         upper = rep(10,length(init.val)), 
                         sigma = 0.5, 
                         stopfitness = target.fit, 
-                        stopeval = target.iter)
+                        stopeval = target.iter, 
+                        glmcmd = glmcmd, scaling = scaling, metric = metric)
   } else if (method == 'Nelder-Mead'){
     glmOPT <- neldermeadb(fn = glmFUN, init.val, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
@@ -17,7 +18,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   }
   
   
-  glmFUN(glmOPT$xmin)
+  glmFUN(glmOPT$xmin, glmcmd, scaling, metric)
   calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
   eval(parse(text = paste0('best_par <- calib[which.min(calib$',metric,'),]')))
   write.csv(best_par, paste0(path,'/calib_par_',var,'.csv'), row.names = F, quote = F)
@@ -91,7 +92,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 }
 
 
-glmFUN <- function(p){
+glmFUN <- function(p, glmcmd, scaling, metric){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
     p = values.optim
@@ -256,7 +257,7 @@ diag.plots <- function(mod, obs, ggplot = T){
     
     qqnorm(dif)
     abline(0,1, lty =2, col =2)
-  }else{
+} else {
     #ggplot2 version - put all variables in one dataframe
     mod$res <- mod[,3] - obs[,3]
     deps <- unique(mod[,2])
@@ -356,8 +357,10 @@ diag.plots <- function(mod, obs, ggplot = T){
       ggtitle('Normal Q-Q Plot')+
       theme_bw()
     
-    g <- gridExtra::arrangeGrob(p1,p2,p3,p4,p5,p6, nrow = 2)
-    gridExtra::grid.arrange(g)
+    # g <- gridExtra::arrangeGrob(p1,p2,p3,p4,p5,p6, nrow = 2)
+    # gridExtra::grid.arrange(g)
+    
+    g = patchwork::wrap_plots(p1,p2,p3,p4,p5,p6, nrow = 2)
     
     return(g)
   }

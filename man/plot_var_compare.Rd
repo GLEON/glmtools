@@ -35,22 +35,22 @@ plot_var_compare(nc_file, field_file, var_name = "temp",
 
 \item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
 
-\item{color.palette}{See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
+\item{color.palette}{See: \code{ggplot2:scale_color_distiller}. If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
 Palettes available include: Diverging:
 BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.}
 
 \item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
 
-\item{obs.color}{Color of observation points. For options see vignette("ggplot2-specs")}
+\item{obs.color}{Color of observation points. For options see: vignette("ggplot2-specs")}
 
-\item{obs.alpha}{Alpha transparency of observation points. If set to 0, no points will appear. For options see vignette("ggplot2-specs")}
+\item{obs.alpha}{Alpha transparency of observation points. If set to 0, no points will appear. For options see: vignette("ggplot2-specs")}
 
-\item{obs.shape}{Shape of observation points. For options see vignette("ggplot2-specs")}
+\item{obs.shape}{Shape of observation points. For options see: vignette("ggplot2-specs")}
 
-\item{obs.size}{Size of observation points. For options see \code{\link[vignette("ggplot2-specs")]{vignette("ggplot2-specs")}}}
+\item{obs.size}{Size of observation points. For options see: \code{vignette("ggplot2-specs", package = 'ggplot2')}}
 
-\item{shiftPalette}{See values argument in \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).}
+\item{shiftPalette}{See values argument in: \code{ggplot2:scale_color_distiller}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).}
 
 \item{zlim}{Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value).}
 

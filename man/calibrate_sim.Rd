@@ -19,7 +19,7 @@ calibrate_sim(var = "temp", path, field.file, nml.file = "glm3.nml",
 
 \item{nml.file}{String of the glm-namelist file, default is 'glm3.nml'}
 
-\item{calib_setup}{Data frame containing information regarding the calibration (see \link{get_calibration_setup})}
+\item{calib_setup}{Data frame containing information regarding the calibration (see \link{get_calib_setup})}
 
 \item{glmcmd}{String containing the desired glm run command, default is GLM3r}
 

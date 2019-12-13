@@ -168,6 +168,7 @@ get_rmse <- function(mods, obs){
   return(rmse)
 }
 
+#'@importFrom reshape2 melt
 mod2obs <- function(mod_nc, obs, reference = 'surface', var){
   deps = unique(obs[,2])
   #tim = unique(obs[,1])

@@ -12,8 +12,7 @@
 #'@author Luke Winslow
 #'@examples
 #'
-#'field_file = system.file('extdata/field_stage.csv', 
-#'                          package='glmtools')
+#'field_file = system.file('extdata/LakeMendota_stage_USGS05428000.csv',package='glmtools')
 #'
 #'data <- read_field_stage(field_file)
 #'

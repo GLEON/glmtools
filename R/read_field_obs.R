@@ -14,12 +14,9 @@
 #' Jordan S. Read
 #' @examples 
 #' # -- read in a .csv file --
-#' file <- system.file('extdata', 'field_data.csv', package = 'glmtools')
+#' file <- system.file('extdata', 'LakeMendota_field_data_hours.csv', package = 'glmtools')
 #' field_data <- read_field_obs(file)
 #'
-#' # -- read in a .tsv file --
-#' file <- system.file('extdata', 'field_data.tsv', package = 'glmtools')
-#' field_data <- read_field_obs(file)
 #' @import tools
 #' @importFrom utils read.delim2
 #' @export

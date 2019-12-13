@@ -29,10 +29,11 @@ a report or figures comparing modeled results to observations
 Run diagnostics on model results vs observations
 }
 \examples{
+\dontrun{
 sim_folder <- run_example_sim(verbose = FALSE)
 nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nml_file <- file.path(sim_folder, 'glm3.nml')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 
 #  create a multiple metric diagnostic fig within R:
 validate_sim(nc_file, field_file, nml_file = nml_file,
@@ -40,12 +41,13 @@ validate_sim(nc_file, field_file, nml_file = nml_file,
                           fig_path = FALSE)      
 
 # write the fig out to file:
-validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
+validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = 'test_fig.png',
                           metrics = c('thermo.depth', 'schmidt.stability'))   
                   
 # return the diagnostic info but avoid the plot:                                   
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-                          metrics = c('thermo.depth', 'schmidt.stability'))          
+                          metrics = c('thermo.depth', 'schmidt.stability'))     
+}     
 }
 \seealso{
 \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}

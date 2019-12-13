@@ -10,16 +10,16 @@
 #' @param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #' @param method String; 'match' for exact match or 'interp' for temporal interpolation
 #' @param text.size Integer; Default is 12. Higher values will increase text size in plot.
-#' @param color.palette See \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}} . If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
+#' @param color.palette See: \code{ggplot2:scale_color_distiller}. If a string, will use that named palette. Default is 'RdYlBu'. If a number, will index into the list of palettes of appropriate. 
 #' Palettes available include: Diverging:
 #' BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
 #' @param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
-#' @param obs.color Color of observation points. For options see vignette("ggplot2-specs")
-#' @param obs.alpha Alpha transparency of observation points. If set to 0, no points will appear. For options see vignette("ggplot2-specs")
-#' @param obs.shape Shape of observation points. For options see vignette("ggplot2-specs")
-#' @param obs.size Size of observation points. For options see \code{\link[vignette("ggplot2-specs")]{vignette("ggplot2-specs")}}
-#' @param shiftPalette See values argument in \code{\link[ggplot2:scale_color_distiller]{ggplot2:scale_color_distiller}}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).
+#' @param obs.color Color of observation points. For options see: vignette("ggplot2-specs")
+#' @param obs.alpha Alpha transparency of observation points. If set to 0, no points will appear. For options see: vignette("ggplot2-specs")
+#' @param obs.shape Shape of observation points. For options see: vignette("ggplot2-specs")
+#' @param obs.size Size of observation points. For options see: \code{vignette("ggplot2-specs", package = 'ggplot2')}
+#' @param shiftPalette See values argument in: \code{ggplot2:scale_color_distiller}. Default is c(0,1). To shift pallete lower. Use c(0,0.2,1).
 #' @param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #' @param \dots additional arguments passed to \code{ggsave()}
 #'

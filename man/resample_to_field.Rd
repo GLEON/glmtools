@@ -27,11 +27,11 @@ Match GLM water temperatures with field observations
 }
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
-
+field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 temps <- resample_to_field(nc_file, field_file)
-buoy_file <- system.file('extdata', 'buoy_data.csv', package = 'glmtools')
-temps <- resample_to_field(nc_file, buoy_file, precision = 'mins')
+
+buoy_file <- system.file('extdata', 'LakeMendota_buoy_data.csv', package = 'glmtools')
+temps <- resample_to_field(nc_file, buoy_file)
 }
 \seealso{
 \link{resample_sim}, \link{get_temp}

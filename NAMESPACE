@@ -2,7 +2,6 @@
 
 S3method(print,nml)
 S3method(summary,nml)
-export(.compare_to_field)
 export(calibrate_sim)
 export(compare_to_field)
 export(convert_sim_var)

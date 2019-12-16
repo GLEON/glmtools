@@ -1,6 +1,7 @@
 #'Run diagnostics on model results vs observations
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
+#'@param nml_file a string with the path to the glm3.nml file 
 #'@param metrics a string or vector of strings representing physical metrics. 
 #'Should be a rLakeAnalyzer function or other valid function.
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 

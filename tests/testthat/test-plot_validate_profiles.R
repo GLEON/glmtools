@@ -3,7 +3,7 @@ context("validate plots")
 test_that("plots work", {
   sim_folder <- run_example_sim(verbose = F)
   nc_file <- file.path(sim_folder, 'output/output.nc')
-  field_file <- file.path(sim_folder, 'field_data.csv')
+  field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 
   expect_error(plot_validate_profiles(nc_file, field_file = NULL, fig_path = NULL))
   expect_error(plot_validate_profiles(nc_file, field_file = NA, fig_path = NULL))

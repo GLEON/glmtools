@@ -12,6 +12,8 @@ validate_sim(nc_file, field_file, nml_file, metrics, fig_path = NULL,
 
 \item{field_file}{a string with the path to the field observation file}
 
+\item{nml_file}{a string with the path to the glm3.nml file}
+
 \item{metrics}{a string or vector of strings representing physical metrics. 
 Should be a rLakeAnalyzer function or other valid function.}
 

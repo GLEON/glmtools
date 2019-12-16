@@ -1,6 +1,6 @@
 #'Run example simulation 
 #'@param sim_folder the directory where simulation files will be copied/moved to. 
-#'Will use a temporary directory if missing
+#'If missing, will use a temporary directory 
 #'@param verbose should operations and output of GLM be shown
 #'@keywords methods
 #'@seealso \code{\link[GLM3r]{run_glm}}
@@ -15,32 +15,22 @@
 #'@export
 run_example_sim = function(sim_folder, verbose = TRUE){
   
-  nc_out = 'output'
   if (missing(sim_folder)){
-    sim_folder <- tempdir()
+    sim_folder <- tempdir() #simulation path
     if(verbose){cat('sim_folder argument missing, using temp directory: ', sim_folder,'\n\n')}
   }
+  glmtools_folder = system.file('extdata', package = 'glmtools')
+  file.copy(list.files(glmtools_folder,full.names = TRUE), sim_folder, overwrite = TRUE)
+  field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
   nml_file <- file.path(sim_folder, 'glm3.nml')
-  driver_file <- file.path(sim_folder, 'nldas_driver.csv')
-  calibration_tsv <- file.path(sim_folder, 'field_data.tsv')
-  calibration_csv <- file.path(sim_folder, 'field_data.csv')
-  stage_csv <- file.path(sim_folder, 'field_stage.csv')
-  ice_snow_csv <- file.path(sim_folder, 'snow_ice_depth_obs.csv')
-  ice_dur_csv <- file.path(sim_folder, 'ice_duration_obs.csv')
+  driver_file <- file.path(sim_folder, 'LakeMendota_NLDAS.csv')
   
+  nc_out = 'output'
   nc_file <- file.path(sim_folder, paste0(nc_out, '.nc'))
-  # move glm3.nml to sim_folder
 
-  file.copy(from = system.file('extdata', 'LakeMendota_NLDAS.csv', package = 'glmtools'), to = driver_file,overwrite = T)
-  if(verbose){cat('driver data file copied to ', driver_file,'\n')}
-  
-  # file.copy(from = system.file('extdata', 'field_data.tsv', package = 'glmtools'), to = calibration_tsv)
-  file.copy(from = system.file('extdata', 'LakeMendota_field_data_hours.csv', package = 'glmtools'), to = calibration_csv,overwrite = T)
-  file.copy(from = system.file('extdata', 'LakeMendota_stage_USGS05428000.csv', package = 'glmtools'), to = stage_csv,overwrite = T)
-  file.copy(from = system.file('extdata', 'LakeMendota_snow_ice_obs.csv', package = 'glmtools'), to = ice_snow_csv,overwrite = T)
-  file.copy(from = system.file('extdata', 'LakeMendota_iceduration_obs.csv', package = 'glmtools'), to = ice_dur_csv,overwrite = T)
   
   nml <- read_nml() # read in default nml from GLM3r
+  # Set new nml paramters
   nml <- set_nml(nml, arg_list = list('Kw'=0.331, 'lake_name'='Mendota', 
                                'bsn_vals' = 15,
                                'H' = c(301.712, 303.018285714286, 304.324571428571, 305.630857142857, 306.937142857143, 308.243428571429, 309.549714285714, 310.856, 312.162285714286, 313.468571428571, 314.774857142857, 316.081142857143, 317.387428571429, 318.693714285714, 320),
@@ -56,7 +46,7 @@ run_example_sim = function(sim_folder, verbose = TRUE){
                                'the_temps' = c(3, 4, 4),
                                'the_sals' = c(0, 0, 0),
                                'subdaily' = TRUE,
-                               'meteo_fl' = 'nldas_driver.csv',
+                               'meteo_fl' = 'LakeMendota_NLDAS.csv',
 															 'max_layer_thick' = 3,
 															 'sw_factor' = 1.08,
 															 'coef_wind_stir' = 0.402,

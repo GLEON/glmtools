@@ -8,7 +8,7 @@ run_example_sim(sim_folder, verbose = TRUE)
 }
 \arguments{
 \item{sim_folder}{the directory where simulation files will be copied/moved to. 
-Will use a temporary directory if missing}
+If missing, will use a temporary directory}
 
 \item{verbose}{should operations and output of GLM be shown}
 }

@@ -12,14 +12,14 @@
 #'@author
 #'Jordan S. Read, Hilary A. Dugan
 #'@examples 
-#'\dontrun {
+#'\dontrun{
 #'sim_folder <- run_example_sim(verbose = FALSE)
 #'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'nml_file <- file.path(sim_folder, 'glm3.nml')
 #'field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 #'
 #
-#' #  create a multiple metric diagnostic fig within R:
+#' #create a multiple metric diagnostic fig within R:
 #'validate_sim(nc_file, field_file, nml_file = nml_file,
 #'                           metrics = c('thermo.depth', 'schmidt.stability'), 
 #'                           fig_path = NULL)      
@@ -54,7 +54,7 @@ validate_sim <- function(nc_file, field_file, nml_file, metrics, fig_path = NULL
   }
   
   # Saving plot 
-  if (!is.null(fig_path)){
+  if (!is.null(fig_path)) {
     ggsave(plot = wrap_plots(h,ncol = 1), filename = fig_path,...)
   } 
   

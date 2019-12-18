@@ -4,7 +4,7 @@
 \alias{calibrate_sim}
 \title{Calibrates GLM-AED2 variables to improve fit between observed and simulated data}
 \usage{
-calibrate_sim(var = "temp", path, filed_file, nml_file = "glm3.nml",
+calibrate_sim(var = "temp", path, field_file, nml_file = "glm3.nml",
   calib_setup = NULL, glmcmd = NULL, first.attempt = TRUE,
   period = NULL, scaling = TRUE, verbose = TRUE, method = "CMA-ES",
   metric = "RMSE", target.fit = 1.5, target.iter = 100,
@@ -15,7 +15,7 @@ calibrate_sim(var = "temp", path, filed_file, nml_file = "glm3.nml",
 
 \item{path}{String with the path to the GLM setup}
 
-\item{filed_file}{CSV or TSV field data (see \link{resample_to_field}for format)}
+\item{field_file}{CSV or TSV field data (see \link{resample_to_field}for format)}
 
 \item{nml_file}{String of the glm-namelist file, default is 'glm3.nml'}
 
@@ -58,7 +58,7 @@ glmtools_folder = system.file('extdata', package = 'glmtools')
 
 file.copy(list.files(glmtools_folder,full.names = TRUE), sim_folder, overwrite = TRUE)
 
-filed_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 nml_file <- file.path(sim_folder, 'glm3.nml')
 driver_file <- file.path(sim_folder, 'LakeMendota_NLDAS.csv')
 period = get_calib_periods(nml_file = nml_file, ratio = 1)
@@ -73,7 +73,7 @@ calibrate_sim(var = var, path = sim_folder,
              verbose = FALSE,
              metric = 'RMSE',plotting = TRUE,
              target.fit = 1.5,
-             target.iter = 50, output = output, filed_file = filed_file)
+             target.iter = 50, output = output, field_file = field_file)
 }
 \seealso{
 \code{\link{get_calib_setup}}, \code{\link{get_calib_periods}}, \code{\link{get_calib_init_validation}}

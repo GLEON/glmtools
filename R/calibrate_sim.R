@@ -4,7 +4,7 @@
 #'diagnostic plot are created.
 #'@param var Character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param path String with the path to the GLM setup
-#'@param filed_file CSV or TSV field data (see \link{resample_to_field}for format)
+#'@param field_file CSV or TSV field data (see \link{resample_to_field}for format)
 #'@param nml_file String of the glm-namelist file, default is 'glm3.nml'
 #'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calib_setup})
 #'@param glmcmd String containing the desired glm run command, default is GLM3r
@@ -33,7 +33,7 @@
 #'
 #'file.copy(list.files(glmtools_folder,full.names = TRUE), sim_folder, overwrite = TRUE)
 #'
-#'filed_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
+#'field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 #'nml_file <- file.path(sim_folder, 'glm3.nml')
 #'driver_file <- file.path(sim_folder, 'LakeMendota_NLDAS.csv')
 #'period = get_calib_periods(nml_file = nml_file, ratio = 1)
@@ -48,14 +48,14 @@
 #'              verbose = FALSE,
 #'              metric = 'RMSE',plotting = TRUE,
 #'              target.fit = 1.5,
-#'              target.iter = 50, output = output, filed_file = filed_file)
+#'              target.iter = 50, output = output, field_file = field_file)
 #'@import adagio
 #'@import GLM3r 
 #'@import ggplot2
 #'@export
 calibrate_sim <- function(var = 'temp',
                           path,
-                          filed_file,
+                          field_file,
                           nml_file = 'glm3.nml',
                           calib_setup = NULL,
                           glmcmd = NULL,
@@ -106,7 +106,7 @@ calibrate_sim <- function(var = 'temp',
   }
   
   # path <<- path
-  obs <<- read_field_obs(filed_file)
+  obs <<- read_field_obs(field_file)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
                  metric, target.fit, target.iter, nml_file, path, scaling, verbose)
   
@@ -127,12 +127,12 @@ calibrate_sim <- function(var = 'temp',
   
   # compares simulated with observed data
   
-  temp_rmse1 <- compare_to_field(output, field_file = filed_file, 
+  temp_rmse1 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-    plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
+    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
   } else {
-    plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours')
+    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
   }
   
   
@@ -144,12 +144,12 @@ calibrate_sim <- function(var = 'temp',
   write_nml(nml,nml_file)
   
   run_glm(sim_folder = path, verbose = verbose)
-  temp_rmse2 <- compare_to_field(output, field_file = filed_file, 
+  temp_rmse2 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
+  plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
   } else {
-    plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours')
+    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
   }
   
   
@@ -161,12 +161,12 @@ calibrate_sim <- function(var = 'temp',
   write_nml(nml,nml_file)
   
   run_glm(sim_folder = path)
-  temp_rmse3 <- compare_to_field(output, field_file = filed_file, 
+  temp_rmse3 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
+  plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
   } else {
-    plot_var_compare(nc_file = output, field_file = filed_file,var_name = 'temp', precision = 'hours')
+    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
   }
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value

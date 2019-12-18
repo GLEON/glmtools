@@ -32,9 +32,11 @@
 #'
 #'plot_var_compare(nc_file, field_file, 'temp', resample = FALSE) ##makes a plot
 #'
+#'\dontrun{
 #'#Change color palette, custom legend title, save figure:
 #'plot_var_compare(nc_file, field_file, var_name = 'temp', resample = TRUE, legend.title = 'Temp (*C)',
 #'color.palette = 'PuBuGn', color.direction = 1,fig_path = '~/Downloads/figtest.png', width = 6, height = 8, units = 'in')
+#'}
 #'
 #'@importFrom patchwork wrap_plots
 #'@author

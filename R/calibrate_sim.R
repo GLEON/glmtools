@@ -120,7 +120,7 @@ calibrate_sim <- function(var = 'temp',
     theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
     scale_x_datetime();
   if (plotting == TRUE){
-  ggsave(file=paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+  ggsave(filename = paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   }
   
   g1

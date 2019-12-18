@@ -16,7 +16,8 @@ mean that calibration:validation would be 2:1}
 Reads in .nml file and splits the time period in a calibration and a validation time period to avoid over-fitting
 }
 \examples{
-calib_periods <- get_calib_periods(system.file("extdata/", "glm3.nml", package = "glmtools"), ratio = 1)
+calib_periods <- get_calib_periods(system.file("extdata/", "glm3.nml", package = "glmtools"), 
+ratio = 1)
 }
 \seealso{
 \code{\link{get_calib_setup}, \link{calibrate_sim}, \link{get_calib_init_validation}}

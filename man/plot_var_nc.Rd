@@ -62,13 +62,16 @@ nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 plot_var_nc(nc_file, 'temp')
 
 #Plotting two variables
-plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, 
+text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
 
 #Change color palette
-plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = FALSE)
+plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
+color.direction = 1, show.legend = FALSE)
 
 #Saving plot
-plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),fig_path = './figtest.png', width = 6, height = 2, units = 'in')
+plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
+fig_path = './figtest.png', width = 6, height = 2, units = 'in')
 
 \dontrun{
 # need to specify a valid .nc file here: 

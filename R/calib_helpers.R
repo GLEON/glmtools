@@ -85,8 +85,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   run_glmcmd(glmcmd, path, verbose)
   
   g1 <- diag.plots(mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), obs)
-  ggsave(file=paste0(path,'/diagnostics_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
-  
+  ggsave(filename = paste0(path,'/diagnostics_',method,'_',var,'.png'), plot = g1, 
+         dpi = 300,width = 384,height = 216, units = 'mm')
   
   return()
 }

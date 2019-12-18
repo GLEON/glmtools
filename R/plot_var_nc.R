@@ -65,7 +65,7 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
                                   legend.title = legend.title[j], interval=interval, text.size = text.size, 
                                   show.legend = show.legend, legend.position = legend.position, 
                                   plot.title = plot.title[j], 
-                                  color.palette = color.palette, color.direction = color.direction, zlim)
+                                  color.palette = color.palette, color.direction = color.direction, zlim = zlim)
     } else {
       h[[j]] = .plot_nc_timeseries(file = nc_file, var_name = var_name[j], 
                                    plot.title = plot.title[j], text.size = text.size)

@@ -1,5 +1,5 @@
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml.file, path, scaling){
+                      metric, target.fit, target.iter, nml_file, path, scaling, verbose){
   path <<- path
   
   if (method == 'CMA-ES'){
@@ -8,7 +8,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         sigma = 0.5, 
                         stopfitness = target.fit, 
                         stopeval = target.iter, 
-                        glmcmd = glmcmd, scaling = scaling, metric = metric)
+                        glmcmd = glmcmd, scaling = scaling, metric = metric, verbose = verbose)
   } else if (method == 'Nelder-Mead'){
     glmOPT <- neldermeadb(fn = glmFUN, init.val, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
@@ -18,14 +18,14 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   }
   
   
-  glmFUN(glmOPT$xmin, glmcmd, scaling, metric)
+  glmFUN(glmOPT$xmin, glmcmd, scaling, metric, verbose)
   calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
   eval(parse(text = paste0('best_par <- calib[which.min(calib$',metric,'),]')))
   write.csv(best_par, paste0(path,'/calib_par_',var,'.csv'), row.names = F, quote = F)
   best_par <- read.csv(paste0(path,'/calib_par_',var,'.csv'))
   
   #Input best parameter set
-  nml <- read_nml(nml_file = nml.file)
+  nml <- read_nml(nml_file = nml_file)
   check_duplicates <- c()
   for (i in 2:(ncol(best_par)-2)){
     string1 <- colnames(best_par)[i]
@@ -79,10 +79,10 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
     }
   }
   
-  write_nml(nml, file = nml.file)
+  write_nml(nml, file = nml_file)
   
   #Run GLM
-  run_glmcmd(glmcmd, path)
+  run_glmcmd(glmcmd, path, verbose)
   
   g1 <- diag.plots(mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), obs)
   ggsave(file=paste0(path,'/diagnostics_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
@@ -92,7 +92,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 }
 
 
-glmFUN <- function(p, glmcmd, scaling, metric){
+glmFUN <- function(p, glmcmd, scaling, metric, verbose){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
     p = values.optim
@@ -101,7 +101,7 @@ glmFUN <- function(p, glmcmd, scaling, metric){
     p <- wrapper_scales(p, lb, ub)
   }
   
-  eg_nml <- read_nml(nml.file)
+  eg_nml <- read_nml(nml_file)
   
   for(i in 1:length(pars[!duplicated(pars)])){
     if (any(pars[!duplicated(pars)][i] == pars[duplicated(pars)])){
@@ -112,12 +112,12 @@ glmFUN <- function(p, glmcmd, scaling, metric){
     }
   }
   
-  write_path <- nml.file
+  write_path <- nml_file
   write_nml(eg_nml, file = write_path)
   
-  error <- try(run_glmcmd(glmcmd,path))
+  error <- try(run_glmcmd(glmcmd, path, verbose))
   while (error != 0){
-    error >- try(run_glmcmd(glmcmd,path))
+    error >- try(run_glmcmd(glmcmd, path, verbose))
   }
   
   mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface', var)
@@ -142,9 +142,9 @@ glmFUN <- function(p, glmcmd, scaling, metric){
   return(fit)
 }
 
-run_glmcmd <- function(glmcmd, path){
+run_glmcmd <- function(glmcmd, path, verbose){
   if (is.null(glmcmd)){
-    run_glm(path)
+    run_glm(path, verbose = verbose)
   } else{
     system(glmcmd,ignore.stdout=TRUE)
   }

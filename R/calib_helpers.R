@@ -1,3 +1,4 @@
+#'@import adagio
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                       metric, target.fit, target.iter, nml_file, path, scaling, verbose){
   path <<- path
@@ -8,7 +9,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         sigma = 0.5, 
                         stopfitness = target.fit, 
                         stopeval = target.iter, 
-                        glmcmd = glmcmd, scaling = scaling, metric = metric, verbose = verbose)
+                        glmcmd = glmcmd, nml_file = nml_file, var = var,
+                        scaling = scaling, metric = metric, verbose = verbose)
   } else if (method == 'Nelder-Mead'){
     glmOPT <- neldermeadb(fn = glmFUN, init.val, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
@@ -17,8 +19,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         maxfeval = target.iter)
   }
   
-  
-  glmFUN(glmOPT$xmin, glmcmd, scaling, metric, verbose)
+  glmFUN(p = glmOPT$xmin,nml_file = nml_file,glmcmd = glmcmd, var = var,scaling,metric,verbose)
+  # glmFUN(glmOPT$xmin, glmcmd, scaling, metric, verbose)
   calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
   eval(parse(text = paste0('best_par <- calib[which.min(calib$',metric,'),]')))
   write.csv(best_par, paste0(path,'/calib_par_',var,'.csv'), row.names = F, quote = F)
@@ -92,7 +94,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 }
 
 
-glmFUN <- function(p, glmcmd, scaling, metric, verbose){
+glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
     p = values.optim
@@ -120,7 +122,7 @@ glmFUN <- function(p, glmcmd, scaling, metric, verbose){
     error >- try(run_glmcmd(glmcmd, path, verbose))
   }
   
-  mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface', var)
+  mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)
 
   fit = get_rmse(mod,obs)
   
@@ -172,7 +174,7 @@ get_rmse <- function(mods, obs){
 mod2obs <- function(mod_nc, obs, reference = 'surface', var){
   deps = unique(obs[,2])
   #tim = unique(obs[,1])
-  mod <- glmtools::get_var(file = mod_nc,var,reference = reference, z_out = deps)
+  mod <- glmtools::get_var(file = mod_nc,var_name = var,reference = reference, z_out = deps)
   mod <- match.tstep(obs, mod) #From gotm_functions.R
   mod <- reshape2::melt(mod, id.vars = 1)
   mod[,2] <- as.character(mod[,2])

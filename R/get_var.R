@@ -28,7 +28,7 @@
 #'plot(evaporation)
 #'@importFrom ncdf4 ncvar_get
 #'@export
-get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
+get_var <-  function(file='output.nc', var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   
   glm_nc <- get_glm_nc(file)
   

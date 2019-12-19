@@ -4,11 +4,24 @@
 \alias{calibrate_sim}
 \title{Calibrates GLM-AED2 variables to improve fit between observed and simulated data}
 \usage{
-calibrate_sim(var = "temp", path, field_file, nml_file = "glm3.nml",
-  calib_setup = NULL, glmcmd = NULL, first.attempt = TRUE,
-  period = NULL, scaling = TRUE, verbose = TRUE, method = "CMA-ES",
-  metric = "RMSE", target.fit = 1.5, target.iter = 100,
-  plotting = TRUE, output)
+calibrate_sim(
+  var = "temp",
+  path,
+  field_file,
+  nml_file = "glm3.nml",
+  calib_setup = NULL,
+  glmcmd = NULL,
+  first.attempt = TRUE,
+  period = NULL,
+  scaling = TRUE,
+  verbose = TRUE,
+  method = "CMA-ES",
+  metric = "RMSE",
+  target.fit = 1.5,
+  target.iter = 100,
+  plotting = TRUE,
+  output
+)
 }
 \arguments{
 \item{var}{Character vector of valid variable names (see \code{\link{sim_vars}})}

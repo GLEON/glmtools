@@ -38,11 +38,11 @@
 #'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
 #'color.direction = 1, show.legend = FALSE)
 #'
-#'#Saving plot
+#'\dontrun{
+#'#'#How to save a plot
 #'plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
 #'fig_path = './figtest.png', width = 6, height = 2, units = 'in')
 #'
-#'\dontrun{
 #'# need to specify a valid .nc file here: 
 #'plot_var_nc(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 

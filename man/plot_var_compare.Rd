@@ -4,13 +4,28 @@
 \alias{plot_var_compare}
 \title{Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_var_compare(nc_file, field_file, var_name = "temp",
-  fig_path = NULL, resample = TRUE, precision = "hours",
-  conversion = NULL, legend.title = NULL, interval = 1,
-  method = "match", text.size = 12, color.palette = "RdYlBu",
-  color.direction = -1, obs.color = "white", obs.alpha = 0.6,
-  obs.shape = 16, obs.size = 1, shiftPalette = NULL, zlim = NULL,
-  ...)
+plot_var_compare(
+  nc_file,
+  field_file,
+  var_name = "temp",
+  fig_path = NULL,
+  resample = TRUE,
+  precision = "hours",
+  conversion = NULL,
+  legend.title = NULL,
+  interval = 1,
+  method = "match",
+  text.size = 12,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  obs.color = "white",
+  obs.alpha = 0.6,
+  obs.shape = 16,
+  obs.size = 1,
+  shiftPalette = NULL,
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -69,7 +84,7 @@ plot_var_compare(nc_file, field_file, 'temp', resample = FALSE) ##makes a plot
 #Change color palette, custom legend title, save figure:
 plot_var_compare(nc_file, field_file, var_name = 'temp', resample = TRUE, 
 legend.title = 'Temp (*C)', color.palette = 'PuBuGn', color.direction = 1,
-fig_path = '~/Downloads/figtest.png', width = 6, height = 8, units = 'in')
+fig_path = './figtest.png', width = 6, height = 8, units = 'in')
 }
 
 }

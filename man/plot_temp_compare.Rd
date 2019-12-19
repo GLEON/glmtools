@@ -4,16 +4,9 @@
 \alias{plot_temp_compare}
 \title{Deprecated. Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(
-  nc_file,
-  field_file,
-  fig_path = NULL,
-  resample = TRUE,
-  interval = 1,
-  method = "match",
-  text.size = 12,
-  ...
-)
+plot_temp_compare(nc_file, field_file, fig_path = NULL,
+  resample = TRUE, interval = 1, method = "match", text.size = 12,
+  ...)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}

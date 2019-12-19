@@ -10,7 +10,6 @@ sudo: required
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libnetcdf-dev netcdf-bin netcdf-doc
-  - R -e 'install.packages("ncdf4", repos=c("http://cran.rstudio.com"))'
   
 r_github_packages: GLEON/GLM3r
 

@@ -4,13 +4,8 @@
 \alias{get_temp}
 \title{get water temperatures from a GLM simulation}
 \usage{
-get_temp(
-  file = "output.nc",
-  reference = "bottom",
-  z_out = NULL,
-  t_out = NULL,
-  ...
-)
+get_temp(file = "output.nc", reference = "bottom", z_out = NULL,
+  t_out = NULL, ...)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

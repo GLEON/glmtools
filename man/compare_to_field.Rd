@@ -4,15 +4,8 @@
 \alias{compare_to_field}
 \title{compare metric for GLM vs field observations}
 \usage{
-compare_to_field(
-  nc_file,
-  field_file,
-  nml_file,
-  metric,
-  as_value = FALSE,
-  na.rm = TRUE,
-  ...
-)
+compare_to_field(nc_file, field_file, nml_file, metric, as_value = FALSE,
+  na.rm = TRUE, ...)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}

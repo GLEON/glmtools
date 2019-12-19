@@ -4,10 +4,17 @@
 \alias{plot_temp}
 \title{Deprecated. Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(nc_file = "output.nc", fig_path = NULL,
-  reference = "surface", legend.title = NULL, interval = 0.5,
-  text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL)
+plot_temp(
+  nc_file = "output.nc",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL
+)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}

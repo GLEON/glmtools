@@ -9,9 +9,9 @@ test_that("get_wind", {
   #should be empty
   expect_warning(get_wind(nc_file, t_out = t_out, method = 'interp'))
   
-  t_out <- as.POSIXct(c("2010-04-16 08:15", 
-                        "2010-06-14 10:30", "2010-06-25 10:21", 
-                        "2010-07-28 10:00"),tz = 'GMT') 
+  t_out <- as.POSIXct(c("2015-04-16 08:15", 
+                        "2015-06-14 10:30", "2015-06-25 10:21", 
+                        "2015-07-28 10:00"),tz = 'GMT') 
   
   df <- get_wind(nc_file, t_out = t_out, method = 'interp', precision = 'exact')
   expect_true(all(t_out == df[,1]))
@@ -30,9 +30,9 @@ test_that("get_surface_height", {
   #should be empty
   expect_warning(get_surface_height(nc_file, t_out = t_out, method = 'interp'))
   
-  t_out <- as.POSIXct(c("2010-04-16 08:15", 
-                        "2010-06-14 10:30", "2010-06-25 10:21", 
-                        "2010-07-28 10:00"),tz = 'GMT') 
+  t_out <- as.POSIXct(c("2015-04-16 08:15", 
+                        "2015-06-14 10:30", "2015-06-25 10:21", 
+                        "2015-07-28 10:00"),tz = 'GMT') 
   
   df <- get_surface_height(nc_file, t_out = t_out, method = 'interp', precision = 'exact')
   expect_true(all(t_out == df[,1]))

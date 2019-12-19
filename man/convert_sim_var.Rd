@@ -4,8 +4,13 @@
 \alias{convert_sim_var}
 \title{convert an existing simulation variable into a different one}
 \usage{
-convert_sim_var(nc_file = "output/output.nc", ..., unit = "",
-  longname = "", overwrite = FALSE)
+convert_sim_var(
+  nc_file = "output/output.nc",
+  ...,
+  unit = "",
+  longname = "",
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{nc_file}{the netcdf output file}

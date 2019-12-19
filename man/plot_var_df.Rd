@@ -4,11 +4,22 @@
 \alias{plot_var_df}
 \title{Plot variables from a data frame}
 \usage{
-plot_var_df(data, var_name, interpolate = F, fig_path = NULL,
-  legend.title = var_name, text.size = 12, show.legend = TRUE,
-  legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1,
-  reference = "surface", zlim = NULL, ...)
+plot_var_df(
+  data,
+  var_name,
+  interpolate = F,
+  fig_path = NULL,
+  legend.title = var_name,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  reference = "surface",
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{a dataframe directly from GLM output or field data. First column must be date/dateTime (Date or POSIXct format). 

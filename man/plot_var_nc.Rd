@@ -5,17 +5,39 @@
 \alias{plot_var}
 \title{Plot variables from a .nc file}
 \usage{
-plot_var_nc(nc_file = "output.nc", var_name = "temp",
-  fig_path = NULL, reference = "surface", legend.title = NULL,
-  interval = 0.5, text.size = 12, show.legend = TRUE,
-  legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1, zlim = NULL, ...)
+plot_var_nc(
+  nc_file = "output.nc",
+  var_name = "temp",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL,
+  ...
+)
 
-plot_var(nc_file = "output.nc", var_name = "temp", fig_path = NULL,
-  reference = "surface", legend.title = NULL, interval = 0.5,
-  text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL, color.palette = "RdYlBu", color.direction = -1,
-  zlim = NULL, ...)
+plot_var(
+  nc_file = "output.nc",
+  var_name = "temp",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}

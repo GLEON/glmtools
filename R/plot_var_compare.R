@@ -129,7 +129,7 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
     labs(fill = legend.title) +
     theme_bw(base_size = text.size) 
   
-  print(h3)
+  # print(h3)
   }
     
   # Saving plot 

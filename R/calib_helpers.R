@@ -216,7 +216,6 @@ match.tstep <- function(df1, df2){
   }
 }
 
-#'@import stats
 #'@import graphics
 diag.plots <- function(mod, obs, ggplot = T){
   stats = sum_stat(mod, obs, depth = T)
@@ -388,7 +387,6 @@ get_nse <- function(x, y){
 }
 
 # gotmtools.R
-#'@import stats
 sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
   if(depth == T){
     if(!is.null(depth.range)){

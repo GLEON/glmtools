@@ -8,7 +8,7 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'run_example_sim()
+#'run_example_sim(verbose = FALSE)
 #'\dontrun{
 #'run_example_sim('~/Desktop/GLM_sims')
 #'}    

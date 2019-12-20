@@ -46,7 +46,7 @@
 #'              first.attempt = TRUE, period = period, method = 'CMA-ES',
 #'              scaling = TRUE, #scaling should be TRUE for CMA-ES
 #'              verbose = FALSE,
-#'              metric = 'RMSE',plotting = TRUE,
+#'              metric = 'RMSE',plotting = FALSE,
 #'              target.fit = 1.5,
 #'              target.iter = 50, output = output)
 #'@import adagio

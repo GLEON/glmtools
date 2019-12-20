@@ -64,11 +64,11 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   # Resample 
   data = resample_to_field(nc_file, field_file, var_name=var_name, method = method, precision = precision) %>% 
     mutate(type = as.factor('Observed'))
-  dataClean = data %>% dplyr::filter_all(all_vars(!is.na(.)))
+  dataClean = data %>% dplyr::filter_all(all_vars(!is.na(.data$.)))
   
   # Akima interpolation of observed data (Gridded Bivariate Interpolation for Irregular Data)
   observed_df <- .interpolate2grid(dataClean, xcol = 1, ycol = 2, zcol = 3) %>% 
-    rename(DateTime = x, Depth=y, var=z)
+    rename(DateTime = .data$x, Depth = .data$y, var = .data$z)
 
   # Should modeled data be resampled to match resolution of field data?
   if(resample == TRUE) {
@@ -79,9 +79,9 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   } else {
   	model_df = modeled_var
   	names.df = data.frame(names = names(model_df)[-1], Depth = z_out, stringsAsFactors = F)
-  	model_df = gather(data = model_df,key = depth, value = var,-DateTime) %>%
+  	model_df = gather(data = model_df,key = depth, value = var, -.data$DateTime) %>%
   	  left_join(names.df, by = c('depth' = 'names')) %>%
-  	  arrange(DateTime, Depth)
+  	  arrange(.data$DateTime, .data$Depth)
   }
 
   if(is.null(legend.title)) {
@@ -89,9 +89,9 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   }
 
   if (var_name != 'temp' & is.null(conversion)) {
-    h1 = ggplot(data = observed_df, aes(x = DateTime, y = Depth)) +
-      geom_raster(aes(fill = var), interpolate = F) +
-      geom_point(data = data, aes(x = DateTime, y = Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
+    h1 = ggplot(data = observed_df, aes(x = .data$DateTime, y = .data$Depth)) +
+      geom_raster(aes(fill = .data$var), interpolate = F) +
+      geom_point(data = data, aes(x = .data$DateTime, y = .data$Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
       scale_y_reverse(expand = c(0.01,0.01)) +
       scale_x_datetime(expand = c(0.01,0.01), limits = c(min(observed_df$DateTime), max(observed_df$DateTime))) +
       scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", limits = zlim) +
@@ -99,8 +99,8 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
       labs(fill = legend.title, title = 'Observed') +
       theme_bw(base_size = text.size)
   
-    h2 = ggplot(data = model_df, aes(DateTime, Depth)) +
-      geom_raster(aes(fill = var), interpolate = F) +
+    h2 = ggplot(data = model_df, aes(.data$DateTime, .data$Depth)) +
+      geom_raster(aes(fill = .data$var), interpolate = F) +
       scale_y_reverse(expand = c(0.01,0.01)) +
       scale_x_datetime(expand = c(0.01,0.01), limits = c(min(observed_df$x), max(observed_df$x))) +
       scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", limits = zlim) +
@@ -112,15 +112,15 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   }
   
   if (var_name == 'temp' | !is.null(conversion)) {
-    if (!is.null(conversion))  {model_df = model_df %>% mutate(var = var * conversion)}
+    if (!is.null(conversion))  {model_df = model_df %>% mutate(var = .data$var * conversion)}
 
   dfCombine = mutate(observed_df, type = 'Observed') %>% 
     bind_rows(mutate(model_df, type = 'Modeled')) %>% 
-    mutate(type = factor(type, levels=c('Observed','Modeled')))
+    mutate(type = factor(.data$type, levels=c('Observed','Modeled')))
   
-  h3 = ggplot(data = dfCombine, aes(DateTime, Depth)) +
-    geom_raster(aes(fill = var), interpolate = F) +
-    geom_point(data = data, aes(x = DateTime, y = Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
+  h3 = ggplot(data = dfCombine, aes(.data$DateTime, .data$Depth)) +
+    geom_raster(aes(fill = .data$var), interpolate = F) +
+    geom_point(data = data, aes(x = .data$DateTime, y = .data$Depth), color = obs.color, alpha = obs.alpha, shape = obs.shape, size = obs.size) +
     scale_y_reverse(expand = c(0.01,0.01)) +
     scale_x_datetime(expand = c(0.01,0.01), limits = c(min(dfCombine$DateTime), max(dfCombine$DateTime))) +
     scale_fill_distiller(palette = color.palette, direction = color.direction, na.value = "grey90", values = shiftPalette, limits = zlim) +

@@ -47,7 +47,7 @@ validate_sim <- function(nc_file, field_file, nml_file, metrics, fig_path = NULL
   for (i in 1:num_metrics){
     vals <- compare_to_field(nc_file, field_file, nml_file, metric = metrics[i], as_value = TRUE)
     
-    h[[i]] = ggplot(vals) + geom_point(aes(x = obs, y = mod)) +
+    h[[i]] = ggplot(vals) + geom_point(aes(x = .data$obs, y = .data$mod)) +
       xlab('Observed') + ylab('Modeled') +
       labs(title = metrics[i]) +
       geom_abline() +

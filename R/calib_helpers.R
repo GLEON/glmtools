@@ -1,10 +1,11 @@
 #'@import adagio
+#'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                       metric, target.fit, target.iter, nml_file, path, scaling, verbose){
   path <<- path
   
   if (method == 'CMA-ES'){
-    glmOPT <- pureCMAES(init.val, glmFUN, lower = rep(0,length(init.val)), 
+    glmOPT <- pureCMAES(par = init.val, fun = glmFUN, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
                         sigma = 0.5, 
                         stopfitness = target.fit, 
@@ -16,7 +17,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         upper = rep(10,length(init.val)), 
                         adapt = TRUE,
                         tol = 1e-10,
-                        maxfeval = target.iter)
+                        maxfeval = target.iter, glmcmd = glmcmd, nml_file = nml_file, var = var,
+                        scaling = scaling, metric = metric, verbose = verbose )
   }
   
   glmFUN(p = glmOPT$xmin,nml_file = nml_file,glmcmd = glmcmd, var = var,scaling,metric,verbose)
@@ -87,6 +89,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   run_glmcmd(glmcmd, path, verbose)
   
   g1 <- diag.plots(mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), obs)
+
   ggsave(filename = paste0(path,'/diagnostics_',method,'_',var,'.png'), plot = g1, 
          dpi = 300,width = 384,height = 216, units = 'mm')
   
@@ -140,7 +143,7 @@ glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
       write.csv(df,paste0(path,'/calib_results_',metric,'_',var,'.csv'), row.names = F, quote = F)
     }
 
-  print(paste(metric, fit))
+  print(paste(metric, round(fit,3)))
   return(fit)
 }
 
@@ -213,6 +216,8 @@ match.tstep <- function(df1, df2){
   }
 }
 
+#'@import stats
+#'@import graphics
 diag.plots <- function(mod, obs, ggplot = T){
   stats = sum_stat(mod, obs, depth = T)
   if(max(mod[,2]) >= 0){ #Makes depths negative
@@ -289,10 +294,9 @@ diag.plots <- function(mod, obs, ggplot = T){
     grob3 <- grid::grobTree(grid::textGrob(paste0("cov = ", round(stats$Covariance,2),'; bias = ', round(stats$Bias,2),'; MAE = ', round(stats$MAE,2),'; RMSE = ',round(stats$RMSE,2)), x=0.05,  y=0.05, hjust=0,
                                            gp=grid::gpar(col="black", fontsize=10)))
     
-    
     #Plots
     p1 <-ggplot(mod, aes(x = res)) + 
-      geom_histogram(fill = "blue", colour = 'black', breaks = seq(min.res, max.res, bw)) + 
+      geom_histogram(fill = "lightblue4", colour = 'black', breaks = seq(min.res, max.res, bw)) + 
       stat_function( 
         fun = function(x, mean, sd, n, bw){ 
           dnorm(x = x, mean = mean, sd = sd) * n * bw
@@ -364,6 +368,7 @@ diag.plots <- function(mod, obs, ggplot = T){
     # gridExtra::grid.arrange(g)
     
     g = patchwork::wrap_plots(p1,p2,p3,p4,p5,p6, nrow = 2)
+    print(g)
     
     return(g)
   }
@@ -383,6 +388,7 @@ get_nse <- function(x, y){
 }
 
 # gotmtools.R
+#'@import stats
 sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
   if(depth == T){
     if(!is.null(depth.range)){

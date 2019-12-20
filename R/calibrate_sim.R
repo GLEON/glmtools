@@ -70,6 +70,9 @@ calibrate_sim <- function(var = 'temp',
                           plotting = TRUE,
                           output){
   
+  # Development message 
+  message('Calibration functions are under development, and are likley to change with future package updates.')
+  
   if (first.attempt){
     if (file.exists(paste0(path,'/calib_results_',metric,'_',var,'.csv'))){
       file.remove(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
@@ -80,7 +83,6 @@ calibrate_sim <- function(var = 'temp',
   } 
   
   if(!file.exists('glm4.nml')){
-    # file.copy(nml_file, 'glm4.nml')
     file.copy(nml_file, paste0(path,'/glm4.nml'))
   } else if (first.attempt){
     file.copy(paste0(path,'/glm4.nml'), nml_file, overwrite = TRUE)
@@ -113,30 +115,31 @@ calibrate_sim <- function(var = 'temp',
   # loads all iterations
   results <- read.csv(paste0(path,'/calib_results_RMSE_temp.csv'))
   results$DateTime <- as.POSIXct(results$DateTime)
-  g1 <- ggplot(results, aes(DateTime, RMSE)) +
+  g1 <- ggplot(results, aes(nrow(results):1, RMSE)) +
     geom_point() +
-    geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x)) +
-    theme_bw() +
-    theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
-    scale_x_datetime();
-  if (plotting == TRUE){
-  ggsave(filename = paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+    geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x), color = 'lightblue4') +
+    theme_bw() + xlab('Iterations') +
+    theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1))
+  
+  if (plotting == TRUE) {
+    ggsave(filename = paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   }
   
-  g1
+  print(g1)
   
-  # compares simulated with observed data
+  # Compare simulated with observed data
   
   temp_rmse1 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Calibration Period')
+  print(plot.heat)
   if (plotting == TRUE){
-    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
   }
   
-  
-  # check the model fit during the validation period
+  # Check the model fit during the validation period
   init.temps <- read_nml(nml_file)$init_profiles$the_temps
   get_calib_init_validation(nml_file= nml_file, output = output)
   nml <- read_nml(nml_file)
@@ -146,10 +149,12 @@ calibrate_sim <- function(var = 'temp',
   run_glm(sim_folder = path, verbose = verbose)
   temp_rmse2 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Validation Period')
+  print(plot.heat)
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
   }
   
   
@@ -160,14 +165,17 @@ calibrate_sim <- function(var = 'temp',
   nml <- set_nml(nml, arg_list =total.list)
   write_nml(nml,nml_file)
   
-  run_glm(sim_folder = path)
+  run_glm(sim_folder = path, verbose = verbose)
   temp_rmse3 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Total Time Period')
+  print(plot.heat)
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
   }
+  
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value
   calibrated_results <- cbind(calib_setup, 'calibrated' =round(c(results$wind_factor[1], 

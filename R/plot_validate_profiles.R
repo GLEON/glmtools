@@ -27,8 +27,8 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = NULL, ...){
 	
 	mod_and_obs_long = mod_and_obs %>% gather(Group, Temp, -DateTime, -Depth)
 	
-	h3 = ggplot(mod_and_obs_long) + geom_path(aes(y = Depth, x = Temp, color = Group)) +
-	  geom_point(aes(y = Depth, x = Temp, fill = Group, color = Group)) +
+	h3 = ggplot(mod_and_obs_long) + geom_path(aes(y = .data$Depth, x = .data$Temp, color = .data$Group)) +
+	  geom_point(aes(y = .data$Depth, x = .data$Temp, fill = .data$Group, color = .data$Group)) +
 	  scale_color_manual(values = c('black','lightblue4')) +
 	  scale_y_reverse() +
 	  theme_bw() + theme(legend.title = element_blank()) +

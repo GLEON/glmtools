@@ -4,9 +4,16 @@
 \alias{plot_temp_compare}
 \title{Deprecated. Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(nc_file, field_file, fig_path = NULL,
-  resample = TRUE, interval = 1, method = "match", text.size = 12,
-  ...)
+plot_temp_compare(
+  nc_file,
+  field_file,
+  fig_path = NULL,
+  resample = TRUE,
+  interval = 1,
+  method = "match",
+  text.size = 12,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -30,7 +37,7 @@ Deprecated. Plot matching heatmaps for modeled and observed temp
 }
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-field_file <- system.file("extdata", "field_data.tsv", package = "glmtools")
+field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
 }

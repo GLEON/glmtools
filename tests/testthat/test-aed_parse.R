@@ -1,18 +1,12 @@
 context("aed nmls can be parsed")
 
 test_that("normal aed parse works",{
-  
-  aed_nml <<- read_nml(system.file('extdata','fabm.nml', package='glmtools'))
-  
+  aed_nml <<- read_nml(system.file('extdata','aed2.nml', package='glmtools'))
   expect_equal(get_nml_value(aed_nml, 'num_tracers'), 1)
 })
 
 test_that("aed block::arg_name works",{
-  
-  expect_equal(get_nml_value(aed_nml, 'aed_oxygen::Fsed_oxy'), -50)
-  expect_equal(get_nml_value(aed_nml, 'aed_sed_constant::Fsed_oxy'), -3)
-  
-  
+  expect_equal(get_nml_value(aed_nml, 'aed2_oxygen::Fsed_oxy'), -20)
 })
 
 test_that("aed parse warns w/ more than one match",{
@@ -32,9 +26,9 @@ test_that("setter works with default case",{
 })
 
 test_that("setter works with new syntax",{
-  expect_false(get_nml_value(aed_nml, 'aed_sed_constant::Fsed_oxy') == 1.5)
-  nml = set_nml(aed_nml, 'aed_sed_constant::Fsed_oxy', arg_val = 1.5)
-  expect_equal(get_nml_value(nml, 'aed_sed_constant::Fsed_oxy'), 1.5)
+  expect_false(get_nml_value(aed_nml, 'aed2_sed_constant::Fsed_oxy') == 1.5)
+  nml = set_nml(aed_nml, 'aed2_sed_constant::Fsed_oxy', arg_val = 1.5)
+  expect_equal(get_nml_value(nml, 'aed2_sed_constant::Fsed_oxy'), 1.5)
   #the default
-  expect_false(get_nml_value(nml, 'aed_oxygen::Fsed_oxy')== 1.5)
+  expect_false(get_nml_value(nml, 'aed2_oxygen::Fsed_oxy')== 1.5)
 })

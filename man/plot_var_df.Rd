@@ -4,11 +4,22 @@
 \alias{plot_var_df}
 \title{Plot variables from a data frame}
 \usage{
-plot_var_df(data, var_name, interpolate = F, fig_path = NULL,
-  legend.title = var_name, text.size = 12, show.legend = TRUE,
-  legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1,
-  reference = "surface", ...)
+plot_var_df(
+  data,
+  var_name,
+  interpolate = F,
+  fig_path = NULL,
+  legend.title = var_name,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  reference = "surface",
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{a dataframe directly from GLM output or field data. First column must be date/dateTime (Date or POSIXct format). 
@@ -39,11 +50,9 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 
 \item{reference}{String; 'surface' or 'bottom'. surface = Depths are referenced from the surface, bottom = Depths are referenced from the bottom (elevations)}
 
+\item{zlim}{Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value).}
+
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
-
-\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
-
-\item{depths}{Logical; TRUE = Depths are provided. FALSE = Elevations are provided.}
 }
 \description{
 Plot variables from a data frame
@@ -56,11 +65,11 @@ one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 data = get_var(nc_file,'temp', reference = 'surface') 
-plot_var_df(data, var_name = 'temp', interpolate = F, legend.title = 'Temp (degC)')
-#Saving plot
-plot_var(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
-
+plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
 \dontrun{
+#Saving plot
+plot_var_df(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+
 # need to specify a valid .nc file here: 
 plot_var(file = fabm_sim_nc.nc,
 var_name = 'aed_oxygen_oxy', 

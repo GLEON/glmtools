@@ -18,8 +18,7 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-#'plot_temp(nc_file = nc_file, fig_path = FALSE)
-#'plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+#'plot_temp(nc_file = nc_file, fig_path = NULL)
 #'@export
 plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', legend.title = NULL, 
                       interval = 0.5, text.size = 12, show.legend = TRUE, 
@@ -27,8 +26,8 @@ plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', 
   
   .Deprecated('plot_var',msg = 'Deprecated. Use `plot_var`, where default is var_name = `temp`')
   
-  plot_var_nc(nc_file, var_name = 'temp', fig_path = NULL, reference, legend.title, 
-           interval, text.size, show.legend, 
-           legend.position, plot.title)
+  plot_var_nc(nc_file = nc_file, var_name = 'temp', fig_path = fig_path, reference = reference, legend.title = legend.title, 
+           interval = interval, text.size = text.size, show.legend = show.legend, 
+           legend.position = legend.position, plot.title = plot.title)
   
 }

@@ -4,8 +4,14 @@
 \alias{get_var}
 \title{get variable from a GLM simulation}
 \usage{
-get_var(file = "output.nc", var_name, reference = "bottom",
-  z_out = NULL, t_out = NULL, ...)
+get_var(
+  file = "output.nc",
+  var_name,
+  reference = "bottom",
+  z_out = NULL,
+  t_out = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}

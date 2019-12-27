@@ -1,4 +1,4 @@
-dateTime,AirTemp.C,ShortWave.W_m2,LongWave.W_m2,SpecHumidity.kg_kg,RelHum,WindSpeed.m_s,Rain.m_day,SurfPressure.Pa
+Time,AirTemp,ShortWave,LongWave,SpecHumidity.kg_kg,RelHum,WindSpeed,Rain,SurfPressure.Pa
 2015-01-01 00:00:00,-9.470007,0,169.37,0.0007891,41.71722,8.967319,0,98739.3
 2015-01-01 01:00:00,-9.579993,0,169.37,0.0008369,44.61312,8.127054,0,98702.98
 2015-01-01 02:00:00,-9.699988,0,169.37,0.0008847,47.59206,7.312729,0,98666.02

@@ -5,17 +5,39 @@
 \alias{plot_var}
 \title{Plot variables from a .nc file}
 \usage{
-plot_var_nc(nc_file = "output.nc", var_name = "temp",
-  fig_path = NULL, reference = "surface", legend.title = NULL,
-  interval = 0.5, text.size = 12, show.legend = TRUE,
-  legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1, ...)
+plot_var_nc(
+  nc_file = "output.nc",
+  var_name = "temp",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL,
+  ...
+)
 
-plot_var(nc_file = "output.nc", var_name = "temp", fig_path = NULL,
-  reference = "surface", legend.title = NULL, interval = 0.5,
-  text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL, color.palette = "RdYlBu", color.direction = -1,
-  ...)
+plot_var(
+  nc_file = "output.nc",
+  var_name = "temp",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -45,6 +67,8 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 
 \item{color.direction}{Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).}
 
+\item{zlim}{Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value).}
+
 \item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }
 \description{
@@ -60,15 +84,18 @@ nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 plot_var_nc(nc_file, 'temp')
 
 #Plotting two variables
-plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, 
+text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
 
 #Change color palette
-plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
-
-#Saving plot
-plot_var_nc(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
+color.direction = 1, show.legend = FALSE)
 
 \dontrun{
+#'#How to save a plot
+plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
+fig_path = './figtest.png', width = 6, height = 2, units = 'in')
+
 # need to specify a valid .nc file here: 
 plot_var_nc(file = fabm_sim_nc.nc,
 var_name = 'aed_oxygen_oxy', 

@@ -1,52 +1,44 @@
-#'Plot validation and model temperature profiles
+#'Plot validation and model temperature profiles for all unique dates
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param field_file a string with the path to the field observation file
-#'@param fig_path FALSE if plot to screen, string path if save plot as .png. 
+#'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'If argument is not used, plotting is skipped
-#'@param ... optional arguments passed to \code{resample_to_field}
+#' @param \dots additional arguments passed to \code{ggsave()}
 #'@keywords methods
 #'@seealso \link{validate_sim}, \link{resample_to_field}
 #'@author
-#'Luke A. Winslow, Jordan S. Read
+#'Luke A. Winslow, Jordan S. Read, Hilary A. Dugan
 #'@examples 
-#'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
-#'nml_file <- file.path(sim_folder, 'glm2.nml')
-#'field_file <- file.path(sim_folder, 'field_data.tsv')
+#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 #'
 #' #  create a multiple metric diagnostic fig within R:
-#'plot_validate_profiles(nc_file, field_file, fig_path = FALSE, method = 'interp')             
+#'plot_validate_profiles(nc_file, field_file, fig_path = NULL, method = 'interp')             
 #'@export
-plot_validate_profiles <- function(nc_file, field_file, fig_path = FALSE, ...){
-  valid_fig_path(fig_path)
-  
-  start_par = par(no.readonly = TRUE)
-  
-	if (is.character(fig_path)){
-		#gen_default_fig(file_name = fig_path, fig_w = 2, fig_h = num_metrics*2, ps = 10, 
-		#								l.mar = 0.5, r.mar = 0.1, b.mar = .4, t.mar = .1) 
-		stop('Saving figures to file not yet supported in plot_validate_profiles')
-	}
+
+plot_validate_profiles <- function(nc_file, field_file, fig_path = NULL, ...){
 
 	#get validation data
 	temp_val = read_field_obs(field_file)
   
 	#load temperature from nc
-	mod_and_obs <- resample_to_field(nc_file, field_file, ...)
-  
-	u_dates = unique(mod_and_obs$DateTime)
+	mod_and_obs <- resample_to_field(nc_file, field_file, ...) %>% 
+	  arrange(DateTime, Depth)
 	
-	for(i in seq_len(length(u_dates))){
-		
-		val_indx = mod_and_obs$DateTime == u_dates[i]
-		
-		plot(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Depth[val_indx], type='l', 
-				 xlim=range(c(mod_and_obs$Modeled_temp[val_indx], mod_and_obs$Observed_temp[val_indx]), na.rm=TRUE),
-				 ylab='Depth (m)', xlab='Temp (degC)', ylim=c(max(mod_and_obs$Depth[val_indx], na.rm = TRUE),0),
-				 main=strptime(u_dates[i], '%Y-%m-%d'))
-		
-		points(mod_and_obs$Observed_temp[val_indx], mod_and_obs$Depth[val_indx], pch=20)
-		
-	}
-  par(start_par)
+	mod_and_obs_long = mod_and_obs %>% gather(Group, Temp, -DateTime, -Depth)
+	
+	h3 = ggplot(mod_and_obs_long) + geom_path(aes(y = .data$Depth, x = .data$Temp, color = .data$Group)) +
+	  geom_point(aes(y = .data$Depth, x = .data$Temp, fill = .data$Group, color = .data$Group)) +
+	  scale_color_manual(values = c('black','lightblue4')) +
+	  scale_y_reverse() +
+	  theme_bw() + theme(legend.title = element_blank()) +
+	  facet_wrap(~as.Date(DateTime))
+	
+	# Saving plot 
+	if (!is.null(fig_path)){
+	  ggsave(plot = h3, filename = fig_path,...)
+	} 
+	
+	return(h3) #return as ggplot object 
+
 }

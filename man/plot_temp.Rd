@@ -4,10 +4,17 @@
 \alias{plot_temp}
 \title{Deprecated. Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(nc_file = "output.nc", fig_path = NULL,
-  reference = "surface", legend.title = NULL, interval = 0.5,
-  text.size = 12, show.legend = TRUE, legend.position = "right",
-  plot.title = NULL)
+plot_temp(
+  nc_file = "output.nc",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL
+)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
@@ -39,8 +46,7 @@ Deprecated. Plot water temperatures from a GLM simulation
 }
 \examples{
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
-plot_temp(nc_file = nc_file, fig_path = FALSE)
-plot_temp(nc_file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+plot_temp(nc_file = nc_file, fig_path = NULL)
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}

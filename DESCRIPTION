@@ -1,14 +1,16 @@
 Package: glmtools
 Type: Package
-Title: glmtools
+Title: Tools for working with the General Lake Model (GLM)
 Version: 0.16.0
-Date: 2019-07-09
+Date: 2019-12-10
 Authors@R: c( person("Jordan", "Read", role = c("aut","cre"),
     email = "jread@usgs.gov"),
     person("Luke", "Winslow", role = "aut",
     email = "lwinslow@usgs.gov"), 
     person("Joseph", "Stachelek", role = "ctb", 
     email = "stachel2@msu.edu"),
+    person("Rober", "Ladwig", role = "ctb", 
+    email = "rladwig2@wisc.edu"),
     person("Hilary", "Dugan", role = "ctb", 
     email = "hdugan@wisc.edu"))
 Description: Tools for working with the GLM lake model.
@@ -22,25 +24,28 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
     R (>= 3.0),
-    GLMr,
-    rLakeAnalyzer (>= 1.8.3)
+    GLM3r,
+    rLakeAnalyzer
 Imports:
-    ncdf4,
-    tools,
     akima,
-    lazyeval,
+    adagio,
     dplyr,
-    methods,
     ggplot2,
+    lazyeval,
+    methods,
+    patchwork,
+    ncdf4,
     readr,
+    reshape2,
     tidyr,
-    gridExtra
+    tools
 Suggests:
     testthat,
+    vdiffr,
     knitr,
     rmarkdown
 VignetteBuilder: knitr
 BuildVignettes: true
 LazyLoad: yes
 LazyData: yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

@@ -4,7 +4,7 @@
 #'
 #'
 #'@param nml_file a string with the path to the GLM glm2.nml file, or 
-#'\code{'template'} for loading the GLM template nml file with GLMr (default)
+#'\code{'template'} for loading the GLM template nml file with GLM3r (default)
 #'@return glm_nml a nml (a list) for GLM config
 #'@keywords methods
 #'@author
@@ -76,10 +76,10 @@ read_nml  <-	function(nml_file = 'template'){
   return(nml)
 }
 
-#' @importFrom GLMr nml_template_path
+#' @importFrom GLM3r nml_template_path
 nml_path_norm <- function(nml_file){
   if (nml_file == "template"){
-    nml_file <- GLMr::nml_template_path()
+    nml_file <- GLM3r::nml_template_path()
   }
   if (!is_nml_file(nml_file)){
     stop(nml_file, ' is not of file type *.nml')

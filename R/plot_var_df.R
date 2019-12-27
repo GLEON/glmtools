@@ -5,7 +5,6 @@
 #'@param interpolate Logical; FALSE = do not inteprolate data. TRUE = Interpolate data to daily timestep and 1 m depth interval
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
 #'@param legend.title Vector string; Default (`NULL`) will use variable and units from netcdf file
-#'@param interval Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m. 
 #'@param text.size Integer; Default is 12. Higher values will increase text size in plot.
 #'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
@@ -16,7 +15,7 @@
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param reference String; 'surface' or 'bottom'. surface = Depths are referenced from the surface, bottom = Depths are referenced from the bottom (elevations)
-#'@param depths Logical; TRUE = Depths are provided. FALSE = Elevations are provided. 
+#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
 #'@seealso \code{\link{get_var}}, \code{\link{sim_var_longname}}, 
@@ -31,23 +30,24 @@
 #'@examples
 #'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 #'data = get_var(nc_file,'temp', reference = 'surface') 
-#'plot_var_df(data, var_name = 'temp', interpolate = F, legend.title = 'Temp (degC)')
-#'#Saving plot
-#'plot_var(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
-#'
+#'plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
 #'\dontrun{
+#'#Saving plot
+#'plot_var_df(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+#'
 #'# need to specify a valid .nc file here: 
 #'plot_var(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
-#'@importFrom gridExtra grid.arrange
+#'@importFrom patchwork wrap_plots
+#'@importFrom readr parse_number
 #'@export
 plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL, 
                      legend.title = var_name, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
                      color.palette = 'RdYlBu', color.direction = -1,
-                     reference = 'surface', ...) {
+                     reference = 'surface', zlim = NULL, ...) {
   
   # Determine data format
   if (lapply(data, class)[1] == 'Date') {
@@ -107,15 +107,13 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
     }
     
     h[[j]] = .plot_df_heatmap(plotdata,var_name[j], legend.title[j], text.size, show.legend, legend.position, plot.title[j],
-                                   color.palette, color.direction)
+                                   color.palette, color.direction, zlim)
   }
-  
-  grid.arrange(grobs = h, ncol = 1)
-  
   
   # Saving plot 
   if (!is.null(fig_path)){
     ggsave(filename = fig_path,...)
   } 
+  return(wrap_plots(h,ncol = 1))
 }
 

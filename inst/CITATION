@@ -1,17 +1,21 @@
-citHeader("To cite the glmtools package in publications use:")
-citEntry(entry = "Article", 
-    author = personList(
-        as.person("Jordan S. Read"), 
-        as.person("Luke A. Winslow"), 
-        as.person("Gretchen J.A. Hansen"), 
-        as.person("Jamon Van Den Hoek"), 
-        as.person("Jamon Van Den Hoek"), 
-        as.person("Paul C. Hanson"), 
-        as.person("Louise C. Bruce"), 
-        as.person("Corey D. Markfort")), 
-    title = "Simulating 2368 temperate lakes reveals weak coherence in stratification phenology.", 
-    journal = "Ecological Modelling", 
-    year = 2014, 
-    volume = 291, pages = "142-150", 
-    url = "http://www.sciencedirect.com/science/article/pii/S0304380014003664", 
-    textVersion = paste("Read, Jordan S., Luke A. Winslow, Gretchen JA Hansen, Jamon Van Den Hoek, Paul C. Hanson, Louise C. Bruce, and Corey D. Markfort. Simulating 2368 temperate lakes reveals weak coherence in stratification phenology. Ecological Modelling 291 (2014): 142-150."))
+structure(list(`gmd-12-473-2019` = structure(list(author = structure(list(
+    list(given = c("M.", "R."), family = "Hipsey", role = NULL, 
+        email = NULL, comment = NULL), list(given = c("L.", "C."
+    ), family = "Bruce", role = NULL, email = NULL, comment = NULL), 
+    list(given = "C.", family = "Boon", role = NULL, email = NULL, 
+        comment = NULL), list(given = "B.", family = "Busch", 
+        role = NULL, email = NULL, comment = NULL), list(given = c("C.", 
+    "C."), family = "Carey", role = NULL, email = NULL, comment = NULL), 
+    list(given = c("D.", "P."), family = "Hamilton", role = NULL, 
+        email = NULL, comment = NULL), list(given = c("P.", "C."
+    ), family = "Hanson", role = NULL, email = NULL, comment = NULL), 
+    list(given = c("J.", "S."), family = "Read", role = NULL, 
+        email = NULL, comment = NULL), list(given = "E.", family = c("de", 
+    "Sousa"), role = NULL, email = NULL, comment = NULL), list(
+        given = "M.", family = "Weber", role = NULL, email = NULL, 
+        comment = NULL), list(given = c("L.", "A."), family = "Winslow", 
+        role = NULL, email = NULL, comment = NULL)), class = "person"), 
+    title = "A General Lake Model (GLM 3.0) for linking with high-frequency sensor data\nfrom the Global Lake Ecological Observatory Network (GLEON)", 
+    journal = "Geoscientific Model Development", volume = "12", 
+    year = "2019", number = "1", pages = "473--523", url = "https://www.geosci-model-dev.net/12/473/2019/", 
+    doi = "10.5194/gmd-12-473-2019"), bibtype = "Article", key = "gmd-12-473-2019")), class = "bibentry", strings = structure(character(0), .Names = character(0)))

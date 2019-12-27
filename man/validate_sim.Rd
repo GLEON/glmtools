@@ -4,53 +4,63 @@
 \alias{validate_sim}
 \title{Run diagnostics on model results vs observations}
 \usage{
-validate_sim(nc_file, field_file, metrics, fig_path, report = FALSE, ...)
+validate_sim(
+  nc_file,
+  field_file,
+  nml_file,
+  metrics,
+  fig_path = NULL,
+  report = FALSE,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{a string with the path to the netcdf output from GLM}
 
 \item{field_file}{a string with the path to the field observation file}
 
+\item{nml_file}{a string with the path to the glm3.nml file}
+
 \item{metrics}{a string or vector of strings representing physical metrics. 
 Should be a rLakeAnalyzer function or other valid function.}
 
-\item{fig_path}{FALSE if plot to screen, string path if save plot as .png. 
-If argument is not used, plotting is skipped}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
-\item{report}{default as FALSE, so no stats are returned. If TRUE, return 
-summary stats for each metric used.}
+\item{report}{default as FALSE, so no stats are returned. If TRUE, return summary stats for each metric used.}
 
-\item{...}{additional arguments passed to compare_to_field (such as na.rm or nml_file)}
+\item{...}{additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}}
 }
 \value{
-a report or figures comparing modeled results to observations
+A report or figures comparing modeled results to observations.
 }
 \description{
 Run diagnostics on model results vs observations
 }
 \examples{
+\dontrun{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nc_file <- file.path(sim_folder, 'output/output.nc')
+nml_file <- file.path(sim_folder, 'glm3.nml')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
 
-#  create a multiple metric diagnostic fig within R:
+#create a multiple metric diagnostic fig within R:
 validate_sim(nc_file, field_file, nml_file = nml_file,
                           metrics = c('thermo.depth', 'schmidt.stability'), 
-                          fig_path = FALSE)      
+                          fig_path = NULL)      
 
 # write the fig out to file:
-validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = '../test_fig.png',
+validate_sim(nc_file, field_file, nml_file = nml_file, fig_path = 'test_fig.png',
                           metrics = c('thermo.depth', 'schmidt.stability'))   
                   
 # return the diagnostic info but avoid the plot:                                   
 validate_sim(nc_file, field_file, nml_file = nml_file, report = TRUE,
-                          metrics = c('thermo.depth', 'schmidt.stability'))          
+                          metrics = c('thermo.depth', 'schmidt.stability'))     
+}
 }
 \seealso{
 \link{compare_to_field}, \link{resample_to_field}, \link{read_nml}, \link{sim_metrics}
 }
 \author{
-Jordan S. Read
+Jordan S. Read, Hilary A. Dugan
 }
 \keyword{methods}

@@ -2,7 +2,7 @@
 #'
 #'Plots variables directly from a .nc file output from a GLM simulation. Replaces function plot_var.
 #'@export plot_var plot_var_nc
-#'@alias plot_var
+#'@aliases plot_var
 #'@param nc_file a string with the path to the netcdf output from GLM
 #'@param var_name a character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
@@ -17,6 +17,7 @@
 #' Palettes available include: Diverging:
 #' BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn. Spectral. Qualitative: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3. Sequential:
 #' Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd.
+#'@param zlim Color palette limits for z-variable. Default is maximum range of variable. Set as c(value,value). 
 #'@param color.direction Sets the order of colors in the scale. If 1, colors are as output by brewer.pal. If -1, the order of colors is reversed (default).
 #'@param ... additional arguments passed to \code{\link[ggplot2:ggsave]{ggplot2:ggsave}} 
 #'@keywords methods
@@ -30,26 +31,29 @@
 #'plot_var_nc(nc_file, 'temp')
 #'
 #'#Plotting two variables
-#'plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = F, text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
+#'plot_var_nc(nc_file, var_name = c('temp','wind'), show.legend = FALSE, 
+#'text.size = 14, plot.title = c('My Lake: Temp','My Lake: Wind'))
 #'
 #'#Change color palette
-#'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', color.direction = 1, show.legend = F)
-#'
-#'#Saving plot
-#'plot_var_nc(file,var_name = c('temp', 'OXY_oxy'),fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
+#'plot_var_nc(nc_file, var_name = 'temp', color.palette = 'PuBuGn', 
+#'color.direction = 1, show.legend = FALSE)
 #'
 #'\dontrun{
+#'#'#How to save a plot
+#'plot_var_nc(nc_file,var_name = c('temp', 'u_mean'),
+#'fig_path = './figtest.png', width = 6, height = 2, units = 'in')
+#'
 #'# need to specify a valid .nc file here: 
 #'plot_var_nc(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 
 #'fig_path = 'aed_out.png')
 #'}
-#'@importFrom gridExtra grid.arrange
+#'@importFrom patchwork wrap_plots
 #'@export
 plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NULL, reference = 'surface', 
                      legend.title = NULL, interval = 0.5, text.size = 12, show.legend = TRUE, 
                      legend.position = 'right', plot.title = NULL, 
-                     color.palette = 'RdYlBu', color.direction = -1,...) {
+                     color.palette = 'RdYlBu', color.direction = -1, zlim = NULL,...) {
   
   heatmaps <- .is_heatmap(nc_file, var_name)
   num_divs <- length(var_name)
@@ -64,23 +68,22 @@ plot_var_nc <- function(nc_file = 'output.nc', var_name = 'temp', fig_path = NUL
                                   legend.title = legend.title[j], interval=interval, text.size = text.size, 
                                   show.legend = show.legend, legend.position = legend.position, 
                                   plot.title = plot.title[j], 
-                                  color.palette = color.palette, color.direction = color.direction)
+                                  color.palette = color.palette, color.direction = color.direction, zlim = zlim)
     } else {
       h[[j]] = .plot_nc_timeseries(file = nc_file, var_name = var_name[j], 
                                    plot.title = plot.title[j], text.size = text.size)
                                    
-      # if(is_heatmap) .plot_null() # to fill up the colormap div
     }
   }
 
-  grid.arrange(grobs = h, ncol = 1)
-  
-  
   # Saving plot 
   if (!is.null(fig_path)){
-    ggsave(filename = fig_path,...)
+    ggsave(plot = wrap_plots(h,ncol = 1), filename = fig_path,...)
   } 
+  
+  return(wrap_plots(h,ncol = 1))
 }
+
 
 #'@describeIn plot_var_nc Deprecated. Use plot_var_nc
 plot_var = plot_var_nc

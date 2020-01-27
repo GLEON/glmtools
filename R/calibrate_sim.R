@@ -146,7 +146,7 @@ calibrate_sim <- function(var = 'temp',
   nml <- set_nml(nml, arg_list = period$validation)
   write_nml(nml,nml_file)
   
-  run_glm(sim_folder = path, verbose = verbose)
+  run_glmcmd(glmcmd, path, verbose)
   temp_rmse2 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
 
@@ -165,7 +165,7 @@ calibrate_sim <- function(var = 'temp',
   nml <- set_nml(nml, arg_list =total.list)
   write_nml(nml,nml_file)
   
-  run_glm(sim_folder = path, verbose = verbose)
+  run_glmcmd(glmcmd, path, verbose)
   temp_rmse3 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
 

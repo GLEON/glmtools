@@ -41,4 +41,6 @@ plot_compare_stage = function(nc_file, field_file, fig_path = NULL, ...){
 	if (!is.null(fig_path)){
 	  ggsave(plot = h3, filename = fig_path,...)
 	} 
+	
+	return(h3)
 }

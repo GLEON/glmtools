@@ -122,7 +122,7 @@ glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
   
   error <- try(run_glmcmd(glmcmd, path, verbose))
   while (error != 0){
-    error >- try(run_glmcmd(glmcmd, path, verbose))
+    error <- try(run_glmcmd(glmcmd, path, verbose))
   }
   
   mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)

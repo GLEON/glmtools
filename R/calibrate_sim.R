@@ -71,7 +71,7 @@ calibrate_sim <- function(var = 'temp',
                           output){
   
   # Development message 
-  message('Calibration functions are under development, and are likeley to change with future package updates.')
+  message('Calibration functions are under development, and are likely to change with future package updates.')
   
   if (first.attempt){
     if (file.exists(paste0(path,'/calib_results_',metric,'_',var,'.csv'))){

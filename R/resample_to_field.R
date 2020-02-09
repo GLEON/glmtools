@@ -19,6 +19,7 @@
 #'buoy_file <- system.file('extdata', 'LakeMendota_buoy_data.csv', package = 'glmtools')
 #'temps <- resample_to_field(nc_file, buoy_file)
 #'@import dplyr
+#'@importFrom tidyr pivot_longer
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'hours', var_name = 'temp'){
   
@@ -26,7 +27,8 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
   field_obs <- read_field_obs(field_file, var_name = var_name)
   
   # Check for duplicates in field file
-  if (any(duplicated(field_obs[,1:2]))){
+  dup_rows <- duplicated(field_obs[,1:2])
+  if (any(dup_rows)){
     mssg <- paste0(' see rows ', paste(which(dup_rows), collapse=','))
     append_mssg <- ifelse(sum(dup_rows) < 10, mssg, '')
     stop(paste0('field file has one or more rows with duplicate date and depths.', append_mssg))
@@ -42,7 +44,7 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
     mutate(Depth = as.numeric(Depth))
   
   # join model results to observations
-  validation = field_obs %>% left_join(model.wide, by = c("DateTime", "Depth"))
+  validation = field_obs %>% inner_join(model.wide, by = c("DateTime", "Depth"))
   names(validation)[3:4] = c(paste0('Observed_', var_name), paste0('Modeled_', var_name))
   
   # -- cover case w/ no overlap?

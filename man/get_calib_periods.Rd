@@ -4,19 +4,20 @@
 \alias{get_calib_periods}
 \title{Splits time period into calibration and validation period}
 \usage{
-get_calib_periods(nml, ratio = 1)
+get_calib_periods(nml_file, ratio = 1)
 }
 \arguments{
-\item{nml}{String of the GLM namelist file, in most cases this is 'glm3.nml'}
+\item{nml_file}{String of the GLM namelist file, in most cases this is 'glm3.nml'}
 
 \item{ratio}{Double of the ratio between calibration and validation, default is 1 which refers to calibration:validation 1:1, 2 would
 mean that calibration:validation would be 2:1}
 }
 \description{
-Reads in nml-file and splits the time period in a calibration and a validation time period to avoid over-fitting
+Reads in .nml file and splits the time period in a calibration and a validation time period to avoid over-fitting
 }
 \examples{
-calib_periods <- get_calib_periods(system.file("extdata/", "glm3.nml", package = "glmtools"), ratio = 1)
+calib_periods <- get_calib_periods(system.file("extdata/", "glm3.nml", package = "glmtools"), 
+ratio = 1)
 }
 \seealso{
 \code{\link{get_calib_setup}, \link{calibrate_sim}, \link{get_calib_init_validation}}

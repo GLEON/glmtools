@@ -47,6 +47,7 @@ buildVal	<-	function(textLine, lineNum, blckName){
 #' @param values a vector of strings containing either .false. or .true.
 #' @return a logical vector
 #' @keywords internal
+#' @noRd
 from.glm_boolean <- function(values){
   
   logicals <- sapply(values, FUN = function(x){

@@ -31,10 +31,10 @@
 #'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 #'data = get_var(nc_file,'temp', reference = 'surface') 
 #'plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
+#'\dontrun{
 #'#Saving plot
 #'plot_var_df(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 #'
-#'\dontrun{
 #'# need to specify a valid .nc file here: 
 #'plot_var(file = fabm_sim_nc.nc,
 #'var_name = 'aed_oxygen_oxy', 

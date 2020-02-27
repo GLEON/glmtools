@@ -1,6 +1,5 @@
 #' @title Internal field data compare function. 
 #' 
-#' 
 #' @description Used in \link{compare_to_field}. Accepts data.frame instead 
 #' of nc and field file locations
 #' 
@@ -10,9 +9,8 @@
 #' @param bthD a numeric vector of depths (m) which correspond to areal measures in bthA 
 #'
 #' @return See return options for \link{compare_to_field}
-#' 
-#' 
-#' @export
+#' @keywords internal
+#' @noRd
 .compare_to_field = function(compare_data, bthA, bthD, metric, as_value = FALSE, na.rm = TRUE){
 	
 	as_mat = ifelse(output_dim(metric) > 1,TRUE, FALSE)

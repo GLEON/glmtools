@@ -20,7 +20,7 @@ nml_file <- system.file("extdata", "glm3.nml", package = "glmtools")
 initvalues <- get_calib_init_validation(nml = nml_file, output = nc_file)
 }
 \seealso{
-\\code{\link{get_calib_setup}, \link{get_calib_periods}, \link{calibrate_sim}}
+\code{\link{get_calib_setup}, \link{get_calib_periods}, \link{calibrate_sim}}
 }
 \author{
 Robert Ladwig

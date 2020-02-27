@@ -4,11 +4,22 @@
 \alias{plot_var_df}
 \title{Plot variables from a data frame}
 \usage{
-plot_var_df(data, var_name, interpolate = F, fig_path = NULL,
-  legend.title = var_name, text.size = 12, show.legend = TRUE,
-  legend.position = "right", plot.title = NULL,
-  color.palette = "RdYlBu", color.direction = -1,
-  reference = "surface", zlim = NULL, ...)
+plot_var_df(
+  data,
+  var_name,
+  interpolate = F,
+  fig_path = NULL,
+  legend.title = var_name,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL,
+  color.palette = "RdYlBu",
+  color.direction = -1,
+  reference = "surface",
+  zlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{data}{a dataframe directly from GLM output or field data. First column must be date/dateTime (Date or POSIXct format). 
@@ -55,10 +66,10 @@ one is a \code{\link[graphics]{.filled.contour}} plot and the other is a legend.
 nc_file <- system.file("extdata", "output.nc", package = "glmtools")
 data = get_var(nc_file,'temp', reference = 'surface') 
 plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
+\dontrun{
 #Saving plot
 plot_var_df(data, var_name = 'temp',fig_path = '~/figtest.png', width = 6, height = 2, units = 'in')
 
-\dontrun{
 # need to specify a valid .nc file here: 
 plot_var(file = fabm_sim_nc.nc,
 var_name = 'aed_oxygen_oxy', 

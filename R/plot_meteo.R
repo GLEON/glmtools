@@ -1,5 +1,4 @@
 #'Plot meterological drivers from a csv file
-#'@inheritParams read_nml
 #'@param met_file Options: 1) file path to glm2.nml file. Date limits pulled from .nml file
 #'2) file path to .csv file. csv file in wide format. First column is Date, additional columns are meteorological paramters. 
 #'3) data.frame object in wide format. First column is Date, additional columns are meteorological paramters. 

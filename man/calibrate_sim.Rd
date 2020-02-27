@@ -4,20 +4,33 @@
 \alias{calibrate_sim}
 \title{Calibrates GLM-AED2 variables to improve fit between observed and simulated data}
 \usage{
-calibrate_sim(var = "temp", path, field.file, nml.file = "glm3.nml",
-  calib_setup = NULL, glmcmd = NULL, first.attempt = TRUE,
-  period = NULL, scaling = "TRUE", method = "CMA-ES",
-  metric = "RMSE", target.fit = 1.5, target.iter = 100,
-  plotting = TRUE, output)
+calibrate_sim(
+  var = "temp",
+  path,
+  field_file,
+  nml_file = "glm3.nml",
+  calib_setup = NULL,
+  glmcmd = NULL,
+  first.attempt = TRUE,
+  period = NULL,
+  scaling = TRUE,
+  verbose = TRUE,
+  method = "CMA-ES",
+  metric = "RMSE",
+  target.fit = 1.5,
+  target.iter = 100,
+  plotting = TRUE,
+  output
+)
 }
 \arguments{
 \item{var}{Character vector of valid variable names (see \code{\link{sim_vars}})}
 
 \item{path}{String with the path to the GLM setup}
 
-\item{field.file}{CSV or TSV field data (see \link{resample_to_field}for format)}
+\item{field_file}{CSV or TSV field data (see \link{resample_to_field}for format)}
 
-\item{nml.file}{String of the glm-namelist file, default is 'glm3.nml'}
+\item{nml_file}{String of the glm-namelist file, default is 'glm3.nml'}
 
 \item{calib_setup}{Data frame containing information regarding the calibration (see \link{get_calib_setup})}
 
@@ -28,6 +41,8 @@ calibrate_sim(var = "temp", path, field.file, nml.file = "glm3.nml",
 \item{period}{List that provides a start and a stop date for the simulation}
 
 \item{scaling}{Boolean, if TRUE variable values will be scaled on the space (0,10), recommended for CMA-ES, default is TRUE}
+
+\item{verbose}{should operations and output of GLM be shown. Default is TRUE.}
 
 \item{method}{String of the optimization method, default is 'CMA-ES' (Hansen 2009), alternatively you can also use 'Nelder-Mead'}
 
@@ -56,21 +71,22 @@ glmtools_folder = system.file('extdata', package = 'glmtools')
 
 file.copy(list.files(glmtools_folder,full.names = TRUE), sim_folder, overwrite = TRUE)
 
-field.file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
-nml.file <- file.path(sim_folder, 'glm3.nml')
+field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
+nml_file <- file.path(sim_folder, 'glm3.nml')
 driver_file <- file.path(sim_folder, 'LakeMendota_NLDAS.csv')
-period = get_calib_periods(nml = nml.file, ratio = 1)
+period = get_calib_periods(nml_file = nml_file, ratio = 1)
 output = file.path(sim_folder, 'output/output.nc')
 
 var = 'temp' # variable to apply the calibration procedure
-calibrate_sim(var = var, path = sim_folder,
-             nml.file = nml.file, calib_setup = calib_setup,
+calibrate_sim(var = var, path = sim_folder, field_file = field_file,
+             nml_file = nml_file, calib_setup = calib_setup,
              glmcmd = NULL,
              first.attempt = TRUE, period = period, method = 'CMA-ES',
              scaling = TRUE, #scaling should be TRUE for CMA-ES
-             metric = 'RMSE',plotting = TRUE,
+             verbose = FALSE,
+             metric = 'RMSE',plotting = FALSE,
              target.fit = 1.5,
-             target.iter = 50, output = output, field.file = field.file)
+             target.iter = 50, output = output)
 }
 \seealso{
 \code{\link{get_calib_setup}}, \code{\link{get_calib_periods}}, \code{\link{get_calib_init_validation}}

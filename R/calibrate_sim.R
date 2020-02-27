@@ -4,13 +4,14 @@
 #'diagnostic plot are created.
 #'@param var Character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param path String with the path to the GLM setup
-#'@param field.file CSV or TSV field data (see \link{resample_to_field}for format)
-#'@param nml.file String of the glm-namelist file, default is 'glm3.nml'
+#'@param field_file CSV or TSV field data (see \link{resample_to_field}for format)
+#'@param nml_file String of the glm-namelist file, default is 'glm3.nml'
 #'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calib_setup})
 #'@param glmcmd String containing the desired glm run command, default is GLM3r
 #'@param first.attempt Boolean, if TRUE a nml-template will be created, set it to FALSE after your first calibration run; default is TRUE
 #'@param period List that provides a start and a stop date for the simulation
 #'@param scaling Boolean, if TRUE variable values will be scaled on the space (0,10), recommended for CMA-ES, default is TRUE
+#'@param verbose should operations and output of GLM be shown. Default is TRUE. 
 #'@param method String of the optimization method, default is 'CMA-ES' (Hansen 2009), alternatively you can also use 'Nelder-Mead'
 #'@param metric String of the calibration fit metric, default is RMSE
 #'@param target.fit Double of your preferred fit, calibration will stop after reaching that; default is 1.5
@@ -32,40 +33,45 @@
 #'
 #'file.copy(list.files(glmtools_folder,full.names = TRUE), sim_folder, overwrite = TRUE)
 #'
-#'field.file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
-#'nml.file <- file.path(sim_folder, 'glm3.nml')
+#'field_file <- file.path(sim_folder, 'LakeMendota_field_data_hours.csv')
+#'nml_file <- file.path(sim_folder, 'glm3.nml')
 #'driver_file <- file.path(sim_folder, 'LakeMendota_NLDAS.csv')
-#'period = get_calib_periods(nml = nml.file, ratio = 1)
+#'period = get_calib_periods(nml_file = nml_file, ratio = 1)
 #'output = file.path(sim_folder, 'output/output.nc')
 #'
 #'var = 'temp' # variable to apply the calibration procedure
-#'calibrate_sim(var = var, path = sim_folder,
-#'              nml.file = nml.file, calib_setup = calib_setup,
+#'calibrate_sim(var = var, path = sim_folder, field_file = field_file,
+#'              nml_file = nml_file, calib_setup = calib_setup,
 #'              glmcmd = NULL,
 #'              first.attempt = TRUE, period = period, method = 'CMA-ES',
 #'              scaling = TRUE, #scaling should be TRUE for CMA-ES
-#'              metric = 'RMSE',plotting = TRUE,
+#'              verbose = FALSE,
+#'              metric = 'RMSE',plotting = FALSE,
 #'              target.fit = 1.5,
-#'              target.iter = 50, output = output, field.file = field.file)
+#'              target.iter = 50, output = output)
 #'@import adagio
 #'@import GLM3r 
 #'@import ggplot2
 #'@export
 calibrate_sim <- function(var = 'temp',
                           path,
-                          field.file,
-                          nml.file = 'glm3.nml',
+                          field_file,
+                          nml_file = 'glm3.nml',
                           calib_setup = NULL,
                           glmcmd = NULL,
                           first.attempt = TRUE,
                           period = NULL,
-                          scaling = 'TRUE',
+                          scaling = TRUE,
+                          verbose = TRUE,
                           method = 'CMA-ES',
                           metric = 'RMSE',
                           target.fit = 1.5,
                           target.iter = 100,
                           plotting = TRUE,
                           output){
+  
+  # Development message 
+  message('Calibration functions are under development, and are likley to change with future package updates.')
   
   if (first.attempt){
     if (file.exists(paste0(path,'/calib_results_',metric,'_',var,'.csv'))){
@@ -77,10 +83,9 @@ calibrate_sim <- function(var = 'temp',
   } 
   
   if(!file.exists('glm4.nml')){
-    # file.copy(nml.file, 'glm4.nml')
-    file.copy(nml.file, paste0(path,'/glm4.nml'))
+    file.copy(nml_file, paste0(path,'/glm4.nml'))
   } else if (first.attempt){
-    file.copy(paste0(path,'/glm4.nml'), nml.file, overwrite = TRUE)
+    file.copy(paste0(path,'/glm4.nml'), nml_file, overwrite = TRUE)
   }
   
   if (is.null(calib_setup)){
@@ -97,74 +102,80 @@ calibrate_sim <- function(var = 'temp',
   }
   
   if (!is.null(period)){
-    nml <- read_nml(nml.file)
+    nml <- read_nml(nml_file)
     nml <- set_nml(nml, arg_list = period$calibration)
-    write_nml(nml,nml.file)
+    write_nml(nml,nml_file)
   }
   
   # path <<- path
-  obs <<- read_field_obs(field.file)
+  obs <<- read_field_obs(field_file)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
-                 metric, target.fit, target.iter, nml.file, path, scaling)
+                 metric, target.fit, target.iter, nml_file, path, scaling, verbose)
   
   # loads all iterations
   results <- read.csv(paste0(path,'/calib_results_RMSE_temp.csv'))
   results$DateTime <- as.POSIXct(results$DateTime)
-  g1 <- ggplot(results, aes(DateTime, RMSE)) +
+  g1 <- ggplot(results, aes(nrow(results):1, RMSE)) +
     geom_point() +
-    geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x)) +
-    theme_bw() +
-    theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1)) +
-    scale_x_datetime();
-  if (plotting == TRUE){
-  ggsave(file=paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
+    geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x), color = 'lightblue4') +
+    theme_bw() + xlab('Iterations') +
+    theme(text = element_text(size = 10), axis.text.x = element_text(angle = 90, hjust = 1))
+  
+  if (plotting == TRUE) {
+    ggsave(filename = paste0(path,'/optim_',method,'_',var,'.png'), g1, dpi = 300,width = 384,height = 216, units = 'mm')
   }
   
-  g1
+  print(g1)
   
-  # compares simulated with observed data
+  # Compare simulated with observed data
   
-  temp_rmse1 <- compare_to_field(output, field_file = field.file, 
+  temp_rmse1 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Calibration Period')
+  print(plot.heat)
   if (plotting == TRUE){
-    plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/calib_',method,'_',var,'_',metric,round(temp_rmse1,2),'.png'))
   }
   
-  
-  # check the model fit during the validation period
-  init.temps <- read_nml(nml.file)$init_profiles$the_temps
-  get_calib_init_validation(nml_file= nml.file, output = output)
-  nml <- read_nml(nml.file)
+  # Check the model fit during the validation period
+  init.temps <- read_nml(nml_file)$init_profiles$the_temps
+  get_calib_init_validation(nml_file= nml_file, output = output)
+  nml <- read_nml(nml_file)
   nml <- set_nml(nml, arg_list = period$validation)
-  write_nml(nml,nml.file)
+  write_nml(nml,nml_file)
   
-  run_glm(sim_folder = path)
-  temp_rmse2 <- compare_to_field(output, field_file = field.file, 
+  run_glmcmd(glmcmd, path, verbose)
+  temp_rmse2 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Validation Period')
+  print(plot.heat)
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
   }
   
   
   # check the model fit during the whole time period
-  nml <- read_nml(nml.file)
+  nml <- read_nml(nml_file)
   total.list <- period$total
   total.list[['the_temps']] <- init.temps
   nml <- set_nml(nml, arg_list =total.list)
-  write_nml(nml,nml.file)
+  write_nml(nml,nml_file)
   
-  run_glm(sim_folder = path)
-  temp_rmse3 <- compare_to_field(output, field_file = field.file, 
+  run_glmcmd(glmcmd, path, verbose)
+  temp_rmse3 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+    labs(title = 'Total Time Period')
+  print(plot.heat)
   if (plotting == TRUE){
-  plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours', fig_path = paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
-  } else {
-    plot_var_compare(nc_file = output, field_file = field.file,var_name = 'temp', precision = 'hours')
+    ggsave(plot = plot.heat, paste0(path,'/total_',method,'_',var,'_',metric,round(temp_rmse3,2),'.png'))
   }
+  
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value
   calibrated_results <- cbind(calib_setup, 'calibrated' =round(c(results$wind_factor[1], 

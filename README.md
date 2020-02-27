@@ -23,9 +23,7 @@ below).
 | glmtools | calibrate\_sim               | Calibrates GLM-AED2 variables to improve fit between observed and simulated data |
 | glmtools | compare\_to\_field           | compare metric for GLM vs field observations                                     |
 | glmtools | convert\_sim\_var            | convert an existing simulation variable into a different one                     |
-| glmtools | .compare\_to\_field          | Internal field data compare function.                                            |
 | glmtools | epi.temperature              | Get volumetrically averaged epilimnion temp                                      |
-| glmtools | from.glm\_boolean            | go from glm2.nml logical vectors to R logicals                                   |
 | glmtools | get\_calib\_init\_validation | Get last values from a calibration period to be used for the validation          |
 | glmtools | get\_calib\_periods          | Splits time period into calibration and validation period                        |
 | glmtools | get\_calib\_setup            | Creates an example setup for a calibration run                                   |
@@ -89,17 +87,17 @@ This version requires the NetCDF version R library (called `ncdf4`), and
 | :------------ | :------ |
 | R             | \>= 3.0 |
 | GLM3r         | \*      |
+| rLakeAnalyzer | \*      |
 | akima         | \*      |
 | adagio        | \*      |
 | dplyr         | \*      |
 | ggplot2       | \*      |
-| gridExtra     | \*      |
-| hydroGOF      | \*      |
 | lazyeval      | \*      |
 | methods       | \*      |
+| patchwork     | \*      |
 | ncdf4         | \*      |
 | readr         | \*      |
-| rLakeAnalyzer | \*      |
+| reshape2      | \*      |
 | tidyr         | \*      |
 | tools         | \*      |
 

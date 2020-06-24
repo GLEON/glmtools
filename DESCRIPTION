@@ -37,7 +37,7 @@ Imports:
     ncdf4,
     readr,
     reshape2,
-    tidyr,
+    tidyr (>= 1.0.0),
     tools
 Suggests:
     testthat,

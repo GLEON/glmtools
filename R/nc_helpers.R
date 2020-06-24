@@ -16,7 +16,7 @@ close_glm_nc <- function(glm_nc){
 # Summary: Returns the converted time vector in R format
 #' @importFrom ncdf4 ncvar_get
 get_time  <-  function(glm_nc){
-	hours_since  <- ncvar_get(glm_nc, "time")
+	hours_since  <- as.numeric(ncvar_get(glm_nc, "time"))
 	time_info <- get_time_info(glm_nc)
 
 	time <- time_info$startDate + time_info$time_unit * hours_since * 60*60*24

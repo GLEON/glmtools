@@ -23,8 +23,12 @@
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'hours', var_name = 'temp'){
   
-  # read field observations
-  field_obs <- read_field_obs(field_file, var_name = var_name)
+  # get rid of dates that don't overlap
+  time_info <- get_time_info(file = nc_file)
+
+  # read field observations and filter to model dates
+  field_obs <- read_field_obs(field_file, var_name = var_name) %>% 
+    filter(.[[1]] >= time_info$startDate & .[[1]] <= time_info$stopDate)
   
   # Check for duplicates in field file
   dup_rows <- duplicated(field_obs[,1:2])
@@ -44,7 +48,7 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
     mutate(Depth = as.numeric(Depth))
   
   # join model results to observations
-  validation = field_obs %>% inner_join(model.wide, by = c("DateTime", "Depth"))
+  validation = field_obs %>% left_join(model.wide, by = c("DateTime", "Depth"))
   names(validation)[3:4] = c(paste0('Observed_', var_name), paste0('Modeled_', var_name))
   
   # -- cover case w/ no overlap?

@@ -8,7 +8,6 @@
 #'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
 #'@param plot.title Vector string; Default is no title. 
-#'@param ... additional arguments passed to \code{ggsave()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
 #'@note

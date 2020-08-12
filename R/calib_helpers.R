@@ -1,3 +1,5 @@
+#'@param var character variable string
+#'@noRd
 #'@import adagio
 #'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
@@ -97,6 +99,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 }
 
 
+#'@param var character
+#'@noRd
 glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
@@ -173,6 +177,8 @@ get_rmse <- function(mods, obs){
   return(rmse)
 }
 
+#'@param var character
+#'@noRd
 #'@importFrom reshape2 melt
 mod2obs <- function(mod_nc, obs, reference = 'surface', var){
   deps = unique(obs[,2])
@@ -217,6 +223,7 @@ match.tstep <- function(df1, df2){
 }
 
 #'@import graphics
+#'@importFrom stats dnorm median qqnorm sd
 diag.plots <- function(mod, obs, ggplot = T){
   stats = sum_stat(mod, obs, depth = T)
   if(max(mod[,2]) >= 0){ #Makes depths negative
@@ -387,6 +394,7 @@ get_nse <- function(x, y){
 }
 
 # gotmtools.R
+#' @importFrom stats cor.test
 sum_stat <- function(mod, obs, depth =F,na.rm =T, depth.range =NULL){
   if(depth == T){
     if(!is.null(depth.range)){

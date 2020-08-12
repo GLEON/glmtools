@@ -26,10 +26,8 @@ test_that('testing for duplicate date warnings', {
     filter(.[[1]] >= time_info$startDate & 
            .[[1]] <= time_info$stopDate)
   field_obs[3,] <- field_obs[4,]
-  # field_obs[3:4,]
+
   write.csv(field_obs, file.path(sim_folder, 'LakeMendota_field_data_hours_error.csv'), row.names = F)
-  # test <- read.csv(file.path(sim_folder, 'LakeMendota_field_data_hours_error.csv'))
-  # test[3:4,]
   
   # warning for "duplicate date values"
   expect_error(

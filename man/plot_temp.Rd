@@ -34,8 +34,6 @@ plot_temp(
 \item{legend.position}{String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'}
 
 \item{plot.title}{Vector string; Default is no title.}
-
-\item{...}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Deprecated. Plot water temperatures from a GLM simulation

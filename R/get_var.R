@@ -21,7 +21,7 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'# list variables in the netcdf output from GLM:
 #'print(sim_vars(nc_file))
 #'evaporation <- get_var(nc_file, var_name = "evap")

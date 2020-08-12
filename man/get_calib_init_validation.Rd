@@ -15,7 +15,7 @@ get_calib_init_validation(nml_file, output)
 Reads in nml-file and output from calibration to get initial values for the calibration
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 nml_file <- system.file("extdata", "glm3.nml", package = "glmtools")
 initvalues <- get_calib_init_validation(nml = nml_file, output = nc_file)
 }

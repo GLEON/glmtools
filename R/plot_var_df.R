@@ -28,7 +28,7 @@
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'
 #'@examples
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #'data = get_var(nc_file,'temp', reference = 'surface') 
 #'plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
 #'\dontrun{

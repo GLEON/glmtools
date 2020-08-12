@@ -45,7 +45,7 @@ Deprecated. Plot water temperatures from a GLM simulation
 \code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 plot_temp(nc_file = nc_file, fig_path = NULL)
 }
 \seealso{

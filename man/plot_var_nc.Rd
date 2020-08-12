@@ -80,7 +80,7 @@ Plots variables directly from a .nc file output from a GLM simulation. Replaces 
 }}
 
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 plot_var_nc(nc_file, 'temp')
 
 #Plotting two variables

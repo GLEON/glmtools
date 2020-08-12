@@ -20,7 +20,7 @@ If argument is not used, plotting is skipped}
 Plot validation and model temperature profiles for all unique dates
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 
 #  create a multiple metric diagnostic fig within R:

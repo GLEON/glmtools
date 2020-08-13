@@ -19,7 +19,7 @@ r:
   - devel
 
 r_build_args: --no-build-vignettes --no-manual
-r_check_args: --no-build-vignettes --no-manual --as-cran
+r_check_args: --no-build-vignettes --no-manual
   
 after_success:
   - Rscript -e 'covr::coveralls()'

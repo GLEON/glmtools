@@ -2,11 +2,9 @@
 title: "Walkthrough of the calibration approach"
 author: "Robert Ladwig, Tadhg Moore"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Walkthrough of the calibration approach}
-  \usepackage[utf8]{inputenc}
+output: 
+  html_document:
+      fig_caption: yes
 ---
 
 ```{r setup, include=FALSE}

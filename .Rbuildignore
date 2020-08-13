@@ -4,3 +4,5 @@
 appveyor.yml
 ^README\.Rmd$
 ^README-.*\.png$
+vignettes/calibration_walkthrough.Rmd
+vignettes/Makefile

@@ -43,8 +43,10 @@ Suggests:
     testthat,
     vdiffr,
     knitr,
-    rmarkdown
-VignetteBuilder: knitr
+    rmarkdown,
+    R.rsp
+VignetteBuilder: R.rsp,
+    knitr
 BuildVignettes: true
 LazyLoad: yes
 LazyData: yes

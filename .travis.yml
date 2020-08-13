@@ -23,3 +23,8 @@ r_check_args: --no-build-vignettes --no-manual --as-cran
   
 after_success:
   - Rscript -e 'covr::coveralls()'
+
+branches:
+  only:
+  - /.*/
+  

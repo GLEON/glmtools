@@ -73,7 +73,7 @@ calibrate_sim <- function(var = 'temp',
                           output){
   
   # Development message 
-  message('Calibration functions are under development, and are likley to change with future package updates.')
+  message('Calibration functions are under development, and are likely to change with future package updates.')
   
   if (first.attempt){
     if (file.exists(paste0(path,'/calib_results_',metric,'_',var,'.csv'))){
@@ -180,13 +180,7 @@ calibrate_sim <- function(var = 'temp',
   
   
   # print a matrix of our constrained variable space, the initial value and the calibrated value
-  calibrated_results <- cbind(calib_setup, 'calibrated' =round(c(results$wind_factor[1], 
-                                                                 results$wind_factor[1],
-                                                                 results$ch[1],
-                                                                 results$sed_temp_mean[1],
-                                                                 results$sed_temp_mean.1[1],
-                                                                 results$coef_mix_hyp[1],
-                                                                 results$Kw[1]),4))
+  calibrated_results <- cbind(calib_setup, 'calibrated' = as.numeric(round(results[1,2:(ncol(results)-1)],4)))
   
   print(paste('calibration:',round(temp_rmse1,2),'deg C RMSE'))
   print(paste('validation:',round(temp_rmse2,2),'deg C RMSE'))

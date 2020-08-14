@@ -38,7 +38,8 @@ Imports:
     readr,
     reshape2,
     tidyr (>= 1.0.0),
-    tools
+    tools,
+    rlang
 Suggests:
     testthat,
     vdiffr,

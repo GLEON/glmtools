@@ -79,7 +79,9 @@ plot_var_compare = function(nc_file, field_file, var_name = 'temp', fig_path = N
   } else {
   	model_df = modeled_var
   	names.df = data.frame(names = names(model_df)[-1], Depth = z_out, stringsAsFactors = F)
-  	model_df = gather(data = model_df,key = depth, value = var, -.data$DateTime) %>%
+  	
+  	model_df <- gather(data = model_df, 
+  	                   key = "depth", value = "var", -.data$DateTime)	%>%
   	  left_join(names.df, by = c('depth' = 'names')) %>%
   	  arrange(.data$DateTime, .data$Depth)
   }

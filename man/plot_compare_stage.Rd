@@ -27,5 +27,4 @@ field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!
 
-
 }

@@ -9,11 +9,11 @@
 #'@author
 #'Luke A. Winslow, Jordan S. Read, Hilary A. Dugan
 #'@examples 
-#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
-#'field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
+#' nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
+#' field_file <- system.file("extdata", "LakeMendota_field_data.csv", package = "glmtools")
 #'
-#' #  create a multiple metric diagnostic fig within R:
-#'plot_validate_profiles(nc_file, field_file, fig_path = NULL, method = 'interp')             
+#' # create a multiple metric diagnostic fig within R:
+#' plot_validate_profiles(nc_file, field_file, fig_path = NULL, method = 'interp')
 #'@export
 
 plot_validate_profiles <- function(nc_file, field_file, fig_path = NULL, ...){
@@ -23,9 +23,9 @@ plot_validate_profiles <- function(nc_file, field_file, fig_path = NULL, ...){
   
 	#load temperature from nc
 	mod_and_obs <- resample_to_field(nc_file, field_file, ...) %>% 
-	  arrange(DateTime, Depth)
+	  arrange("DateTime", "Depth")
 	
-	mod_and_obs_long = mod_and_obs %>% gather(Group, Temp, -DateTime, -Depth)
+	mod_and_obs_long = mod_and_obs %>% gather(key = "Group", value = "Temp", -all_of(c("DateTime", "Depth")))
 	
 	h3 = ggplot(mod_and_obs_long) + geom_path(aes(y = .data$Depth, x = .data$Temp, color = .data$Group)) +
 	  geom_point(aes(y = .data$Depth, x = .data$Temp, fill = .data$Group, color = .data$Group)) +

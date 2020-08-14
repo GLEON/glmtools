@@ -20,6 +20,7 @@
 #'temps <- resample_to_field(nc_file, buoy_file)
 #'@import dplyr
 #'@importFrom tidyr pivot_longer
+#'@importFrom rlang .data
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'hours', var_name = 'temp'){
   
@@ -27,8 +28,10 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
   time_info <- get_time_info(file = nc_file)
 
   # read field observations and filter to model dates
-  field_obs <- read_field_obs(field_file, var_name = var_name) %>% 
-    filter(.[[1]] >= time_info$startDate & .[[1]] <= time_info$stopDate)
+  field_obs <- read_field_obs(field_file, var_name = var_name)
+  field_obs <- filter(field_obs, 
+                      .data$DateTime >= time_info$startDate & 
+                      .data$DateTime <= time_info$stopDate)
   
   # Check for duplicates in field file
   dup_rows <- duplicated(field_obs[,1:2])
@@ -43,9 +46,11 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
                       z_out = sort(unique(field_obs$Depth)), t_out = unique(field_obs$DateTime), 
                       method = method, precision = precision)
   
-  model.wide = pivot_longer(var_data, cols = starts_with(var_name), names_to = 'Depth', 
-                            names_prefix = paste0(var_name,'_'), values_to = var_name, values_drop_na = T) %>% 
-    mutate(Depth = as.numeric(Depth))
+  model.wide = pivot_longer(var_data, 
+                            cols = starts_with(var_name), names_to = 'Depth', 
+                            names_prefix = paste0(var_name,'_'), values_to = var_name, 
+                            values_drop_na = TRUE) %>% 
+    mutate(Depth = as.numeric(.data$Depth))
   
   # join model results to observations
   validation = field_obs %>% left_join(model.wide, by = c("DateTime", "Depth"))

@@ -93,11 +93,10 @@ calibrate_sim <- function(var = 'temp',
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
   }
-  pars <<- as.character(calib_setup$pars)
-  ub <<- calib_setup$ub
-  lb <<- calib_setup$lb
-  variable <<- var
-  
+  pars     <- as.character(calib_setup$pars)
+  ub       <- calib_setup$ub
+  lb       <- calib_setup$lb
+  variable <- var
   
   if (scaling){
     init.val <- (calib_setup$x0 - lb) *10 /(ub-lb) 
@@ -109,15 +108,16 @@ calibrate_sim <- function(var = 'temp',
     write_nml(nml,nml_file)
   }
   
-  # path <<- path
-  obs <<- read_field_obs(field_file)
+  obs <- read_field_obs(field_file)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
-                 metric, target.fit, target.iter, nml_file, path, scaling, verbose)
+                 metric, target.fit, target.iter, nml_file, path, scaling, verbose, pars)
   
   # loads all iterations
   results <- read.csv(paste0(path,'/calib_results_RMSE_temp.csv'))
   results$DateTime <- as.POSIXct(results$DateTime)
-  g1 <- ggplot(results, aes(nrow(results):1, RMSE)) +
+  
+  g1 <- ggplot(results, 
+               aes(nrow(results):1, .data$RMSE)) +
     geom_point() +
     geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x), color = 'lightblue4') +
     theme_bw() + xlab('Iterations') +

@@ -3,9 +3,8 @@
 #'@import adagio
 #'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml_file, path, scaling, verbose){
-  path <<- path
-  
+                      metric, target.fit, target.iter, nml_file, path, scaling,
+                      verbose, pars){
   if (method == 'CMA-ES'){
     glmOPT <- pureCMAES(par = init.val, fun = glmFUN, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
@@ -13,17 +12,18 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         stopfitness = target.fit, 
                         stopeval = target.iter, 
                         glmcmd = glmcmd, nml_file = nml_file, var = var,
-                        scaling = scaling, metric = metric, verbose = verbose)
+                        scaling = scaling, metric = metric, verbose = verbose, 
+                        ub = ub, lb = lb, pars = pars, path = path, obs = obs)
   } else if (method == 'Nelder-Mead'){
-    glmOPT <- neldermeadb(fn = glmFUN, init.val, lower = rep(0,length(init.val)), 
+    glmOPT <- neldermeadb(fn = glmFUN, init.val, ub = ub, lb = lb, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
                         adapt = TRUE,
                         tol = 1e-10,
-                        maxfeval = target.iter, glmcmd = glmcmd, nml_file = nml_file, var = var,
-                        scaling = scaling, metric = metric, verbose = verbose )
-  }
+                        maxfeval = target.iter, glmcmd = glmcmd, nml_file = nml_file, var = var, ub = ub, lb = lb, path = path, obs = obs)
+    }
   
-  glmFUN(p = glmOPT$xmin,nml_file = nml_file,glmcmd = glmcmd, var = var,scaling,metric,verbose)
+  glmFUN(p = glmOPT$xmin, nml_file = nml_file, glmcmd = glmcmd, var = var, scaling, metric, verbose, ub = ub, lb = lb, path = path, pars = pars, obs = obs)
+  
   # glmFUN(glmOPT$xmin, glmcmd, scaling, metric, verbose)
   calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
   eval(parse(text = paste0('best_par <- calib[which.min(calib$',metric,'),]')))
@@ -90,7 +90,9 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
   #Run GLM
   run_glmcmd(glmcmd, path, verbose)
   
-  g1 <- diag.plots(mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), obs)
+  g1 <- diag.plots(
+    mod2obs(paste0(path,'/output/output.nc'), obs, reference = 'surface', var), 
+    obs, ggplot=F)
 
   ggsave(filename = paste0(path,'/diagnostics_',method,'_',var,'.png'), plot = g1, 
          dpi = 300,width = 384,height = 216, units = 'mm')
@@ -101,7 +103,7 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 
 #'@param var character
 #'@noRd
-glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
+glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose, ub, lb, pars, path, obs){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
     p = values.optim
@@ -111,7 +113,6 @@ glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
   }
   
   eg_nml <- read_nml(nml_file)
-  
   for(i in 1:length(pars[!duplicated(pars)])){
     if (any(pars[!duplicated(pars)][i] == pars[duplicated(pars)])){
       eg_nml <- set_nml(eg_nml, pars[!duplicated(pars)][i], 
@@ -125,6 +126,7 @@ glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose){
   write_nml(eg_nml, file = write_path)
   
   error <- try(run_glmcmd(glmcmd, path, verbose))
+  
   while (error != 0){
     error <- try(run_glmcmd(glmcmd, path, verbose))
   }
@@ -301,7 +303,7 @@ diag.plots <- function(mod, obs, ggplot = T){
                                            gp=grid::gpar(col="black", fontsize=10)))
     
     #Plots
-    p1 <-ggplot(mod, aes(x = res)) + 
+    p1 <- ggplot(mod, aes(x = .data$res)) + 
       geom_histogram(fill = "lightblue4", colour = 'black', breaks = seq(min.res, max.res, bw)) + 
       stat_function( 
         fun = function(x, mean, sd, n, bw){ 
@@ -362,7 +364,7 @@ diag.plots <- function(mod, obs, ggplot = T){
       theme_bw()
     p5 <- p5 + annotation_custom(grob2) + annotation_custom(grob3)   
     
-    p6 <- ggplot(mod, aes(sample = res))+
+    p6 <- ggplot(mod, aes(sample = .data$res))+
       stat_qq()+
       geom_abline(slope = 1, intercept = 0, size =1, linetype = 'dashed')+
       xlab('Sample Quantiles')+
@@ -447,4 +449,16 @@ checkHourFormat <- function(timest, hourst){
     newTimest <- timest
   }
   return(as.POSIXct(newTimest))
+}
+
+#' Add text to the corner of a plot
+#'
+#' Add text to a location within a plot. <https://github.com/aemon-j/gotmtools/blob/master/R/Corner_text.R>
+#'
+#' @param text text to be added to the plot as a language object
+#' @param location location within the plot for the text to be placed
+#' @return data
+#' @importFrom graphics legend
+Corner_text <- function(text, location="topleft"){
+  legend(location,legend=text, bty ="n", pch=NA)
 }

@@ -6,3 +6,4 @@ appveyor.yml
 ^README-.*\.png$
 ^doc$
 ^Meta$
+glm4.nml

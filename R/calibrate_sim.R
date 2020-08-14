@@ -185,7 +185,7 @@ calibrate_sim <- function(var = 'temp',
   print(paste('calibration:',round(temp_rmse1,2),'deg C RMSE'))
   print(paste('validation:',round(temp_rmse2,2),'deg C RMSE'))
   print(paste('total time period:',round(temp_rmse3,2),'deg C RMSE'))
-  return(print(calibrated_results))
-  
+  print(calibrated_results)
+  return(calibrated_results)
 }
 

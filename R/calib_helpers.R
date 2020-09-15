@@ -4,7 +4,7 @@
 #'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                       metric, target.fit, target.iter, nml_file, glm_file, path, scaling,
-                      verbose, pars){
+                      verbose, pars, conversion.factor){
 
   if (method == 'CMA-ES'){
     glmOPT <- pureCMAES(par = init.val, fun = glmFUN, lower = rep(0,length(init.val)), 
@@ -14,16 +14,19 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
                         stopeval = target.iter, 
                         glmcmd = glmcmd, nml_file = nml_file, var = var,
                         scaling = scaling, metric = metric, verbose = verbose, 
-                        ub = ub, lb = lb, pars = pars, path = path, obs = obs)
+                        ub = ub, lb = lb, pars = pars, path = path, obs = obs,
+                        conversion.factor = conversion.factor)
   } else if (method == 'Nelder-Mead'){
     glmOPT <- neldermeadb(fn = glmFUN, init.val, ub = ub, lb = lb, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 
                         adapt = TRUE,
                         tol = 1e-10,
-                        maxfeval = target.iter, glmcmd = glmcmd, nml_file = nml_file, var = var, ub = ub, lb = lb, path = path, obs = obs)
+                        maxfeval = target.iter, glmcmd = glmcmd, nml_file = nml_file, var = var, ub = ub, lb = lb, path = path, obs = obs,
+                        conversion.factor = conversion.factor)
     }
   
-  glmFUN(p = glmOPT$xmin, nml_file = nml_file, glmcmd = glmcmd, var = var, scaling, metric, verbose, ub = ub, lb = lb, path = path, pars = pars, obs = obs)
+  glmFUN(p = glmOPT$xmin, nml_file = nml_file, glmcmd = glmcmd, var = var, scaling, metric, verbose, ub = ub, lb = lb, path = path, pars = pars, obs = obs,
+         conversion.factor = conversion.factor)
   
   # glmFUN(glmOPT$xmin, glmcmd, scaling, metric, verbose)
   calib <- read.csv(paste0(path,'/calib_results_',metric,'_',var,'.csv'))
@@ -104,7 +107,8 @@ calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
 
 #'@param var character
 #'@noRd
-glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose, ub, lb, pars, path, obs){
+glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose, ub, lb, pars, path, obs,
+                   conversion.factor){
   #Catch non-numeric arguments
   if(!is.numeric(p)){
     p = values.optim
@@ -133,7 +137,7 @@ glmFUN <- function(p, glmcmd, nml_file, var, scaling, metric, verbose, ub, lb, p
   }
   
   mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)
-
+  mod[,3] <- mod[,3] * conversion.factor
   fit = get_rmse(mod,obs)
   
   #Create a data frame to output each calibration attempt

@@ -34,8 +34,6 @@ plot_temp(
 \item{legend.position}{String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'}
 
 \item{plot.title}{Vector string; Default is no title.}
-
-\item{...}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Deprecated. Plot water temperatures from a GLM simulation
@@ -45,7 +43,7 @@ Deprecated. Plot water temperatures from a GLM simulation
 \code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 plot_temp(nc_file = nc_file, fig_path = NULL)
 }
 \seealso{

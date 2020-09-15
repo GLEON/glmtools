@@ -37,15 +37,16 @@ Imports:
     ncdf4,
     readr,
     reshape2,
-    tidyr,
-    tools
+    tidyr (>= 1.0.0),
+    tools,
+    rlang
 Suggests:
     testthat,
     vdiffr,
     knitr,
     rmarkdown
-VignetteBuilder: knitr
-BuildVignettes: true
-LazyLoad: yes
+VignetteBuilder: 
+    knitr
 LazyData: yes
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
+Encoding: UTF-8

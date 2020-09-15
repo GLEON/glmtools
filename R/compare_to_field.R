@@ -17,7 +17,7 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#' nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#' nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #' field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 #' 
 #' thermo_values <- compare_to_field(nc_file, field_file,

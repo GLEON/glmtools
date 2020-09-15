@@ -18,8 +18,8 @@
 #'summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
 #'}
 #'@export
-summarize_sim <- function(file, sim_outputs, fig_path){
+summarize_sim <- function(file, sim_outputs, fig_path){ # nocov start
    
   warning('function is deprecated. Use plot_var.')
   return(NULL)
-}
+} # nocov end

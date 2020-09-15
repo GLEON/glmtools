@@ -42,6 +42,7 @@
 #'output = file.path(sim_folder, 'output/output.nc')
 #'
 #'var = 'temp' # variable to apply the calibration procedure
+#'\dontrun{
 #'calibrate_sim(var = var, path = sim_folder, field_file = field_file,
 #'              nml_file = nml_file, calib_setup = calib_setup,
 #'              glmcmd = NULL,
@@ -51,6 +52,7 @@
 #'              metric = 'RMSE',plotting = FALSE,
 #'              target.fit = 1.5,
 #'              target.iter = 50, output = output)
+#' }
 #'@import adagio
 #'@import GLM3r 
 #'@import ggplot2
@@ -95,11 +97,10 @@ calibrate_sim <- function(var = 'temp',
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
   }
-  pars <<- as.character(calib_setup$pars)
-  ub <<- calib_setup$ub
-  lb <<- calib_setup$lb
-  variable <<- var
-  
+  pars     <- as.character(calib_setup$pars)
+  ub       <- calib_setup$ub
+  lb       <- calib_setup$lb
+  variable <- var
   
   if (scaling){
     init.val <- (calib_setup$x0 - lb) *10 /(ub-lb) 
@@ -111,15 +112,17 @@ calibrate_sim <- function(var = 'temp',
     write_nml(glmf,glm_file)
   }
   
-  # path <<- path
-  obs <<- read_field_obs(field_file, var_name = var)
+  obs <- read_field_obs(field_file, var_name = var)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
-                 metric, target.fit, target.iter, nml_file, glm_file, path, scaling, verbose)
+                 metric, target.fit, target.iter, nml_file, glm_file, path, scaling, verbose, pars)
+
   
   # loads all iterations
   results <- read.csv(paste0(path,'/calib_results_RMSE_',var,'.csv'))
   results$DateTime <- as.POSIXct(results$DateTime)
-  g1 <- ggplot(results, aes(nrow(results):1, RMSE)) +
+  
+  g1 <- ggplot(results, 
+               aes(nrow(results):1, .data$RMSE)) +
     geom_point() +
     geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x), color = 'lightblue4') +
     theme_bw() + xlab('Iterations') +
@@ -189,7 +192,7 @@ calibrate_sim <- function(var = 'temp',
   print(paste('calibration:',round(temp_rmse1,2),'deg C RMSE'))
   print(paste('validation:',round(temp_rmse2,2),'deg C RMSE'))
   print(paste('total time period:',round(temp_rmse3,2),'deg C RMSE'))
-  return(print(calibrated_results))
-  
+  print(calibrated_results)
+  return(calibrated_results)
 }
 

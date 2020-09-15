@@ -75,7 +75,7 @@ Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purpl
 Plot matching heatmaps for modeled and observed temp
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 
 plot_var_compare(nc_file, field_file, 'temp', resample = FALSE) ##makes a plot

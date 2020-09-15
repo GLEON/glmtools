@@ -37,7 +37,7 @@ z\cr
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 wind <- get_raw(nc_file, 'wind') #raw wind data
 }
 \seealso{

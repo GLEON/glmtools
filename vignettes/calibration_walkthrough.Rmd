@@ -4,9 +4,9 @@ author: "Robert Ladwig, Tadhg Moore"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Walkthrough of the calibration approach}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -42,7 +42,7 @@ dir(glmtools_folder)
 ### Move glmtools example files to a temporary folder
 ```{r, results = 'hide'}
 example.files <- dir(glmtools_folder)
-temp_folder <<- tempdir()
+temp_folder   <- tempdir()
 
 file.copy(list.files(glmtools_folder,full.names = T), temp_folder, overwrite = TRUE)
 
@@ -83,6 +83,7 @@ temp_rmse <- compare_to_field(out_file, field_file = field_data,
 
 print(paste('Total time period (uncalibrated):',round(temp_rmse,2),'deg C RMSE'))
 ```
+
 ## Calibrating GLM
 Before we run the automatic calibration routine, we need to define certain input variables for the function. Here, we are trying to minimize the RMSE between observed and simulated water temperature data using the CMA-ES algorithm. To ensure that there is a reasonable covariance between variables, we are scaling all values on a space between 0 and 10. Further, to reduce computational times, we are stopping the algorithm either after reaching a RMSE of 1.0 degree Celsius, or after doing 100 iterations. Also, because we are working in a temporary directory, we are not saving any values. This approach will calibrate the wind_factor, the lw_factor, Kw and the sed_temp_mean values of two sediment zones with given lower and upper boundaries, as well as initial values.
 

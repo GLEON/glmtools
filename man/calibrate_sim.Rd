@@ -78,6 +78,7 @@ period = get_calib_periods(nml_file = nml_file, ratio = 1)
 output = file.path(sim_folder, 'output/output.nc')
 
 var = 'temp' # variable to apply the calibration procedure
+\dontrun{
 calibrate_sim(var = var, path = sim_folder, field_file = field_file,
              nml_file = nml_file, calib_setup = calib_setup,
              glmcmd = NULL,
@@ -87,6 +88,7 @@ calibrate_sim(var = var, path = sim_folder, field_file = field_file,
              metric = 'RMSE',plotting = FALSE,
              target.fit = 1.5,
              target.iter = 50, output = output)
+}
 }
 \seealso{
 \code{\link{get_calib_setup}}, \code{\link{get_calib_periods}}, \code{\link{get_calib_init_validation}}

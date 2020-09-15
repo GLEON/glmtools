@@ -8,7 +8,6 @@
 #'@param show.legend Logical; TRUE to show legend (default), FALSE to hide legend
 #'@param legend.position String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'
 #'@param plot.title Vector string; Default is no title. 
-#'@param ... additional arguments passed to \code{ggsave()}
 #'@keywords methods
 #'@seealso \code{\link{get_temp}}, \code{\link{plot_var}}
 #'@note
@@ -17,7 +16,7 @@
 #'@author
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #'plot_temp(nc_file = nc_file, fig_path = NULL)
 #'@export
 plot_temp <- function(nc_file='output.nc',fig_path = NULL, reference='surface', legend.title = NULL, 

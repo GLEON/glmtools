@@ -58,8 +58,10 @@ plot_meteo <- function(met_file, xmin = NA, xmax = NA, fig_path = NULL, ...){
   }
   
   firstcol = names(meteoLong)[1]
-  p1 = ggplot(meteoLong, aes(x = get(firstcol), y = value)) + geom_point(alpha = 0.8, size = 0.5) +
-    facet_grid(vars(parameter), scales = 'free_y') +
+  
+  p1 = ggplot(meteoLong, aes(x = get(firstcol), y = .data$value)) + 
+    geom_point(alpha = 0.8, size = 0.5) +
+    facet_grid(vars(.data$parameter), scales = 'free_y') +
     xlim(xmin,xmax) +
     xlab('Date') + ylab('') +
     theme_bw() 

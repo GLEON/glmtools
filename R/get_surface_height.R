@@ -13,7 +13,7 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'surface <- get_surface_height(file = nc_file)
 #'surface_w_ice <- get_surface_height(file = nc_file, ice.rm = FALSE, snow.rm = FALSE)
 #'@importFrom ncdf4 ncvar_get

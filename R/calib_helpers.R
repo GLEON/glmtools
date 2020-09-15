@@ -1,7 +1,7 @@
 #'@import adagio
 #'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml_file, path, scaling, verbose){
+                      metric, target.fit, target.iter, nml_file, glm_file, path, scaling, verbose){
   path <<- path
   
   if (method == 'CMA-ES'){

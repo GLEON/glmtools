@@ -93,6 +93,7 @@ var = 'temp'         # variable to which we apply the calibration procedure
 path = getwd()       # simulation path/folder
 # obs = read_field_obs(field_data)  # observed field data
 nml_file = nml_data  # path of the nml configuration file
+glm_file = nml_data  # path of the glm3.nml file
 calib_setup = get_calib_setup() # create a setup of variables for calibration
 glmcmd = NULL        # command to be used, default applies the GLM3r function
 # Optional variables
@@ -108,9 +109,10 @@ target.iter = 100    # refers to a maximum run of 100 calibration iterations
 plotting = FALSE      # if TRUE, script will automatically save the contour plots
 output = out_file    # path of the output file
 field_file = field_data # path of the field data
+conversion.factor = 1 # conversion factor for water quality (AED2 assumes mmol/m3)
 
 # main calibration function
-calibrate_sim(var, path, field_file, nml_file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter, plotting, output, verbose = FALSE)
+calibrate_sim(var, path, field_file, nml_file, glm_file, calib_setup, glmcmd, first.attempt, period, scaling, method, metric, target.fit, target.iter, plotting, output, conversion.factor, verbose = FALSE)
 
 ```
 

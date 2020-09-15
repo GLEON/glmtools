@@ -3,8 +3,9 @@
 #'@import adagio
 #'@importFrom utils write.csv
 calib_GLM <- function(var, ub, lb, init.val, obs, method, glmcmd,
-                      metric, target.fit, target.iter, nml_file, path, scaling,
+                      metric, target.fit, target.iter, nml_file, glm_file, path, scaling,
                       verbose, pars){
+
   if (method == 'CMA-ES'){
     glmOPT <- pureCMAES(par = init.val, fun = glmFUN, lower = rep(0,length(init.val)), 
                         upper = rep(10,length(init.val)), 

@@ -10,7 +10,7 @@
 #'
 #'@examples
 #'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
-#'file_name <- system.file("extdata", "glm3.nml", package = "glmtools")
+#'nml_file <- system.file("extdata", "glm3.nml", package = "glmtools")
 #'initvalues <- get_calib_init_validation(file_name = nml_file, output = nc_file)
 #'@export
 get_calib_init_validation <- function(file_name, output){

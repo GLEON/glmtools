@@ -9,6 +9,7 @@ calibrate_sim(
   path,
   field_file,
   nml_file = "glm3.nml",
+  glm_file = "glm3.nml",
   calib_setup = NULL,
   glmcmd = NULL,
   first.attempt = TRUE,
@@ -20,7 +21,8 @@ calibrate_sim(
   target.fit = 1.5,
   target.iter = 100,
   plotting = TRUE,
-  output
+  output,
+  conversion.factor = 1
 )
 }
 \arguments{
@@ -30,7 +32,9 @@ calibrate_sim(
 
 \item{field_file}{CSV or TSV field data (see \link{resample_to_field}for format)}
 
-\item{nml_file}{String of the glm-namelist file, default is 'glm3.nml'}
+\item{nml_file}{String of the namelist file that will be calibrated, default is 'glm3.nml'}
+
+\item{glm_file}{String of the glm-namelist file, default is 'glm3.nml'}
 
 \item{calib_setup}{Data frame containing information regarding the calibration (see \link{get_calib_setup})}
 
@@ -55,6 +59,8 @@ calibrate_sim(
 \item{plotting}{Boolean, if TRUE plots all results as heat maps}
 
 \item{output}{Character array of the output folder path}
+
+\item{conversion.factor}{Double of the conversion factor between simulated and observed data, default is 1 for temp.}
 }
 \description{
 Starts a calibration run with multiple iterations using a GLM-AED2 setup. At the end a output csv.-file of all iterations and a 

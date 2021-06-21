@@ -2,6 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # glmtools
+[![status](https://img.shields.io/badge/USGS-Research-blue.svg)](https://owi.usgs.gov/R/packages.html#research)
 
 [![Build
 status](https://ci.appveyor.com/api/projects/status/j5mscylmkssa0esf)](https://ci.appveyor.com/project/jread-usgs/glmtools)
@@ -66,40 +67,10 @@ below).
 
 # How do I install `glmtools`? It isn’t on CRAN\!
 
-`glmtools` can be installed from the [USGS
-GRAN](http://owi.usgs.gov/R/gran.html) repository. To install `glmtools`
-and all dependencies, follow the appropriate instructions below:
-
-1.  Setup R to add GRAN using the instructions on the [USGS R
-    page](http://owi.usgs.gov/R/gran.html).
-
-2.  After GRAN is setup (usually requires a restart of R), then use the
-    following command in R:
-    
-    `install.packages("glmtools")`
-
-# What libraries does `glmtools` need?
-
-This version requires the NetCDF version R library (called `ncdf4`), and
-`rLakeAnalyzer`, and `tools` if you would like to run all examples.
-
-| package       | version |
-| :------------ | :------ |
-| R             | \>= 3.0 |
-| GLM3r         | \*      |
-| rLakeAnalyzer | \*      |
-| akima         | \*      |
-| adagio        | \*      |
-| dplyr         | \*      |
-| ggplot2       | \*      |
-| lazyeval      | \*      |
-| methods       | \*      |
-| patchwork     | \*      |
-| ncdf4         | \*      |
-| readr         | \*      |
-| reshape2      | \*      |
-| tidyr         | \*      |
-| tools         | \*      |
+```r
+install.packages('remotes')
+remotes::install_github('usgs-r/glmtools')
+```
 
 # How do I contribute new code back to the glmtools project?
 

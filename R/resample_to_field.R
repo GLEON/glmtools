@@ -12,21 +12,30 @@
 #'@author
 #'Jordan S. Read
 #'@examples 
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #'field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 #'temps <- resample_to_field(nc_file, field_file)
 #'
 #'buoy_file <- system.file('extdata', 'LakeMendota_buoy_data.csv', package = 'glmtools')
 #'temps <- resample_to_field(nc_file, buoy_file)
 #'@import dplyr
+#'@importFrom tidyr pivot_longer
+#'@importFrom rlang .data
 #'@export
 resample_to_field <- function(nc_file, field_file, method = 'match', precision = 'hours', var_name = 'temp'){
   
-  # read field observations
+  # get rid of dates that don't overlap
+  time_info <- get_time_info(file = nc_file)
+
+  # read field observations and filter to model dates
   field_obs <- read_field_obs(field_file, var_name = var_name)
+  field_obs <- filter(field_obs, 
+                      .data$DateTime >= time_info$startDate & 
+                      .data$DateTime <= time_info$stopDate)
   
   # Check for duplicates in field file
-  if (any(duplicated(field_obs[,1:2]))){
+  dup_rows <- duplicated(field_obs[,1:2])
+  if (any(dup_rows)){
     mssg <- paste0(' see rows ', paste(which(dup_rows), collapse=','))
     append_mssg <- ifelse(sum(dup_rows) < 10, mssg, '')
     stop(paste0('field file has one or more rows with duplicate date and depths.', append_mssg))
@@ -37,9 +46,11 @@ resample_to_field <- function(nc_file, field_file, method = 'match', precision =
                       z_out = sort(unique(field_obs$Depth)), t_out = unique(field_obs$DateTime), 
                       method = method, precision = precision)
   
-  model.wide = pivot_longer(var_data, cols = starts_with(var_name), names_to = 'Depth', 
-                            names_prefix = paste0(var_name,'_'), values_to = var_name, values_drop_na = T) %>% 
-    mutate(Depth = as.numeric(Depth))
+  model.wide = pivot_longer(var_data, 
+                            cols = starts_with(var_name), names_to = 'Depth', 
+                            names_prefix = paste0(var_name,'_'), values_to = var_name, 
+                            values_drop_na = TRUE) %>% 
+    mutate(Depth = as.numeric(.data$Depth))
   
   # join model results to observations
   validation = field_obs %>% left_join(model.wide, by = c("DateTime", "Depth"))

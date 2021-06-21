@@ -27,7 +27,7 @@
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'
 #'@examples
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #'plot_var_nc(nc_file, 'temp')
 #'
 #'#Plotting two variables

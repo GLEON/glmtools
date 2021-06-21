@@ -21,11 +21,10 @@ Plot simulated and observed stage data
 \examples{
 
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 
 field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!
-
 
 }

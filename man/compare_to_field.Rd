@@ -39,7 +39,7 @@ This function is only designed to handle calls to physical metrics that return a
 An example of this behavior is thermocline depth (but not water density for all depth-resolved measurements).
 }
 \examples{
-nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 
 thermo_values <- compare_to_field(nc_file, field_file,

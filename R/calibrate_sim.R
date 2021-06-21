@@ -5,7 +5,8 @@
 #'@param var Character vector of valid variable names (see \code{\link{sim_vars}})
 #'@param path String with the path to the GLM setup
 #'@param field_file CSV or TSV field data (see \link{resample_to_field}for format)
-#'@param nml_file String of the glm-namelist file, default is 'glm3.nml'
+#'@param nml_file String of the namelist file that will be calibrated, default is 'glm3.nml'
+#'@param glm_file String of the glm-namelist file, default is 'glm3.nml'
 #'@param calib_setup Data frame containing information regarding the calibration (see \link{get_calib_setup})
 #'@param glmcmd String containing the desired glm run command, default is GLM3r
 #'@param first.attempt Boolean, if TRUE a nml-template will be created, set it to FALSE after your first calibration run; default is TRUE
@@ -18,6 +19,7 @@
 #'@param target.iter Double of maximum amount of iterations, default is 150
 #'@param plotting Boolean, if TRUE plots all results as heat maps
 #'@param output Character array of the output folder path 
+#'@param conversion.factor Double of the conversion factor between simulated and observed data, default is 1 for temp.
 #'@keywords methods
 #'@seealso \code{\link{get_calib_setup}}, \code{\link{get_calib_periods}}, \code{\link{get_calib_init_validation}}
 #'@author
@@ -40,6 +42,7 @@
 #'output = file.path(sim_folder, 'output/output.nc')
 #'
 #'var = 'temp' # variable to apply the calibration procedure
+#'\dontrun{
 #'calibrate_sim(var = var, path = sim_folder, field_file = field_file,
 #'              nml_file = nml_file, calib_setup = calib_setup,
 #'              glmcmd = NULL,
@@ -49,6 +52,7 @@
 #'              metric = 'RMSE',plotting = FALSE,
 #'              target.fit = 1.5,
 #'              target.iter = 50, output = output)
+#' }
 #'@import adagio
 #'@import GLM3r 
 #'@import ggplot2
@@ -57,6 +61,7 @@ calibrate_sim <- function(var = 'temp',
                           path,
                           field_file,
                           nml_file = 'glm3.nml',
+                          glm_file = 'glm3.nml',
                           calib_setup = NULL,
                           glmcmd = NULL,
                           first.attempt = TRUE,
@@ -68,7 +73,8 @@ calibrate_sim <- function(var = 'temp',
                           target.fit = 1.5,
                           target.iter = 100,
                           plotting = TRUE,
-                          output){
+                          output,
+                          conversion.factor = 1){
   
   # Development message 
   message('Calibration functions are under development, and are likely to change with future package updates.')
@@ -91,31 +97,33 @@ calibrate_sim <- function(var = 'temp',
   if (is.null(calib_setup)){
     calib_setup <- get_calib_setup()
   }
-  pars <<- as.character(calib_setup$pars)
-  ub <<- calib_setup$ub
-  lb <<- calib_setup$lb
-  variable <<- var
-  
+  pars     <- as.character(calib_setup$pars)
+  ub       <- calib_setup$ub
+  lb       <- calib_setup$lb
+  variable <- var
   
   if (scaling){
     init.val <- (calib_setup$x0 - lb) *10 /(ub-lb) 
   }
   
   if (!is.null(period)){
-    nml <- read_nml(nml_file)
-    nml <- set_nml(nml, arg_list = period$calibration)
-    write_nml(nml,nml_file)
+    glmf <- read_nml(glm_file)
+    glmf <- set_nml(glmf, arg_list = period$calibration)
+    write_nml(glmf,glm_file)
   }
   
-  # path <<- path
-  obs <<- read_field_obs(field_file)
+  obs <- read_field_obs(field_file, var_name = var)
   calib_GLM(var, ub, lb, init.val, obs, method, glmcmd,
-                 metric, target.fit, target.iter, nml_file, path, scaling, verbose)
+                 metric, target.fit, target.iter, nml_file, glm_file, path, scaling, verbose, pars,
+            conversion.factor)
+
   
   # loads all iterations
-  results <- read.csv(paste0(path,'/calib_results_RMSE_temp.csv'))
+  results <- read.csv(paste0(path,'/calib_results_RMSE_',var,'.csv'))
   results$DateTime <- as.POSIXct(results$DateTime)
-  g1 <- ggplot(results, aes(nrow(results):1, RMSE)) +
+  
+  g1 <- ggplot(results, 
+               aes(nrow(results):1, .data$RMSE)) +
     geom_point() +
     geom_smooth(se = FALSE, method = "gam", formula = y ~ s(x), color = 'lightblue4') +
     theme_bw() + xlab('Iterations') +
@@ -128,11 +136,17 @@ calibrate_sim <- function(var = 'temp',
   print(g1)
   
   # Compare simulated with observed data
-  
+  if (var == 'temp'){
   temp_rmse1 <- compare_to_field(output, field_file = field_file, 
                                  metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  } else {
+    mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)
+    mod[,3] = mod[,3] * conversion.factor
+    temp_rmse1 = get_rmse(mod,obs)
+  }
   
-  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file, var_name = var,
+                               resample = TRUE, conversion = conversion.factor) + 
     labs(title = 'Calibration Period')
   print(plot.heat)
   if (plotting == TRUE){
@@ -140,36 +154,50 @@ calibrate_sim <- function(var = 'temp',
   }
   
   # Check the model fit during the validation period
-  init.temps <- read_nml(nml_file)$init_profiles$the_temps
-  get_calib_init_validation(nml_file= nml_file, output = output)
-  nml <- read_nml(nml_file)
+  init.temps <- read_nml(glm_file)$init_profiles$the_temps
+  get_calib_init_validation(file = glm_file, output = output)
+  nml <- read_nml(glm_file)
   nml <- set_nml(nml, arg_list = period$validation)
-  write_nml(nml,nml_file)
+  write_nml(nml,glm_file)
   
   run_glmcmd(glmcmd, path, verbose)
-  temp_rmse2 <- compare_to_field(output, field_file = field_file, 
-                                 metric = 'water.temperature', as_value = FALSE, precision= 'hours')
-
-  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+  if (var == 'temp'){
+    temp_rmse2 <- compare_to_field(output, field_file = field_file, 
+                                   metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  } else {
+    mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)
+    mod[,3] = mod[,3] * conversion.factor
+    temp_rmse2 = get_rmse(mod,obs)
+  }
+  
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file, var_name = var,
+                               resample = TRUE, conversion = conversion.factor) + 
     labs(title = 'Validation Period')
   print(plot.heat)
   if (plotting == TRUE){
-    ggsave(plot = plot.heat, paste0(path,'/valid_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
+    ggsave(plot = plot.heat, paste0(path,'/valib_',method,'_',var,'_',metric,round(temp_rmse2,2),'.png'))
   }
   
   
   # check the model fit during the whole time period
-  nml <- read_nml(nml_file)
+  nml <- read_nml(glm_file)
   total.list <- period$total
   total.list[['the_temps']] <- init.temps
   nml <- set_nml(nml, arg_list =total.list)
-  write_nml(nml,nml_file)
+  write_nml(nml,glm_file)
   
   run_glmcmd(glmcmd, path, verbose)
-  temp_rmse3 <- compare_to_field(output, field_file = field_file, 
-                                 metric = 'water.temperature', as_value = FALSE, precision= 'hours')
-
-  plot.heat = plot_var_compare(nc_file = output, field_file = field_file,var_name = 'temp', precision = 'hours') + 
+  if (var == 'temp'){
+    temp_rmse3 <- compare_to_field(output, field_file = field_file, 
+                                   metric = 'water.temperature', as_value = FALSE, precision= 'hours')
+  } else {
+    mod <- mod2obs(mod_nc = paste0(path,'/output/output.nc'), obs = obs, reference = 'surface',var = var)
+    mod[,3] = mod[,3] * conversion.factor
+    temp_rmse3 = get_rmse(mod,obs)
+  }
+  
+  plot.heat = plot_var_compare(nc_file = output, field_file = field_file, var_name = var,
+                               resample = TRUE, conversion = conversion.factor) + 
     labs(title = 'Total Time Period')
   print(plot.heat)
   if (plotting == TRUE){
@@ -180,10 +208,10 @@ calibrate_sim <- function(var = 'temp',
   # print a matrix of our constrained variable space, the initial value and the calibrated value
   calibrated_results <- cbind(calib_setup, 'calibrated' = as.numeric(round(results[1,2:(ncol(results)-1)],4)))
   
-  print(paste('calibration:',round(temp_rmse1,2),'deg C RMSE'))
-  print(paste('validation:',round(temp_rmse2,2),'deg C RMSE'))
-  print(paste('total time period:',round(temp_rmse3,2),'deg C RMSE'))
-  return(print(calibrated_results))
-  
+  print(paste('calibration:',round(temp_rmse1,2),' RMSE'))
+  print(paste('validation:',round(temp_rmse2,2),' RMSE'))
+  print(paste('total time period:',round(temp_rmse3,2),' RMSE'))
+  print(calibrated_results)
+  return(calibrated_results)
 }
 

@@ -28,7 +28,7 @@
 #'Jordan S. Read, Luke A. Winslow, Hilary A. Dugan
 #'
 #'@examples
-#'nc_file <- system.file("extdata", "output.nc", package = "glmtools")
+#'nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
 #'data = get_var(nc_file,'temp', reference = 'surface') 
 #'plot_var_df(data, var_name = 'temp', interpolate = FALSE, legend.title = 'Temp (degC)')
 #'\dontrun{
@@ -68,15 +68,17 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
       names.df = data.frame(names = names(data)[-1], depth.numeric = z_out, stringsAsFactors = F)
       # ylabel = 'Depth (m)'
     }
+    
     if (reference == 'bottom'){
       names.df = data.frame(names = names(data)[-1], depth.numeric = rev(z_out), stringsAsFactors = F)
       # ylabel = 'Elevation (m)'
     }
-    dataLong = gather(data = data,key = depth, value = var,-DateTime) %>%
+    
+    dataLong = gather(data = data, key = "depth", value = !!var_name, 
+                      -"DateTime") %>%
       left_join(names.df, by = c('depth' = 'names')) %>% 
       arrange(get(names(data[1]))) %>% 
       rename('DateTime' = 1)
-    names(dataLong)[3] = var_name
     
   } else {
     wide = FALSE
@@ -86,7 +88,9 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
       dataLong = data %>% mutate(depth.numeric = z_out) %>% 
         rename('DateTime' = 1)
     } else {
-      dataLong = data %>% mutate(depth.numeric = .[[2]]) %>% 
+      depth_column <- names(data)[2]
+      dataLong     <- data %>% 
+        mutate(depth.numeric = .data[[depth_column]]) %>%
         rename('DateTime' = 1)
     }
   }
@@ -98,7 +102,9 @@ plot_var_df <- function(data, var_name, interpolate = F, fig_path = NULL,
     plotdata = dataLong 
     
     if (interpolate == T) {
-      dataClean = dataLong %>% dplyr::filter_all(all_vars(!is.na(.)))
+      dataClean <- dataLong %>% filter(across(everything(), 
+                                              function(x) !is.na(x)))
+      
       # Akima interpolation of observed data (Gridded Bivariate Interpolation for Irregular Data)
       observed_df = .interpolate2grid(dataClean, xcol = 1, ycol = 4, zcol = which(names(dataClean) == var_name[j]))
       

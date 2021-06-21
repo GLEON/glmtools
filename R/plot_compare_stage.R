@@ -8,12 +8,11 @@
 #'@examples
 #'
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'
 #'field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 #'
 #'plot_compare_stage(nc_file, field_file) ##makes a plot!
-#'
 #'
 #'@export
 plot_compare_stage = function(nc_file, field_file, fig_path = NULL, ...){
@@ -32,8 +31,9 @@ plot_compare_stage = function(nc_file, field_file, fig_path = NULL, ...){
 	# Bind modeled and observed data
 	stage_all = bind_rows(stage_mod,stage_obs)
 	
-	h3 = ggplot(stage_all) + geom_path(aes(x = DateTime, y = Stage, color = Group)) +
-	  geom_point(aes(x = DateTime, y = Stage, color = Group)) +
+	h3 = ggplot(stage_all) + 
+	  geom_path(aes(x = .data$DateTime, y = .data$Stage, color = .data$Group)) +
+	  geom_point(aes(x = .data$DateTime, y = .data$Stage, color = .data$Group)) +
 	  scale_color_manual(values = c('black','lightblue4')) +
 	  theme_bw() + theme(legend.title = element_blank()) 
 	

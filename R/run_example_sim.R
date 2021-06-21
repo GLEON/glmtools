@@ -63,7 +63,7 @@ run_example_sim = function(sim_folder, verbose = TRUE){
   if(verbose){cat('writing nml file to ', nml_file,'\n')}
   write_nml(glm_nml = nml, file = nml_file)  
 
-  GLM3r::run_glm(sim_folder = sim_folder, verbose = verbose)
+  GLM3r::run_glm(sim_folder = sim_folder, verbose = TRUE)
   
   if(verbose){cat('simulation complete. \n*.nc output located in ', nc_file,'\n')}
   

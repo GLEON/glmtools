@@ -17,7 +17,7 @@ Get list of variables from a GLM simulation
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 sim_vars(file = nc_file)
 }
 \seealso{

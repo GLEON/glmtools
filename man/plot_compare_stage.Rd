@@ -4,14 +4,16 @@
 \alias{plot_compare_stage}
 \title{Plot simulated and observed stage data}
 \usage{
-plot_compare_stage(nc_file, field_file, ...)
+plot_compare_stage(nc_file, field_file, fig_path = NULL, ...)
 }
 \arguments{
 \item{nc_file}{NetCDF model output file}
 
 \item{field_file}{CSV or TSV field data file (see \link{resample_to_field} for format)}
 
-\item{...}{Additional paramters supplied to the \code{plot} function}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
+
+\item{\dots}{additional arguments passed to \code{ggsave()}}
 }
 \description{
 Plot simulated and observed stage data
@@ -19,11 +21,10 @@ Plot simulated and observed stage data
 \examples{
 
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 
-field_file <- file.path(sim_folder, 'field_stage.csv')
+field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 
 plot_compare_stage(nc_file, field_file) ##makes a plot!
-
 
 }

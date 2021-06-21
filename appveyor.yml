@@ -15,7 +15,7 @@ install:
   ps: Bootstrap
 
 build_script:
-  - travis-tool.sh install_github GLEON/GLMr
+  - travis-tool.sh install_github GLEON/GLM3r
   - travis-tool.sh install_deps
 
 test_script:

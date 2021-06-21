@@ -18,11 +18,13 @@ See \code{get_}, timeseries (as in temp, evaporation, etc)}
 Creates GLM simulation summary outputs
 }
 \examples{
+\dontrun{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 summarize_sim(nc_file)
 
 summarize_sim(nc_file, sim_outputs = c('temp','surface_height','wind'))
+}
 }
 \seealso{
 \link{get_temp}, \link{get_surface_height}, \link{get_evaporation}

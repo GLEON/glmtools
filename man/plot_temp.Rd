@@ -2,34 +2,49 @@
 % Please edit documentation in R/plot_temp.R
 \name{plot_temp}
 \alias{plot_temp}
-\title{Plot water temperatures from a GLM simulation}
+\title{Deprecated. Plot water temperatures from a GLM simulation}
 \usage{
-plot_temp(file = "output.nc", fig_path = FALSE, reference = "surface",
-  col_lim, ...)
+plot_temp(
+  nc_file = "output.nc",
+  fig_path = NULL,
+  reference = "surface",
+  legend.title = NULL,
+  interval = 0.5,
+  text.size = 12,
+  show.legend = TRUE,
+  legend.position = "right",
+  plot.title = NULL
+)
 }
 \arguments{
-\item{file}{a string with the path to the netcdf output from GLM}
+\item{nc_file}{a string with the path to the netcdf output from GLM}
 
-\item{fig_path}{F if plot to screen, string path if save plot as .png}
+\item{fig_path}{Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples.}
 
-\item{reference}{a string for 'surface' or 'bottom'}
+\item{reference}{String; 'surface' or 'bottom. Only used for heatmap plots.}
 
-\item{col_lim}{range for heatmap (in units of the variable)}
+\item{legend.title}{Vector string; Default (`NULL`) will use variable and units from netcdf file}
 
-\item{...}{additional arguments passed to \code{par()}}
+\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
+
+\item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{show.legend}{Logical; TRUE to show legend (default), FALSE to hide legend}
+
+\item{legend.position}{String; Legend position. Default is 'right'. Options: 'left','right','top','bottom'}
+
+\item{plot.title}{Vector string; Default is no title.}
 }
 \description{
-Plot water temperatures from a GLM simulation
+Deprecated. Plot water temperatures from a GLM simulation
 }
 \note{
 \code{plot_temp} calls \code{\link{plot_var}} specifically for the \code{var_name = 'temp'}. 
 \code{\link{plot_var}} uses the \code{\link[graphics]{layout}} function and so is restricted to a full page display.
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-plot_temp(file = nc_file, fig_path = FALSE)
-plot_temp(file = nc_file, fig_path = 'test_figure.png', height = 3, reference = 'surface')
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
+plot_temp(nc_file = nc_file, fig_path = NULL)
 }
 \seealso{
 \code{\link{get_temp}}, \code{\link{plot_var}}

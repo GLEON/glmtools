@@ -9,9 +9,8 @@
 #'Jordan S. Read
 #'@examples 
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'evap <- get_evaporation(nc_file)
-#'plot(evap)
 #'@export
 get_evaporation <-  function(file){
   day_secs <- 86400

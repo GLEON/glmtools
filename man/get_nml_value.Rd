@@ -12,7 +12,7 @@ get_nml_value(glm_nml = NA, arg_name, nml_file = "template", ...)
 \item{arg_name}{a string representing a valid field in glm_nml}
 
 \item{nml_file}{a string with the path to the GLM glm2.nml file or 
-\code{'template'} for loading the GLM template nml file with GLMr (default)}
+\code{'template'} for loading the GLM template nml file with GLM3r (default)}
 
 \item{\dots}{additional arguments passed to \code{get_block}, such as warn=TRUE}
 }
@@ -23,7 +23,7 @@ arg_val value for the valid field in glm_nml specified by \code{arg_name}
 This function returns an nml value according to the arg_name nml list for GLM.
 }
 \examples{
-# read in default nml template from GLMr
+# read in default nml template from GLM3r
 glm_nml <- read_nml()
 get_nml_value(glm_nml,arg_name = 'Kw')
 }

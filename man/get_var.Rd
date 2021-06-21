@@ -4,8 +4,14 @@
 \alias{get_var}
 \title{get variable from a GLM simulation}
 \usage{
-get_var(file = "output.nc", var_name, reference = "bottom", z_out = NULL,
-  t_out = NULL, ...)
+get_var(
+  file = "output.nc",
+  var_name,
+  reference = "bottom",
+  z_out = NULL,
+  t_out = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -34,7 +40,7 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 # list variables in the netcdf output from GLM:
 print(sim_vars(nc_file))
 evaporation <- get_var(nc_file, var_name = "evap")

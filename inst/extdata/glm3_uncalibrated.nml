@@ -1,0 +1,117 @@
+&glm_setup
+   sim_name = 'GLMSimulation'
+   max_layers = 75
+   min_layer_vol = 0.1
+   min_layer_thick = 0.15
+   max_layer_thick = 1.5
+   density_model = 1
+/
+&light
+   light_mode = 0
+   n_bands = 4
+   light_extc = 1, 0.5, 2, 4
+   energy_frac = 0.51, 0.45, 0.035, 0.005
+   Benthic_Imin = 10
+   Kw = 0.2
+/
+&mixing
+   surface_mixing = 1
+   coef_mix_conv = 0.2
+   coef_wind_stir = 0.23
+   coef_mix_shear = 0.3
+   coef_mix_turb = 0.51
+   coef_mix_KH = 0.3
+   coef_mix_hyp = 0.5
+   deep_mixing = 2
+   diff = 0
+/
+&morphometry
+   lake_name = 'LakeMendota'
+   latitude = 43
+   longitude = -89.41
+   bsn_len = 9500
+   bsn_wid = 7400
+   bsn_vals = 15
+   H = 375.0064, 376.79166, 378.57691, 380.36217, 382.14743, 383.93269, 385.71794, 387.5032, 389.28846, 391.07371, 392.85897, 394.64423, 396.42949, 398.21474, 400
+   A = 0, 2827226.39, 5654452.79, 8481679.18, 11308905.58, 14136131.97, 16963358.37, 19790584.76, 22617811.16, 25445037.55, 28272263.95, 31099490.34, 33926716.74, 36753943.13, 39581169.52
+/
+&time
+   timefmt = 2
+   start = '2015-01-01 12:00:00'
+   stop = '2015-12-31 12:00:00'
+   dt = 3600
+   num_days = 730
+   timezone = -6
+/
+&output
+   out_dir = 'output'
+   out_fn = 'output'
+   nsave = 24
+   csv_lake_fname = 'lake'
+/
+&init_profiles
+   lake_depth = 25
+   num_depths = 6
+   the_depths = 0, 4, 8, 12, 16, 20
+   the_temps = 0.3, 1.7, 1.8, 2, 2.3, 2.7
+   the_sals = 0, 0, 0, 0, 0, 0
+/
+&meteorology
+   met_sw = .true.
+   lw_type = 'LW_IN'
+   rain_sw = .false.
+   atm_stab = 0
+   catchrain = .false.
+   rad_mode = 1
+   albedo_mode = 1
+   cloud_mode = 4
+   meteo_fl = 'LakeMendota_NLDAS.csv'
+   subdaily = .true.
+   wind_factor = 1.
+   sw_factor = 1
+   lw_factor = 1.
+   at_factor = 1
+   rh_factor = 1
+   rain_factor = 1
+   cd = 0.0013
+   ce = 0.0013
+   ch = 0.0013
+   rain_threshold = 0.01
+   runoff_coef = 0.3
+   time_fmt = 'YYYY-MM-DD hh:mm:ss'
+/
+&inflow
+   num_inflows = 0
+   names_of_strms = 'Yahara','Pheasant'
+   subm_flag = .false., .false.
+   strm_hf_angle = 65, 65
+   strmbd_slope = 1.5, 1.5
+   strmbd_drag = 0.016, 0.016
+   inflow_factor = 1, 1
+   inflow_fl = 'ME_yahara.csv','ME_pheasant.csv'
+   inflow_varnum = 3
+   inflow_vars = 'FLOW','SALT','TEMP'
+/
+&outflow
+   num_outlet = 0
+   outlet_type = 1
+   outl_elvs = 399.5
+   bsn_len_outl = 799
+   bsn_wid_outl = 398
+   outflow_fl = 'ME_outflow.csv'
+   outflow_factor = 1
+/
+&snowice
+   snow_albedo_factor = 1
+   snow_rho_max = 500
+   snow_rho_min = 100
+/
+&sediment
+   benthic_mode = 2
+   n_zones = 2
+   zone_heights = 10, 25
+   sed_temp_mean = 7., 7.
+   sed_temp_amplitude = 4, 3
+   sed_temp_peak_doy = 230, 230
+   sed_heat_Ksoil = 0.1, 0
+/

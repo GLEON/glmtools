@@ -2,31 +2,45 @@
 #'
 #'@param nc_file NetCDF model output file
 #'@param field_file CSV or TSV field data file (see \link{resample_to_field} for format)
-#'@param ... Additional paramters supplied to the \code{plot} function
+#'@param fig_path Default is NULL (only plots to screen). Enter string path to save as output file. File type can be anything supported by \code{\link[ggplot2:ggsave]{ggplot2:ggsave}}. See examples. 
+#'@param \dots additional arguments passed to \code{ggsave()}
 #'
 #'@examples
 #'
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'
-#'field_file <- file.path(sim_folder, 'field_stage.csv')
+#'field_file <- file.path(sim_folder, 'LakeMendota_stage_USGS05428000.csv')
 #'
 #'plot_compare_stage(nc_file, field_file) ##makes a plot!
 #'
-#'
 #'@export
-plot_compare_stage = function(nc_file, field_file, ...){
+plot_compare_stage = function(nc_file, field_file, fig_path = NULL, ...){
 	
 	#get modeled stage prepped
-	stage_mod = get_surface_height(nc_file, ice.rm = FALSE, snow.rm = FALSE)
+	stage_mod = get_surface_height(nc_file, ice.rm = FALSE, snow.rm = FALSE) %>% 
+	  mutate(group = 'Modeled')
+	names(stage_mod) = c('DateTime','Stage','Group')
 	
-	minmax = range(stage_mod[,2])
-	
+
 	#read-in field stage 
-	stage_obs = read_field_stage(field_file)
+	stage_obs = read_field_stage(field_file) %>% 
+	  mutate(group = 'Observed')
+	names(stage_obs) = c('DateTime','Stage','Group')
 	
-	minmax = range(minmax, stage_obs[,2])
+	# Bind modeled and observed data
+	stage_all = bind_rows(stage_mod,stage_obs)
 	
-	plot(stage_mod, type='l', xlab='', ylab='Stage', ylim=minmax, ...)
-	points(stage_obs)
+	h3 = ggplot(stage_all) + 
+	  geom_path(aes(x = .data$DateTime, y = .data$Stage, color = .data$Group)) +
+	  geom_point(aes(x = .data$DateTime, y = .data$Stage, color = .data$Group)) +
+	  scale_color_manual(values = c('black','lightblue4')) +
+	  theme_bw() + theme(legend.title = element_blank()) 
+	
+	# Saving plot 
+	if (!is.null(fig_path)){
+	  ggsave(plot = h3, filename = fig_path,...)
+	} 
+	
+	return(h3)
 }

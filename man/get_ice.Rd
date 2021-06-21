@@ -23,7 +23,7 @@ and optionally, the thickness of snow for each timestep in the GLM model.
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 ice <- get_ice(nc_file)
 ice_and_snow <- get_ice(nc_file, snow.rm = FALSE)
 plot(ice)

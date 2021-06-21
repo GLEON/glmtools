@@ -4,8 +4,13 @@
 \alias{get_temp}
 \title{get water temperatures from a GLM simulation}
 \usage{
-get_temp(file = "output.nc", reference = "bottom", z_out = NULL,
-  t_out = NULL, ...)
+get_temp(
+  file = "output.nc",
+  reference = "bottom",
+  z_out = NULL,
+  t_out = NULL,
+  ...
+)
 }
 \arguments{
 \item{file}{a string with the path to the netcdf output from GLM}
@@ -30,13 +35,13 @@ to the surface (\code{reference = 'surface'}) or the bottom of the lake
 }
 \examples{
 sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
+nc_file <- file.path(sim_folder, 'output/output.nc')
 temp_surf <- get_temp(nc_file, reference = 'surface', z_out = c(0,1,2))
 temp_bot <- get_temp(nc_file, reference = 'bottom', z_out = c(0,1,2))
 temp_bot <- get_temp(nc_file)
 
 #-- get temporal subset--
-t_out <- seq(as.POSIXct("2010-04-15"), as.POSIXct("2010-06-01"), by = 86400)
+t_out <- seq(as.POSIXct("2015-04-15"), as.POSIXct("2015-06-01"), by = 86400)
 temp_surf <- get_temp(nc_file, reference = 'surface', z_out = 0, t_out = t_out)
 plot(temp_surf)
 }

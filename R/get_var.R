@@ -21,14 +21,14 @@
 #'Jordan S. Read, Luke A. Winslow
 #'@examples 
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'# list variables in the netcdf output from GLM:
 #'print(sim_vars(nc_file))
 #'evaporation <- get_var(nc_file, var_name = "evap")
 #'plot(evaporation)
 #'@importFrom ncdf4 ncvar_get
 #'@export
-get_var <-  function(file='output.nc',  var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
+get_var <-  function(file='output.nc', var_name, reference = 'bottom', z_out = NULL, t_out = NULL, ...){
   
   glm_nc <- get_glm_nc(file)
   

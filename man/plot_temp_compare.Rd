@@ -2,10 +2,18 @@
 % Please edit documentation in R/plot_temp_compare.R
 \name{plot_temp_compare}
 \alias{plot_temp_compare}
-\title{Plot matching heatmaps for modeled and observed temp}
+\title{Deprecated. Plot matching heatmaps for modeled and observed temp}
 \usage{
-plot_temp_compare(nc_file, field_file, fig_path = FALSE, resample = TRUE,
-  col_lim, ...)
+plot_temp_compare(
+  nc_file,
+  field_file,
+  fig_path = NULL,
+  resample = TRUE,
+  interval = 1,
+  method = "match",
+  text.size = 12,
+  ...
+)
 }
 \arguments{
 \item{nc_file}{Netcdf model output file}
@@ -16,18 +24,20 @@ plot_temp_compare(nc_file, field_file, fig_path = FALSE, resample = TRUE,
 
 \item{resample}{sample the model output to the same time points as the observations?}
 
-\item{col_lim}{range for heatmap (in units of the variable)}
+\item{interval}{Positive number indicating the depth interval in meters to interpolate output data. Must be less than max depth of lake. Default = 0.5 m.}
 
-\item{\dots}{additional arguments passed to \code{\link{resample_to_field}}}
+\item{method}{String; 'match' for exact match or 'interp' for temporal interpolation}
+
+\item{text.size}{Integer; Default is 12. Higher values will increase text size in plot.}
+
+\item{\dots}{additional arguments passed to \code{ggsave()}}
 }
 \description{
-Plot matching heatmaps for modeled and observed temp
+Deprecated. Plot matching heatmaps for modeled and observed temp
 }
 \examples{
-sim_folder <- run_example_sim(verbose = FALSE)
-nc_file <- file.path(sim_folder, 'output.nc')
-nml_file <- file.path(sim_folder, 'glm2.nml')
-field_file <- file.path(sim_folder, 'field_data.tsv')
+nc_file <- system.file("extdata", "output/output.nc", package = "glmtools")
+field_file <- system.file("extdata", "LakeMendota_field_data_hours.csv", package = "glmtools")
 
 plot_temp_compare(nc_file, field_file) ##makes a plot!
 }

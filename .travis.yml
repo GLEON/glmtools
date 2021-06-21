@@ -7,21 +7,24 @@ language: r
 cache: packages
 sudo: required
 
-
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libnetcdf-dev netcdf-bin netcdf-doc
-
-
-r_github_packages: GLEON/GLMr
+  
+r_github_packages: GLEON/GLM3r
 
 r:
   - oldrel
   - release
   - devel
 
-r_build_args: --no-build-vignettes --no-manual
-r_check_args: --no-build-vignettes --no-manual --as-cran
-  
+r_build_args: --no-manual 
+r_check_args: --no-manual --as-cran 
+
 after_success:
   - Rscript -e 'covr::coveralls()'
+
+branches:
+  only:
+  - /.*/
+  

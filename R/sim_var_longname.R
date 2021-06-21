@@ -7,7 +7,7 @@
 #'Jordan S. Read
 #'@examples
 #'sim_folder <- run_example_sim(verbose = FALSE)
-#'nc_file <- file.path(sim_folder, 'output.nc')
+#'nc_file <- file.path(sim_folder, 'output/output.nc')
 #'vars <- sim_vars(file = nc_file)
 #'sim_var_units(nc_file, vars[1,]$name)
 #'sim_var_longname(nc_file, 'u_mean')

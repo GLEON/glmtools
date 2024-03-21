@@ -29,6 +29,9 @@ read_field_obs <- function(file, var_name='temp'){
     data <- read.delim2(file = file, header = TRUE, sep = delimiter, stringsAsFactors = FALSE)
   }
   
+  # check for tibble and convert to `data.frame` if necessary
+  if("tbl_df" %in% class(data)){data <- as.data.frame(data)}
+  
   date_i <- match('datetime', tolower(names(data)))
   depth_i <- match('depth', tolower(names(data)))
   var_i <- match(tolower(var_name), tolower(names(data))) #only use lowercase in find, need case consistent later
